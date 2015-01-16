@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure
+import os
 import pystache
 
+from result import Success, Failure
+import utils
 
 
 
@@ -25,4 +27,7 @@ def render_template(fpath):
 
 
 def index(context):
-	return render_template()
+	return render_template('../public/html/index.html')(context)
+
+def save(context):
+	return render_template('../public/html/save.html')(context)

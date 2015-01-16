@@ -28,7 +28,7 @@ class Result(object):
 class Failure(Result):
 
 	def __init__(self, value):
-		super().__init__(value)
+		super(Failure, self).__init__(value)
 
 
 
@@ -65,7 +65,7 @@ class Success(Result):
 	# -- idempotent constructor.
 
 	def __init__(self, value):
-		super().__init__(value)
+		super(Success, self).__init__(value)
 
 
 

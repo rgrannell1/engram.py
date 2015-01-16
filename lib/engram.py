@@ -15,19 +15,13 @@ app = Flask(__name__)
 
 
 
-@app.route('/')
-def save_bookmark(conn_result):
-	print "running"
-
-
-
 
 def main():
 
 	main_result = (
 		connect_database('data/engram')
 		.tap(sql.create_tables)
-		)
+	)
 
 
 
