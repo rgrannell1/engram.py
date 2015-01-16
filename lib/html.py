@@ -9,17 +9,17 @@ import utils
 
 
 
-def render_template(fpath):
 
-	template_result = (
-		Success(fpath)
-		.then(lambda fpath: open(fpath, 'r'))
-		.then(lambda file:  file.read)
-	)
+
+
+
+
+def load_template(fpath):
 
 	return (
-		template_result
-		.then(lambda html: lambda context: pystache.render(html, context))
+		Success(fpath)
+		.then(lambda fpath: open(fpath, 'r'))
+		.then(lambda file:  file.read())
 	)
 
 
@@ -27,7 +27,19 @@ def render_template(fpath):
 
 
 def index(context):
-	return render_template('../public/html/index.html')(context)
+
+	return (
+		load_template('public/html/index.html')
+		.then(lambda html: pystache.render(html, context))
+	)
+
+
+
+
 
 def save(context):
-	return render_template('../public/html/save.html')(context)
+
+	return (
+		load_template('public/html/save.html')
+		.then(lambda html: pystache.render(html, context))
+	)

@@ -4,8 +4,9 @@ from result import Success, Failure
 from flask import Flask
 
 from database import connect_database
-import sql
 
+import sql
+import html
 
 
 

@@ -6,5 +6,11 @@ import os
 
 
 
+root = os.path.dirname(os.path.dirname(__file__))
+
+
+
+
+
 def relative(fpath):
-	return os.path.realpath(os.path.join(os.path.dirname(__file__), fpath))
+	return os.path.join(root, fpath)
