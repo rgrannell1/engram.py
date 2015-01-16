@@ -50,7 +50,7 @@ def create_tables(conn):
 
 	return (
 
-		conn
+		Success(conn)
 		.tap(lambda conn: conn.execute(create_table_archives))
 		.tap(lambda conn: conn.execute(create_table_bookmarks))
 		.tap(lambda conn: conn.execute(create_table_bookmark_archives))
@@ -61,7 +61,7 @@ def prepare_statements(conn):
 
 	return (
 
-		conn
+		Success(conn)
 		.tap(lambda conn: conn.execute(prepare_insert_bookmark))
 
 	)
