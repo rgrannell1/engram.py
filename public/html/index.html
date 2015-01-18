@@ -51,33 +51,51 @@
 		"Nov", "Dec"
 	]
 
+	one_second = 1
+	one_minute = one_second * 60
+	one_hour   = one_minute * 60
+	one_day    = one_hour   * 24
+
+	const getTime = function ($time)  {
+		return new Date(parseInt($time.attr('data-ctime'), 10) * 1000)
+	}
+
 	const formatTime = function (now) {
 		return function (ith, val) {
 
-			const time = parseInt($(val).text(), 10)
-			const diff = now - time * 1000
+			const ctime      = getTime($(val))
+			const secondsAgo = Math.floor((now.getTime() - ctime.getTime() ) / 1000)
 
-			if (diff < 60 * 1000) {
-				return diff + 's'
-			} else if (diff < 60 * 60 * 1000) {
-				return diff + 'm'
-			} else if (diff < 24 * 60 * 60 * 1000) {
-				return diff + 'h'
+			console.log(secondsAgo)
+
+			if (secondsAgo == 1) {
+				var message = 'just now'
+			} else if (secondsAgo < one_minute) {
+				var message = secondsAgo + 's'
+			} else if (secondsAgo < one_hour) {
+				var message = Math.floor(secondsAgo / one_minute) + 'm'
+			} else if (secondsAgo < one_day) {
+				var message = Math.floor(secondsAgo / one_hour) + 'h'
 			} else {
-
-				const date = new Date(time * 1000)
-				return months[date.getMonth()] + ' ' + date.getDate()
+				var message = months[ctime.getMonth()] + " " + ctime.getDate()
 			}
 
+			$(this).text(message)
 		}
 	}
 
-	setInterval(function () {
+	const updateTime = function () {
+		$("time").each( formatTime(new Date) )
+	}
 
-		const now = (new Date).getTime()
-		$('time').map(formatTime(now))
 
-	}, 10000)
+
+
+
+	updateTime()
+	const pid = setInterval(updateTime, 5000)
+
+	console.log('running ' + pid)
 
 	</script>
 
@@ -93,7 +111,7 @@
 				<ul>
 
 					<li><a href="{{url}}">{{title}}</a> | <a href="{{hosturl}}">{{hostname}}</a></li>
-					<li><time>{{ctime}}</time></li>
+					<li><time data-ctime="{{ctime}}">{{ctime}}</time></li>
 					<li><a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a></li>
 
 				</ul>
