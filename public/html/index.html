@@ -1,14 +1,36 @@
 
-<html>
+<!DOCTYPE HTML>
+<html lang="en-GB">
+	<head>
 
-	HI
+		<meta charset="utf-8" />
+		<title>engram</title>
 
-	{{#bookmarks}}
+		<meta name="description" content="minimal search engine.">
 
-		<p> <a href="{{url}}">{{title}}<a> </p>
+	</head>
 
-		<p> {{ctime}} </p>
+<body>
 
-	{{/bookmarks}}
+	<nav>engram</nav>
 
+	<main>
+
+		{{#bookmarks}}
+
+			<article>
+				<ul>
+
+					<li><a href="{{url}}">{{title}}<a></li>
+					<li><a href="{{hosturl}}">{{hostname}}<a></li>
+					<li><time>{{ctime}}</time></li>
+
+				</ul>
+			</article>
+
+		{{/bookmarks}}
+
+	</main>
+
+</body>
 </html>

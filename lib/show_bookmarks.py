@@ -4,16 +4,22 @@ import sql
 import html
 
 from result import Success, Failure
+from urlparse import urlparse
 import datetime
 
 
 
 def bookmark(row):
+
+	hostname = urlparse(row[2]).hostname
+
 	return {
 		'bookmark_id': row[0],
 		'title':       row[1],
 		'url':         row[2],
-		'ctime':       datetime.datetime.fromtimestamp(row[3]).strftime('%Y %B %d')
+		'ctime':       datetime.datetime.fromtimestamp(row[3]).strftime('%Y %B %d'),
+		'hostname':    hostname,
+		'hosturl':     'http://' + hostname
 	}
 
 
