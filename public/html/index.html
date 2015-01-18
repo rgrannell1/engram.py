@@ -37,68 +37,6 @@
 
 	</style>
 
-
-
-
-	<script type="text/javascript">
-
-	const months = [
-		"Jan", "Feb",
-		"Mar", "Apr",
-		"May", "Jun",
-		"Jul", "Aug",
-		"Sep", "Oct",
-		"Nov", "Dec"
-	]
-
-	one_second = 1
-	one_minute = one_second * 60
-	one_hour   = one_minute * 60
-	one_day    = one_hour   * 24
-
-	const getTime = function ($time)  {
-		return new Date(parseInt($time.attr('data-ctime'), 10) * 1000)
-	}
-
-	const formatTime = function (now) {
-		return function (ith, val) {
-
-			const ctime      = getTime($(val))
-			const secondsAgo = Math.floor((now.getTime() - ctime.getTime() ) / 1000)
-
-			console.log(secondsAgo)
-
-			if (secondsAgo == 1) {
-				var message = 'just now'
-			} else if (secondsAgo < one_minute) {
-				var message = secondsAgo + 's'
-			} else if (secondsAgo < one_hour) {
-				var message = Math.floor(secondsAgo / one_minute) + 'm'
-			} else if (secondsAgo < one_day) {
-				var message = Math.floor(secondsAgo / one_hour) + 'h'
-			} else {
-				var message = months[ctime.getMonth()] + " " + ctime.getDate()
-			}
-
-			$(this).text(message)
-		}
-	}
-
-	const updateTime = function () {
-		$("time").each( formatTime(new Date) )
-	}
-
-
-
-
-
-	updateTime()
-	const pid = setInterval(updateTime, 5000)
-
-	console.log('running ' + pid)
-
-	</script>
-
 <body>
 
 	<nav>engram</nav>
@@ -122,4 +60,65 @@
 	</main>
 
 </body>
+
+
+<script type="text/javascript">
+
+const months = [
+	"Jan", "Feb",
+	"Mar", "Apr",
+	"May", "Jun",
+	"Jul", "Aug",
+	"Sep", "Oct",
+	"Nov", "Dec"
+]
+
+one_second = 1
+one_minute = one_second * 60
+one_hour   = one_minute * 60
+one_day    = one_hour   * 24
+
+const getTime = function ($time)  {
+	return new Date(parseInt($time.attr('data-ctime'), 10) * 1000)
+}
+
+const formatTime = function (now) {
+	return function (ith, val) {
+
+		const ctime      = getTime($(val))
+		const secondsAgo = Math.floor((now.getTime() - ctime.getTime() ) / 1000)
+
+		if (secondsAgo == 1) {
+			var message = 'just now'
+		} else if (secondsAgo < one_minute) {
+			var message = secondsAgo                          + 's'
+		} else if (secondsAgo < one_hour) {
+			var message = Math.floor(secondsAgo / one_minute) + 'm'
+		} else if (secondsAgo < one_day) {
+			var message = Math.floor(secondsAgo / one_hour)   + 'h'
+		} else {
+			var message = months[ctime.getMonth()] + " " + ctime.getDate()
+		}
+
+		$(this).text(message)
+	}
+}
+
+const updateTime = function () {
+	$("time").each( formatTime(new Date) )
+}
+
+
+
+
+$(function() {
+
+	updateTime()
+
+	const pid = setInterval(updateTime, 5000)
+
+})
+
+</script>
+
 </html>
