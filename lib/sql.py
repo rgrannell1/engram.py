@@ -52,7 +52,7 @@ INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
 select_bookmarks = """
 SELECT bookmark_id, url, title, ctime
 FROM bookmarks
-WHERE title LIKE ? AND ctime >= ?;
+WHERE title LIKE ? AND ctime >= ?
 """
 
 
@@ -104,11 +104,19 @@ def insert_bookmark(conn, title, url, ctime):
 def select_bookmarks(criterea, conn):
 
 	search_tuple = (criterea['query'], criterea['oldest'])
+	sort_tuple   = (criterea['sort']['by'], 'ASC;' if criterea['sort']['increasing'] else 'DESC;')
+
+	# -- be careful; this is almost SQL injection,
+	# -- but the allowed column inputs are screened for earlier, and the boolean
+	# -- parametre is handled here.
+
+	query = sql['select_bookmarks']
+	query += "ORDER BY %s %s" % sort_tuple
 
 	return (
 
 		Success(conn)
-		.then( lambda conn: conn.execute(sql['select_bookmarks'], search_tuple) )
+		.then( lambda conn: conn.execute(query, search_tuple) )
 		.then( lambda cursor: cursor.fetchall())
 
 	)

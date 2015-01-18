@@ -11,7 +11,7 @@ def sort_criteria(sort_param):
 	if not sort_param:
 		return Success({
 			'increasing': False,
-			'by':         utils.now()
+			'by':         'ctime'
 		})
 	else:
 
