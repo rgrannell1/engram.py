@@ -15,6 +15,7 @@ def show_bookmarks(criterea_result, db_result):
 
 		criterea_result
 		.cross(db_result)
+		.then( lambda pair: sql.select_bookmarks(pair[0], pair[1]) )
 
 	)
 
