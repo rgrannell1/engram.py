@@ -63,4 +63,9 @@ def create_tables(conn):
 
 def insert_bookmark(conn, title, url, ctime):
 
-	return ()
+	return (
+
+		Success(conn)
+		.tap(lambda conn: conn.commit(insert_bookmark, (conn, title, url, ctime)) )
+
+	)

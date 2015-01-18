@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from result           import Success, Failure
+from result import Success, Failure
 import utils
 
 

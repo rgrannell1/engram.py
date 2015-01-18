@@ -14,7 +14,7 @@ def call_phantom(url):
 
 	return (
 		Success(fpath)
-		.bind( lambda fpath: subprocess.check_output(['phantomjs', fpath, url]) )
+		.then( lambda fpath: subprocess.check_output(['phantomjs', fpath, url]) )
 	)
 
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import time
 import os
 
 
@@ -28,3 +29,6 @@ def add_key(dict, key, value):
 	out[key] = value
 
 	return out
+
+def now():
+	return int(time.time())

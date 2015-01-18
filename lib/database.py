@@ -30,20 +30,20 @@ class Database:
 
 
 
-	def execute(self, str):
+	def execute(self, str, args = ()):
 
 		return (
 			self.conn
 			.then(lambda conn:   conn.cursor())
-			.then(lambda cursor: cursor.execute(str))
+			.then(lambda cursor: cursor.execute(str, args))
 		)
 
-	def commit(self, str):
+	def commit(self, str, args = ()):
 
 		cursor_result = (
 			self.conn
 			.then(lambda conn:   conn.cursor())
-			.then(lambda cursor: cursor.execute(str))
+			.then(lambda cursor: cursor.execute(str, args))
 		)
 
 		cursor_result.then(lambda conn: conn.commit())
