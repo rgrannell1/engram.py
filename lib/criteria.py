@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from result           import Success, Failure
-
+import utils
 
 
 
@@ -27,11 +27,25 @@ def sort_criteria(sort_param):
 				'by':         column
 			})
 
+
+
+
+
 def host_criteria(host_param):
 	return host_param if host_param else ""
 
+
+
+
+
+
 def query_criteria(query_param):
 	return query_param if query_param else ""
+
+
+
+
+
 
 def oldest_critera(oldest_param):
 	return Success(oldest_param).then(lambda str: max(0, str))
@@ -50,6 +64,10 @@ subcriteria = {
 
 
 
+
+
+
+
 def criteria(request):
 
 	params = ['sort', 'host', 'query', 'oldest']
@@ -57,8 +75,21 @@ def criteria(request):
 	args            = {key : request.args.get(key) for key in params}
 	search_criterea = {key : subcriteria[key](args[key]) for key in params}
 
-	print(search_criterea)
+	def add_criterion(dict, which):
+
+		val = search_criterea[which]
+
+		return (
+			Success(val)
+			.then( lambda val: utils.add_key(dict, which, val) )
+		)
 
 	return (
+
 		Success({})
+		.then(lambda dict: add_criterion(dict, 'sort'))
+		.then(lambda dict: add_criterion(dict, 'host'))
+		.then(lambda dict: add_criterion(dict, 'query'))
+		.then(lambda dict: add_criterion(dict, 'oldest'))
+
 	)
