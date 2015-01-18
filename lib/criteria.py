@@ -75,14 +75,23 @@ def criteria(request):
 	args            = {key : request.args.get(key) for key in params}
 	search_criterea = {key : subcriteria[key](args[key]) for key in params}
 
-	def add_criterion(dict, which):
 
-		val = search_criterea[which]
 
+
+
+
+	def add_criterion(dict, criterion):
+
+		val = search_criterea[criterion]
 		return (
 			Success(val)
-			.then( lambda val: utils.add_key(dict, which, val) )
+			.then( lambda val: utils.add_key(dict, criterion, val) )
 		)
+
+
+
+
+
 
 	return (
 

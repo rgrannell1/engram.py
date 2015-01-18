@@ -35,7 +35,7 @@ def main():
 
 
 
-	@app.route("/")
+	@app.route("/", defaults = {'path': ''})
 	def index_page():
 		return redirect(url_for('bookmark_page'))
 
@@ -50,15 +50,22 @@ def main():
 	@app.route("/bookmarks/search")
 	def search_routes():
 
-		print(Success(request).then(criteria))
-
-		return "running."
+		criteria_result = Success(request).then(criteria)
+		# -- using the criterea, select fitting bookmarks and
+		# -- render a html page.
 
 
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
 	def delete_page(id):
 		1
 
+
+
+
+
+	@app.route("/<path:path>")
+	def add_bookmark(path):
+		return path
 
 
 
