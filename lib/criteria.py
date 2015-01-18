@@ -32,7 +32,7 @@ def sort_criteria(sort_param):
 
 
 def query_criteria(query_param):
-	return query_param if query_param else "%"
+	return "%" + query_param + "%" if query_param else "%"
 
 
 
