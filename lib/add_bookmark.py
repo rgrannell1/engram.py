@@ -16,4 +16,4 @@ def add_bookmark(db_result, path):
 		.then( lambda path: sql.insert_bookmark(db_result, 'hi', path, utils.now()) )
 	)
 
-	return path
+	return ""

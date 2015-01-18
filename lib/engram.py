@@ -44,18 +44,12 @@ def main():
 
 	@app.route("/bookmarks")
 	def bookmark_page():
-		return show_bookmarks({}, db)
-
-
-
-
-
-	@app.route("/bookmarks/search")
-	def search_routes():
 
 		criteria_result = Success(request).then(criteria)
-		# -- using the criterea, select fitting bookmarks and
-		# -- render a html page.
+		return show_bookmarks(criteria_result, db)
+
+
+
 
 
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])

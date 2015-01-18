@@ -61,7 +61,7 @@ def create_tables(conn):
 
 	)
 
-def insert_bookmark(conn, title, url, ctime):
+def insert_bookmark(conn, title, url, ctime, criterea):
 
 	return (
 

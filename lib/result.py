@@ -19,12 +19,6 @@ class Result(object):
 
 
 
-
-
-
-
-
-
 class Failure(Result):
 
 	def __init__(self, value):
@@ -39,10 +33,10 @@ class Failure(Result):
 
 
 
-	def isSuccess(self):
+	def is_success(self):
 		return False
 
-	def isFailure(self):
+	def is_failure(self):
 		return True
 
 
@@ -54,6 +48,16 @@ class Failure(Result):
 	def tap(self, fn):
 		return Failure(self.value)
 
+
+
+
+
+	def cross(self, result):
+
+		if not isinstance(result, (Success, Failure)):
+			raise Exception("result wasn't a Result instance.")
+
+		return self
 
 
 
@@ -77,10 +81,10 @@ class Success(Result):
 
 
 
-	def isSuccess(self):
+	def is_success(self):
 		return True
 
-	def isFailure(self):
+	def is_failure(self):
 		return False
 
 
@@ -110,3 +114,17 @@ class Success(Result):
 			return result
 		else:
 			return self
+
+
+
+
+
+	def cross(self, result):
+
+		if not isinstance(result, (Success, Failure)):
+			raise Exception("result wasn't a Result instance.")
+
+		if isinstance(result, Success):
+			return Success([self.value, result.value])
+		else:
+			return result
