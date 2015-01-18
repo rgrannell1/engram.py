@@ -27,17 +27,30 @@ def sort_criteria(sort_param):
 				'by':         column
 			})
 
+def host_criteria(host_param):
+	return host_param if host_param else ""
+
+def query_criteria(query_param):
+	return query_param if query_param else ""
+
+def oldest_critera(oldest_param):
+
+	try:
+		return max(0, int(oldest_param))
+	except Exception:
+		return 0
+
+
 
 
 
 
 criteria = {
 	'sort':   sort_criteria,
-	'host':   lambda x: x,
-	'query':  lambda x: x,
-	'oldest': lambda x: x
+	'host':   host_criteria,
+	'query':  query_criteria,
+	'oldest': oldest_critera
 }
-
 
 
 
@@ -49,11 +62,8 @@ def criteria(request):
 	args            = {key : request.args.get(key) for key in params}
 	search_criterea = {key : criteria[key](args[key]) for key in params}
 
-	print('-------------')
-	print(search_criterea)
-	print('-------------')
 
 	return (
 		Success({})
-		.then( lambda dict: dict.update({'sort': sort_criteria(args['sort']) }) )
+		.then( lambda dict: dict.update({'sort': search_criterea['sort'] }) )
 	)
