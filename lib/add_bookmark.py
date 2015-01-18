@@ -9,6 +9,13 @@ from extract_metadata import extract_metadata
 
 
 
+
+
+
+
+
+
+
 def add_bookmark(db_result, path):
 
 	insert_result = (
@@ -18,6 +25,12 @@ def add_bookmark(db_result, path):
 	)
 
 	if insert_result.is_failure():
-		return "failed insert."
+		return "failed to add %s" % path
 	else:
-		return "insert result."
+
+		page_result = html.save({'path': path})
+
+		if page_result.is_failure():
+			return "saved, but could not load save page."
+		else:
+			return page_result.value
