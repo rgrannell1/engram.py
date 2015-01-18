@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS bookmarks (
 
 	bookmark_id    integer    PRIMARY KEY    AUTOINCREMENT,
 
+	url            text       NOT NULL,
 	title          text       NOT NULL,
 	ctime          integer    NOT NULL
 
@@ -49,7 +50,9 @@ INSERT INTO bookmarks VALUES (?, ?, ?)
 
 
 select_bookmarks = """
-SELECT * FROM bookmarks;
+SELECT bookmark_id, url, title, ctime
+FROM bookmarks
+WHERE title LIKE ?;
 """
 
 
@@ -91,10 +94,12 @@ def insert_bookmark(conn, title, url, ctime, criterea):
 
 def select_bookmarks(criterea, conn):
 
+	search_tuple = (criterea['query'], )
+
 	return (
 
 		Success(conn)
-		.then( lambda conn: conn.execute(sql['select_bookmarks']) )
+		.then( lambda conn: conn.execute(sql['select_bookmarks'], search_tuple) )
 		.then( lambda cursor: cursor.fetchall())
 
 	)

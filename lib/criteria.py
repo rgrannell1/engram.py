@@ -31,14 +31,6 @@ def sort_criteria(sort_param):
 
 
 
-def host_criteria(host_param):
-	return host_param if host_param else ""
-
-
-
-
-
-
 def query_criteria(query_param):
 	return query_param if query_param else ""
 
@@ -56,7 +48,6 @@ def oldest_critera(oldest_param):
 
 subcriteria = {
 	'sort':   sort_criteria,
-	'host':   host_criteria,
 	'query':  query_criteria,
 	'oldest': oldest_critera
 }
@@ -70,7 +61,7 @@ subcriteria = {
 
 def criteria(request):
 
-	params = ['sort', 'host', 'query', 'oldest']
+	params = ['sort', 'query', 'oldest']
 
 	args            = {key : request.args.get(key) for key in params}
 	search_criterea = {key : subcriteria[key](args[key]) for key in params}
@@ -97,7 +88,6 @@ def criteria(request):
 
 		Success({})
 		.then(lambda dict: add_criterion(dict, 'sort'))
-		.then(lambda dict: add_criterion(dict, 'host'))
 		.then(lambda dict: add_criterion(dict, 'query'))
 		.then(lambda dict: add_criterion(dict, 'oldest'))
 

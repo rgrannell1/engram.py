@@ -11,7 +11,7 @@ from result import Success, Failure
 
 def show_bookmarks(criterea_result, db_result):
 
-	print(
+	rows = (
 
 		criterea_result
 		.cross(db_result)
@@ -19,5 +19,6 @@ def show_bookmarks(criterea_result, db_result):
 
 	)
 
+	print(rows)
 
 	return "html"
