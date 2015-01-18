@@ -1,37 +1,19 @@
 #!/usr/bin/env python
 
 from result import Success, Failure
-from flask import Flask
+from flask import Flask, redirect, url_for
 
 from database import Database
 
 import sql
 import html
-import routes
+import show_bookmarks
 
 from extract_metadata import extract_metadata
 
 
 
 
-app = Flask(__name__)
-
-
-
-
-
-def select_bookmarks(criteria_result, conn):
-	1
-
-
-
-
-@app.route('/')
-def show_bookmarks():
-
-	return html.index({
-		'bookmark': ['this is a bookmark']
-	})
 
 
 
@@ -44,10 +26,27 @@ def show_bookmarks():
 
 def main():
 
-	db = Database('data/engram')
+	app = Flask(__name__)
+	db  = Success('data/engram').then(Database)
+
+
+
+
+
+	@app.route("/bookmarks")
+	def bookmark_page():
+		return show_bookmarks.show_bookmarks(db)
+
+	@app.route("/")
+	def index_page():
+		return redirect(url_for('bookmark_page'))
+
+
+
+
 
 	main_result = (
-		Success(db)
+		db
 		.tap(sql.create_tables)
 		.tap(lambda _: app.run())
 	)

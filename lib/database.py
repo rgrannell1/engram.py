@@ -33,14 +33,16 @@ class Database:
 	def execute(self, str):
 
 		return (
-			Success(self.conn.cursor)
+			self.conn
+			.then(lambda conn:   conn.cursor())
 			.then(lambda cursor: cursor.execute(str))
 		)
 
 	def commit(self, str):
 
 		cursor_result = (
-			Success(self.conn.cursor())
+			self.conn
+			.then(lambda conn:   conn.cursor())
 			.then(lambda cursor: cursor.execute(str))
 		)
 
