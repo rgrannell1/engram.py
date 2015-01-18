@@ -3,7 +3,7 @@
 from result import Success, Failure
 from flask import Flask
 
-from database import connect_database
+from database import Database
 
 import sql
 import html
@@ -16,6 +16,12 @@ from extract_metadata import extract_metadata
 
 app = Flask(__name__)
 
+
+
+
+
+def select_bookmarks(criteria_result, conn):
+	1
 
 
 
@@ -38,8 +44,10 @@ def show_bookmarks():
 
 def main():
 
+	db = Database('data/engram')
+
 	main_result = (
-		connect_database('data/engram')
+		Success(db)
 		.tap(sql.create_tables)
 		.tap(lambda _: app.run())
 	)

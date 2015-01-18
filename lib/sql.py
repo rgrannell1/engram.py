@@ -42,6 +42,10 @@ CREATE TABLE IF NOT EXISTS bookmark_archives (
 
 
 
+insert_bookmark = """
+INSERT INTO bookmarks VALUES (?, ?, ?)
+
+"""
 
 
 
@@ -51,17 +55,12 @@ def create_tables(conn):
 	return (
 
 		Success(conn)
-		.tap(lambda conn: conn.execute(create_table_archives))
-		.tap(lambda conn: conn.execute(create_table_bookmarks))
-		.tap(lambda conn: conn.execute(create_table_bookmark_archives))
+		.tap(lambda conn: conn.commit(create_table_archives))
+		.tap(lambda conn: conn.commit(create_table_bookmarks))
+		.tap(lambda conn: conn.commit(create_table_bookmark_archives))
 
 	)
 
-def prepare_statements(conn):
+def insert_bookmark(conn, title, url, ctime):
 
-	return (
-
-		Success(conn)
-		.tap(lambda conn: conn.execute(prepare_insert_bookmark))
-
-	)
+	return ()
