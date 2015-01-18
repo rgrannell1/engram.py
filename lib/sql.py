@@ -52,7 +52,7 @@ INSERT INTO bookmarks VALUES (?, ?, ?)
 select_bookmarks = """
 SELECT bookmark_id, url, title, ctime
 FROM bookmarks
-WHERE title LIKE ?;
+WHERE title LIKE ? AND ctime >= ?;
 """
 
 
@@ -94,7 +94,7 @@ def insert_bookmark(conn, title, url, ctime, criterea):
 
 def select_bookmarks(criterea, conn):
 
-	search_tuple = (criterea['query'], )
+	search_tuple = (criterea['query'], criterea['oldest'])
 
 	return (
 
