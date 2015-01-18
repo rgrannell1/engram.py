@@ -7,8 +7,14 @@
 		<title>engram</title>
 
 		<meta name="description" content="minimal search engine.">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	</head>
+
+
+
+
+
 
 	<style type="text/css">
 
@@ -21,11 +27,59 @@
 		list-style-type: none;
 	}
 
+	a {
+		text-decoration: none;
+	}
+
 	article {
 		margin: 60px;
 	}
 
 	</style>
+
+
+
+
+	<script type="text/javascript">
+
+	const months = [
+		"Jan", "Feb",
+		"Mar", "Apr",
+		"May", "Jun",
+		"Jul", "Aug",
+		"Sep", "Oct",
+		"Nov", "Dec"
+	]
+
+	const formatTime = function (now) {
+		return function (ith, val) {
+
+			const time = parseInt($(val).text(), 10)
+			const diff = now - time * 1000
+
+			if (diff < 60 * 1000) {
+				return diff + 's'
+			} else if (diff < 60 * 60 * 1000) {
+				return diff + 'm'
+			} else if (diff < 24 * 60 * 60 * 1000) {
+				return diff + 'h'
+			} else {
+
+				const date = new Date(time * 1000)
+				return months[date.getMonth()] + ' ' + date.getDate()
+			}
+
+		}
+	}
+
+	setInterval(function () {
+
+		const now = (new Date).getTime()
+		$('time').map(formatTime(now))
+
+	}, 10000)
+
+	</script>
 
 <body>
 
@@ -40,7 +94,7 @@
 
 					<li><a href="{{url}}">{{title}}</a> | <a href="{{hosturl}}">{{hostname}}</a></li>
 					<li><time>{{ctime}}</time></li>
-					<li><a href="http://www.twitter.com/share?url={{url}}">Twitter</a></li>
+					<li><a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a></li>
 
 				</ul>
 			</article>

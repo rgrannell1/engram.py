@@ -6,6 +6,7 @@ import html
 from result import Success, Failure
 from urlparse import urlparse
 import datetime
+import utils
 
 
 
@@ -17,7 +18,7 @@ def bookmark(row):
 		'bookmark_id': row[0],
 		'title':       row[1],
 		'url':         row[2],
-		'ctime':       datetime.datetime.fromtimestamp(row[3]).strftime('%Y %B %d'),
+		'ctime':       row[3],
 		'hostname':    hostname,
 		'hosturl':     'http://' + hostname
 	}
