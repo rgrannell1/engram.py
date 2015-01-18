@@ -47,7 +47,6 @@ class Database:
 			.then( lambda _: self.conn.then(lambda conn: conn.commit()) )
 		)
 
-		print commit_result
 		return commit_result
 
 

@@ -4,8 +4,8 @@ import html
 import sql
 import utils
 
-from result import Success, Failure
-
+from result           import Success, Failure
+from extract_metadata import extract_metadata
 
 
 
@@ -13,9 +13,11 @@ def add_bookmark(db_result, path):
 
 	insert_result = (
 		Success(path)
-		.then( lambda path: sql.insert_bookmark(db_result, 'hi', path, utils.now()) )
+		.then(extract_metadata)
+		.then( lambda title: sql.insert_bookmark(db_result, title, path, utils.now()) )
 	)
 
-	print insert_result
-
-	return ""
+	if insert_result.is_failure():
+		return "failed insert."
+	else:
+		return "insert result."

@@ -110,7 +110,7 @@ def select_bookmarks(criterea, conn):
 	# -- but the allowed column inputs are screened for earlier, and the boolean
 	# -- parametre is handled here.
 
-	query = sql['select_bookmarks']
+	query  = sql['select_bookmarks']
 	query += "ORDER BY %s %s" % sort_tuple
 
 	return (

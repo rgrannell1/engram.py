@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pythonsh
 
 import time
 
@@ -14,6 +14,10 @@ from add_bookmark     import add_bookmark
 from criteria         import criteria
 
 from extract_metadata import extract_metadata
+
+
+
+
 
 
 
@@ -54,7 +58,7 @@ def main():
 
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
 	def delete_page(id):
-		'noop'
+		return 'noop'
 
 
 
