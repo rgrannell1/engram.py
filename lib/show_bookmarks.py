@@ -4,7 +4,7 @@ import sql
 import html
 
 from result import Success, Failure
-
+import datetime
 
 
 
@@ -13,7 +13,7 @@ def bookmark(row):
 		'bookmark_id': row[0],
 		'title':       row[1],
 		'url':         row[2],
-		'ctime':       row[3]
+		'ctime':       datetime.datetime.fromtimestamp(row[3]).strftime('%Y %B %d')
 	}
 
 
