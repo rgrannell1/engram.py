@@ -40,14 +40,15 @@ class Database:
 
 	def commit(self, str, args = ()):
 
-		cursor_result = (
+		commit_result = (
 			self.conn
-			.then(lambda conn:   conn.cursor())
-			.then(lambda cursor: cursor.execute(str, args))
+			.then( lambda conn:   conn.cursor() )
+			.then( lambda cursor: cursor.execute(str, args) )
+			.then( lambda _: self.conn.then(lambda conn: conn.commit()) )
 		)
 
-		cursor_result.then(lambda conn: conn.commit())
-
+		print commit_result
+		return commit_result
 
 
 
