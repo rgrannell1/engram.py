@@ -11,14 +11,12 @@ from result import Success, Failure
 
 def show_bookmarks(criterea_result, db_result):
 
-	rows = (
+	print(
 
 		criterea_result
 		.cross(db_result)
 		.then( lambda pair: sql.select_bookmarks(pair[0], pair[1]) )
 
 	)
-
-	print(rows)
 
 	return "html"

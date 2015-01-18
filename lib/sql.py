@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS bookmark_archives (
 
 
 insert_bookmark = """
-INSERT INTO bookmarks VALUES (NULL, ?, ?, ?)
+INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
 """
 
 
@@ -83,6 +83,10 @@ def create_tables(conn):
 
 	)
 
+
+
+
+
 def insert_bookmark(conn, title, url, ctime):
 
 	return (
@@ -91,6 +95,11 @@ def insert_bookmark(conn, title, url, ctime):
 		.tap(lambda conn: conn.commit(sql['insert_bookmark'], (title, url, ctime)) )
 
 	)
+
+
+
+
+
 
 def select_bookmarks(criterea, conn):
 
