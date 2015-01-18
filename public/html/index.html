@@ -10,6 +10,23 @@
 
 	</head>
 
+	<style type="text/css">
+
+	html {
+		font-family: 'Sans';
+		color:       '#00F';
+	}
+
+	ul {
+		list-style-type: none;
+	}
+
+	article {
+		margin: 60px;
+	}
+
+	</style>
+
 <body>
 
 	<nav>engram</nav>
@@ -21,9 +38,9 @@
 			<article>
 				<ul>
 
-					<li><a href="{{url}}">{{title}}<a></li>
-					<li><a href="{{hosturl}}">{{hostname}}<a></li>
+					<li><a href="{{url}}">{{title}}</a> | <a href="{{hosturl}}">{{hostname}}</a></li>
 					<li><time>{{ctime}}</time></li>
+					<li><a href="http://www.twitter.com/share?url={{url}}">Twitter</a></li>
 
 				</ul>
 			</article>
