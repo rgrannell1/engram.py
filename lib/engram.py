@@ -50,12 +50,7 @@ def main():
 	@app.route("/bookmarks/search")
 	def search_routes():
 
-		print (
-			Success(None)
-			.then(lambda _: request)
-		)
-
-		print(criteria(request))
+		print(Success(request).then(criteria))
 
 		return "running."
 

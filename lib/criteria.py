@@ -34,18 +34,13 @@ def query_criteria(query_param):
 	return query_param if query_param else ""
 
 def oldest_critera(oldest_param):
-
-	try:
-		return max(0, int(oldest_param))
-	except Exception:
-		return 0
+	return Success(oldest_param).then(lambda str: max(0, str))
 
 
 
 
 
-
-criteria = {
+subcriteria = {
 	'sort':   sort_criteria,
 	'host':   host_criteria,
 	'query':  query_criteria,
@@ -60,10 +55,10 @@ def criteria(request):
 	params = ['sort', 'host', 'query', 'oldest']
 
 	args            = {key : request.args.get(key) for key in params}
-	search_criterea = {key : criteria[key](args[key]) for key in params}
+	search_criterea = {key : subcriteria[key](args[key]) for key in params}
 
+	print(search_criterea)
 
 	return (
 		Success({})
-		.then( lambda dict: dict.update({'sort': search_criterea['sort'] }) )
 	)
