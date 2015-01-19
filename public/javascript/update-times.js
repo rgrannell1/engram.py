@@ -140,11 +140,15 @@
 				$time.each(function (ith, elem) {
 
 					const elapsed = elapsedTime(elem)
-
 					if (elapsed.unit === targetClass) {
+
 						$(elem).removeClass(constants.tickerPattern).addClass(targetClass)
+						self[to]()
+
 					} else {
+
 						$(elem).text(elapsed.message)
+
 					}
 
 				})

@@ -66,7 +66,7 @@ def main():
 
 
 	@app.route("/<path:path>")
-	def add_bookmark_page(path):
+	def default_route(path):
 		return add_bookmark(db, path)
 
 
