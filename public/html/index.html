@@ -4,7 +4,7 @@
 	<head>
 
 		<meta charset="utf-8" />
-		<title>engram</title>
+		<title>engram - minimal bookmarking.</title>
 
 		<meta name="description" content="minimal search engine.">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -39,18 +39,21 @@
 
 <body>
 
-	<nav>engram</nav>
-
 	<main>
 
 		{{#bookmarks}}
 
-			<article>
+			<article id={{bookmark_id}}>
 				<ul>
 
 					<li><a href="{{url}}">{{title}}</a> | <a href="{{hosturl}}">{{hostname}}</a></li>
 					<li><time data-ctime="{{ctime}}">{{ctime}}</time></li>
-					<li><a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a></li>
+					<li>
+						<a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a> |
+						<a href="http://www.twitter.com/share?url={{url}}">&#x1F5C3</a> |
+						<a id="delete-bookmark">&#x2716</a>
+
+					</li>
 
 				</ul>
 			</article>
@@ -64,48 +67,82 @@
 
 <script type="text/javascript">
 
-const months = [
-	"Jan", "Feb",
-	"Mar", "Apr",
-	"May", "Jun",
-	"Jul", "Aug",
-	"Sep", "Oct",
-	"Nov", "Dec"
-]
+const constants = {
+	months: [
+		"Jan", "Feb",
+		"Mar", "Apr",
+		"May", "Jun",
+		"Jul", "Aug",
+		"Sep", "Oct",
+		"Nov", "Dec"
+	],
+	second: 1,
+	minute: 60,
+	hour:   3600,
+	day:    24 * 3600
 
-one_second = 1
-one_minute = one_second * 60
-one_hour   = one_minute * 60
-one_day    = one_hour   * 24
-
-const getTime = function ($time)  {
-	return new Date(parseInt($time.attr('data-ctime'), 10) * 1000)
 }
 
-const formatTime = function (now) {
-	return function (ith, val) {
 
-		const ctime      = getTime($(val))
-		const secondsAgo = Math.floor((now.getTime() - ctime.getTime() ) / 1000)
 
-		if (secondsAgo == 1) {
-			var message = 'just now'
-		} else if (secondsAgo < one_minute) {
-			var message = secondsAgo                          + 's'
-		} else if (secondsAgo < one_hour) {
-			var message = Math.floor(secondsAgo / one_minute) + 'm'
-		} else if (secondsAgo < one_day) {
-			var message = Math.floor(secondsAgo / one_hour)   + 'h'
-		} else {
-			var message = months[ctime.getMonth()] + " " + ctime.getDate()
-		}
 
-		$(this).text(message)
+
+const extractTime = function (timeTag)  {
+
+	const ctime = $(timeTag).attr('data-ctime')
+	return new Date(parseInt(ctime, 10) * 1000)
+
+}
+
+// todo add event listeners to seconds range, and loop over rest,
+// use data to give update rate.
+
+const formatTime = function (ith, val) {
+
+	const now        = new Date
+	const ctime      = extractTime(val)
+	const secondsAgo = Math.floor((now.getTime() - ctime.getTime() ) / 1000)
+
+	if (secondsAgo == 1) {
+
+		$(this).text('just now')
+
+	} else if (secondsAgo < constants.minute) {
+
+		$(this).text(secondsAgo + 's')
+
+	} else if (secondsAgo < constants.hour) {
+
+		$(this).text(Math.floor(secondsAgo / constants.minute) + 'm')
+
+	} else if (secondsAgo < constants.day) {
+
+		$(this).text(Math.floor(secondsAgo / constants.hour) + 'h')
+
+	} else {
+
+		$(this).text(months[ctime.getMonth()] + " " + ctime.getDate())
+
 	}
+
 }
 
-const updateTime = function () {
-	$("time").each( formatTime(new Date) )
+const delete_bookmark = function () {
+
+	console.log("running")
+
+	const id = $(this).closest('article').attr('id')
+
+	console.log(id)
+
+	$.ajax({
+		url:  '~/bookmarks/id',
+		type: 'DELETE',
+		success: function (response) {
+
+		}
+	})
+
 }
 
 
@@ -113,9 +150,16 @@ const updateTime = function () {
 
 $(function() {
 
-	updateTime()
+	const times = $("time")
 
+	const updateTime = function () {
+		times.each(formatTime)
+	}
+
+	updateTime()
 	const pid = setInterval(updateTime, 5000)
+
+	$('#delete-bookmark').click(delete_bookmark)
 
 })
 
