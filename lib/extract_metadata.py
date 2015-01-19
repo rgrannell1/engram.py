@@ -13,19 +13,6 @@ from result import Success, Failure
 
 
 
-def call_phantom(url):
-
-	fpath = utils.relative('lib/extract_metadata.js')
-
-	return (
-		Success(fpath)
-		.then( lambda fpath: subprocess.check_output(['phantomjs', fpath, url]) )
-	)
-
-
-
-
-
 def extract_metadata(url):
 
 	return (
