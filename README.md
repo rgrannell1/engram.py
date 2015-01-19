@@ -18,4 +18,4 @@ very simple.
 
 ## Tags
 
-engr.am does not support manual tagging, as it is hard to assign meaningful tags to many bookmarks without mislabelling. Instead, engr.am performs automatic keyword extraction to help you find what you are looking for.
+engr.am does not support manual tagging, as it is hard to assign meaningful tags to many bookmarks without mislabelling. Instead, engr.am extracts keywords from your documents to help you find what you are looking for.
