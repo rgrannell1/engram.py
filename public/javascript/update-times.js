@@ -51,6 +51,8 @@ const secondsBetween = function (recent, old) {
 
 const formatInterval = function (sec) {
 
+
+
 	if (sec < constants.minute) {
 
 		return {
@@ -72,7 +74,7 @@ const formatInterval = function (sec) {
 		return {
 			message: Math.round(sec / constants.hour) + 'h',
 			value:   Math.round(sec / constants.hour),
-			unit:   'tickrate-minute'
+			unit:   'tickrate-hour'
 		}
 
 	} else {
