@@ -45,6 +45,10 @@ def show_bookmarks(criterea_result, db_result):
 		.then( lambda rows: html.index({
 			'bookmarks':   rows,
 
+			'javascript-head': [
+				js.jQuery
+			],
+
 			'javascript-bottom': [
 				js.updateTimes
 			],
