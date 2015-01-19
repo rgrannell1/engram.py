@@ -9,7 +9,6 @@ import datetime
 import utils
 
 
-
 def bookmark(row):
 
 	hostname = urlparse(row[2]).hostname
@@ -39,10 +38,13 @@ def show_bookmarks(criterea_result, db_result):
 
 	)
 
+
+
 	html_result = (
 		search_result
-		.then( lambda rows: html.index({'bookmarks': rows}) )
+		.then( lambda rows: html.index({
+			'bookmarks':   rows
+		}) )
 	)
 
 	return html_result.value
-

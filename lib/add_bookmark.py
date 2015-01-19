@@ -28,7 +28,9 @@ def add_bookmark(db_result, path):
 		return "failed to add %s" % path
 	else:
 
-		page_result = html.save({'path': path})
+		page_result = html.save({
+			'path': path
+		})
 
 		if page_result.is_failure():
 			return "saved, but could not load save page."

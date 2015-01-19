@@ -13,7 +13,6 @@ import utils
 
 
 
-
 def load_template(fpath):
 
 	return (
