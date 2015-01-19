@@ -6,7 +6,7 @@ from result import Success, Failure
 
 
 
-def archive_url(url)
+def archive_url(bookmark_id, url):
 
 	(
 		Success(url)

@@ -65,13 +65,14 @@ def main():
 
 
 
-
-
-
 	@app.route("/<path:path>")
 	def add_bookmark_page(path):
-		add_bookmark(db, path)
-		return ""
+		return add_bookmark(db, path)
+
+
+
+
+
 
 
 

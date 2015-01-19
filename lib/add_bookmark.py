@@ -7,14 +7,26 @@ import utils
 from result           import Success, Failure
 from extract_metadata import extract_metadata
 
+from flask.ext.api import status
 
 
 
 
 
 
+"""
 
+add_bookmark :: Result Database x string -> string, number
 
+this is a STATEFUL get request, so the error codes are a
+bit screwy. This behaviour is required for browsers to be
+able to send something like
+
+engr.am/http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+from the address bar and create a new bookmark.
+
+"""
 
 def add_bookmark(db_result, path):
 
@@ -25,14 +37,6 @@ def add_bookmark(db_result, path):
 	)
 
 	if insert_result.is_failure():
-		return "failed to add %s" % path
+		return "failed to add %s" % path, HTTP_500_INTERNAL_SERVER_ERROR # -- need to subdivide this.
 	else:
-
-		page_result = html.save({
-			'path': path
-		})
-
-		if page_result.is_failure():
-			return "saved, but could not load save page."
-		else:
-			return page_result.value
+		return '', HTTP_304_NOT_MODIFIED
