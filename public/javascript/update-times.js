@@ -51,8 +51,6 @@ const secondsBetween = function (recent, old) {
 
 const formatInterval = function (sec) {
 
-
-
 	if (sec < constants.minute) {
 
 		return {
@@ -80,8 +78,6 @@ const formatInterval = function (sec) {
 	} else {
 
 		const ctime = new Date((new Date).getTime() - (sec * 1000))
-
-		console.log(ctime)
 
 		return {
 			message: constants.months[ctime.getMonth()] + " " + ctime.getDate(),
@@ -140,14 +136,12 @@ const tick = ( function () {
 	const ticker = function (source, target) {
 		return function () {
 
-			const sourceClass = 'tickrate-' + source
-			const targetClass = 'tickrate-' + target
-
-			const $time = $('.' + sourceClass)
+			const $time = $('.' + 'tickrate-' + source)
 
 			$time.each(function (ith, elem) {
 
-				const elapsed = elapsedTime(elem)
+				const targetClass = 'tickrate-' + target
+				const elapsed     = elapsedTime(elem)
 
 				if (elapsed.unit === targetClass) {
 
