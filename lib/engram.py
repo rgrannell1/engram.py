@@ -14,6 +14,7 @@ from add_bookmark     import add_bookmark
 from criteria         import criteria
 
 from extract_metadata import extract_metadata
+from delete_bookmark  import delete_bookmark
 
 
 
@@ -42,8 +43,12 @@ def main():
 
 
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
-	def delete_page(id):
-		return 'noop'
+	def delete_route(id):
+		return delete_bookmark(db, id)
+
+
+
+
 
 	@app.route("/", defaults = {'path': ''})
 	def index_page():
@@ -65,8 +70,8 @@ def main():
 
 	@app.route("/<path:path>")
 	def add_bookmark_page(path):
-		return add_bookmark(db, path)
-
+		add_bookmark(db, path)
+		return ""
 
 
 

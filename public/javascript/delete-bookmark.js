@@ -9,6 +9,9 @@ $('.delete-bookmark').click(function () {
 		type: 'DELETE',
 		success: function () {
 			alert('sent.')
+		},
+		failure: function () {
+			alert('failed.')
 		}
 	})
 

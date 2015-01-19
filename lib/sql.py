@@ -59,13 +59,22 @@ WHERE title LIKE ? AND ctime >= ?
 
 
 
+delete_bookmark = """
+DELETE FROM bookmarks
+WHERE bookmark_id = ?
+"""
+
+
+
+
 sql = {
 	'create_table_archives':          create_table_archives,
 	'create_table_bookmarks':         create_table_bookmarks,
 	'create_table_bookmark_archives': create_table_bookmark_archives,
 
 	'insert_bookmark':                insert_bookmark,
-	'select_bookmarks':               select_bookmarks
+	'select_bookmarks':               select_bookmarks,
+	'delete_bookmark':                delete_bookmark
 }
 
 
@@ -119,4 +128,15 @@ def select_bookmarks(criterea, conn):
 		.then( lambda conn: conn.execute(query, search_tuple) )
 		.then( lambda cursor: cursor.fetchall())
 
+	)
+
+
+
+
+
+def delete_bookmark(conn, id):
+
+	return (
+		Success(conn)
+		.tap( lambda conn: conn.commit(sql['delete_bookmark'], (id, )) )
 	)
