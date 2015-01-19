@@ -1,188 +1,198 @@
 
-	const constants = {
-		months: [
-			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-		],
-		second: 1,
-		minute: 60,
-		hour:   3600,
-		day:    24 * 3600,
+const constants = {
+	months: [
+		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	],
+	second: 1,
+	minute: 60,
+	hour:   3600,
+	day:    24 * 3600,
 
-		tickerPattern: 'class[tickrate^="tickrate-"]'
+	tickerPattern: 'class[tickrate^="tickrate-"]'
 
+}
+
+/*
+	extractTime :: element -> Date
+
+	get a javascript date from a <time> tag.
+*/
+
+const extractTime = function (time)  {
+
+	const ctime = $(time).attr('data-ctime')
+	return new Date(parseInt(ctime, 10) * 1000)
+
+}
+
+/*
+	secondsBetween :: Date x Date -> number
+
+
+*/
+
+const secondsBetween = function (recent, old) {
+	return Math.floor((recent.getTime() - old.getTime() ) / 1000)
+}
+
+
+
+
+
+/*
+	formatInterval :: number -> {
+		message: string,
+		value:   number,
+		unit:    string
 	}
 
-	/*
-		extractCtime :: element -> Date
-	*/
+*/
 
-	const extractCtime = function (time)  {
+const formatInterval = function (sec) {
 
-		const ctime = $(time).attr('data-ctime')
-		return new Date(parseInt(ctime, 10) * 1000)
+	if (sec < constants.minute) {
 
-	}
-
-	/*
-		secondsBetween :: Date x Date -> number
-
-
-	*/
-
-	const secondsBetween = function (recent, old) {
-		return Math.floor((recent.getTime() - old.getTime() ) / 1000)
-	}
-
-
-
-
-
-	/*
-		formatInterval :: number -> {
-			message: string,
-			value:   number,
-			unit:    string
+		return {
+			message: sec + 's',
+			value:   sec,
+			unit:   'tickrate-second'
 		}
 
-	*/
+	} else if (sec < constants.hour) {
 
-	const formatInterval = function (sec) {
+		return {
+			message: Math.round(sec / constants.minute) + 'm',
+			value:   Math.round(sec / constants.minute),
+			unit:   'tickrate-minute'
+		}
 
-		if (sec < constants.minute) {
+	} else if (sec < constants.day) {
 
-			return {
-				message: sec + 's',
-				value:   sec,
-				unit:   'tickrate-second'
-			}
+		return {
+			message: Math.round(sec / constants.hour) + 'h',
+			value:   Math.round(sec / constants.hour),
+			unit:   'tickrate-minute'
+		}
 
-		} else if (sec < constants.hour) {
+	} else {
 
-			return {
-				message: Math.round(sec / constants.minute) + 'm',
-				value:   Math.round(sec / constants.minute),
-				unit:   'tickrate-minute'
-			}
+		const ctime = new Date((new Date).getTime() - (sec * 1000))
 
-		} else if (sec < constants.day) {
+		console.log(ctime)
 
-			return {
-				message: Math.round(sec / constants.hour) + 'h',
-				value:   Math.round(sec / constants.hour),
-				unit:   'tickrate-minute'
-			}
-
-		} else {
-
-			return {
-				message: months[ctime.getMonth()] + " " + ctime.getDate(),
-				value:   Math.round(sec / constants.day),
-				unit:   'tickrate-day'
-			}
-
+		return {
+			message: constants.months[ctime.getMonth()] + " " + ctime.getDate(),
+			value:   Math.round(sec / constants.day),
+			unit:   'tickrate-day'
 		}
 
 	}
 
-	/*
-		elapsedTime
+}
 
-		given a time element, give the difference in that time from
-		the present.
-	*/
+/*
+	elapsedTime
 
-	const elapsedTime = function (elem) {
+	given a time element, give the difference in that time from
+	the present.
+*/
 
-		const now   = new Date
-		const ctime = extractCtime(elem)
+const elapsedTime = function (elem) {
 
-		return formatInterval(secondsBetween(now, ctime))
+	const now   = new Date
+	const ctime = extractTime(elem)
 
-	}
+	return formatInterval(secondsBetween(now, ctime))
 
-	/*
-		assignRates
+}
 
-		give each time tag a rate class, to determine how
-		often it should be updated.
-	*/
+/*
+	assignRates
 
-	const assignRates = function () {
+	give each time tag a rate class, to determine how
+	often it should be updated.
+*/
 
-		const $time = $('time')
-		$time.each(function (ith, elem) {
+const assignRates = function () {
 
-			$(elem)
-			.removeClass(constants.tickerPattern)
-			.addClass(elapsedTime(elem).unit)
+	const $time = $('time')
+	$time.each(function (ith, elem) {
 
-		})
+		$(elem)
+		.removeClass(constants.tickerPattern)
+		.addClass(elapsedTime(elem).unit)
 
-	}
+	})
+
+}
 
 
 
 
 
-	const tick = ( function () {
+const tick = ( function () {
 
-		var self = {}
+	var self = {}
 
-		const ticker = function (from, to) {
-			return function () {
+	const ticker = function (source, target) {
+		return function () {
 
-				const sourceClass = 'tickrate-' + from
-				const targetClass = 'tickrate-' + to
+			const sourceClass = 'tickrate-' + source
+			const targetClass = 'tickrate-' + target
 
-				const $time = $('.' + sourceClass)
+			const $time = $('.' + sourceClass)
 
-				$time.each(function (ith, elem) {
+			$time.each(function (ith, elem) {
 
-					const elapsed = elapsedTime(elem)
-					if (elapsed.unit === targetClass) {
+				const elapsed = elapsedTime(elem)
 
-						$(elem).removeClass(constants.tickerPattern).addClass(targetClass)
-						self[to]()
+				if (elapsed.unit === targetClass) {
 
-					} else {
+					$(elem)
+					.removeClass(constants.tickerPattern)
+					.addClass(targetClass)
 
-						$(elem).text(elapsed.message)
+					self[target]()
 
-					}
+				} else {
 
-				})
+					$(elem).text(elapsed.message)
 
-			}
+				}
+
+			})
+
 		}
-
-		self.second = ticker('second', 'minute')
-		self.minute = ticker('minute', 'hour')
-		self.hour   = ticker('hour',   'day')
-		self.day    = ticker('day',    'year')
-
-		return self
-
-	} )()
-
-
-
-
-
-	assignRates()
-
-	tick.second()
-	tick.minute()
-	tick.hour()
-	tick.day()
-
-
-
-
-
-	const tickerPids = {
-		second: setInterval(tick.second, 1000),
-		minute: setInterval(tick.minute, constants.minute * 1000),
-		hour:   setInterval(tick.hour,   constants.hour   * 1000),
-		day:    setInterval(tick.day,    constants.day    * 1000)
 	}
+
+	self.second = ticker('second', 'minute')
+	self.minute = ticker('minute', 'hour')
+	self.hour   = ticker('hour',   'day')
+	self.day    = ticker('day',    'year')
+
+	return self
+
+} )()
+
+
+
+
+
+assignRates()
+
+tick.second()
+tick.minute()
+tick.hour()
+tick.day()
+
+
+
+
+
+const tickerPids = {
+	second: setInterval(tick.second, 1000),
+	minute: setInterval(tick.minute, constants.minute * 1000),
+	hour:   setInterval(tick.hour,   constants.hour   * 1000),
+	day:    setInterval(tick.day,    constants.day    * 1000)
+}

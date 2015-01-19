@@ -47,6 +47,9 @@ insert_bookmark = """
 INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
 """
 
+insert_archive = """
+INSERT INTO archives VALUES (NULL, ?, ?)
+"""
 
 
 select_bookmarks = """
@@ -73,6 +76,7 @@ sql = {
 	'create_table_bookmark_archives': create_table_bookmark_archives,
 
 	'insert_bookmark':                insert_bookmark,
+	'insert_archive':                 insert_archive,
 	'select_bookmarks':               select_bookmarks,
 	'delete_bookmark':                delete_bookmark
 }
@@ -105,6 +109,17 @@ def insert_bookmark(conn, title, url, ctime):
 
 	)
 
+
+
+
+def insert_archive(conn, bookmark_id, content, ctime):
+
+	return (
+
+		Success(conn)
+		.tap( lambda conn: conn.commit(sql['insert_archive'], (bookmark_id, content, ctime)) )
+
+	)
 
 
 

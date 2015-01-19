@@ -10,7 +10,7 @@ from database         import Database
 import sql
 import html
 from show_bookmarks   import show_bookmarks
-from add_bookmark     import add_bookmark
+from save_bookmark    import save_bookmark
 from criteria         import criteria
 
 from extract_metadata import extract_metadata
@@ -64,10 +64,15 @@ def main():
 
 
 
+	@app.route("/bookmarks/.json")
+	def export_bookmarks():
+		return"currently unimplemented."
+
+
 
 	@app.route("/<path:path>")
 	def default_route(path):
-		return add_bookmark(db, path)
+		return save_bookmark(db, path)
 
 
 

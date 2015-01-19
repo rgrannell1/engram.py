@@ -1,7 +1,7 @@
 
 html {
 	font-family: 'Sans';
-	color:       '#3d464d';
+	color:       #3d464d;
 }
 
 body {
@@ -9,8 +9,7 @@ body {
 	margin-left:   14.5%;
 	margin-right:  14.5%;
 
-	margin-top:    5%;
-	margin-bottom: 10%;
+	margin-bottom: 5%;
 
 }
 
@@ -38,7 +37,20 @@ article {
 
 time {
 	font-size: 12px;
+}
 
-#performance {
-	font-size: 12px;
+
+
+
+
+header {
+	border-bottom: 2px solid #e9ecee;
+	font-weight:   bold;
+	color:         #667581;
+}
+
+footer {
+	margin-top:    120px;
+	border-top: 2px solid #e9ecee;
+	color:         #667581;
 }
