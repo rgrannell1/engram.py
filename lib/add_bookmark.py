@@ -7,8 +7,6 @@ import utils
 from result           import Success, Failure
 from extract_metadata import extract_metadata
 
-from flask.ext.api import status
-
 
 
 
@@ -37,6 +35,6 @@ def add_bookmark(db_result, path):
 	)
 
 	if insert_result.is_failure():
-		return "failed to add %s" % path, HTTP_500_INTERNAL_SERVER_ERROR # -- need to subdivide this.
+		return "failed to add %s" % path, 500 # -- need to subdivide this.
 	else:
-		return '', HTTP_304_NOT_MODIFIED
+		return '', 304
