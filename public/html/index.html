@@ -20,7 +20,7 @@
 
 	html {
 		font-family: 'Sans';
-		color:       '#00F';
+		color:       '#3d464d';
 	}
 
 	body {
@@ -38,10 +38,15 @@
 
 	a {
 		text-decoration: none;
+		color: #479EF6;
 	}
 
 	article {
 		margin: 60px;
+	}
+
+	.seperator {
+		color: #bfbfbf;
 	}
 
 	</style>
@@ -55,12 +60,18 @@
 			<article id={{bookmark_id}}>
 				<ul>
 
-					<li><a href="{{url}}">{{title}}</a> | <a href="{{hosturl}}">{{hostname}}</a></li>
+					<li>
+
+						<a href="{{url}}">{{title}}</a> <span class="seperator">|</span>
+						<a href="{{hosturl}}">{{hostname}}</a>
+
+					</li>
 					<li><time data-ctime="{{ctime}}">{{ctime}}</time></li>
 					<li>
-						<a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a> |
-						<a href="#">&#x1F5C3</a> |
-						<a id="delete-bookmark">&#x2716</a>
+
+						<a title="Share Link..." href="http://www.twitter.com/share?url={{url}}">&#x1f381</a> <span class="seperator">|</span>
+						<a title="Show Archive..." href="#">&#x1F5C3</a> <span class="seperator">|</span>
+						<a title="Delete" id="delete-bookmark">&#x2716</a>
 
 					</li>
 
