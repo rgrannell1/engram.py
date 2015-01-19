@@ -11,3 +11,7 @@ jQuery = {
 linkTabHighlight = {
 	'content': open('public/javascript/link-tab-highlight.js', 'r').read()
 }
+
+deleteBookmark = {
+	'content': open('public/javascript/delete-bookmark.js', 'r').read()
+}

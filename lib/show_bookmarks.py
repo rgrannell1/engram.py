@@ -11,6 +11,10 @@ import utils
 import css
 import js
 
+
+
+
+
 def bookmark(row):
 
 	hostname = urlparse(row[2]).hostname
@@ -51,7 +55,8 @@ def show_bookmarks(criterea_result, db_result):
 
 			'javascript-bottom': [
 				js.updateTimes,
-				js.linkTabHighlight
+				js.linkTabHighlight,
+				js.deleteBookmark
 			],
 
 			'css': [

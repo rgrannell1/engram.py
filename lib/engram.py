@@ -41,6 +41,9 @@ def main():
 
 
 
+	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
+	def delete_page(id):
+		return 'noop'
 
 	@app.route("/", defaults = {'path': ''})
 	def index_page():
@@ -55,10 +58,6 @@ def main():
 
 
 
-
-	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
-	def delete_page(id):
-		return 'noop'
 
 
 
