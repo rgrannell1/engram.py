@@ -23,6 +23,15 @@
 		color:       '#00F';
 	}
 
+	body {
+		margin-left:  14%;
+		margin-right: 14%;
+
+		margin-top:    5%;
+		margin-botton: 5%;
+
+	}
+
 	ul {
 		list-style-type: none;
 	}
@@ -50,7 +59,7 @@
 					<li><time data-ctime="{{ctime}}">{{ctime}}</time></li>
 					<li>
 						<a href="http://www.twitter.com/share?url={{url}}">&#x1f381</a> |
-						<a href="http://www.twitter.com/share?url={{url}}">&#x1F5C3</a> |
+						<a href="#">&#x1F5C3</a> |
 						<a id="delete-bookmark">&#x2716</a>
 
 					</li>
@@ -63,6 +72,10 @@
 	</main>
 
 </body>
+
+
+
+
 
 
 <script type="text/javascript">
@@ -89,6 +102,12 @@
 		return new Date(parseInt(ctime, 10) * 1000)
 
 	}
+
+	/*
+		secondsBetween -> Date x Date -> number
+
+
+	*/
 
 	const secondsBetween = function (recent, old) {
 		return Math.floor((recent.getTime() - old.getTime() ) / 1000)
@@ -234,7 +253,11 @@
 	tick.hour()
 	tick.day()
 
-	const tickers = {
+
+
+
+
+	const tickerPids = {
 		second: setInterval(tick.second, 1000),
 		minute: setInterval(tick.minute, constants.minute * 1000),
 		hour:   setInterval(tick.hour,   constants.hour   * 1000),
