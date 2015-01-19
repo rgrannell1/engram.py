@@ -1,0 +1,35 @@
+
+html {
+	font-family: 'Sans';
+	color:       '#3d464d';
+}
+
+body {
+	margin-left:  14%;
+	margin-right: 14%;
+
+	margin-top:    5%;
+	margin-botton: 5%;
+
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+	color: #479EF6;
+}
+
+article {
+	margin: 60px;
+}
+
+.seperator {
+	color: #bfbfbf;
+}
+
+time {
+	font-size: 12px;
+

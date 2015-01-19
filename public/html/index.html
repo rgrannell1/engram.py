@@ -1,59 +1,23 @@
 
 <!DOCTYPE HTML>
 <html lang="en-GB">
-	<head>
+<head>
 
-		<meta charset="utf-8" />
-		<title>engram - minimal bookmarking.</title>
+	<meta charset="utf-8" />
+	<title>engram - minimal bookmarking.</title>
 
-		<meta name="description" content="minimal search engine.">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<meta name="description" content="minimal search engine.">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-	</head>
-
-
-
-
-
+	{{#css}}
 
 	<style type="text/css">
-
-	html {
-		font-family: 'Sans';
-		color:       '#3d464d';
-	}
-
-	body {
-		margin-left:  14%;
-		margin-right: 14%;
-
-		margin-top:    5%;
-		margin-botton: 5%;
-
-	}
-
-	ul {
-		list-style-type: none;
-	}
-
-	a {
-		text-decoration: none;
-		color: #479EF6;
-	}
-
-	article {
-		margin: 60px;
-	}
-
-	.seperator {
-		color: #bfbfbf;
-	}
-
-	time {
-		font-size: 12px;
-	}
-
+		{{{content}}}
 	</style>
+
+	{{/css}}
+
+</head>
 
 <body>
 
@@ -92,10 +56,12 @@
 
 
 
-{{#javascript-bottom}}
+	{{#javascript-bottom}}
+
 	<script type="text/javascript">
 		{{{content}}}
 	</script>
-{{/javascript-bottom}}
+
+	{{/javascript-bottom}}
 
 </html>

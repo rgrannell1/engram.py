@@ -1,10 +1,8 @@
 
 	const constants = {
 		months: [
-			"Jan", "Feb", "Mar",
-			"Apr", "May", "Jun",
-			"Jul", "Aug", "Sep",
-			"Oct", "Nov", "Dec"
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 		],
 		second: 1,
 		minute: 60,
