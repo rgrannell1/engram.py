@@ -9,7 +9,7 @@ body {
 	margin-right: 14%;
 
 	margin-top:    5%;
-	margin-botton: 5%;
+	margin-bottom: 10%;
 
 }
 
@@ -20,6 +20,10 @@ ul {
 a {
 	text-decoration: none;
 	color: #479EF6;
+}
+
+a:hover {
+	color: #0b77e6;
 }
 
 article {
