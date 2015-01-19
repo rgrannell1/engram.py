@@ -2,13 +2,14 @@
 
 $('.delete-bookmark').click(function () {
 
-	const id = $(this).closest('article').attr('id')
+	const $article = $(this).closest('article')
+	const id       = $(this).closest('article').attr('id')
 
 	$.ajax({
 		url: '/bookmarks/' + id,
 		type: 'DELETE',
 		success: function () {
-			alert('sent.')
+			$article.remove()
 		},
 		failure: function () {
 			alert('failed.')
