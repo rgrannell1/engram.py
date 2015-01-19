@@ -50,7 +50,8 @@ def show_bookmarks(criterea_result, db_result):
 			],
 
 			'javascript-bottom': [
-				js.updateTimes
+				js.updateTimes,
+				js.linkTabHighlight
 			],
 
 			'css': [
