@@ -22,4 +22,4 @@ engr.am does not support manual tagging, as it is hard to assign meaningful tags
 
 ## Search 
 
-<key>Ctrl + F</key>
+<kbd>Ctrl + F</kbd>
