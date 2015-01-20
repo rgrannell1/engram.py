@@ -53,6 +53,9 @@ class Cache(object):
 		for entry in entries:
 			result = result.then(lambda self: self.add(entry, False))
 
+		self.ids.sort()
+		self.contents.sort(key = self.getID)
+
 		return result
 
 
@@ -94,12 +97,13 @@ class Cache(object):
 
 		chunk = []
 
+
 		# -- sorted data.
 		for entry in self.contents[::-1]:
 
-			if len(chunk) == amount or self.getID(entry) > maxID:
+			if len(chunk) == amount:
 				break
-			else:
+			elif self.getID(entry) <= maxID:
 				chunk.append(entry)
 
 		return chunk
