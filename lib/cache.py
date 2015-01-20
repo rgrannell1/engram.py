@@ -13,14 +13,14 @@ class Cache(object):
 
 
 
-	def self.has(id):
+	def has(id):
 		return id in self.ids
 
 
 
 
 
-	def self.add(entry):
+	def add(entry):
 
 		id = getID(entry)
 
@@ -36,7 +36,7 @@ class Cache(object):
 
 
 
-	def self.remove(id):
+	def remove(id):
 
 		id = getID(entry)
 
@@ -57,7 +57,7 @@ class Cache(object):
 
 
 
-	def self.retrieve(id):
+	def retrieve(id):
 
 		if self.has(id):
 			return Success(next(entry for entry in self.contents if getID(entry) == id))

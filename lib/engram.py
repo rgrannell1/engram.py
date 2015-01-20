@@ -8,6 +8,7 @@ from flask            import Flask, redirect, url_for, request
 from database         import Database
 
 import routes
+from cache import Cache
 import sql
 
 

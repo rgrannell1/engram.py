@@ -5,7 +5,7 @@ $('.delete-bookmark').click(function () {
 	const $article = $(this).closest('article')
 	const id       = $(this).closest('article').attr('id')
 
-	$article.hide()
+	$article.hide(400)
 
 	$.ajax({
 		url: '/bookmarks/' + id,
