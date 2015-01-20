@@ -13,6 +13,20 @@ class Result(object):
 	def __init__(self, value):
 		self.value = value.value if isinstance(value, Result) else value
 
+	def from_success(self):
+
+		if isinstance(self, Success):
+			return self.value
+		elif isinstance(self, Failure):
+			raise "attempted to call from_success on a Failure object."
+
+	def from_failure(self):
+
+		if isinstance(self, Failure):
+			return self.value
+		elif isinstance(self, Self):
+			raise "attempted to call from_failure on a Success object."
+
 
 
 

@@ -52,6 +52,11 @@ static_files = {
 
 
 
+"""
+show_bookmarks :: Database -> string, number
+
+
+"""
 
 def show_bookmarks(db_result):
 
@@ -68,4 +73,4 @@ def show_bookmarks(db_result):
 		.then( lambda rows: html.index(dict({'bookmarks': rows}, **static_files)) )
 	)
 
-	return html_result.value
+	return html_result.from_success() ## --dangerous

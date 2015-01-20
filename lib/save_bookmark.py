@@ -33,7 +33,7 @@ def save_bookmark(db_result, path):
 	)
 
 	if insert_result.is_failure():
-		message = "failed to add %s: '%s'" % (path, insert_result.value)
+		message = "failed to add %s: '%s'" % (path, insert_result.from_failure())
 		return message % path, 500
 	else:
 		return '', 304
