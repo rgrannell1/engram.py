@@ -8,8 +8,6 @@ import traceback
 
 class Result(object):
 
-	# -- idempotent constructor.
-
 	def __init__(self, value):
 		self.value = value.value if isinstance(value, Result) else value
 
@@ -19,6 +17,14 @@ class Result(object):
 
 	def from_success(self):
 		"""Extract the contents of a Success object
+
+		Throws a TypeError when called on a non-success object.
+
+		>> Failure('contents').from_success()
+		'contents'
+
+		>> Success('contents').from_success()
+		TypeError('attempted to call from_success on a Failure object.')
 
 		"""
 
@@ -34,12 +40,34 @@ class Result(object):
 	def from_failure(self):
 		"""Extract the contents of a Failure object
 
+		Throws a TypeError when called on a non-failure object.
+
+		>> Failure('contents').from_failure()
+		'contents'
+
+		>> Success('contents').from_failure()
+		TypeError('attempted to call from_failure on a Success object.')
+
 		"""
 
 		if isinstance(self, Failure):
 			return self.value
 		elif isinstance(self, Self):
 			raise TypeError("attempted to call from_failure on a Success object.")
+
+
+
+
+
+	def is_success(self):
+		"""Is this Result a Success instance?
+		"""
+		return isinstance(self, Success)
+
+	def is_failure(self):
+		"""Is this Result a Failure instance?
+		"""
+		return isinstance(self, Failure)
 
 
 
@@ -60,15 +88,6 @@ class Failure(Result):
 	def __str__(self):
 		return "Failure(%s)" % (str(self.value))
 
-
-
-
-
-	def is_success(self):
-		return False
-
-	def is_failure(self):
-		return True
 
 
 
@@ -97,8 +116,6 @@ class Failure(Result):
 
 class Success(Result):
 
-	# -- idempotent constructor.
-
 	def __init__(self, value):
 		super(Success, self).__init__(value)
 
@@ -108,15 +125,6 @@ class Success(Result):
 
 	def __str__(self):
 		return "Success(%s)" % (str(self.value))
-
-
-
-
-	def is_success(self):
-		return True
-
-	def is_failure(self):
-		return False
 
 
 
@@ -142,6 +150,9 @@ class Success(Result):
 
 
 	def tap(self, fn):
+		"""apply a function to a Result object, but only keep the new result if the call fails.
+
+		"""
 
 		result = self.then(fn)
 
@@ -159,7 +170,6 @@ class Success(Result):
 
 		>> Success('a').cross(Success('b'))
 		Success(['a', 'b'])
-
 		"""
 
 		if not isinstance(result, Result):
