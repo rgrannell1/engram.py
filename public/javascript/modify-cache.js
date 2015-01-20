@@ -15,62 +15,31 @@ const cache = Cache(function (bookmark) {
 
 
 
+/*
+	fetchChunk :: number -> [object]
 
-const requestBookmarks = function (min_id) {
+	load a set number of bookmarks into the cache.
+
+*/
+
+const fetchChunk = function (min_id) {
 
 	const chunkSize = 50
-	const url       = 'bookmarks?min_id=' + id + '&number=' + chunkSize
+	const url       = '/api/bookmarks?min_id=' + id + '&amount=' + chunkSize
 
 	$.ajax({
 		url: url,
 		dataType: 'json',
 		success: function (data) {
-			console.log('data.')
+
+			data.map(function (entry) {
+				cache.add(entry)
+			})
+
 		},
 		failure: function (data) {
-			console.log('failed.')
+			throw "chunk didn't load."
 		}
 	})
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const requestBookmarks = function (socket, min_id) {
-
-	const chunkSize = 50
-
-	socket.emit('request-bookmarks', {
-		min_id: min_id,
-		amount: chunkSize
-	})
-
-}
-
-const recieveBookmarks = function (socket) {
-	socket.on('request-bookmarks', function (data) {
-		console.log(data)
-	})
-}
-
-const fillCache = function (socket) {
-
-	requestBookmarks(socket)
 
 }

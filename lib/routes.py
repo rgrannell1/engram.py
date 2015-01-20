@@ -54,6 +54,13 @@ def favicon(app, db_result):
 
 
 
+def bookmarks_api(app, cache_result):
+	@app.route("/api/bookmarks")
+	def bookmarks_api():
+		return "", 404
+
+
+
 
 def default(app, db_result):
 	@app.route("/<path:path>")

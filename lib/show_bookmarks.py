@@ -39,7 +39,6 @@ static_files = {
 
 	'javascript-bottom': [
 		js.jQuery,
-		js.socket,
 
 		js.cache,
 		js.modifyCache,

@@ -8,10 +8,6 @@ jQuery = {
 	'content': open('public/javascript/jquery.js', 'r').read()
 }
 
-socket = {
-	'content': open('public/javascript/socket.js', 'r').read()
-}
-
 cache = {
 	'content': open('public/javascript/cache.js', 'r').read()
 }
