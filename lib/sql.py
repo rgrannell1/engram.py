@@ -55,7 +55,7 @@ INSERT INTO archives VALUES (NULL, ?, ?)
 select_bookmarks = """
 SELECT bookmark_id, url, title, ctime
 FROM bookmarks
-WHERE title LIKE ? AND ctime >= ?
+ORDER BY ctime
 """
 
 
@@ -125,22 +125,18 @@ def insert_archive(conn, bookmark_id, content, ctime):
 
 
 
-def select_bookmarks(criterea, conn):
-
-	search_tuple = (criterea['query'], criterea['oldest'])
-	sort_tuple   = (criterea['sort']['by'], 'ASC;' if criterea['sort']['increasing'] else 'DESC;')
+def select_bookmarks(conn):
 
 	# -- be careful; this is almost SQL injection,
 	# -- but the allowed column inputs are screened for earlier, and the boolean
 	# -- parametre is handled here.
 
 	query  = sql['select_bookmarks']
-	query += "ORDER BY %s %s" % sort_tuple
 
 	return (
 
 		Success(conn)
-		.then( lambda conn: conn.execute(query, search_tuple) )
+		.then( lambda conn: conn.execute(query) )
 		.then( lambda cursor: cursor.fetchall())
 
 	)

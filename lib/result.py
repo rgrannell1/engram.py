@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import traceback
+
 
 
 
@@ -22,9 +24,16 @@ class Result(object):
 class Failure(Result):
 
 	def __init__(self, value):
-		super(Failure, self).__init__(value)
 
+		if isinstance(value, (Success, Failure)):
+			self.value = value.value
+		else:
+			self.value = value
 
+		if isinstance(value, Failure):
+			self.stack = value.stack
+		else:
+			self.stack = traceback.print_exc()
 
 	def __str__(self):
 		return "Failure(%s)" % (str(self.value))

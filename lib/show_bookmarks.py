@@ -25,7 +25,7 @@ def bookmark(row):
 		'url':         row[2],
 		'ctime':       row[3],
 		'hostname':    hostname,
-		'hosturl':     'http://' + hostname
+		'hosturl':     'http://' + hostname # not idempotent.
 	}
 
 
@@ -33,13 +33,12 @@ def bookmark(row):
 
 
 
-def show_bookmarks(criterea_result, db_result):
+def show_bookmarks(db_result):
 
 	search_result = (
 
-		criterea_result
-		.cross(db_result)
-		.then( lambda pair: sql.select_bookmarks(pair[0], pair[1]) )
+		db_result
+		.then(sql.select_bookmarks)
 		.then( lambda rows: [bookmark(row) for row in rows] )
 
 	)
