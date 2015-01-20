@@ -6,13 +6,47 @@ const cache = Cache(function (bookmark) {
 
 
 
-const cacheRoute = 'http://' + document.domain + ':' + location.port + '/bookmarks/cache'
-const socket     = io.connect(cacheRoute)
 
 
 
 
-console.log(cache)
+
+
+
+
+
+
+const requestBookmarks = function (min_id) {
+
+	const chunkSize = 50
+	const url       = 'bookmarks?min_id=' + id + '&number=' + chunkSize
+
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		success: function (data) {
+			console.log('data.')
+		},
+		failure: function (data) {
+			console.log('failed.')
+		}
+	})
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

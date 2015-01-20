@@ -11,16 +11,12 @@ import routes
 import sql
 
 
-from flask.ext.socketio import SocketIO, emit
-
 
 
 
 def main():
 
 	app       = Flask(__name__)
-	socketio  = SocketIO(app)
-
 	db_result = Success('data/engram').then(Database)
 
 
@@ -44,18 +40,16 @@ def main():
 
 
 
-	@socketio.on('connect', namespace = '/bookmarks/cache')
-	def test_message(message):
-		emit('my response', {'data': "running"})
-
-
-
 
 	main_result = (
 		db_result
 		.tap(sql.create_tables)
-		.tap(lambda _: socketio.run(app))
+		.tap(lambda _: app.run())
 	)
+
+
+
+
 
 	db_result.tap(lambda db: db.close())
 
