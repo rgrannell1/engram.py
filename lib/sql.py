@@ -55,7 +55,7 @@ INSERT INTO archives VALUES (NULL, ?, ?)
 select_bookmarks = """
 SELECT bookmark_id, url, title, ctime
 FROM bookmarks
-ORDER BY ctime
+ORDER BY ctime DESC
 """
 
 
