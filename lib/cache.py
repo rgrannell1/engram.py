@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-
+import utils
+from result import Success, Failure
 
 
 
@@ -63,3 +64,15 @@ class Cache(object):
 			return Success(next(entry for entry in self.contents if getID(entry) == id))
 		else:
 			return Failure("no match found for " + id)
+
+
+
+
+	def fetchChunk(min_id, amount):
+
+		result = Success([])
+
+		for id in range(min_id, amount + 1):
+			result = result.then(lambda ids: utils.append(ids, id))
+
+		return result

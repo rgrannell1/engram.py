@@ -32,3 +32,10 @@ def add_key(dict, key, value):
 
 def now():
 	return int(time.time())
+
+def append(arr, value):
+
+	out = list(arr)
+	out.append(value)
+
+	return out
