@@ -25,8 +25,9 @@ from the address bar and create a new bookmark.
 """
 
 def save_bookmark(db_result, path):
+	"""save a bookmark to a database.
 
-	print 'saving.'
+	"""
 
 	insert_result = (
 		Success(path)

@@ -58,4 +58,4 @@ def favicon(app, db_result):
 def default(app, db_result):
 	@app.route("/<path:path>")
 	def default_route(path):
-		return save_bookmark(db, path)
+		return save_bookmark(db_result, path)

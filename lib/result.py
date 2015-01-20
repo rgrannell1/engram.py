@@ -13,19 +13,38 @@ class Result(object):
 	def __init__(self, value):
 		self.value = value.value if isinstance(value, Result) else value
 
+
+
+
+
 	def from_success(self):
+		"""Extract the contents of a Success object
+
+		"""
 
 		if isinstance(self, Success):
 			return self.value
 		elif isinstance(self, Failure):
-			raise "attempted to call from_success on a Failure object."
+			raise TypeError("attempted to call from_success on a Failure object.")
+
+
+
+
 
 	def from_failure(self):
+		"""Extract the contents of a Failure object
+
+		"""
 
 		if isinstance(self, Failure):
 			return self.value
 		elif isinstance(self, Self):
-			raise "attempted to call from_failure on a Success object."
+			raise TypeError("attempted to call from_failure on a Success object.")
+
+
+
+
+
 
 
 
@@ -118,6 +137,10 @@ class Success(Result):
 
 		return result
 
+
+
+
+
 	def tap(self, fn):
 
 		result = self.then(fn)
@@ -132,6 +155,12 @@ class Success(Result):
 
 
 	def cross(self, result):
+		"""get the product of two Result object.
+
+		>> Success('a').cross(Success('b'))
+		Success(['a', 'b'])
+
+		"""
 
 		if not isinstance(result, Result):
 			raise Exception("result wasn't a Result instance.")
