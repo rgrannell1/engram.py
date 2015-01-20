@@ -150,7 +150,7 @@ const tick = ( function () {
 
 	var self = {}
 
-	const tickerk = function (source, target) {
+	const ticker = function (source, target) {
 		return function () {
 
 			const $time = $('.' + source)

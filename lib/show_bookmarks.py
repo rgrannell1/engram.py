@@ -35,10 +35,15 @@ def bookmark(row):
 
 static_files = {
 	'javascript-head': [
-		js.jQuery
 	],
 
 	'javascript-bottom': [
+		js.jQuery,
+		js.socket,
+
+		js.cache,
+		js.modifyCache,
+
 		js.updateTimes,
 		js.linkTabHighlight,
 		js.deleteBookmark

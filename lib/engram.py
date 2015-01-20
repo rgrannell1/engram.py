@@ -9,13 +9,9 @@ from database         import Database
 
 import routes
 import sql
-import html
-from show_bookmarks   import show_bookmarks
-from save_bookmark    import save_bookmark
 
-from extract_metadata import extract_metadata
-from delete_bookmark  import delete_bookmark
 
+from flask.ext.socketio import SocketIO, emit
 
 
 
@@ -23,6 +19,8 @@ from delete_bookmark  import delete_bookmark
 def main():
 
 	app       = Flask(__name__)
+	socketio  = SocketIO(app)
+
 	db_result = Success('data/engram').then(Database)
 
 
@@ -46,10 +44,17 @@ def main():
 
 
 
+	@socketio.on('connect', namespace = '/bookmarks/cache')
+	def test_message(message):
+		emit('my response', {'data': "running"})
+
+
+
+
 	main_result = (
 		db_result
 		.tap(sql.create_tables)
-		.tap(lambda _: app.run())
+		.tap(lambda _: socketio.run(app))
 	)
 
 	db_result.tap(lambda db: db.close())
