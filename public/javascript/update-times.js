@@ -53,9 +53,17 @@ const secondsBetween = function (recent, old) {
 /*
 	formatInterval :: number -> {
 		message: string,
-		value:   number,
 		unit:    string
 	}
+
+	given a number of seconds return an object containing a
+	unit (second, minute, hour, day), and a message.
+
+	For example,
+
+	13    => 13s,     'tickrate-second'
+	120   => 2m,      'tickrate-minute'
+	10000 => June 18, 'tickrate-day'
 
 */
 
@@ -65,27 +73,20 @@ const formatInterval = function (sec) {
 
 		return {
 			message: sec + 's',
-			value:   sec,
 			unit:   'tickrate-second'
 		}
 
 	} else if (sec < constants.hour) {
 
-		const magnitude = Math.round(sec / constants.minute)
-
 		return {
-			message: magnitude + 'm',
-			value:   magnitude,
+			message: Math.round(sec / constants.minute) + 'm',
 			unit:   'tickrate-minute'
 		}
 
 	} else if (sec < constants.day) {
 
-		const magnitude = Math.round(sec / constants.minute)
-
 		return {
-			message: magnitude + 'h',
-			value:   magnitude,
+			message: Math.round(sec / constants.minute) + 'h',
 			unit:   'tickrate-hour'
 		}
 
@@ -95,7 +96,6 @@ const formatInterval = function (sec) {
 
 		return {
 			message: constants.months[ctime.getMonth()] + " " + ctime.getDate(),
-			value:   Math.round(sec / constants.day),
 			unit:   'tickrate-day'
 		}
 
@@ -103,21 +103,27 @@ const formatInterval = function (sec) {
 
 }
 
+
+
+
+
 /*
-	elapsedTime
+	elapsedTime :: TimeTag -> {
+		message: string,
+		unit:    string
+	}
 
 	given a time element, give the difference in that time from
 	the present.
 */
 
 const elapsedTime = function (elem) {
-
-	const now   = new Date
-	const ctime = extractTime(elem)
-
-	return formatInterval(secondsBetween(now, ctime))
-
+	return formatInterval( secondsBetween(new Date, extractTime(elem)) )
 }
+
+
+
+
 
 /*
 	assignRates
