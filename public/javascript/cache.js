@@ -8,13 +8,33 @@ const Cache = function (getID) {
 
 	self.maxID    = -1
 
+
+
+
+
 	/*
 		Cache.has :: Cache x number -> boolean
+
+		check if an id has a corresponding id within the cache.
+
 	*/
 
 	self.has = function (id) {
 		return self.ids.indexOf(id) !== -1
 	}
+
+
+
+
+
+	/*
+
+		Cache.add :: Cache x object -> undefined
+
+		add an entry to the cache. If an entry with
+		the same ID is already in the cache throw an error.
+
+	*/
 
 	self.add = function (entry) {
 
@@ -32,6 +52,16 @@ const Cache = function (getID) {
 
 	}
 
+
+
+
+	/*
+		Cache.remove :: Cache x number -> undefined
+
+		remove an entry from the cache by id. Throws an
+		error if no match is found.
+
+	*/
 	self.remove = function (id) {
 
 		if (self.has(id)) {
@@ -48,6 +78,17 @@ const Cache = function (getID) {
 		}
 
 	}
+
+
+
+
+
+	/*
+		Cache.retrieve :: Cache x number -> object
+
+		retrive an entry from the cache by ID.
+
+	*/
 
 	self.retrieve = function (id) {
 
