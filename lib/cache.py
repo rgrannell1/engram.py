@@ -27,7 +27,7 @@ class Cache(object):
 
 
 
-	def add(self, entry):
+	def add(self, entry, sort = True):
 
 		id = self.getID(entry)
 
@@ -37,8 +37,9 @@ class Cache(object):
 			self.ids.append(id)
 			self.contents.append(entry)
 
-			self.ids.sort()
-			self.contents.sort(key = self.getID)
+			if sort:
+				self.ids.sort()
+				self.contents.sort(key = self.getID)
 
 			return Success(self)
 
@@ -50,7 +51,7 @@ class Cache(object):
 		result = Success(self)
 
 		for entry in entries:
-			result = result.then(lambda self: self.add(entry))
+			result = result.then(lambda self: self.add(entry, False))
 
 		return result
 
@@ -89,12 +90,16 @@ class Cache(object):
 
 
 
-	def fetchChunk(self, min_id, amount):
+	def fetchChunk(self, maxID, amount):
 
-		result = Success([ ])
+		chunk = []
 
-		for id in range(min_id, amount + 1):
-			if self.has(id):
-				result = result.then( lambda entries: utils.append(entries, self.retrieve[id]) )
+		# -- sorted data.
+		for entry in self.contents[::-1]:
 
-		return result
+			if len(chunk) == amount or self.getID(entry) > maxID:
+				break
+			else:
+				chunk.append(entry)
+
+		return chunk

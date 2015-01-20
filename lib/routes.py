@@ -21,12 +21,13 @@ from delete_bookmark  import delete_bookmark
 
 def bookmarks_api_route(app, cache_result):
 
-	@app.route("/api/bookmarks")
+	@app.route("/api/bookmarks?")
 	def bookmarks_api():
 
 		minID  = request.args.get('minID')
 		amount = request.args.get('amount')
 
+		return "running api.", 200
 
 
 
