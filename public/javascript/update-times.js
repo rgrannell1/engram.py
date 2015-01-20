@@ -86,7 +86,7 @@ const formatInterval = function (sec) {
 	} else if (sec < constants.day) {
 
 		return {
-			message: Math.round(sec / constants.minute) + 'h',
+			message: Math.round(sec / constants.hour) + 'h',
 			unit:   'tickrate-hour'
 		}
 
@@ -130,17 +130,14 @@ const elapsedTime = function (elem) {
 
 	give each time tag a rate class, to determine how
 	often it should be updated.
+
 */
 
 const assignRates = function () {
 
 	const $time = $('time')
 	$time.each(function (ith, elem) {
-
-		$(elem)
-		.removeClass(constants.tickerPattern)
-		.addClass(elapsedTime(elem).unit)
-
+		$(elem).addClass(elapsedTime(elem).unit)
 	})
 
 }
@@ -153,22 +150,18 @@ const tick = ( function () {
 
 	var self = {}
 
-	const ticker = function (source, target) {
+	const tickerk = function (source, target) {
 		return function () {
 
-			const $time = $('.' + 'tickrate-' + source)
+			const $time = $('.' + source)
 
 			$time.each(function (ith, elem) {
 
-				const targetClass = 'tickrate-' + target
-				const elapsed     = elapsedTime(elem)
+				const elapsed = elapsedTime(elem)
 
-				if (elapsed.unit === targetClass) {
+				if (elapsed.unit === target) {
 
-					$(elem)
-					.removeClass(constants.tickerPattern)
-					.addClass(targetClass)
-
+					$(elem).removeClass('.' + source).addClass(target)
 					self[target]()
 
 				} else {
@@ -182,10 +175,10 @@ const tick = ( function () {
 		}
 	}
 
-	self.second = ticker('second', 'minute')
-	self.minute = ticker('minute', 'hour')
-	self.hour   = ticker('hour',   'day')
-	self.day    = ticker('day',    'year')
+	self['tickrate-second'] = self.second = ticker('tickrate-second', 'tickrate-minute')
+	self['tickrate-minute'] = self.minute = ticker('tickrate-minute', 'tickrate-hour')
+	self['tickrate-hour']   = self.hour   = ticker('tickrate-hour',   'tickrate-day')
+	self['tickrate-day']    = self.day    = ticker('tickrate-day',    'tickrate-year')
 
 	return self
 
@@ -206,8 +199,6 @@ tick.second()
 tick.minute()
 tick.hour()
 tick.day()
-
-
 
 
 
