@@ -13,7 +13,6 @@ from extract_metadata import extract_metadata
 
 
 """
-
 save_bookmark :: Result Database x string -> string, number
 
 this is a STATEFUL get request, so the error codes are a

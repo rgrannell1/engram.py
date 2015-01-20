@@ -11,11 +11,7 @@ class Result(object):
 	# -- idempotent constructor.
 
 	def __init__(self, value):
-
-		if isinstance(value, (Success, Failure)):
-			self.value = value.value
-		else:
-			self.value = value
+		self.value = value.value if isinstance(value, Result) else value
 
 
 
@@ -25,15 +21,8 @@ class Failure(Result):
 
 	def __init__(self, value):
 
-		if isinstance(value, (Success, Failure)):
-			self.value = value.value
-		else:
-			self.value = value
-
-		if isinstance(value, Failure):
-			self.stack = value.stack
-		else:
-			self.stack = traceback.print_exc()
+		self.value = value.value if isinstance(value, Result) else value
+		self.stack = value.stack if isinstance(value, Failure) else traceback.print_exc()
 
 	def __str__(self):
 		return "Failure(%s)" % (str(self.value))
@@ -63,7 +52,7 @@ class Failure(Result):
 
 	def cross(self, result):
 
-		if not isinstance(result, (Success, Failure)):
+		if not isinstance(result, Result):
 			raise Exception("result wasn't a Result instance.")
 
 		return self
@@ -130,7 +119,7 @@ class Success(Result):
 
 	def cross(self, result):
 
-		if not isinstance(result, (Success, Failure)):
+		if not isinstance(result, Result):
 			raise Exception("result wasn't a Result instance.")
 
 		if isinstance(result, Success):

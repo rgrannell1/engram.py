@@ -33,6 +33,26 @@ def bookmark(row):
 
 
 
+static_files = {
+	'javascript-head': [
+		js.jQuery
+	],
+
+	'javascript-bottom': [
+		js.updateTimes,
+		js.linkTabHighlight,
+		js.deleteBookmark
+	],
+
+	'css': [
+		css.style
+	]
+}
+
+
+
+
+
 def show_bookmarks(db_result):
 
 	search_result = (
@@ -45,24 +65,7 @@ def show_bookmarks(db_result):
 
 	html_result = (
 		search_result
-		.then( lambda rows: html.index({
-			'bookmarks':   rows,
-
-			'javascript-head': [
-				js.jQuery
-			],
-
-			'javascript-bottom': [
-				js.updateTimes,
-				js.linkTabHighlight,
-				js.deleteBookmark
-			],
-
-			'css': [
-				css.style
-			]
-
-		}) )
+		.then( lambda rows: html.index(dict({'bookmarks': rows}, **static_files)) )
 	)
 
 	return html_result.value

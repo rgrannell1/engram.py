@@ -10,16 +10,10 @@ import utils
 
 
 
-
-
-
-def load_template(fpath):
-
-	return (
-		Success(fpath)
-		.then(lambda fpath: open(fpath, 'r'))
-		.then(lambda file:  file.read())
-	)
+html = {
+	'index': open('public/html/index.html', 'r').read(),
+	'save':  open('public/html/save.html',  'r').read()
+}
 
 
 
@@ -28,17 +22,13 @@ def load_template(fpath):
 def index(context):
 
 	return (
-		load_template('public/html/index.html')
+		Success(html['index'])
 		.then(lambda html: pystache.render(html, context))
 	)
-
-
-
-
 
 def save(context):
 
 	return (
-		load_template('public/html/save.html')
+		Success(html['save'])
 		.then(lambda html: pystache.render(html, context))
 	)
