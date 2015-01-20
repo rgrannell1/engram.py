@@ -7,6 +7,7 @@ from flask            import Flask, redirect, url_for, request
 
 from database         import Database
 
+import routes
 import sql
 import html
 from show_bookmarks   import show_bookmarks
@@ -19,69 +20,16 @@ from delete_bookmark  import delete_bookmark
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def main():
 
 	app = Flask(__name__)
 	db  = Success('data/engram').then(Database)
 
-
-
-
-
-	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
-	def delete_route(id):
-		return delete_bookmark(db, id)
-
-
-
-
-
-	@app.route("/", defaults = {'path': ''})
-	def index_page():
-		return redirect(url_for('bookmark_page'))
-
-	@app.route("/bookmarks")
-	def bookmark_page():
-		return show_bookmarks(db)
-
-
-
-
-
-	@app.route("/bookmarks/.json")
-	def export_bookmarks():
-		return"currently unimplemented."
-
-	@app.route("/favicon.ico")
-	def favicon():
-		return "", 404
-
-
-
-	@app.route("/<path:path>")
-	def default_route(path):
-		return save_bookmark(db, path)
-
-
-
-
-
-
-
-
+	routes.delete(app, db)
+	routes.index(app, db)
+	routes.bookmarks(app, db)
+	routes.favicon(app, db)
+	routes.default(app, db)
 
 	main_result = (
 		db

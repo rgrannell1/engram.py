@@ -13,5 +13,4 @@ def delete_bookmark(conn, id):
 		.then(lambda id: sql.delete_bookmark(conn, id))
 	)
 
-	# -- tofix
 	return "", 204
