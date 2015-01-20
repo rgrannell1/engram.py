@@ -29,11 +29,18 @@ def main():
 
 
 
-	routes.delete(app,    db_result)
-	routes.index(app,     db_result)
-	routes.bookmarks(app, db_result)
-	routes.favicon(app,   db_result)
-	routes.default(app,   db_result)
+	route_result = (
+
+		Success(app)
+		.cross(Success(db_result))
+
+		.tap( lambda pair: routes.delete    (pair[0], pair[1]) )
+		.tap( lambda pair: routes.index     (pair[0], pair[1]) )
+		.tap( lambda pair: routes.bookmarks (pair[0], pair[1]) )
+		.tap( lambda pair: routes.favicon   (pair[0], pair[1]) )
+		.tap( lambda pair: routes.default   (pair[0], pair[1]) )
+
+	)
 
 
 

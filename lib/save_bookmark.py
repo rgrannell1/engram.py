@@ -26,6 +26,8 @@ from the address bar and create a new bookmark.
 
 def save_bookmark(db_result, path):
 
+	print 'saving.'
+
 	insert_result = (
 		Success(path)
 		.then(extract_metadata)
