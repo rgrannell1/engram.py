@@ -91,7 +91,7 @@ const formatInterval = function (sec) {
 
 	} else {
 
-		const ctime = new Date((new Date).getTime() - (sec * 1000))
+		const ctime = new Date(new Date - (1000 * sec))
 
 		return {
 			message: constants.months[ctime.getMonth()] + " " + ctime.getDate(),
