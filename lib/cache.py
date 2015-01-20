@@ -9,44 +9,62 @@ class Cache(object):
 
 	def __init__(self, getID):
 		self.contents = []
+		self.ids      = []
+
+		self.getID    = getID
+
+	def __str__(self):
+		return str(self.contents)
 
 
 
 
 
-	def has(id):
+	def has(self, id):
 		return id in self.ids
 
 
 
 
 
-	def add(entry):
+	def add(self, entry):
 
-		id = getID(entry)
+		id = self.getID(entry)
 
 		if self.has(id):
 			return Failure("already has ID.")
 		else:
-			self.ids.push(id)
-			self.contents.push(entry)
+			self.ids.append(id)
+			self.contents.append(entry)
 
 			return Success(self)
 
 
 
 
+	def addAll(self, entries):
 
-	def remove(id):
+		result = Success(self)
 
-		id = getID(entry)
+		for entry in entries:
+			result = result.then(lambda self: self.add(entry))
+
+		return result
+
+
+
+
+
+	def remove(self, id):
+
+		id = self.getID(entry)
 
 		if self.has(id):
 
 			id_ith = self.ids.index(id)
 
 			self.ids.remove(id)
-			self.contents = [entry for entry in self.contents if getID(entry) != id ]
+			self.contents = [entry for entry in self.contents if self.getID(entry) != id ]
 
 			return Success(self)
 
@@ -58,17 +76,17 @@ class Cache(object):
 
 
 
-	def retrieve(id):
+	def retrieve(self, id):
 
 		if self.has(id):
-			return Success(next(entry for entry in self.contents if getID(entry) == id))
+			return Success(next(entry for entry in self.contents if self.getID(entry) == id))
 		else:
 			return Failure("no match found for " + id)
 
 
 
 
-	def fetchChunk(min_id, amount):
+	def fetchChunk(self, min_id, amount):
 
 		result = Success([])
 

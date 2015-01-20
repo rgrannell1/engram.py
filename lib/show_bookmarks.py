@@ -5,29 +5,13 @@ import html
 
 from result import Success, Failure
 from urlparse import urlparse
+from bookmark import bookmark
+
 import datetime
 import utils
 
 import css
 import js
-
-
-
-
-
-def bookmark(row):
-
-	hostname = urlparse(row[2]).hostname
-
-	return {
-		'bookmark_id': row[0],
-		'title':       row[1],
-		'url':         row[2],
-		'ctime':       row[3],
-		'hostname':    hostname,
-		'hosturl':     'http://' + hostname # not idempotent.
-	}
-
 
 
 

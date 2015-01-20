@@ -11,6 +11,8 @@ import routes
 from cache import Cache
 import sql
 
+from bookmark import bookmark
+
 
 
 
@@ -19,6 +21,13 @@ def main():
 
 	app       = Flask(__name__)
 	db_result = Success('data/engram').then(Database)
+
+	cache_result = (
+		db_result
+		.then(sql.select_bookmarks)
+		.then(lambda rows: [bookmark(row) for row in rows])
+		.then(Cache(bookmark.getID).addAll)
+	)
 
 
 
