@@ -13,10 +13,15 @@ const constants = {
 
 }
 
+
+
+
+
 /*
 	extractTime :: element -> Date
 
-	get a javascript date from a <time> tag.
+	get a javascript date from a <time> tag's data-ctime attribute.
+
 */
 
 const extractTime = function (time)  {
@@ -26,9 +31,14 @@ const extractTime = function (time)  {
 
 }
 
+
+
+
+
 /*
 	secondsBetween :: Date x Date -> number
 
+	get the time interval between two dates to the nearest second.
 
 */
 
@@ -61,17 +71,21 @@ const formatInterval = function (sec) {
 
 	} else if (sec < constants.hour) {
 
+		const magnitude = Math.round(sec / constants.minute)
+
 		return {
-			message: Math.round(sec / constants.minute) + 'm',
-			value:   Math.round(sec / constants.minute),
+			message: magnitude + 'm',
+			value:   magnitude,
 			unit:   'tickrate-minute'
 		}
 
 	} else if (sec < constants.day) {
 
+		const magnitude = Math.round(sec / constants.minute)
+
 		return {
-			message: Math.round(sec / constants.hour) + 'h',
-			value:   Math.round(sec / constants.hour),
+			message: magnitude + 'h',
+			value:   magnitude,
 			unit:   'tickrate-hour'
 		}
 
@@ -170,6 +184,11 @@ const tick = ( function () {
 	return self
 
 } )()
+
+
+
+
+
 
 
 
