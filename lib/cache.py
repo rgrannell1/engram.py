@@ -37,6 +37,9 @@ class Cache(object):
 			self.ids.append(id)
 			self.contents.append(entry)
 
+			self.ids.sort()
+			self.contents.sort(key = self.getID)
+
 			return Success(self)
 
 
@@ -88,9 +91,10 @@ class Cache(object):
 
 	def fetchChunk(self, min_id, amount):
 
-		result = Success([])
+		result = Success([ ])
 
 		for id in range(min_id, amount + 1):
-			result = result.then(lambda ids: utils.append(ids, id))
+			if self.has(id):
+				result = result.then( lambda entries: utils.append(entries, self.retrieve[id]) )
 
 		return result

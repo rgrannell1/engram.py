@@ -2,7 +2,7 @@
 import time
 
 from result           import Success, Failure
-from flask            import Flask, redirect, url_for, request
+from flask            import Flask, redirect, url_for, request, jsonify
 
 from database         import Database
 
@@ -14,6 +14,18 @@ from save_bookmark    import save_bookmark
 
 from extract_metadata import extract_metadata
 from delete_bookmark  import delete_bookmark
+
+
+
+
+
+def bookmarks_api_route(app, cache_result):
+
+	@app.route("/api/bookmarks")
+	def bookmarks_api():
+
+		minID  = request.args.get('minID')
+		amount = request.args.get('amount')
 
 
 
@@ -54,15 +66,8 @@ def favicon(app, db_result):
 
 
 
-def bookmarks_api(app, cache_result):
-	@app.route("/api/bookmarks")
-	def bookmarks_api():
-		return "", 404
-
-
-
 
 def default(app, db_result):
-	@app.route("/<path:path>")
+	@app.route("/<string:path>")
 	def default_route(path):
 		return save_bookmark(db_result, path)

@@ -39,13 +39,18 @@ const Cache = function (getID) {
 	self.add = function (entry) {
 
 		const id = getID(entry)
+		console.log(entry)
+
+		if (typeof id === 'undefined') {
+			throw "undefined id."
+		}
 
 		if (self.has(id)) {
 			throw "already has id " + id
 		} else {
 
 			self.maxID = Math.max(id, self.maxID)
-			self.ids.push(ids)
+			self.ids.push(id)
 			self.contents.push(entry)
 
 		}
@@ -105,5 +110,7 @@ const Cache = function (getID) {
 		}
 
 	}
+
+	return self
 
 }

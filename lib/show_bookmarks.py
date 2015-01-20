@@ -52,7 +52,7 @@ def show_bookmarks(db_result):
 
 		db_result
 		.then(sql.select_bookmarks)
-		.then( lambda rows: [bookmark(row) for row in rows] )
+		.then( lambda rows: [bookmark(row) for row in rows[1:100]] )
 
 	)
 
@@ -61,4 +61,7 @@ def show_bookmarks(db_result):
 		.then( lambda rows: html.index(dict({'bookmarks': rows}, **static_files)) )
 	)
 
-	return html_result.from_success() ## --dangerous
+	if html_result.is_failure():
+		return "arrgh!", 500
+	else:
+		return html_result.from_success(), 200
