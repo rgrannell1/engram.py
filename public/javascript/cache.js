@@ -39,7 +39,6 @@ const Cache = function (getID) {
 	self.add = function (entry) {
 
 		const id = getID(entry)
-		console.log('adding ' + JSON.stringify(entry))
 
 		if (typeof id === 'undefined') {
 			throw "undefined id."

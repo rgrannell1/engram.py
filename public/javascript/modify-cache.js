@@ -16,8 +16,6 @@ const cache = Cache(function (bookmark) {
 
 const fetchChunk = function (maxID, cache, callback) {
 
-	console.log('fetchChunk:' + maxID)
-
 	const chunkSize = 20
 	const url       = '/api/bookmarks?maxID=' + maxID + '&amount=' + chunkSize
 
@@ -57,8 +55,6 @@ const syncCache = function (cache, callback) {
 		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
 			callback(cacheData.cache)
 		} else {
-
-			console.log('cacheData.nextId', cacheData)
 
 			setTimeout(function () {
 				fetchChunk(cacheData.nextId, cache, pollUntilEmpty)
