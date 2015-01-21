@@ -5,9 +5,11 @@
 	is the user scrolled to the bottom of the page?
 */
 
-const viewingBottom = function () {
+ENGRAM.viewingBottom = function () {
 	return document.documentElement.clientHeight + $(document).scrollTop() >= document.body.offsetHeight
 }
+
+
 
 
 
@@ -22,11 +24,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 	const renderBookmark = function (bookmark) {
 		return Mustache.render(template, bookmark)
 	}
-
-
-
-
-
 	/*
 		appendBookmarks :: number -> undefined
 
@@ -38,9 +35,9 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	const appendBookmarks = function (maxID) {
 
-		if (viewingBottom()) {
+		if (ENGRAM.viewingBottom()) {
 
-			const chunk = cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 			chunk.data.map(function (bookmark) {
 
 				$('#content').append(renderBookmark(bookmark))
@@ -55,10 +52,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	}
 
-
-
-
-
-	appendBookmarks(cache.maxID)
+	appendBookmarks(ENGRAM.cache.maxID)
 
 })

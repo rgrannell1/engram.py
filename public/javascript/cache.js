@@ -1,5 +1,5 @@
 
-const Cache = function (getID) {
+ENGRAM.Cache = function (getID) {
 
 	var self = {}
 

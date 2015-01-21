@@ -17,6 +17,8 @@ from delete_bookmark  import delete_bookmark
 
 
 
+
+
 def index(app, db_result):
 	@app.route("/", defaults = {'path': ''})
 	def index_page():

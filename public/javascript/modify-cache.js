@@ -1,5 +1,5 @@
 
-const cache = Cache(function (bookmark) {
+ENGRAM.cache = ENGRAM.Cache(function (bookmark) {
 
 	const id = bookmark.bookmark_id
 
@@ -18,85 +18,119 @@ const cache = Cache(function (bookmark) {
 
 
 
-const bookmarkRequest = function (maxID, amount) {
 
-	if (maxID <= 0) {
-		throw RangeError("attempted to use " + maxID + " as a maxID (too small)")
-	}
 
-	if (amount <= 0) {
-		throw RangeError("attempted to use " + maxID + " as an amount (too small)")
-	}
 
-	return '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
-}
+
+
 
 
 
 
 
 /*
-	fetchChunk :: number -> [object]
+	syncCache :: Cache x function -> undefined
 
-	load a set number of bookmarks into the cache.
+	given an empty cache object and a function,
+	load all the entries stored in the cache on the server into
+	the empty cache side-effectually, and execute a thunk
+	on completion.
 
 */
 
-const fetchChunk = function (maxID, cache, callback) {
-
-	if (!is.number(maxID)) {
-		throw TypeError('fetchChunk: maxID was not a number (actual value: ' + JSON.stringify(maxID) + ')')
-	}
-
-	$.ajax({
-		url: bookmarkRequest(maxID, ENGRAM.PERREQUEST),
-		dataType: 'json',
-		success: function (response) {
-
-			response.data.map(cache.add)
-
-			callback({
-				cache:      cache,
-				dataLength: response.data.length,
-				nextID:     response.nextID
-			})
-
-		},
-		failure: function (response) {
-			throw "chunk didn't load."
-		}
-	})
-
-}
+ENGRAM.syncCache = ( function () {
 
 
 
 
 
-const syncCache = function (cache, callback) {
+	const bookmarkRequest = function (maxID, amount) {
 
-	const pollUntilEmpty = function (cacheData) {
-
-		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
-			callback(cacheData.cache)
-		} else {
-
-			setTimeout(function () {
-				fetchChunk(cacheData.nextID, cache, pollUntilEmpty)
-			}, ENGRAM.LOADINTERVAL)
-
+		if (maxID <= 0) {
+			throw RangeError("attempted to use " + maxID + " as a maxID (too small)")
 		}
 
+		if (amount <= 0) {
+			throw RangeError("attempted to use " + maxID + " as an amount (too small)")
+		}
+
+		return '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
 	}
 
-	fetchChunk(ENGRAM.BIGINT, cache, pollUntilEmpty)
-
-}
 
 
 
 
+	/*
+		requestChunk :: number -> [object]
 
-syncCache(cache, function (cache) {
+		load a set number of bookmarks into the cache.
+
+	*/
+
+	const requestChunk = function (maxID, cache, callback) {
+
+		if (!is.number(maxID)) {
+			throw TypeError('requestChunk: maxID was not a number (actual value: ' + JSON.stringify(maxID) + ')')
+		}
+
+		$.ajax({
+			url: bookmarkRequest(maxID, ENGRAM.PERREQUEST),
+			dataType: 'json',
+			success: function (response) {
+
+				response.data.map(cache.add)
+
+				callback({
+					cache:      cache,
+					dataLength: response.data.length,
+					nextID:     response.nextID
+				})
+
+			},
+			failure: function (response) {
+				throw "chunk didn't load."
+			}
+		})
+
+	}
+
+
+
+
+
+	return function (cache, callback) {
+
+		const loadAllChunks = function (cacheData) {
+
+			if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
+				callback(cacheData.cache)
+			} else {
+
+				setTimeout(function () {
+					requestChunk(cacheData.nextID, cache, loadAllChunks)
+				}, ENGRAM.LOADINTERVAL)
+
+			}
+
+		}
+
+		requestChunk(ENGRAM.BIGINT, cache, loadAllChunks)
+
+	}
+
+
+
+
+
+} )()
+
+
+
+
+
+
+
+ENGRAM.syncCache(ENGRAM.cache, function (cache) {
 	console.log('loaded all ' + cache.contents.length + ' chunks.')
 })

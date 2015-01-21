@@ -2,16 +2,15 @@
 
 import time
 
-from result   import Success, Failure
-from flask    import Flask, redirect, url_for, request
+from result     import Success, Failure
+from flask      import Flask, redirect, url_for, request
 
-from database import Database
+from database   import Database
+from fill_cache import fill_cache
 
 import routes
-from cache import Cache
 import sql
 
-import bookmark
 
 
 
@@ -26,17 +25,7 @@ def main():
 
 
 
-	cache_result = (
-		db_result
-		.then(sql.select_bookmarks)
-		.then(lambda rows: [bookmark.bookmark(row) for row in rows])
-		.then(Cache(bookmark.getID).addAll)
-	)
-
-
-
-
-
+	cache_result = fill_cache(db_result)
 	route_result = (
 
 		Success(app)

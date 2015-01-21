@@ -1,9 +1,13 @@
 
 
+/*
+	deleteBookmark :: undefined -> undefined
 
+	delete the bookmark holding the delete button bound to 'this'.
 
+*/
 
-$(document).on('click', '.delete-bookmark', function () {
+ENGRAM.deleteBookmark = function () {
 
 	const $article = $(this).closest('article')
 	const id       = $(this).closest('article').attr('id')
@@ -24,4 +28,8 @@ $(document).on('click', '.delete-bookmark', function () {
 		}
 	})
 
-})
+}
+
+
+
+$(document).on('click', '.delete-bookmark', ENGRAM.deleteBookmark)
