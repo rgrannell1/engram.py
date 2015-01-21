@@ -48,13 +48,8 @@ const fetchChunk = function (maxID, cache, callback) {
 
 const syncCache = function (cache, callback) {
 
-//	const biggestInteger = 9007199254740992
-	const biggestInteger = 190
-
+	const biggestInteger = 9007199254740992
 	const pollUntilEmpty = function (cacheData) {
-
-		console.log(cacheData.nextID)
-		console.log('==============')
 
 		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
 			callback(cacheData.cache)
@@ -78,6 +73,6 @@ const syncCache = function (cache, callback) {
 
 syncCache(cache, function () {
 
-	console.log('done!')
+	console.log('loaded all chunks.')
 
 })
