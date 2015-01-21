@@ -29,7 +29,7 @@ const cache = Cache(function (bookmark) {
 const fetchChunk = function (maxID, cache, callback) {
 
 	const chunkSize = 100
-	const url       = '/api/bookmarks/?maxID=' + maxID + '&amount=' + chunkSize
+	const url       = '/api/bookmarks?maxID=' + maxID + '&amount=' + chunkSize
 
 	$.ajax({
 		url: url,

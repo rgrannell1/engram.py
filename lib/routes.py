@@ -31,10 +31,8 @@ def index(app, db_result):
 
 def bookmarks_api_route(app, cache):
 
-	@app.route("/api/bookmarks/")
+	@app.route("/api/bookmarks")
 	def bookmarks_api():
-
-		print '/api/bookmarks'
 
 		max_id = int(request.args.get('maxID'))
 		amount = int(request.args.get('amount'))
@@ -45,6 +43,7 @@ def bookmarks_api_route(app, cache):
 			.then(lambda data: jsonify({'data': data}) )
 		)
 
+		return fetchResult.from_success()
 
 
 
