@@ -11,7 +11,7 @@ import datetime
 import utils
 
 import css
-import js
+import static
 
 
 
@@ -21,25 +21,27 @@ static_files = {
 	'javascript-head': [
 	],
 
-	'javascript-bottom': [
-		js.jQuery,
-		js.mustache,
+	'javascript-bottom': static.loadJavascript([
+		"jquery",
+		"mustache",
+		"is"
 
-		js.engram,
+		"engram",
 
-		js.cache,
-		js.modifyCache,
+		"cache",
+		"modify-cache",
 
-		js.drawBookmarks,
+		"draw-bookmarks",
+		"update-times",
+		"link-tab-highlight",
 
-		js.updateTimes,
-		js.linkTabHighlight,
-		js.deleteBookmark
-	],
+		"delete-bookmark"
 
-	'css': [
-		css.style
-	]
+	]),
+
+	'css': static.loadCSS([
+		"style"
+	])
 }
 
 
