@@ -9,3 +9,6 @@ ENGRAM.PERREQUEST   = 100
 
 // how many milliseconds to wait between requests?
 ENGRAM.LOADINTERVAL = 500
+
+// how many milliseconds to transition delete within?
+ENGRAM.DELETEFADE   = 250
