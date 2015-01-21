@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import time
 
 from result     import Success, Failure
@@ -21,10 +22,6 @@ def main():
 	app       = Flask(__name__)
 	db_result = Success('data/engram').then(Database)
 
-
-
-
-
 	cache_result = fill_cache(db_result)
 	route_result = (
 
@@ -36,6 +33,7 @@ def main():
 		.tap( lambda pair: routes.bookmarks     (pair[0], pair[1]) )
 		.tap( lambda pair: routes.favicon       (pair[0], pair[1]) )
 		.tap( lambda pair: routes.default       (pair[0], pair[1]) )
+		.tap( lambda pair: routes.public        (pair[0]) )
 
 	)
 
@@ -46,14 +44,6 @@ def main():
 		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
 	)
 
-
-
-
-
-
-	@app.route("/public/html/bookmark-template.html")
-	def serve_template():
-		return open('public/html/bookmark-template.html', 'r').read()
 
 
 

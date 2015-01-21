@@ -9,6 +9,8 @@ from database         import Database
 import routes
 import sql
 import html
+import os
+
 from show_bookmarks   import show_bookmarks
 from save_bookmark    import save_bookmark
 
@@ -60,8 +62,15 @@ def delete(app, db_result):
 		return delete_bookmark(db_result, id)
 
 
+def public(app):
 
+	@app.route('/public/<resource_type>/<resource>')
+	def serve_resource(resource_type, resource):
 
+		print '/public/' + resource_type + '/' + resource
+
+		fpath = os.path.join('public', resource_type, resource)
+		return open(fpath, 'r').read()
 
 
 
