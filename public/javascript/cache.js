@@ -98,7 +98,7 @@ const Cache = function (getID) {
 
 		if (self.has(id)) {
 
-			const matches = contents.filter( function (entry) {
+			const matches = self.contents.filter( function (entry) {
 				return getID(entry) === id}
 			)
 

@@ -31,7 +31,7 @@ const fetchChunk = function (maxID, cache, callback) {
 			callback({
 				cache:      cache,
 				dataLength: response.data.length,
-				nextId:     response.nextID
+				nextID:     response.nextID
 			})
 
 		},
@@ -48,16 +48,20 @@ const fetchChunk = function (maxID, cache, callback) {
 
 const syncCache = function (cache, callback) {
 
-	const biggestInteger = 9007199254740992
+//	const biggestInteger = 9007199254740992
+	const biggestInteger = 190
 
 	const pollUntilEmpty = function (cacheData) {
+
+		console.log(cacheData.nextID)
+		console.log('==============')
 
 		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
 			callback(cacheData.cache)
 		} else {
 
 			setTimeout(function () {
-				fetchChunk(cacheData.nextId, cache, pollUntilEmpty)
+				fetchChunk(cacheData.nextID, cache, pollUntilEmpty)
 			}, 500)
 
 		}
