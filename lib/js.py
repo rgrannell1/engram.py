@@ -14,6 +14,10 @@ mustache = {
 	'content': open('public/javascript/mustache.js', 'r').read()
 }
 
+engram = {
+	'content': open('public/javascript/engram.js', 'r').read()
+}
+
 cache = {
 	'content': open('public/javascript/cache.js', 'r').read()
 }
@@ -25,7 +29,6 @@ modifyCache = {
 drawBookmarks = {
 	'content': open('public/javascript/draw-bookmarks.js', 'r').read()
 }
-
 
 linkTabHighlight = {
 	'content': open('public/javascript/link-tab-highlight.js', 'r').read()

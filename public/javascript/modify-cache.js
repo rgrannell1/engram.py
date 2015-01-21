@@ -16,8 +16,7 @@ const cache = Cache(function (bookmark) {
 
 const fetchChunk = function (maxID, cache, callback) {
 
-	const chunkSize = 200
-	const url       = '/api/bookmarks?maxID=' + maxID + '&amount=' + chunkSize
+	const url = '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
 
 	$.ajax({
 		url: url,
@@ -48,7 +47,8 @@ const fetchChunk = function (maxID, cache, callback) {
 
 const syncCache = function (cache, callback) {
 
-	const biggestInteger = 9007199254740992
+	const loadInterval   = 500
+
 	const pollUntilEmpty = function (cacheData) {
 
 		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
@@ -57,13 +57,13 @@ const syncCache = function (cache, callback) {
 
 			setTimeout(function () {
 				fetchChunk(cacheData.nextID, cache, pollUntilEmpty)
-			}, 500)
+			}, ENGRAM.LOADINTERVAL)
 
 		}
 
 	}
 
-	fetchChunk(biggestInteger, cache, pollUntilEmpty)
+	fetchChunk(ENGRAM.BIGINT, cache, pollUntilEmpty)
 
 }
 

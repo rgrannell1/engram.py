@@ -25,6 +25,8 @@ static_files = {
 		js.jQuery,
 		js.mustache,
 
+		js.engram,
+
 		js.cache,
 		js.modifyCache,
 
