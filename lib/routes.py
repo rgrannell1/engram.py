@@ -40,7 +40,7 @@ def bookmarks_api_route(app, cache):
 		fetchResult = (
 			Success(cache)
 			.then(lambda cache: cache.fetchChunk(max_id, amount))
-			.then(lambda data: jsonify({'data': data}) )
+			.then(lambda data: jsonify(data) )
 		)
 
 		return fetchResult.from_success()

@@ -95,15 +95,18 @@ class Cache(object):
 
 	def fetchChunk(self, maxID, amount):
 
+		print 'max id is ' + str(maxID)
+
 		chunk = []
 
-
-		# -- sorted data.
 		for entry in self.contents[::-1]:
-
-			if len(chunk) == amount:
-				break
-			elif self.getID(entry) <= maxID:
+			if self.getID(entry) <= maxID:
 				chunk.append(entry)
 
-		return chunk
+			if len(chunk) >= amount:
+				break
+
+		return {
+			'data':   chunk,
+			'nextID': self.getID(min(chunk, key = self.getID)) - 1
+		}

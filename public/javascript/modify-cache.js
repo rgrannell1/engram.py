@@ -28,7 +28,9 @@ const cache = Cache(function (bookmark) {
 
 const fetchChunk = function (maxID, cache, callback) {
 
-	const chunkSize = 100
+	console.log('fetchChunk:' + maxID)
+
+	const chunkSize = 20
 	const url       = '/api/bookmarks?maxID=' + maxID + '&amount=' + chunkSize
 
 	$.ajax({
@@ -40,10 +42,12 @@ const fetchChunk = function (maxID, cache, callback) {
 				cache.add(entry)
 			})
 
+			console.log('response: ' + JSON.stringify(response))
+
 			callback({
 				cache:      cache,
 				dataLength: response.data.length,
-				nextId:     maxID - response.data.length - 1
+				nextId:     response.nextID
 			})
 
 		},
@@ -62,11 +66,11 @@ const syncCache = function (cache, callback) {
 
 	const pollUntilEmpty = function (cacheData) {
 
-		console.log(cacheData)
-
 		if (cacheData.dataLength === 0) {
 			callback(cacheData.cache)
 		} else {
+
+			console.log('cacheData.nextId', cacheData)
 
 			setTimeout(function () {
 				fetchChunk(cacheData.nextId, cache, pollUntilEmpty)
