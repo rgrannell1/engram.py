@@ -16,7 +16,7 @@ const cache = Cache(function (bookmark) {
 
 const fetchChunk = function (maxID, cache, callback) {
 
-	const chunkSize = 20
+	const chunkSize = 200
 	const url       = '/api/bookmarks?maxID=' + maxID + '&amount=' + chunkSize
 
 	$.ajax({
@@ -71,8 +71,6 @@ const syncCache = function (cache, callback) {
 
 
 
-syncCache(cache, function () {
-
-	console.log('loaded all chunks.')
-
+syncCache(cache, function (cache) {
+	console.log('loaded all ' + cache.contents.length + ' chunks.')
 })

@@ -108,7 +108,7 @@ class Cache(object):
 
 			return {
 				'data':   chunk,
-				'nextID': -1 if not chunk else self.getID(min(chunk, key = self.getID)) - 1
+				'nextID': self.getID(min(chunk, key = self.getID)) - 1
 			}
 
 		else:

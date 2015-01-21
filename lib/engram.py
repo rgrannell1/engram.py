@@ -57,7 +57,15 @@ def main():
 		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
 	)
 
-	print api_result
+
+
+
+
+
+	@app.route("/public/html/bookmark-template.html")
+	def serve_template():
+		return open('public/html/bookmark-template.html', 'r').read()
+
 
 
 

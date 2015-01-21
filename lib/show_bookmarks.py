@@ -23,9 +23,12 @@ static_files = {
 
 	'javascript-bottom': [
 		js.jQuery,
+		js.mustache,
 
 		js.cache,
 		js.modifyCache,
+
+		js.drawBookmarks,
 
 		js.updateTimes,
 		js.linkTabHighlight,
@@ -58,7 +61,7 @@ def show_bookmarks(db_result):
 
 	html_result = (
 		search_result
-		.then( lambda rows: html.index(dict({'bookmarks': rows}, **static_files)) )
+		.then( lambda rows: html.index(dict(**static_files)) )
 	)
 
 	if html_result.is_failure():

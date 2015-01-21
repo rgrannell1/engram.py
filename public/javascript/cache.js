@@ -110,6 +110,49 @@ const Cache = function (getID) {
 
 	}
 
+
+
+
+	self.fetchChunk = function (maxID, amount) {
+
+		const chunk = []
+
+		for (var ith = 0; ith < self.contents.length; ++ith) {
+
+			if (getID(self.contents[ith]) <= maxID) {
+				chunk[ith] = self.contents[ith]
+			}
+
+			if (chunk.length >= amount) {
+				break
+			}
+
+		}
+
+		if (chunk.length > 0) {
+
+			const minID = chunk.reduce(function (smallest, current) {
+				return Math.min(smallest, getID(current))
+			}, Infinity)
+
+			return {
+				data:   chunk,
+				nextID: minID - 1
+			}
+		} else {
+			return {
+				data:   chunk,
+				nextID: -1
+			}
+		}
+
+	}
+
+
+
+
+
+
 	return self
 
 }
