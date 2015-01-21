@@ -10,8 +10,12 @@ from bookmark import bookmark
 import datetime
 import utils
 
-import css
 import static
+
+
+
+
+
 
 
 
@@ -24,7 +28,7 @@ static_files = {
 	'javascript-bottom': static.loadJavascript([
 		"jquery",
 		"mustache",
-		"is"
+		"is",
 
 		"engram",
 
@@ -36,7 +40,6 @@ static_files = {
 		"link-tab-highlight",
 
 		"delete-bookmark"
-
 	]),
 
 	'css': static.loadCSS([

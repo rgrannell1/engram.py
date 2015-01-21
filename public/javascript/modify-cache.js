@@ -1,7 +1,35 @@
 
 const cache = Cache(function (bookmark) {
+
+	const id = bookmark.bookmark_id
+
+	if (!is.number(id)) {
+		throw TypeError("id was not a number: " + JSON.stringify(bookmark))
+	}
+	if (id <= 0) {
+		throw RangeError("invalid size for a bookmark id: " + id)
+	}
+
 	return bookmark.bookmark_id
+
 })
+
+
+
+
+
+const bookmarkRequest = function (maxID, amount) {
+
+	if (maxID <= 0) {
+		throw RangeError("attempted to use " + maxID + " as a maxID (too small)")
+	}
+
+	if (amount <= 0) {
+		throw RangeError("attempted to use " + maxID + " as an amount (too small)")
+	}
+
+	return '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
+}
 
 
 
@@ -16,16 +44,16 @@ const cache = Cache(function (bookmark) {
 
 const fetchChunk = function (maxID, cache, callback) {
 
-	const url = '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
+	if (!is.number(maxID)) {
+		throw TypeError('fetchChunk: maxID was not a number (actual value: ' + JSON.stringify(maxID) + ')')
+	}
 
 	$.ajax({
-		url: url,
+		url: bookmarkRequest(maxID, ENGRAM.PERREQUEST),
 		dataType: 'json',
 		success: function (response) {
 
-			response.data.map(function (entry) {
-				cache.add(entry)
-			})
+			response.data.map(cache.add)
 
 			callback({
 				cache:      cache,
@@ -46,8 +74,6 @@ const fetchChunk = function (maxID, cache, callback) {
 
 
 const syncCache = function (cache, callback) {
-
-	const loadInterval   = 500
 
 	const pollUntilEmpty = function (cacheData) {
 
