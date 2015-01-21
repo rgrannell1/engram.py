@@ -1,16 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
 const cache = Cache(function (bookmark) {
 	return bookmark.bookmark_id
 })
@@ -42,8 +30,6 @@ const fetchChunk = function (maxID, cache, callback) {
 				cache.add(entry)
 			})
 
-			console.log('response: ' + JSON.stringify(response))
-
 			callback({
 				cache:      cache,
 				dataLength: response.data.length,
@@ -64,9 +50,11 @@ const fetchChunk = function (maxID, cache, callback) {
 
 const syncCache = function (cache, callback) {
 
+	const biggestInteger = 9007199254740992
+
 	const pollUntilEmpty = function (cacheData) {
 
-		if (cacheData.dataLength === 0) {
+		if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
 			callback(cacheData.cache)
 		} else {
 
@@ -74,13 +62,13 @@ const syncCache = function (cache, callback) {
 
 			setTimeout(function () {
 				fetchChunk(cacheData.nextId, cache, pollUntilEmpty)
-			}, 5000)
+			}, 500)
 
 		}
 
 	}
 
-	fetchChunk(100000, cache, pollUntilEmpty)
+	fetchChunk(biggestInteger, cache, pollUntilEmpty)
 
 }
 
