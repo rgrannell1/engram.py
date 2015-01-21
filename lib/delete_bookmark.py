@@ -13,4 +13,7 @@ def delete_bookmark(db_result, id):
 		.then(lambda id: sql.delete_bookmark(db_result, id))
 	)
 
-	return "", 204
+	if delete_result.is_success():
+		return "", 204
+	else:
+		return "", 500
