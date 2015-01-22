@@ -47,21 +47,15 @@ dependencies = {
 
 
 
-"""
-show_bookmarks :: Database -> string, number
-
-
-"""
 
 def show_bookmarks(db_result):
+	"""
+	return a html page showing the user's bookmarks.
 
-	search_result = (
+	show_bookmarks :: Database -> string, number
 
-		db_result
-		.then(sql.select_bookmarks)
-		.then( lambda rows: [bookmark(row) for row in rows[1:100]] )
-
-	)
+	.
+	"""
 
 	html_result = (
 		search_result
