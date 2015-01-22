@@ -1,7 +1,7 @@
 
 ENGRAM = {}
 // how many bookmarks to append on scroll?
-ENGRAM.PERSCROLL    = 10
+ENGRAM.PERSCROLL    = 20
 ENGRAM.BIGINT       = 9007199254740992
 
 // how many bookmarks to retrieve per request?
@@ -12,3 +12,5 @@ ENGRAM.LOADINTERVAL = 100
 
 // how many milliseconds to transition delete within?
 ENGRAM.DELETEFADE   = 250
+
+ENGRAM.LOADOFFSET   = 10

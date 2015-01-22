@@ -5,8 +5,14 @@
 	is the user scrolled to the bottom of the page?
 */
 
-ENGRAM.viewingBottom = function () {
-	return document.documentElement.clientHeight + $(document).scrollTop() >= document.body.offsetHeight
+ENGRAM.viewingBottom = function (offset) {
+
+	if (is.undefined(offset)) {
+		offset = 0
+	}
+
+	return document.documentElement.clientHeight + $(document).scrollTop() - offset >= document.body.offsetHeight
+
 }
 
 
@@ -40,7 +46,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	const appendBookmarks = function (maxID) {
 
-		if (ENGRAM.viewingBottom()) {
+		if (ENGRAM.viewingBottom(ENGRAM.LOADOFFSET)) {
 
 			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 			chunk.data.map(function (bookmark) {
@@ -56,6 +62,10 @@ $.get('/public/html/bookmark-template.html', function (template) {
 		}
 
 	}
+
+
+
+
 
 	appendBookmarks(ENGRAM.cache.maxID)
 
