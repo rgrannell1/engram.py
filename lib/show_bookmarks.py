@@ -1,15 +1,8 @@
 #!/usr/bin/env python
 
-import sql
 import html
 
 from result import Success, Failure
-from urlparse import urlparse
-from bookmark import bookmark
-
-import datetime
-import utils
-
 import static
 
 
