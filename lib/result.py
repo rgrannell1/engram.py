@@ -151,7 +151,6 @@ class Success(Result):
 
 	def tap(self, fn):
 		"""apply a function to a Result object, but only keep the new result if the call fails.
-
 		"""
 
 		result = self.then(fn)

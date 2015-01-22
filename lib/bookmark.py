@@ -2,6 +2,10 @@
 
 from urlparse import urlparse
 
+
+
+
+
 def bookmark(row):
 
 	hostname = urlparse(row[2]).hostname

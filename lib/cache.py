@@ -21,6 +21,11 @@ class Cache(object):
 
 
 	def has(self, id):
+		"""
+		does the cache contain a particular id/entry?.
+
+		Cache.has :: id -> boolean
+		"""
 		return id in self.ids
 
 
@@ -28,6 +33,11 @@ class Cache(object):
 
 
 	def add(self, entry, sort = True):
+		"""
+		Try to add an entry to the cache.
+
+		Cache.add :: any x boolean -> Result Cache
+		"""
 
 		id = self.getID(entry)
 

@@ -11,22 +11,14 @@ from extract_metadata import extract_metadata
 
 
 
-
-"""
-save_bookmark :: Result Database x string -> string, number
-
-this is a STATEFUL get request, so the error codes are a
-bit screwy. This behaviour is required for browsers to be
-able to send something like
-
-engr.am/http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-
-from the address bar and create a new bookmark.
-"""
-
 def save_bookmark(db_result, path):
 	"""save a bookmark to a database.
 
+	save_bookmark :: Result Database x string -> string, number
+
+	this is triggered by a GET request, so it has perverse
+	behaviour. It returns a 304 when the save succeeds so the
+	browser doesn't leave the current page.
 	"""
 
 	insert_result = (

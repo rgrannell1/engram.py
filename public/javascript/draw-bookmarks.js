@@ -24,6 +24,11 @@ $.get('/public/html/bookmark-template.html', function (template) {
 	const renderBookmark = function (bookmark) {
 		return Mustache.render(template, bookmark)
 	}
+
+
+
+
+
 	/*
 		appendBookmarks :: number -> undefined
 

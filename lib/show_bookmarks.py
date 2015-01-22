@@ -50,10 +50,7 @@ def show_bookmarks(db_result):
 	.
 	"""
 
-	html_result = (
-		search_result
-		.then(lambda rows: html.index(dependencies))
-	)
+	html_result = html.index(dependencies)
 
 	if html_result.is_success():
 		return html_result.from_success(), 200

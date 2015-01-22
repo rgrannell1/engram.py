@@ -4,7 +4,6 @@ import os
 import pystache
 
 from result import Success, Failure
-import utils
 
 
 
