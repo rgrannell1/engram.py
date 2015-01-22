@@ -16,17 +16,14 @@ import static
 
 
 
+dependencies = {
+	'javascript-head': static.loadJS([
 
+	]),
 
-
-
-
-static_files = {
-	'javascript-head': [
-	],
-
-	'javascript-bottom': static.loadJavascript([
+	'javascript-bottom': static.loadJS([
 		"jquery",
+		"jquery-viewport",
 		"mustache",
 		"is",
 
@@ -68,10 +65,10 @@ def show_bookmarks(db_result):
 
 	html_result = (
 		search_result
-		.then( lambda rows: html.index(dict(**static_files)) )
+		.then(lambda rows: html.index(dependencies))
 	)
 
-	if html_result.is_failure():
-		return "arrgh!", 500
-	else:
+	if html_result.is_success():
 		return html_result.from_success(), 200
+	else:
+		return "something went terribly wrong!", 500

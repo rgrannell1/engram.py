@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-from result import Success, Failure
-from cache  import Cache
+from result   import Success, Failure
+from cache    import Cache
 
-import bookmark
+from bookmark import bookmark, getID
 import sql
 
 
@@ -11,10 +11,15 @@ import sql
 
 
 def fill_cache(db_result):
+	"""fill_cache :: Result Database -> Result Cache
+
+	given a database result, extract each row and
+	insert it into a cache object.
+	"""
 
 	return (
 		Success(db_result)
 		.then(sql.select_bookmarks)
-		.then(lambda rows: [bookmark.bookmark(row) for row in rows])
-		.then(Cache(bookmark.getID).addAll)
+		.then(lambda rows: [bookmark(row) for row in rows])
+		.then(Cache(getID).addAll)
 	)

@@ -21,7 +21,19 @@ from delete_bookmark  import delete_bookmark
 
 
 
+
+
+
+
+
 def index(app, db_result):
+	"""
+	/
+
+	redirects to /bookmarks
+
+	"""
+
 	@app.route("/", defaults = {'path': ''})
 	def index_page():
 
@@ -67,9 +79,10 @@ def public(app):
 	@app.route('/public/<resource_type>/<resource>')
 	def serve_resource(resource_type, resource):
 
-		print '/public/' + resource_type + '/' + resource
-
 		fpath = os.path.join('public', resource_type, resource)
+
+		print fpath
+
 		return open(fpath, 'r').read()
 
 

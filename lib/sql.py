@@ -131,12 +131,10 @@ def select_bookmarks(conn):
 	# -- but the allowed column inputs are screened for earlier, and the boolean
 	# -- parametre is handled here.
 
-	query  = sql['select_bookmarks']
-
 	return (
 
 		Success(conn)
-		.then( lambda conn: conn.execute(query) )
+		.then( lambda conn: conn.execute(sql['select_bookmarks']) )
 		.then( lambda cursor: cursor.fetchall())
 
 	)
