@@ -51,14 +51,14 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 			chunk.data.map(function (bookmark) {
 
-				const elem = $('<div></div>', {
+				const viewgroup = $('<div></div>', {
 					'id':    maxID,
 					'class': 'viewgroup'
 				})
 
-				elem.append(renderBookmark(bookmark))
+				viewgroup.append(renderBookmark(bookmark))
 
-				$('#content').append(elem)
+				$('#content').append(viewgroup)
 
 				// rebind scroll handler.
 				$(document).off('scroll')
