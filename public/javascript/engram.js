@@ -1,4 +1,10 @@
 
+// add 'use strict'?
+
+
+
+
+
 ENGRAM = {}
 // how many bookmarks to append on scroll?
 ENGRAM.PERSCROLL    = 20
