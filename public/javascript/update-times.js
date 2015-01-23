@@ -16,10 +16,7 @@ ENGRAM.updateTimers = ( function () {
 		second: 1,
 		minute: 60,
 		hour:   3600,
-		day:    24 * 3600,
-
-		tickerPattern: 'class[tickrate^="tickrate-"]'
-
+		day:    24 * 3600
 	}
 
 
@@ -106,6 +103,11 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	const elapsedTime = function (elem) {
+
+		if (is.undefined(elem)) {
+			throw "elapsedTime: elem was undefined."
+		}
+
 		return formatInterval( secondsBetween(new Date, extractTime(elem)) )
 	}
 
@@ -123,7 +125,12 @@ ENGRAM.updateTimers = ( function () {
 
 	const showTime = function ($time) {
 
+		if (is.undefined($time)) {
+			throw "showTime: $time was undefined."
+		}
+
 		const elapsed = elapsedTime($time)
+
 		$time.text(elapsed)
 
 	}
@@ -140,6 +147,14 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	const updateJobs = function (viewgroup_id, $time) {
+
+		if (is.undefined($time)) {
+			throw "updateJobs: $time was undefined."
+		}
+
+
+
+
 
 		showTime($time)
 
@@ -182,6 +197,10 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	const forEachActiveTime = function (callback) {
+
+		if (!is.function(callback)) {
+			throw "forEachActiveTime: non-callback argument." + JSON.stringify(callback)
+		}
 
 		$('.viewgroup:in-viewport', function () {
 			$('time').each(callback)
