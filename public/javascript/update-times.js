@@ -1,90 +1,214 @@
 
+ENGRAM.timerJob = []
 
 
 
 
 
 
-/*
-	assignRates
+ENGRAM.updateTimers = ( function () {
 
-	give each time tag a rate class, to determine how
-	often it should be updated.
+	const constants = {
+		months: [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+		],
+		second: 1,
+		minute: 60,
+		hour:   3600,
+		day:    24 * 3600,
 
-*/
+		tickerPattern: 'class[tickrate^="tickrate-"]'
 
-const assignRates = function () {
-
-	const $time = $('time')
-	$time.each(function (ith, elem) {
-		$(elem).addClass(elapsedTime(elem).unit)
-	})
-
-}
-
-
-
-
-
-const tick = ( function () {
-
-	var self = {}
-
-	const ticker = function (source, target) {
-		return function () {
-
-			const $time = $('.' + source)
-
-			$time.each(function (ith, elem) {
-
-				const elapsed = elapsedTime(elem)
-
-				if (elapsed.unit === target) {
-
-					$(elem).removeClass('.' + source).addClass(target)
-					self[target]()
-
-				} else {
-
-					$(elem).text(elapsed.message)
-
-				}
-
-			})
-
-		}
 	}
 
-	self['tickrate-second'] = self.second = ticker('tickrate-second', 'tickrate-minute')
-	self['tickrate-minute'] = self.minute = ticker('tickrate-minute', 'tickrate-hour')
-	self['tickrate-hour']   = self.hour   = ticker('tickrate-hour',   'tickrate-day')
-	self['tickrate-day']    = self.day    = ticker('tickrate-day',    'tickrate-year')
-
-	return self
-
-} )()
 
 
 
 
+	/*
+		formatInterval :: number -> string
+
+		given a number of seconds a human-readable time interval representation.
+
+		For example,
+
+		13    => 13s
+		120   => 2m
+		10000 => June 18
+
+	*/
+
+	const formatInterval = function (sec) {
+
+		if (sec < constants.minute) {
+
+			return sec + 's'
+
+		} else if (sec < constants.hour) {
+
+			return Math.round(sec / constants.minute) + 'm'
+
+		} else if (sec < constants.day) {
+
+			return Math.round(sec / constants.hour) + 'h'
+
+		} else {
+
+			const ctime = new Date(new Date - (1000 * sec))
+
+			return constants.months[ctime.getMonth()] + " " + ctime.getDate()
+
+		}
+
+	}
+
+
+
+
+
+	/*
+		extractTime :: element -> Date
+
+		get a javascript date from a <time> tag's data-ctime attribute.
+
+	*/
+	const extractTime = function (time) {
+		const ctime = $(time).attr('data-ctime')
+		return new Date(parseInt(ctime, 10) * 1000)
+	}
+
+
+
+
+
+	/*
+		secondsBetween :: Date x Date -> number
+
+		get the time interval between two dates to the nearest second.
+
+	*/
+
+	const secondsBetween = function (recent, old) {
+		return Math.floor((recent.getTime() - old.getTime() ) / 1000)
+	}
 
 
 
 
 
 
-assignRates()
+	/*
+		elapsedTime :: TimeTag -> message: string
 
-tick.second()
-tick.minute()
-tick.hour()
-tick.day()
+		given a time element, give the difference in that time from
+		the present.
+	*/
+
+	const elapsedTime = function (elem) {
+		return formatInterval( secondsBetween(new Date, extractTime(elem)) )
+	}
 
 
 
-const tickerPids = {
-	second: setInterval(tick.second, 1000),
-	minute: setInterval(tick.minute, constants.minute * 1000),
-	hour:   setInterval(tick.hour,   constants.hour   * 1000),
-	day:    setInterval(tick.day,    constants.day    * 1000)
-}
+
+
+	/*
+		showTime :: time -> undefined
+
+		update the text of a time element to show
+		the current time or time difference in a human-readable format.
+
+	*/
+
+	const showTime = function ($time) {
+
+		const elapsed = elapsedTime($time)
+		$time.text(elapsed)
+
+	}
+
+
+
+
+
+	/*
+		updateJobs :: number -> [{viewgroup_id: number, pid: number}]
+
+		update the data structure keeping track of which time elements
+		are currently being updated via setIntervals.
+	*/
+
+	const updateJobs = function (viewgroup_id, $time) {
+
+		showTime($time)
+
+		const job = {
+			viewgroup_id: viewgroup_id,
+			pid:          setInterval(showTime.bind(null, $time), 1000)
+		}
+
+		return ENGRAM.timerJob
+			.map(function (job) {
+				// remove timer intervals not on screen.
+
+				if (job.viewgroup_id !== viewgroup_id) {
+					clearInterval(job.pid)
+				}
+
+				return job
+
+			})
+			.filter(function (job){
+				// delete corresponding element in timerJob
+
+				return job.viewgroup_id === viewgroup_id
+
+			})
+			.concat(job)
+
+	}
+
+
+
+
+
+	/*
+		forEachActiveTime :: undefined -> undefined
+
+		apply a function to each time element currently
+		in the viewport.
+
+	*/
+
+	const forEachActiveTime = function (callback) {
+
+		$('.viewgroup:in-viewport', function () {
+			$('time').each(callback)
+		})
+
+	}
+
+
+
+
+
+	/*
+		updateTimers :: undefined -> undefined
+
+		update each time in the viewport.
+
+	*/
+
+	return function () {
+
+		forEachActiveTime(function () {
+
+			const viewgroup_id = $(this).closest('.viewgroup').attr('id')
+			ENGRAM.timerJob    = updateJobs(viewgroup_id, $(this))
+
+		})
+
+	}
+
+})()
