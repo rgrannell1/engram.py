@@ -8,6 +8,12 @@ ENGRAM.timerJob = []
 
 ENGRAM.updateTimers = ( function () {
 
+
+
+
+
+
+
 	const constants = {
 		months: [
 			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -71,8 +77,7 @@ ENGRAM.updateTimers = ( function () {
 
 	*/
 	const extractTime = function (time) {
-		const ctime = $(time).attr('data-ctime')
-		return new Date(parseInt(ctime, 10) * 1000)
+		return new Date(parseInt($(time).attr('data-ctime'), 10) * 1000)
 	}
 
 
@@ -129,9 +134,7 @@ ENGRAM.updateTimers = ( function () {
 			throw "showTime: $time was undefined."
 		}
 
-		const elapsed = elapsedTime($time)
-
-		$time.text(elapsed)
+		$time.text(elapsedTime($time))
 
 	}
 
@@ -152,16 +155,7 @@ ENGRAM.updateTimers = ( function () {
 			throw "updateJobs: $time was undefined."
 		}
 
-
-
-
-
 		showTime($time)
-
-		const job = {
-			viewgroup_id: viewgroup_id,
-			pid:          setInterval(showTime.bind(null, $time), 1000)
-		}
 
 		return ENGRAM.timerJob
 			.map(function (job) {
@@ -180,7 +174,10 @@ ENGRAM.updateTimers = ( function () {
 				return job.viewgroup_id === viewgroup_id
 
 			})
-			.concat(job)
+			.concat({
+				viewgroup_id: viewgroup_id,
+				pid:          setInterval(showTime.bind(null, $time), 1000)
+			})
 
 	}
 
