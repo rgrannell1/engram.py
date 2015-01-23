@@ -19,4 +19,6 @@ ENGRAM.LOADINTERVAL = 100
 // how many milliseconds to transition delete within?
 ENGRAM.DELETEFADE   = 250
 
+// how many pixels do you have to be from the botton of the
+// page to load some more bookmarks?
 ENGRAM.LOADOFFSET   = 10

@@ -9,6 +9,8 @@ ENGRAM.viewingBottom = function (offset) {
 
 	if (is.undefined(offset)) {
 		offset = 0
+	} else if (!is.number(offset)) {
+		throw TypeError('viewingBottom:' + JSON.stringify(offset) + ' was not a number.')
 	}
 
 	return document.documentElement.clientHeight + $(document).scrollTop() - offset >= document.body.offsetHeight
@@ -20,6 +22,14 @@ ENGRAM.viewingBottom = function (offset) {
 
 
 $.get('/public/html/bookmark-template.html', function (template) {
+
+	if (!is.string(template)) {
+		throw TypeError('template loading failed (loaded a non-string value)')
+	}
+
+
+
+
 
 	const nudge = function () {
 		$(window).scrollTop($(window).scrollTop() + 1)
@@ -49,6 +59,10 @@ $.get('/public/html/bookmark-template.html', function (template) {
 	*/
 
 	const appendBookmarks = function (maxID) {
+
+		if (!is.number(maxID)) {
+			throw TypeError('appendBookmarks: ' + maxID + ' was not a number.')
+		}
 
 		if (ENGRAM.viewingBottom(ENGRAM.LOADOFFSET)) {
 

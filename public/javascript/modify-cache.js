@@ -1,5 +1,6 @@
 
 ENGRAM.cache = ENGRAM.Cache(function (bookmark) {
+	// this callback takes a bookmark and gives you its id.
 
 	const id = bookmark.bookmark_id
 
