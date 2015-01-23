@@ -21,6 +21,10 @@ ENGRAM.viewingBottom = function (offset) {
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
+	const nudge = function () {
+		$(window).scrollTop($(window).scrollTop() + 1)
+	}
+
 	/*
 		renderBookmark :: Bookmark -> string
 
@@ -65,7 +69,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 				$(document).on('scroll', appendBookmarks.bind(null, chunk.nextID))
 				$(document).on('scroll', ENGRAM.updateTimers)
 
-				$(window).scrollTop($(window).scrollTop() + 1); // this sucks.
+				nudge() // this sucks; an awful way of triggering this code.
 
 			})
 		}

@@ -158,7 +158,6 @@ ENGRAM.updateTimers = ( function () {
 
 		return ENGRAM.timerJob
 			.map(function (job) {
-				// remove timer intervals not on screen.
 
 				if (job.viewgroup_id !== viewgroup_id) {
 					clearInterval(job.pid)
@@ -168,10 +167,7 @@ ENGRAM.updateTimers = ( function () {
 
 			})
 			.filter(function (job){
-				// delete corresponding element in timerJob
-
 				return job.viewgroup_id === viewgroup_id
-
 			})
 			.concat({
 				viewgroup_id: viewgroup_id,
@@ -214,14 +210,12 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	return function () {
-
 		forEachActiveTime(function () {
 
-			const viewgroup_id = $(this).closest('.viewgroup').attr('id')
-			ENGRAM.timerJob    = updateJobs(viewgroup_id, $(this))
+			$this = $(this)
+			ENGRAM.timerJob = updateJobs($this.closest('.viewgroup').attr('id'), $this)
 
 		})
-
 	}
 
 })()
