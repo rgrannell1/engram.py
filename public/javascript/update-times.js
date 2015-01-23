@@ -202,9 +202,7 @@ ENGRAM.updateTimers = ( function () {
 			throw "forEachActiveTime: non-callback argument." + JSON.stringify(callback)
 		}
 
-		$('.viewgroup:in-viewport', function () {
-			$('time').each(callback)
-		})
+		$('.viewgroup:in-viewport time').each(callback)
 
 	}
 
@@ -231,3 +229,9 @@ ENGRAM.updateTimers = ( function () {
 	}
 
 })()
+
+
+
+
+
+$(window).scrollTop($(window).scrollTop() + 1);

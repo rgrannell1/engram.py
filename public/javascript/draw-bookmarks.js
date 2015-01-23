@@ -65,6 +65,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 				$(document).on('scroll', appendBookmarks.bind(null, chunk.nextID))
 				$(document).on('scroll', ENGRAM.updateTimers)
 
+				$(window).scrollTop($(window).scrollTop() + 1); // this sucks.
+
 			})
 		}
 	}
@@ -72,4 +74,5 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 	appendBookmarks(ENGRAM.cache.maxID)
+
 })
