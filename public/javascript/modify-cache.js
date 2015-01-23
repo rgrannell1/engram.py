@@ -89,7 +89,7 @@ ENGRAM.syncCache = ( function () {
 
 			},
 			failure: function (response) {
-				throw "chunk didn't load."
+				throw "internal error: chunk didn't load."
 			}
 		})
 
@@ -118,10 +118,6 @@ ENGRAM.syncCache = ( function () {
 		requestChunk(ENGRAM.BIGINT, cache, loadAllChunks)
 
 	}
-
-
-
-
 
 } )()
 

@@ -224,4 +224,4 @@ ENGRAM.updateTimers = ( function () {
 
 
 
-$(window).scrollTop($(window).scrollTop() + 1);
+$(window).scrollTop($(window).scrollTop() + 1) // terrible.
