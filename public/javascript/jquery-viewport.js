@@ -20,10 +20,7 @@ const inView = ( function () {
 	}
 
 	return function ($elems) {
-
-		var top = $window.scrollTop()
-		return $elems.filter(elemInView.bind(null, top))
-
+		return $elems.filter( elemInView.bind(null, $window.scrollTop()) )
 	}
 
 } )()
