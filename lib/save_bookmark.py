@@ -19,12 +19,14 @@ def save_bookmark(db_result, path):
 	this is triggered by a GET request, so it has perverse
 	behaviour. It returns a 304 when the save succeeds so the
 	browser doesn't leave the current page.
+
+	This is bad when you are already on the page generated upon
+	failure, and then you get the result right it doesn't update.
 	"""
 
-	url_result    = Success(path).tap(urlparse)
-
 	insert_result = (
-		url_result
+		Success(path)
+		.tap(urlparse)
 		.then(extract_metadata)
 		.then( lambda title: sql.insert_bookmark(db_result, title, path, utils.now()) )
 	)
