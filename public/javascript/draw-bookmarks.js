@@ -67,6 +67,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 		if (ENGRAM.viewingBottom(ENGRAM.LOADOFFSET)) {
 
 			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+
 			chunk.data.map(function (bookmark) {
 
 				const viewgroup = $('<div></div>', {

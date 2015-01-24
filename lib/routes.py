@@ -28,24 +28,27 @@ from delete_bookmark  import delete_bookmark
 
 def index(app, db_result):
 	"""
-	/
+	GET /
 
 	redirects to /bookmarks
-
 	"""
 
-	@app.route("/", defaults = {'path': ''})
+	@app.route("/")
 	def index_page():
 
 		print '/'
-
-		return redirect(url_for('bookmark_page'))
+		return redirect('/bookmarks')
 
 
 
 
 
 def bookmarks_api_route(app, cache):
+	"""
+	GET /api/bookmarks
+
+	api aspects of bookmarks.
+	"""
 
 	@app.route("/api/bookmarks")
 	def bookmarks_api():
@@ -65,6 +68,9 @@ def bookmarks_api_route(app, cache):
 
 
 def delete(app, db_result):
+	"""
+	DELETE /bookmarks/:id
+	"""
 
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
 	def delete_route(id):
@@ -75,6 +81,11 @@ def delete(app, db_result):
 
 
 def public(app):
+	"""
+	GET /public/:resourcetype/:resource
+
+	return a public javascript/css/html resource.
+	"""
 
 	@app.route('/public/<resource_type>/<resource>')
 	def serve_resource(resource_type, resource):
@@ -90,6 +101,12 @@ def public(app):
 
 
 def bookmarks(app, db_result):
+	"""
+	GET /bookmarks
+
+	return a page displaying all saved bookmarks.
+	"""
+
 	@app.route("/bookmarks")
 	def bookmark_page():
 
@@ -102,6 +119,12 @@ def bookmarks(app, db_result):
 
 
 def favicon(app, db_result):
+	"""
+	GET /favicon.ico
+
+	return a favicon.
+	"""
+
 	@app.route("/favicon.ico")
 	def favicon():
 
@@ -114,9 +137,12 @@ def favicon(app, db_result):
 
 
 def default(app, db_result):
-	@app.route("/<string:path>")
+	"""
+	/<path>
+
+	fallback route. Save the bookmark.
+	"""
+
+	@app.route("/save/<path>")
 	def default_route(path):
-
-		print path
-
 		return save_bookmark(db_result, path)
