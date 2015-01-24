@@ -168,6 +168,8 @@ ENGRAM.updateTimers = ( function () {
 				pid:          setInterval(showTime.bind(null, $time), 1000)
 			})
 
+			// todo: add a slower tick rate.
+
 	}
 
 
