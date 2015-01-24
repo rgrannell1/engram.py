@@ -188,13 +188,17 @@ ENGRAM.updateTimers = ( function () {
 
 	*/
 
+
+
+
+
 	const forEachActiveTime = function (callback) {
 
 		if (!is.function(callback)) {
 			throw "forEachActiveTime: non-callback argument." + JSON.stringify(callback)
 		}
 
-		$('.viewgroup:in-viewport time').each(callback)
+		inView($('.viewgroup')).find('time').each(callback)
 
 	}
 

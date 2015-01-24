@@ -11,6 +11,8 @@ from urlparse         import urlparse
 
 
 
+
+
 def save_bookmark(db_result, path):
 	"""save a bookmark to a database.
 
