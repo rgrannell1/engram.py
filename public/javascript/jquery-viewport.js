@@ -10,17 +10,18 @@ const inView = ( function () {
 
 	const $window = $(window)
 
-	const elemInView = function (top) {
-
-		var $this   = $(this)
-		var offset  = $this.offset()
-
-		return top < (offset.top + $this.height()) && ($window.height() + top) > offset.top
-
-	}
-
 	return function ($elems) {
-		return $elems.filter( elemInView.bind(null, $window.scrollTop()) )
+
+		const top = $window.scrollTop()
+
+		return $elems.filter( function () {
+
+			var $this   = $(this)
+			var offset  = $this.offset()
+
+			return top < (offset.top + $this.height()) && ($window.height() + top) > offset.top
+
+		} )
 	}
 
 } )()
