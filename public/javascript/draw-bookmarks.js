@@ -81,8 +81,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 				// rebind scroll handler.
 				$(document).off('scroll')
-				$(document).on('scroll', appendBookmarks.bind(null, chunk.nextID))
-				$(document).on('scroll', ENGRAM.updateTimers)
+				$(document).on( 'scroll', appendBookmarks.bind(null, chunk.nextID) )
+				$(document).on( 'scroll', ENGRAM.updateTimers.bind(null, $('.viewgroup')) )
 
 				nudge() // this sucks; an awful way of triggering this code.
 

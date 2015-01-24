@@ -7,12 +7,6 @@ ENGRAM.timerJob      = []
 
 ENGRAM.updateTimers = ( function () {
 
-
-
-
-
-
-
 	const constants = {
 		months: [
 			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -192,13 +186,13 @@ ENGRAM.updateTimers = ( function () {
 
 
 
-	const forEachActiveTime = function (callback) {
+	const forEachActiveTime = function ($viewgroup, callback) {
 
 		if (!is.function(callback)) {
 			throw "forEachActiveTime: non-callback argument." + JSON.stringify(callback)
 		}
 
-		inView($('.viewgroup')).find('time').each(callback)
+		inView($viewgroup).find('time').each(callback)
 
 	}
 
@@ -213,8 +207,8 @@ ENGRAM.updateTimers = ( function () {
 
 	*/
 
-	return function () {
-		forEachActiveTime(function () {
+	return function ($viewgroup) {
+		forEachActiveTime($viewgroup, function () {
 
 			$this = $(this)
 			ENGRAM.timerJob = updateJobs($this.closest('.viewgroup').attr('id'), $this)
