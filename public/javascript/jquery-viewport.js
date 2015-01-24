@@ -1,9 +1,7 @@
-
-
 /*
-	inView :: [elem] -> [elem]
+        inView :: [elem] -> [elem]
 
-	select DOM elements that match the user's y scroll position.
+        select DOM elements that match the user's y scroll position.
 */
 
 const inView = ( function () {
@@ -25,5 +23,3 @@ const inView = ( function () {
 	}
 
 } )()
-
-
