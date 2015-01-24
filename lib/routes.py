@@ -75,9 +75,12 @@ def delete(app, db_result):
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
 	def delete_route(id):
 
-		print 'DELETE /bookmarks/' + id
+		print 'DELETE /bookmarks/' + str(id)
 
 		return delete_bookmark(db_result, id)
+
+
+
 
 
 def public(app):

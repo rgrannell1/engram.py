@@ -5,7 +5,7 @@ ENGRAM.timerJob      = []
 
 
 
-ENGRAM.updateTimers = ( function () {
+ENGRAM.updateTimers = ( function ( ) {
 
 	const constants = {
 		months: [
@@ -53,7 +53,7 @@ ENGRAM.updateTimers = ( function () {
 
 			const ctime = new Date(new Date - (1000 * sec))
 
-			return constants.months[ctime.getMonth()] + " " + ctime.getDate()
+			return constants.months[ctime.getMonth( )] + " " + ctime.getDate( )
 
 		}
 
@@ -85,7 +85,7 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	const secondsBetween = function (recent, old) {
-		return Math.floor((recent.getTime() - old.getTime() ) / 1000)
+		return Math.floor((recent.getTime( ) - old.getTime( ) ) / 1000)
 	}
 
 
@@ -210,7 +210,7 @@ ENGRAM.updateTimers = ( function () {
 	*/
 
 	return function ($viewgroup) {
-		forEachActiveTime($viewgroup, function () {
+		forEachActiveTime($viewgroup, function ( ) {
 
 			$this = $(this)
 			ENGRAM.timerJob = updateJobs($this.closest('.viewgroup').attr('id'), $this)
@@ -218,10 +218,10 @@ ENGRAM.updateTimers = ( function () {
 		})
 	}
 
-})()
+})( )
 
 
 
 
 
-$(window).scrollTop($(window).scrollTop() + 1) // terrible.
+$(window).scrollTop($(window).scrollTop( ) + 1) // terrible.
