@@ -143,6 +143,6 @@ def default(app, db_result):
 	fallback route. Save the bookmark.
 	"""
 
-	@app.route("/save/<path>")
+	@app.route("/<path:path>")
 	def default_route(path):
 		return save_bookmark(db_result, path)
