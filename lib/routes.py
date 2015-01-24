@@ -93,11 +93,9 @@ def public(app):
 	@app.route('/public/<resource_type>/<resource>')
 	def serve_resource(resource_type, resource):
 
-		fpath = os.path.join('public', resource_type, resource)
+		print '/public/' + resource_type + '/' + resource
 
-		print fpath
-
-		return open(fpath, 'r').read()
+		return open(os.path.join('public', resource_type, resource), 'r').read()
 
 
 
