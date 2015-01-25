@@ -1,23 +1,22 @@
 
 import time
 
-from result           import Success, Failure
-from flask            import Flask, redirect, url_for, request, jsonify
+from result            import Success, Failure
+from flask             import Flask, redirect, url_for, request, jsonify
 
-from database         import Database
+from database          import Database
 
 import routes
 import sql
 import html
-import os
 
-from show_bookmarks   import show_bookmarks
-from save_bookmark    import save_bookmark
+from show_bookmarks    import show_bookmarks
+from save_bookmark     import save_bookmark
 
-from extract_metadata import extract_metadata
-from delete_bookmark  import delete_bookmark
-from fetch_chunk      import fetch_chunk
-
+from extract_metadata  import extract_metadata
+from delete_bookmark   import delete_bookmark
+from fetch_chunk       import fetch_chunk
+from serve_public_file import serve_public_file
 
 
 
@@ -91,7 +90,7 @@ def public(app):
 
 		print '/public/' + resource_type + '/' + resource
 
-		return open(os.path.join('public', resource_type, resource), 'r').read()
+		return serve_public_file(resource_type, resource)
 
 
 

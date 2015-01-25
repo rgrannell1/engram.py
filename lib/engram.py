@@ -7,7 +7,6 @@ from result     import Success, Failure
 from flask      import Flask, redirect, url_for, request
 
 from database   import Database
-from fill_cache import fill_cache
 
 import routes
 import sql
