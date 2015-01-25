@@ -82,7 +82,7 @@ const rarity = function (query) {
 	so the probability of a given ascii string of length n times the number of
 	of substrings of length n in B gives the probability that A is found in B.
 
-	The term (95^-n) is a lousy estimation of the likelyhood of a given query;
+	The term (95^-n) is a lousy estimation of the likelihood of a given query;
 	"~~~" is a less likely query than "eee".
 
 	Instead the 'unlikelyness' of a query is calculated as 1 / freq(a_0) x freq(a_1)
@@ -93,8 +93,12 @@ const rarity = function (query) {
 
 */
 
-const likelyhood = function (query, pattern) {
-	return rarity(query) * achoose(pattern.length, query.length)
+const likelihood = function (query, pattern) {
+	// product rule: log(rarity) + log(|pattern| choose |query|) = log(rarity * (|pattern| choose |query|))
+	// then e^ln(x * y) = x * y
+	// ultimately computes rarity x (|pattern| choose |query|) without the right term overflowing.
+
+	return Math.exp( (Math.log(rarity(query)) + lnChoose(pattern.length, query.length)) );
 }
 
 
@@ -119,14 +123,14 @@ const searchMatches = function (getText, query, cache) {
 		.map(function (bookmark) {
 			return {
 				bookmark:   getText(bookmark),
-				likelyhood: likelyhood(query, getText(bookmark))
+				likelihood: likelihood(query, getText(bookmark))
 			}
 		})
 		.filter(function (data) {
-			return data.likelyhood < 1 / 100
+			return data.likelihood < 10
 		})
 		.sort(function (bookmark0, bookmark1) {
-			return bookmark0.likelyhood - bookmark1.likelyhood
+			return bookmark0.likelihood - bookmark1.likelihood
 		})
 		.reverse()
 
