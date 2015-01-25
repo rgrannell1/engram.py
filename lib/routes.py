@@ -1,8 +1,6 @@
 
-import time
-
 from result            import Success, Failure
-from flask             import Flask, redirect, url_for, request, jsonify
+from flask             import redirect, request
 
 from database          import Database
 
@@ -126,7 +124,7 @@ def favicon(app, db):
 
 		print '/favicon.ico'
 
-		return "", 404
+		return "no available favicon.", 404
 
 
 
@@ -142,8 +140,3 @@ def default(app, db):
 	@app.route("/<path:path>")
 	def default_route(path):
 		return save_bookmark(db, path)
-
-
-
-
-
