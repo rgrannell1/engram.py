@@ -117,7 +117,6 @@ def insert_bookmark(db, title, url, ctime):
 
 		Success(db)
 		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
-		.then(lambda db: db.execute(sql['select_max_bookmark_id']) )
 
 	)
 

@@ -14,7 +14,7 @@ from bookmark import bookmark, getID
 
 
 
-def save_bookmark(db, cache, url):
+def save_bookmark(db, url):
 	"""save a bookmark to a database.
 
 	save_bookmark :: Result Database x string -> string, number
@@ -27,32 +27,19 @@ def save_bookmark(db, cache, url):
 	failure, and then you get the result right it doesn't update.
 	"""
 
-
-	# -- todo clean up this nastiness. There is no need for the cache layer.
-
 	title_result  = (
 		Success(url)
 		.tap(urlparse)
 		.then(extract_metadata)
-		.then( lambda title: [db, title, url, utils.now()] )
 	)
 
 	insert_result = (
 		title_result
+		.then( lambda title: [db, title, url, utils.now()] )
 		.then( lambda data: sql.insert_bookmark(data[0], data[1], data[2], data[3]) )
-		.then( lambda  row: list(row)[0][0] )
 	)
 
-	cache_result = (
-		title_result
-		.then( lambda data: [insert_result.from_success()] + data[1:] )
-		.then( lambda data: cache.add(bookmark(data) ))
-	)
-
-
-	# -- todo RETURN THE INSERTED ROW AND ADD TO CACHE.
-
-	if cache_result.is_failure():
+	if insert_result.is_failure():
 
 		message = "failed to add %s: '%s'" % (url, insert_result.from_failure())
 		return message, 500

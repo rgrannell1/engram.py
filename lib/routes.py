@@ -63,7 +63,7 @@ def bookmarks_api_route(app, db):
 
 
 
-def delete(app, db, cache):
+def delete(app, db):
 	"""
 	DELETE /bookmarks/:id
 	"""
@@ -73,7 +73,7 @@ def delete(app, db, cache):
 
 		print 'DELETE /bookmarks/' + str(id)
 
-		return delete_bookmark(db, cache, id)
+		return delete_bookmark(db, id)
 
 
 
@@ -133,7 +133,7 @@ def favicon(app, db):
 
 
 
-def default(app, db, cache):
+def default(app, db):
 	"""
 	/<path>
 
@@ -142,7 +142,7 @@ def default(app, db, cache):
 
 	@app.route("/<path:path>")
 	def default_route(path):
-		return save_bookmark(db, cache, path)
+		return save_bookmark(db, path)
 
 
 
