@@ -85,14 +85,14 @@ sql = {
 
 
 
-def create_tables(conn):
+def create_tables(db):
 
 	return (
 
-		Success(conn)
-		.tap( lambda conn: conn.commit(sql['create_table_archives']) )
-		.tap( lambda conn: conn.commit(sql['create_table_bookmarks']) )
-		.tap( lambda conn: conn.commit(sql['create_table_bookmark_archives']) )
+		Success(db)
+		.tap( lambda db: db.commit(sql['create_table_archives']) )
+		.tap( lambda db: db.commit(sql['create_table_bookmarks']) )
+		.tap( lambda db: db.commit(sql['create_table_bookmark_archives']) )
 
 	)
 
@@ -100,24 +100,24 @@ def create_tables(conn):
 
 
 
-def insert_bookmark(conn, title, url, ctime):
+def insert_bookmark(db, title, url, ctime):
 
 	return (
 
-		Success(conn)
-		.tap(lambda conn: conn.commit(sql['insert_bookmark'], (title, url, ctime)) )
+		Success(db)
+		.tap(lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
 
 	)
 
 
 
 
-def insert_archive(conn, bookmark_id, content, ctime):
+def insert_archive(db, bookmark_id, content, ctime):
 
 	return (
 
-		Success(conn)
-		.tap( lambda conn: conn.commit(sql['insert_archive'], (bookmark_id, content, ctime)) )
+		Success(db)
+		.tap( lambda db: db.commit(sql['insert_archive'], (bookmark_id, content, ctime)) )
 
 	)
 
@@ -125,7 +125,7 @@ def insert_archive(conn, bookmark_id, content, ctime):
 
 
 
-def select_bookmarks(conn):
+def select_bookmarks(db):
 
 	# -- be careful; this is almost SQL injection,
 	# -- but the allowed column inputs are screened for earlier, and the boolean
@@ -133,8 +133,8 @@ def select_bookmarks(conn):
 
 	return (
 
-		Success(conn)
-		.then( lambda conn: conn.execute(sql['select_bookmarks']) )
+		Success(db)
+		.then( lambda db: db.execute(sql['select_bookmarks']) )
 		.then( lambda cursor: cursor.fetchall())
 
 	)
@@ -143,9 +143,9 @@ def select_bookmarks(conn):
 
 
 
-def delete_bookmark(conn, id):
+def delete_bookmark(db, id):
 
 	return (
-		Success(conn)
-		.tap( lambda conn: conn.commit(sql['delete_bookmark'], (id, )) )
+		Success(db)
+		.tap( lambda db: db.commit(sql['delete_bookmark'], (id, )) )
 	)

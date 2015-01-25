@@ -105,7 +105,7 @@ def public(app):
 
 
 
-def bookmarks(app, db):
+def bookmarks(app):
 	"""
 	GET /bookmarks
 
@@ -117,7 +117,7 @@ def bookmarks(app, db):
 
 		print '/bookmarks'
 
-		return show_bookmarks(db)
+		return show_bookmarks()
 
 
 

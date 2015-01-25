@@ -29,7 +29,7 @@ def main():
 
 		.tap( lambda pair: routes.delete             (pair[0], pair[1]) )
 		.tap( lambda pair: routes.index              (pair[0]) )
-		.tap( lambda pair: routes.bookmarks          (pair[0], pair[1]) )
+		.tap( lambda pair: routes.bookmarks          (pair[0]) )
 		.tap( lambda pair: routes.favicon            (pair[0], pair[1]) )
 		.tap( lambda pair: routes.public             (pair[0]) )
 		.tap( lambda pair: routes.default            (pair[0], pair[1]) )

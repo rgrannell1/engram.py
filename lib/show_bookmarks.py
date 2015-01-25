@@ -41,7 +41,7 @@ dependencies = {
 
 
 
-def show_bookmarks(db_result):
+def show_bookmarks():
 	"""
 	return a html page showing the user's bookmarks.
 
