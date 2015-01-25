@@ -22,4 +22,5 @@ def delete_bookmark(db, cache, id):
 	if delete_result.is_success():
 		return "", 204
 	else:
+		print delete_result
 		return "", 500

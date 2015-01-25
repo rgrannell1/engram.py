@@ -74,8 +74,6 @@ class Cache(object):
 
 	def remove(self, id):
 
-		id = self.getID(entry)
-
 		if self.has(id):
 
 			id_ith = self.ids.index(id)

@@ -27,7 +27,7 @@ def main():
 
 		Success(app).cross([db_result, cache_result])
 
-		.tap( lambda pair: routes.delete             (pair[0], pair[1]) )
+		.tap( lambda pair: routes.delete             (pair[0], pair[1], pair[2]) )
 		.tap( lambda pair: routes.index              (pair[0]) )
 		.tap( lambda pair: routes.bookmarks          (pair[0]) )
 		.tap( lambda pair: routes.favicon            (pair[0], pair[1]) )

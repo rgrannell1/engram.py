@@ -71,7 +71,7 @@ def bookmarks_api_route(app, cache):
 
 
 
-def delete(app, db):
+def delete(app, db, cache):
 	"""
 	DELETE /bookmarks/:id
 	"""
@@ -81,7 +81,7 @@ def delete(app, db):
 
 		print 'DELETE /bookmarks/' + str(id)
 
-		return delete_bookmark(db, id)
+		return delete_bookmark(db, cache, id)
 
 
 
