@@ -62,6 +62,14 @@ FROM bookmarks
 ORDER BY ctime DESC
 """
 
+fetch_chunk = """
+SELECT bookmark_id, url, title, ctime
+FROM bookmarks
+WHERE bookmark_id <= ?
+ORDER BY ctime DESC
+LIMIT ?
+"""
+
 delete_bookmark = """
 DELETE FROM bookmarks
 WHERE bookmark_id = ?
@@ -79,7 +87,9 @@ sql = {
 	'select_max_bookmark_id':         select_max_bookmark_id,
 	'insert_archive':                 insert_archive,
 	'select_bookmarks':               select_bookmarks,
-	'delete_bookmark':                delete_bookmark
+	'delete_bookmark':                delete_bookmark,
+
+	'fetch_chunk':                    fetch_chunk
 }
 
 
@@ -129,10 +139,6 @@ def insert_archive(db, bookmark_id, content, ctime):
 
 def select_bookmarks(db):
 
-	# -- be careful; this is almost SQL injection,
-	# -- but the allowed column inputs are screened for earlier, and the boolean
-	# -- parametre is handled here.
-
 	return (
 
 		Success(db)
@@ -140,6 +146,18 @@ def select_bookmarks(db):
 		.then( lambda cursor: cursor.fetchall())
 
 	)
+
+
+
+
+
+def fetch_chunk(db, max_id, amount):
+
+	return (
+		Success(db)
+		.then( lambda db: db.execute(sql['fetch_chunk'], (max_id, amount)) )
+	)
+
 
 
 

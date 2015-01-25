@@ -16,6 +16,7 @@ from save_bookmark    import save_bookmark
 
 from extract_metadata import extract_metadata
 from delete_bookmark  import delete_bookmark
+from fetch_chunk      import fetch_chunk
 
 
 
@@ -43,7 +44,7 @@ def index(app):
 
 
 
-def bookmarks_api_route(app, cache):
+def bookmarks_api_route(app, db):
 	"""
 	GET /api/bookmarks
 
@@ -56,17 +57,8 @@ def bookmarks_api_route(app, cache):
 		max_id = int(request.args.get('maxID'))
 		amount = int(request.args.get('amount'))
 
-		fetchResult = (
-			Success(cache)
-			.then(lambda cache: cache.fetchChunk(max_id, amount))
-			.then(lambda data: jsonify(data) )
-		)
+		return fetch_chunk(db, max_id, amount)
 
-		if fetchResult.is_success():
-			return fetchResult.from_success(), 200
-		else:
-			print fetchResult.from_failure()
-			return '', 500
 
 
 

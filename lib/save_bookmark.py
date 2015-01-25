@@ -28,7 +28,8 @@ def save_bookmark(db, cache, url):
 	"""
 
 
-	# -- todo clean up this nastiness.
+	# -- todo clean up this nastiness. There is no need for the cache layer.
+
 	title_result  = (
 		Success(url)
 		.tap(urlparse)
