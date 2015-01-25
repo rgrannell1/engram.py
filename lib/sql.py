@@ -47,8 +47,12 @@ insert_bookmark = """
 INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
 """
 
+select_max_bookmark_id = """
+SELECT MAX(bookmark_id) FROM bookmarks;
+"""
+
 insert_archive = """
-INSERT INTO archives VALUES (NULL, ?, ?)
+INSERT INTO archives VALUES (NULL, ?, ?);
 """
 
 
@@ -57,10 +61,6 @@ SELECT bookmark_id, url, title, ctime
 FROM bookmarks
 ORDER BY ctime DESC
 """
-
-
-
-
 
 delete_bookmark = """
 DELETE FROM bookmarks
@@ -76,6 +76,7 @@ sql = {
 	'create_table_bookmark_archives': create_table_bookmark_archives,
 
 	'insert_bookmark':                insert_bookmark,
+	'select_max_bookmark_id':         select_max_bookmark_id,
 	'insert_archive':                 insert_archive,
 	'select_bookmarks':               select_bookmarks,
 	'delete_bookmark':                delete_bookmark
@@ -105,7 +106,8 @@ def insert_bookmark(db, title, url, ctime):
 	return (
 
 		Success(db)
-		.tap(lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
+		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
+		.then(lambda db: db.execute(sql['select_max_bookmark_id']) )
 
 	)
 
