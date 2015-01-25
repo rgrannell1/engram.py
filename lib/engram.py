@@ -45,11 +45,13 @@ def main():
 
 	)
 
+	overall_result = (
+		db_result
+		.cross([route_result, main_result])
+	)
 
-
-
-
-	db_result.tap(lambda db: db.close())
+	if overall_result.is_failure():
+		print overall_result.from_failure()
 
 
 
@@ -57,13 +59,4 @@ def main():
 
 if __name__ == "__main__":
 
-    try:
-        main()
-    except KeyboardInterrupt:
-
-        print('Shutdown requested by keyboard interrupt.')
-
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+	main()
