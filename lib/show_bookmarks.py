@@ -31,6 +31,7 @@ dependencies = {
 
 		"delete-bookmark",
 
+		"choose",
 		"search"
 	]),
 

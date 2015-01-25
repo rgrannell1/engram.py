@@ -51,58 +51,6 @@ const countGaps = function (pattern, string) {
 
 
 
-
-Function.prototype.memoise = function () {
-
-	var self  = this
-	var cache = {}
-
-	return function (arg0, arg1) {
-
-		if (cache[arg0] && cache[arg0][arg1]) {
-			return cache[arg0][arg1]
-		} else {
-
-			cache[arg0]       = {}
-			cache[arg0][arg1] = self(arg0, arg1)
-
-			return cache[arg0][arg1]
-
-		}
-
-	}
-}
-
-
-
-
-
-const choose = ( function () {
-
-	return (function (m, n) {
-
-		if (!is.number(m)) {
-			throw TypeError('choose: m was not a number')
-		}
-
-		if (!is.number(n)) {
-			throw TypeError('choose: m was not a number')
-		}
-
-		if (n === 0 || n === m) {
-			return 1
-		} else {
-			return choose(m - 1, n - 1) + choose(m - 1, n)
-		}
-	}).memoise()
-
-} )()
-
-
-
-
-
-
 const rarity = function (query) {
 
 	if (!is.string(query)) {
@@ -112,12 +60,7 @@ const rarity = function (query) {
 	return query
 		.split('')
 		.map(function (char) {
-			if (char in frequency) {
-				return frequency[char]
-			} else {
-
-				return 0.00000409165 // a high estimate on probabilty; 1 - sum(frequency).
-			}
+			return char in frequency? frequency[char] : 0.00000409165 // a high estimate on probabilty; 1 - sum(frequency).
 		})
 		.reduce(function (x, y) {
 			return x * y
@@ -157,7 +100,7 @@ const rarity = function (query) {
 */
 
 const isSignificantMatch = function (query, pattern) {
-	return (rarity(query) * choose(pattern.length, query.length))
+	return (rarity(query) * achoose(pattern.length, query.length)) < 1/100
 }
 
 
@@ -177,11 +120,12 @@ const searchMatches = function (query, key, cache) {
 		.map(function (bookmark) {
 			return {
 				bookmark: bookmark,
-				gaps:     countGaps(query, bookmark[key])
+				gaps:     countGaps(query, bookmark[key]),
+				score:    (rarity(query) * achoose(bookmark.title.length, query.length))
 			}
 		})
 		.filter(function (data) {
-			return isSignificantMatch(data.gaps, query, data.bookmark[key])
+			return isSignificantMatch(query, data.bookmark[key])
 		})
 
 }
