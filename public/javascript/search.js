@@ -115,7 +115,8 @@ const rarity = function (query) {
 			if (char in frequency) {
 				return frequency[char]
 			} else {
-				return 1 / 95 // probability of random ascii character.
+
+				return 0.00000409165 // a high estimate on probabilty; 1 - sum(frequency).
 			}
 		})
 		.reduce(function (x, y) {
