@@ -99,11 +99,9 @@ const rarity = function (query) {
 
 */
 
-const isSignificantMatch = function (query, pattern) {
-	return (rarity(query) * achoose(pattern.length, query.length)) < 1/100
+const likelyhood = function (query, pattern) {
+	return (rarity(query) * achoose(pattern.length, query.length))
 }
-
-
 
 /*
 
@@ -119,13 +117,12 @@ const searchMatches = function (query, key, cache) {
 		})
 		.map(function (bookmark) {
 			return {
-				bookmark: bookmark,
-				gaps:     countGaps(query, bookmark[key]),
-				score:    (rarity(query) * achoose(bookmark.title.length, query.length))
+				bookmark:   bookmark,
+				likelyhood: likelyhood(query, bookmark.title)
 			}
 		})
 		.filter(function (data) {
-			return isSignificantMatch(query, data.bookmark[key])
+			return likelyhood < 1 / 100
 		})
 
 }
