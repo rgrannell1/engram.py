@@ -122,7 +122,7 @@ const searchMatches = function (query, key, cache) {
 			}
 		})
 		.filter(function (data) {
-			return likelyhood < 1 / 100
+			return data.likelyhood < 1 / 100
 		})
 
 }
