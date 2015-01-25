@@ -84,11 +84,11 @@ const rarity = function (query) {
 
 		 b_0 b_1 ... b_m
 
-	where n, m e N. Assuming a and b are random uniform ascii
+	where n, m elem N. Assuming a and b are random uniform ascii
 	characters, the probability of A being a substring (with or without gaps)
 	of B is given as
 
-	p(A < B) = (95^-n)(m choose n)
+	p(A subsets B) = (95^-n)(m choose n)
 
 	so the probability of a given ascii string of length n times the number of
 	of substrings of length n in B gives the probability that A is found in B.
@@ -96,29 +96,41 @@ const rarity = function (query) {
 	The term (95^-n) is a lousy estimation of the likelyhood of a given query;
 	"~~~" is a less likely query than "eee".
 
+	Instead the 'unlikelyness' of a query is calculated as 1 / freq(a_0) x freq(a_1)
+	... x freq(a_n), where freq maps characters to frequency proportions. To keep
+	things simple only the ascii printable characters are included in the frequency
+	table; any other character is optimistically given
+	the probability 1 - sum(domain of freq).
 
 */
 
 const likelyhood = function (query, pattern) {
-	return (rarity(query) * achoose(pattern.length, query.length))
+	return rarity(query) * achoose(pattern.length, query.length)
 }
 
-/*
 
+
+
+
+
+/*
+	searchMatches :: string x string x string
+
+	find all bookmarks in the cache matching a query string.
 */
 
-const searchMatches = function (query, key, cache) {
+const searchMatches = function (getText, query, cache) {
 
-	const pred = isSplitSubstring(query)
+	const isMatch = isSplitSubstring(query)
 
 	return cache.contents
 		.filter(function (bookmark) {
-			return pred(bookmark[key])
+			return isMatch(getText(bookmark))
 		})
 		.map(function (bookmark) {
 			return {
-				bookmark:   bookmark,
-				likelyhood: likelyhood(query, bookmark.title)
+				bookmark:   getText(bookmark),
+				likelyhood: likelyhood(query, getText(bookmark))
 			}
 		})
 		.filter(function (data) {
@@ -131,7 +143,8 @@ const searchMatches = function (query, key, cache) {
 
 ENGRAM.searchState = {
 	previous: '',
-	current:  ''
+	current:  '',
+	currentMatches: []
 }
 
 
@@ -146,11 +159,15 @@ $('#search').keyup(function (e) {
 	const current = ENGRAM.searchState.current
 
 	if (current.length > 1) {
-		const m = searchMatches(current, 'title', ENGRAM.cache)
+		ENGRAM.searchState.currentMatches = searchMatches(function (bookmark) {
+			return bookmark.title
+		}, current, ENGRAM.cache)
 	}
 
-	console.log(m)
+	// if current search is substring of previous search
+	// current elements are a pruning of previous elements.
 
+	console.log(ENGRAM.searchState.currentMatches)
 
 })
 
