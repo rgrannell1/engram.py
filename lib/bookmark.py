@@ -8,16 +8,30 @@ from urlparse import urlparse
 
 def bookmark(row):
 
-	hostname = urlparse(row[2]).hostname
+	if len(row) < 4:
+		raise Exception("bookmark row too short.")
 
-	return {
-		'bookmark_id': row[0],
-		'title':       row[1],
-		'url':         row[2],
-		'ctime':       row[3],
-		'hostname':    hostname,
-		'hosturl':     'http://' + hostname # not idempotent.
-	}
+	try:
+		hostname = urlparse(row[2]).hostname
+	except Exception, err:
+		raise err
+	else:
+		return {
+			'bookmark_id': row[0],
+			'title':       row[1],
+			'url':         row[2],
+			'ctime':       row[3],
+			'hostname':    hostname,
+			'hosturl':     'http://' + hostname # what about ftp or similar links?
+		}
+
+
+
+
 
 def getID(bookmark):
-	return bookmark['bookmark_id']
+
+	if 'bookmark_id' in bookmark:
+		return bookmark['bookmark_id']
+	else:
+		raise Exception('no key "bookmark_id" found in bookmark object.')

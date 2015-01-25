@@ -56,4 +56,14 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+
+    try:
+        main()
+    except KeyboardInterrupt:
+
+        print('Shutdown requested by keyboard interrupt.')
+
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)

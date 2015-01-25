@@ -34,7 +34,7 @@ def index(app):
 	@app.route("/")
 	def index_page():
 
-		print '/'
+		print('/')
 		return redirect('/bookmarks')
 
 
@@ -68,7 +68,7 @@ def delete(app, db):
 	@app.route("/bookmarks/<int:id>", methods = ["DELETE"])
 	def delete_route(id):
 
-		print 'DELETE /bookmarks/' + str(id)
+		print('DELETE /bookmarks/' + str(id))
 
 		return delete_bookmark(db, id)
 
@@ -86,7 +86,7 @@ def public(app):
 	@app.route('/public/<resource_type>/<resource>')
 	def serve_resource(resource_type, resource):
 
-		print '/public/' + resource_type + '/' + resource
+		print('/public/' + resource_type + '/' + resource)
 
 		return serve_public_file(resource_type, resource)
 
@@ -104,7 +104,7 @@ def bookmarks(app):
 	@app.route("/bookmarks")
 	def bookmark_page():
 
-		print '/bookmarks'
+		print('/bookmarks')
 
 		return show_bookmarks()
 
@@ -122,7 +122,7 @@ def favicon(app, db):
 	@app.route("/favicon.ico")
 	def favicon():
 
-		print '/favicon.ico'
+		print('/favicon.ico')
 
 		return "no available favicon.", 404
 
