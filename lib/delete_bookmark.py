@@ -6,7 +6,7 @@ from result import Success, Failure
 
 
 
-def delete_bookmark(db_result, id):
+def delete_bookmark(db, cache, id):
 	"""
 	delete_bookmark :: Result Database x number -> string, number
 
@@ -15,7 +15,8 @@ def delete_bookmark(db_result, id):
 
 	delete_result = (
 		Success(id)
-		.then(lambda id: sql.delete_bookmark(db_result, id))
+		.tap( lambda id: sql.delete_bookmark(db, id))
+		.then(lambda id: cache.remove(id))
 	)
 
 	if delete_result.is_success():

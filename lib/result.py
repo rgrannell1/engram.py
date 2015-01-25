@@ -102,10 +102,11 @@ class Failure(Result):
 
 
 
-	def cross(self, result):
+	def cross(self, results):
 
-		if not isinstance(result, Result):
-			raise Exception("result wasn't a Result instance.")
+		for result in results:
+			if not isinstance(result, Result):
+				raise Exception("result wasn't a Result instance.")
 
 		return self
 
@@ -164,17 +165,22 @@ class Success(Result):
 
 
 
-	def cross(self, result):
+	def cross(self, results):
 		"""get the product of two Result object.
 
-		>> Success('a').cross(Success('b'))
+		>> Success('a').cross(Success(['b']))
 		Success(['a', 'b'])
 		"""
 
-		if not isinstance(result, Result):
-			raise Exception("result wasn't a Result instance.")
+		values = [self.value]
 
-		if isinstance(result, Success):
-			return Success([self.value, result.value])
-		else:
-			return result
+		for result in results:
+			if not isinstance(result, Result):
+				raise Exception("result wasn't a Result instance.")
+
+			if isinstance(result, Success):
+				values.append(result.value)
+			else:
+				return result
+
+		return Success(values)

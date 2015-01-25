@@ -26,7 +26,7 @@ from delete_bookmark  import delete_bookmark
 
 
 
-def index(app, db_result):
+def index(app):
 	"""
 	GET /
 
@@ -62,12 +62,16 @@ def bookmarks_api_route(app, cache):
 			.then(lambda data: jsonify(data) )
 		)
 
-		return fetchResult.from_success()
+		if fetchResult.is_success():
+			return fetchResult.from_success(), 200
+		else:
+			print fetchResult.from_failure()
+			return '', 500
 
 
 
 
-def delete(app, db_result):
+def delete(app, db):
 	"""
 	DELETE /bookmarks/:id
 	"""
@@ -77,7 +81,7 @@ def delete(app, db_result):
 
 		print 'DELETE /bookmarks/' + str(id)
 
-		return delete_bookmark(db_result, id)
+		return delete_bookmark(db, id)
 
 
 
@@ -101,7 +105,7 @@ def public(app):
 
 
 
-def bookmarks(app, db_result):
+def bookmarks(app, db):
 	"""
 	GET /bookmarks
 
@@ -113,13 +117,13 @@ def bookmarks(app, db_result):
 
 		print '/bookmarks'
 
-		return show_bookmarks(db_result)
+		return show_bookmarks(db)
 
 
 
 
 
-def favicon(app, db_result):
+def favicon(app, db):
 	"""
 	GET /favicon.ico
 
@@ -137,7 +141,7 @@ def favicon(app, db_result):
 
 
 
-def default(app, db_result):
+def default(app, db):
 	"""
 	/<path>
 
@@ -146,4 +150,9 @@ def default(app, db_result):
 
 	@app.route("/<path:path>")
 	def default_route(path):
-		return save_bookmark(db_result, path)
+		return save_bookmark(db, path)
+
+
+
+
+
