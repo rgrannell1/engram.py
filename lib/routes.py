@@ -11,7 +11,6 @@ import html
 from show_bookmarks    import show_bookmarks
 from save_bookmark     import save_bookmark
 
-from extract_metadata  import extract_metadata
 from delete_bookmark   import delete_bookmark
 from fetch_chunk       import fetch_chunk
 from serve_public_file import serve_public_file
@@ -35,6 +34,7 @@ def index(app):
 	def index_page():
 
 		print('/')
+
 		return redirect('/bookmarks')
 
 
@@ -51,10 +51,20 @@ def bookmarks_api_route(app, db):
 	@app.route("/api/bookmarks")
 	def bookmarks_api():
 
-		max_id = int(request.args.get('maxID'))
-		amount = int(request.args.get('amount'))
+		print('/api/bookmarks')
 
-		return fetch_chunk(db, max_id, amount)
+		get_num = lambda str: int(request.args.get(str))
+
+
+		route_result = (
+			Success(db)
+			.then( lambda db: fetch_chunk(db, get_num('maxID'), get_num('amount')) )
+		)
+
+		if route_result.is_success():
+			return route_result.from_success()
+		else:
+			return route_result.from_failure()
 
 
 

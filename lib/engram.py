@@ -32,9 +32,6 @@ def main():
 		.tap( lambda pair: routes.public             (pair[0]) )
 		.tap( lambda pair: routes.default            (pair[0], pair[1]) )
 		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
-
-
-
 	)
 
 	main_result = (
@@ -49,6 +46,10 @@ def main():
 		db_result
 		.cross([route_result, main_result])
 	)
+
+
+
+
 
 	if overall_result.is_failure():
 		print overall_result.from_failure()
