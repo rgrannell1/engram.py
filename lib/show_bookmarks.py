@@ -29,7 +29,9 @@ dependencies = {
 		"draw-bookmarks",
 		"link-tab-highlight",
 
-		"delete-bookmark"
+		"delete-bookmark",
+
+		"search"
 	]),
 
 	'css': static.loadCSS([

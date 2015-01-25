@@ -41,9 +41,11 @@ ENGRAM.cache = ENGRAM.Cache(function (bookmark) {
 
 ENGRAM.syncCache = ( function () {
 
+	/*
+		bookmarkRequest :: number x number -> string
 
-
-
+		create a URL to request a certain amount of bookmarks with IDs smaller than an upper limit.
+	*/
 
 	const bookmarkRequest = function (maxID, amount) {
 
@@ -139,5 +141,7 @@ ENGRAM.syncCache = ( function () {
 
 
 ENGRAM.syncCache(ENGRAM.cache, function (startTime, cache) {
-	console.log('loaded all ' + cache.contents.length + ' chunks in ' + (new Date - startTime) + ' milliseconds.')
+
+	console.log('loaded all ' + cache.contents.length + ' bookmarks in ' + (new Date - startTime) + ' milliseconds.')
+
 })
