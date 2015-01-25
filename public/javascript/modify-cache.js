@@ -55,7 +55,7 @@ ENGRAM.syncCache = ( function () {
 			throw RangeError("attempted to use " + maxID + " as an amount (too small)")
 		}
 
-		return '/api/bookmarks?maxID=' + maxID + '&amount=' + ENGRAM.PERREQUEST
+		return '/api/bookmarks?max_id=' + maxID + '&amount=' + ENGRAM.PERREQUEST
 	}
 
 
@@ -80,12 +80,20 @@ ENGRAM.syncCache = ( function () {
 			dataType: 'json',
 			success: function (response) {
 
-				response.data.map(cache.add)
+				if (!is.number(response.next_id)) {
+					throw TypeError("response.next_id is not a number.")
+				}
+
+				if (!is.array(response.data)) {
+					throw TypeError("response.data is not a array.")
+				}
+
+				response.data.forEach(cache.add) // side-effectually update the cache.
 
 				callback({
 					cache:      cache,
 					dataLength: response.data.length,
-					nextID:     response.nextID
+					nextID:     response.next_id
 				})
 
 			},
@@ -102,10 +110,12 @@ ENGRAM.syncCache = ( function () {
 
 	return function (cache, callback) {
 
+		const startTime = new Date
+
 		const loadAllChunks = function (cacheData) {
 
 			if (cacheData.dataLength === 0 || cacheData.nextID <= 0) {
-				callback(cacheData.cache)
+				callback(startTime, cacheData.cache)
 			} else {
 
 				setTimeout(function () {
@@ -128,6 +138,6 @@ ENGRAM.syncCache = ( function () {
 
 
 
-ENGRAM.syncCache(ENGRAM.cache, function (cache) {
-	console.log('loaded all ' + cache.contents.length + ' chunks.')
+ENGRAM.syncCache(ENGRAM.cache, function (startTime, cache) {
+	console.log('loaded all ' + cache.contents.length + ' chunks in ' + (new Date - startTime) + ' milliseconds.')
 })

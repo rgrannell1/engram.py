@@ -55,10 +55,9 @@ def bookmarks_api_route(app, db):
 
 		get_num = lambda str: int(request.args.get(str))
 
-
 		route_result = (
 			Success(db)
-			.then( lambda db: fetch_chunk(db, get_num('maxID'), get_num('amount')) )
+			.then( lambda db: fetch_chunk(db, get_num('max_id'), get_num('amount')) )
 		)
 
 		if route_result.is_success():
@@ -149,4 +148,16 @@ def default(app, db):
 
 	@app.route("/<path:path>")
 	def default_route(path):
+
+		print('/' + path)
+
 		return save_bookmark(db, path)
+
+
+
+
+
+
+
+
+
