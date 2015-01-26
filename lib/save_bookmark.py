@@ -6,6 +6,7 @@ import utils
 
 from result           import Success, Failure
 from extract_metadata import extract_metadata
+from archive_url      import archive_url
 
 from urlparse         import urlparse
 from bookmark import bookmark, getID

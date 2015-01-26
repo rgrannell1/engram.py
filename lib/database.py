@@ -39,6 +39,9 @@ class Database:
 		)
 
 	def commit(self, str, args = ()):
+		"""
+		Database.commit(str, args)
+		"""
 
 		commit_result = (
 			self.conn

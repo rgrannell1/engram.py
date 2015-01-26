@@ -104,6 +104,15 @@ const likelihood = function (query, pattern) {
 
 
 
+/*
+	gapPenalty :: string x string -> number
+*/
+const gapPenalty = function (query, pattern) {
+	return 1
+}
+
+
+
 
 
 /*
@@ -127,7 +136,7 @@ const searchMatches = function (getText, query, cache) {
 			}
 		})
 		.filter(function (data) {
-			return data.likelihood < 10
+			return data.likelihood / gapPenalty(query, getText(data.bookmark) < 10)
 		})
 		.sort(function (bookmark0, bookmark1) {
 			return bookmark0.likelihood - bookmark1.likelihood

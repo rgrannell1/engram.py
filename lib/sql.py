@@ -113,6 +113,19 @@ def create_tables(db):
 
 def insert_bookmark(db, title, url, ctime):
 
+	if not isinstance(title, basestring)
+		return Failure("title was not a string.")
+
+	if not isinstance(url, basestring):
+		return Failure("url was not a string.")
+
+	if not isinstance(ctime, int):
+		return Failure("ctime was not a string.")
+
+
+
+
+
 	return (
 
 		Success(db)
@@ -123,12 +136,12 @@ def insert_bookmark(db, title, url, ctime):
 
 
 
-def insert_archive(db, bookmark_id, content, ctime):
+def insert_archive(db, url, content, ctime):
 
 	return (
 
 		Success(db)
-		.tap( lambda db: db.commit(sql['insert_archive'], (bookmark_id, content, ctime)) )
+		.tap( lambda db: db.commit(sql['insert_archive'], (content, ctime)) )
 
 	)
 

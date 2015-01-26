@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import pdfkit
 import sql
+import utils
 
 from result import Success, Failure
 
@@ -9,10 +9,10 @@ from result import Success, Failure
 
 
 
-def archive_url(db, bookmark_id, url):
+def archive_url(db, url):
+
+	pisa.CreatePDF()
 
 	return (
 		Success(url)
-		.then(lambda url: pdfkit.from_url(url, False))
-		.then(lambda content: sql.insert_archive(db, content, ))
 	)
