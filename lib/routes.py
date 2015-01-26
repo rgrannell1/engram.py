@@ -125,12 +125,12 @@ def archives(app):
 	"""
 	GET /archives/<int:id>
 
-	return a
+	return a pdf.
 	"""
 
 	@app.route("/archives/<int:id>")
 	def archives_route(id):
-		return "this is a stand-in for a pdf" + str(id)
+		return "this is a stand-in for a pdf " + str(id)
 
 
 
