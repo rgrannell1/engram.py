@@ -12,17 +12,21 @@ def bookmark(row):
 		raise Exception("bookmark row too short.")
 
 	try:
-		hostname = urlparse(row[2]).hostname
+		parse_data = urlparse(row[2])
 	except Exception, err:
 		raise err
 	else:
+
+		print parse_data.scheme + '://' + parse_data.hostname
+		# this won't work for all URI schemes.
+
 		return {
 			'bookmark_id': row[0],
 			'title':       row[1],
 			'url':         row[2],
 			'ctime':       row[3],
-			'hostname':    hostname,
-			'hosturl':     row[2]
+			'hostname':    parse_data.hostname,
+			'hosturl':     parse_data.scheme + '://' + parse_data.hostname
 		}
 
 
