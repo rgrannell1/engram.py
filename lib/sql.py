@@ -113,7 +113,7 @@ def create_tables(db):
 
 def insert_bookmark(db, title, url, ctime):
 
-	if not isinstance(title, basestring)
+	if not isinstance(title, basestring):
 		return Failure("title was not a string.")
 
 	if not isinstance(url, basestring):
@@ -121,6 +121,15 @@ def insert_bookmark(db, title, url, ctime):
 
 	if not isinstance(ctime, int):
 		return Failure("ctime was not a string.")
+
+	if not title:
+		return Failure("attempted to insert empty title.")
+
+	if not url:
+		return Failure("attempted to insert empty url.")
+
+	if ctime <= 0:
+		return Failure("ctime was a nonpositive value.")
 
 
 

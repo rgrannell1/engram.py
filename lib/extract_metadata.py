@@ -16,5 +16,8 @@ from result import Success, Failure
 def extract_metadata(url):
 
 	return (
-		Success(None)
+		Success(url)
+		.then(urllib2.urlopen)
+		.then(lh.parse)
+		.then(lambda page: page.find('.//title').text)
 	)
