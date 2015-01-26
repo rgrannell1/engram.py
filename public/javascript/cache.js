@@ -123,12 +123,16 @@ ENGRAM.Cache = function (getID) {
 			throw "fetchChunk: attempt to set amount to non-number (" + JSON.stringify(amount) + ")"
 		}
 
+
+
+
+
 		const chunk = []
 
 		for (var ith = 0; ith < self.contents.length; ++ith) {
 
 			if (getID(self.contents[ith]) <= maxID) {
-				chunk[ith] = self.contents[ith]
+				chunk.push(self.contents[ith])
 			}
 
 			if (chunk.length >= amount) {
@@ -137,7 +141,9 @@ ENGRAM.Cache = function (getID) {
 
 		}
 
-		if (chunk.length > 0) {
+		if (chunk.length > amount) {
+			throw RangeError('internal error: chunk was too long (' + chunk.length + ')')
+		} else if (chunk.length > 0) {
 
 			const minID = chunk.reduce(function (smallest, current) {
 				return Math.min(smallest, getID(current))

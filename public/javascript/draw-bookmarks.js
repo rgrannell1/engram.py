@@ -56,6 +56,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		what is cache.maxID === -1 (no update) ?
 
+		THIS IS TERRIBLE, TERRIBLE CODE.
 	*/
 
 	const appendBookmarks = function (maxID) {
@@ -66,27 +67,38 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		if (ENGRAM.viewingBottom(ENGRAM.LOADOFFSET)) {
 
-			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+			const chunk     = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 
-			chunk.data.map(function (bookmark) {
-
-				const viewgroup = $('<div></div>', {
-					'id':    maxID,
-					'class': 'viewgroup'
-				})
-
-				viewgroup.append(renderBookmark(bookmark))
-
-				$('#content').append(viewgroup)
-
-				// rebind scroll handler.
-				$(document).off('scroll')
-				$(document).on( 'scroll', appendBookmarks.bind(null, chunk.nextID) )
-				$(document).on( 'scroll', ENGRAM.updateTimers.bind(null, $('.viewgroup')) )
-
-				nudge() // this sucks; an awful way of triggering this code.
-
+			const viewgroup = $('<div></div>', {
+				'id':    maxID,
+				'class': 'viewgroup'
 			})
+
+			const innerHTML = chunk.data
+				.map(function (bookmark) {
+					return renderBookmark(bookmark)
+				})
+				.reduce(function (text, current) {
+					return text + current
+				}, '')
+
+			$(viewgroup).append(innerHTML)
+			$('#content').append(viewgroup)
+
+			// rebind scroll handler.
+			$(document).off('scroll')
+			$(document).on( 'scroll', appendBookmarks.bind(null, chunk.nextID) )
+			$(document).on( 'scroll', ENGRAM.updateTimers.bind(null, $('.viewgroup')) )
+
+			nudge() // this sucks; an awful way of triggering this code.
+
+
+
+
+
+
+
+
 		}
 	}
 
