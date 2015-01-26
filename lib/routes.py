@@ -121,6 +121,21 @@ def bookmarks(app):
 
 
 
+def archives(app):
+	"""
+	GET /archives/<int:id>
+
+	return a
+	"""
+
+	@app.route("/archives/<int:id>")
+	def archives_route(id):
+		return "this is a stand-in for a pdf" + str(id)
+
+
+
+
+
 def favicon(app, db):
 	"""
 	GET /favicon.ico
