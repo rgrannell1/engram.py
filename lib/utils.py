@@ -39,3 +39,7 @@ def append(arr, value):
 	out.append(value)
 
 	return out
+
+def ensure(bool, message = ''):
+	if not bool:
+		raise AssertionError(message)

@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
-from result import Success, Failure
+from utils    import ensure
+from result   import Success, Failure
+from urlparse import urlparse
+
+
 
 
 
@@ -113,34 +117,24 @@ def create_tables(db):
 
 def insert_bookmark(db, title, url, ctime):
 
-	if not isinstance(title, basestring):
-		return Failure("title was not a string.")
-
-	if not isinstance(url, basestring):
-		return Failure("url was not a string.")
-
-	if not isinstance(ctime, int):
-		return Failure("ctime was not a string.")
-
-	if not title:
-		return Failure("attempted to insert empty title.")
-
-	if not url:
-		return Failure("attempted to insert empty url.")
-
-	if ctime <= 0:
-		return Failure("ctime was a nonpositive value.")
-
-
-
-
-
 	return (
-
 		Success(db)
+
+		.tap(lambda _: ensure(isinstance(title, basestring), "title was not a string."))
+		.tap(lambda _: ensure(isinstance(url, basestring),   "url was not a string.") )
+		.tap(lambda _: ensure(isinstance(ctime, int),        "ctime was not a number."))
+
+		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
+		.tap(lambda _: ensure(url,       "attempted to insert empty url."))
+		.tap(lambda _: ensure(ctime > 0, "ctime was a nonpositive value."))
+		.tap(lambda _: urlparse(url))
+
 		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
 
 	)
+
+
+
 
 
 
