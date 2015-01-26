@@ -22,7 +22,7 @@ def bookmark(row):
 			'url':         row[2],
 			'ctime':       row[3],
 			'hostname':    hostname,
-			'hosturl':     'http://' + hostname # what about ftp or similar links?
+			'hosturl':     row[2]
 		}
 
 
