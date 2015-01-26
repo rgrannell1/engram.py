@@ -157,19 +157,22 @@ ENGRAM.searchState = {
 	currentMatches: []
 }
 
+const setLocation = function (query) {
+	history.pushState(null, '', '/bookmarks?q=' + query)
+}
 
+const updateSearchState = function (query) {
 
+	ENGRAM.searchState.previous = ENGRAM.searchState.current
+	ENGRAM.searchState.current  = query
 
+	return query
+}
 
 $('#search').keyup(function (event) {
 
-	ENGRAM.searchState.previous = ENGRAM.searchState.current
-	ENGRAM.searchState.current  = $(this).val()
-
-
-	history.pushState(null, '', '/bookmarks?q=' + ENGRAM.searchState.current)
-
-	const current = ENGRAM.searchState.current
+	const current = updateSearchState($(this).val())
+	setLocation(current)
 
 	if (current.length > 1) {
 
