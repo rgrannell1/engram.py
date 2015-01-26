@@ -16,10 +16,10 @@ import sql
 
 
 
-def main():
+def main(fpath):
 
 	app       = Flask(__name__)
-	db_result = Success('data/engram').then(Database)
+	db_result = Success(fpath).then(Database)
 
 	route_result = (
 
@@ -61,4 +61,4 @@ def main():
 
 if __name__ == "__main__":
 
-	main()
+	main('data/engram')

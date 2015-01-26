@@ -39,10 +39,10 @@ def extract_title(url, response, mimetype):
 		# -- extract the resource name from the url.
 
 		return (
-			Success(url)
-			.then(urllib2.urlparse.urlparse)
-			.then(lambda parts: parts[2].rpartition('/')[2])
-		)
+				Success(url)
+				.then(urllib2.urlparse.urlparse)
+				.then(lambda parts: parts[2].rpartition('/')[2])
+			)
 
 
 
