@@ -56,7 +56,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		what is cache.maxID === -1 (no update) ?
 
-		THIS IS TERRIBLE, TERRIBLE CODE.
+		THIS IS TERRIBLE, TERRIBLE CODE. Very slow, not reusable.
 	*/
 
 	const appendBookmarks = function (maxID) {
@@ -78,8 +78,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 				.map(function (bookmark) {
 					return renderBookmark(bookmark)
 				})
-				.reduce(function (text, current) {
-					return text + current
+				.reduce(function (html, bookmark) {
+					return html + bookmark
 				}, '')
 
 			$(viewgroup).append(innerHTML)
@@ -91,13 +91,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			$(document).on( 'scroll', ENGRAM.updateTimers.bind(null, $('.viewgroup')) )
 
 			nudge() // this sucks; an awful way of triggering this code.
-
-
-
-
-
-
-
 
 		}
 	}

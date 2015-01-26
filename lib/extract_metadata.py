@@ -11,13 +11,53 @@ from result import Success, Failure
 
 
 
+def is_html(maintype):
+	maintype in ['text/html', 'application/xhtml+xml']
+
+def extract_title(url, response, mimetype):
+
+	if is_html(mimetype['maintype']):
+		# -- extract the title tag.
+
+		return (
+			Success(response)
+			.then(lh.parse)
+			.then(lambda page: page.find('.//title').text)
+		)
+
+	else:
+		# -- use the resource name.
+
+		return (
+			Success(url)
+			.then(urllib2.urlparse.urlparse)
+			.then(lambda parts: parts[2].rpartition('/')[2])
+		)
+
+
+
+
 
 
 def extract_metadata(url):
 
-	return (
+	# -- fails for non-html resources.
+
+	response_result = (
 		Success(url)
 		.then(urllib2.urlopen)
-		.then(lh.parse)
-		.then(lambda page: page.find('.//title').text)
+	)
+
+	content_type_result = (
+		response_result
+		.then(lambda response: {
+			'maintype': response.info().maintype,
+			'subtype':  response.info().subtype
+		})
+	)
+
+	return (
+		response_result
+		.cross([content_type_result])
+		.then( lambda data: extract_title(url, data[0], data[1]) )
 	)
