@@ -11,12 +11,22 @@ from result import Success, Failure
 
 
 
-def is_html(maintype):
-	maintype in ['text/html', 'application/xhtml+xml']
+
+
+def is_html(type):
+	""""determine whether a mimetype says a resource is a html
+	file.
+	"""
+
+	return type in set(['text/html', 'application/xhtml+xml'])
+
+
+
+
 
 def extract_title(url, response, mimetype):
 
-	if is_html(mimetype['maintype']):
+	if is_html(mimetype['type']):
 		# -- extract the title tag.
 
 		return (
@@ -26,7 +36,7 @@ def extract_title(url, response, mimetype):
 		)
 
 	else:
-		# -- use the resource name.
+		# -- extract the resource name from the url.
 
 		return (
 			Success(url)
@@ -51,6 +61,7 @@ def extract_metadata(url):
 	content_type_result = (
 		response_result
 		.then(lambda response: {
+			'type':     response.info().type,
 			'maintype': response.info().maintype,
 			'subtype':  response.info().subtype
 		})
