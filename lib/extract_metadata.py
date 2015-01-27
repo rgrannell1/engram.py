@@ -51,12 +51,24 @@ def extract_title(url, response, mimetype):
 
 
 
-def request_uri(url):
+def request_uri(uri):
+	"""
+	get the resource associated with a uri.
+	"""
 
-	opener = urllib.request.build_opener()
-	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+	# -- todo; eliminate pesky assignment so can be put into lambda.
 
-	return opener.open(url)
+	try:
+		opener = urllib.request.build_opener()
+		opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+
+		return Success(opener.open(uri))
+
+	except Exception as err:
+		return Failure(err)
+
+
+
 
 
 
