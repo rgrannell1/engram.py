@@ -8,6 +8,8 @@ import httplib2
 
 import subprocess
 
+from normalise_url import normalise_url
+
 from result import Success, Failure
 
 
@@ -41,6 +43,7 @@ def extract_title(url, response, mimetype):
 
 		return (
 				Success(url)
+				.then(normalise_url)
 				.then(urllib.parse.urlparse)
 				.then(lambda parts: parts[2].rpartition('/')[2])
 			)
@@ -55,7 +58,8 @@ def extract_metadata(url):
 	# -- fails for non-html resources.
 
 	response_result = (
-		Success(httplib2.iri2uri(url))
+		Success(url)
+		.then(normalise_url)
 		.then(urllib.request.urlopen)
 	)
 

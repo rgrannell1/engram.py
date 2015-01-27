@@ -7,6 +7,8 @@ from result           import Success, Failure
 from extract_metadata import extract_metadata
 from archive_url      import archive_url
 
+from normalise_url import normalise_url
+
 import urllib
 from bookmark import bookmark, getID
 
@@ -29,7 +31,7 @@ def save_bookmark(db, url):
 
 	title_result  = (
 		Success(url)
-		.tap(urllib.parse.urlparse)
+		.then(normalise_url)
 		.then(extract_metadata)
 	)
 
