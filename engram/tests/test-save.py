@@ -24,7 +24,9 @@ def assert_saved_correctly(uri):
 	"""ensure that a url saved correctly to the database.
 	"""
 
-	if requests.get(uri).status_code == 200:
+	is_up_uri = uri if ':' in uri else 'http://' + uri
+
+	if requests.get(is_up_uri).status_code == 200:
 
 		save_path = 'http://localhost:5000' + '/' + uri
 
