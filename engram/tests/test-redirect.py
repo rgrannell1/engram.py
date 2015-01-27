@@ -34,7 +34,8 @@ class TestRedirect(utils_test.EngramTestCase):
 		Scenario: requesting /bookmarks gets a response.
 			Given a running engram server on localhost:5000
 			When someone sends /bookmarks
-			Then the server sends back a response code indicating the page exists (anything but 404).
+			Then the server sends back a html page
+			And the response has status 200.
 		"""
 
 		index_response = requests.get('http://localhost:5000/')
