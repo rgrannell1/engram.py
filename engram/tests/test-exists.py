@@ -5,6 +5,8 @@ import os
 import sys
 import requests
 
+import utils
+
 from multiprocessing import Process
 import time
 
@@ -23,32 +25,7 @@ import engram
 
 
 
-class TestExists(unittest.TestCase):
-
-	def setUp(self):
-
-		self.process = Process(target = engram.create, args = (':memory', ))
-		self.process.start()
-
-		print('running tests in six seconds...')
-		time.sleep(6)
-
-
-
-
-
-	def tearDown(self):
-		try:
-
-			self.process.terminate()
-
-		except Exception as err:
-			print('failed to terminate process.')
-			print(err)
-
-
-
-
+class TestExists(utils.EngramTestCase):
 
 	def test_bookmarks(self):
 		"""
@@ -65,6 +42,8 @@ class TestExists(unittest.TestCase):
 
 		bookmarks_response = requests.get('http://localhost:5000/bookmarks')
 		assert bookmarks_response.status_code != 404
+
+
 
 
 
