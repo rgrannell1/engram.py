@@ -36,7 +36,7 @@ def index(app):
 
 		print('/')
 
-		return redirect('/bookmarks')
+		return redirect('/bookmarks', 302)
 
 
 
