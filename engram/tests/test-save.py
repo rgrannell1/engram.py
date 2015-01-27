@@ -26,14 +26,16 @@ def assert_saved_correctly(uri):
 
 	is_up_uri = uri if ':' in uri else 'http://' + uri
 
-	if requests.get(is_up_uri).status_code == 200:
+	try:
+
+		assert requests.get(is_up_uri).status_code == 200
+
+	except Exception as err:
+		print('could not resolve %s' % (uri, ))
+	else:
 
 		save_path = 'http://localhost:5000' + '/' + uri
-
 		assert requests.get(save_path).status_code == 204
-
-	else:
-		print('could not resolve %s' % (uri, ))
 
 
 
