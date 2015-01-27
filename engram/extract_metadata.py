@@ -2,6 +2,7 @@
 
 import utils
 
+import http
 import urllib
 import lxml.html as lh
 import httplib2
@@ -38,6 +39,7 @@ def extract_title(uri, response, mimetype):
 	if is_html(mimetype['type']):
 		# -- extract the title tag.
 
+
 		return (
 			Success(response)
 			.then(lh.parse)
@@ -62,14 +64,20 @@ def request_uri(uri):
 	get the resource associated with a uri.
 	"""
 
-	# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
-
 	try:
+		# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
 
 		opener            = urllib.request.build_opener()
 		opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
 		return Success(opener.open(uri))
+
+	except http.client.BadStatusLine as err:
+
+		return Failure({
+			'message': "%s returned an unrecognised status." % (uri, ),
+			'code':    404
+		})
 
 	except Exception as err:
 		return Failure(err)

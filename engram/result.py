@@ -83,7 +83,7 @@ class Failure(Result):
 	def __init__(self, value):
 
 		self.value = value.value if isinstance(value, Result) else value
-		self.stack = value.stack if isinstance(value, Failure) else traceback.print_exc()
+		#self.stack = value.stack if isinstance(value, Failure) else traceback.print_exc()
 
 	def __str__(self):
 		return "Failure(%s)" % (str(self.value))
@@ -103,11 +103,6 @@ class Failure(Result):
 
 
 	def cross(self, results):
-
-		for result in results:
-			if not isinstance(result, Result):
-				raise Exception("result wasn't a Result instance.")
-
 		return self
 
 
