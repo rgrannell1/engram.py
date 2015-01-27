@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from result import Success, Failure
 from flask  import Flask, redirect, url_for, request, jsonify

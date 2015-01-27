@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import sql
 from result import Success, Failure

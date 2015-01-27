@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from utils    import ensure
 from result   import Success, Failure
-from urlparse import urlparse
+import urllib
 
 
 
@@ -127,7 +127,7 @@ def insert_bookmark(db, title, url, ctime):
 		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
 		.tap(lambda _: ensure(url,       "attempted to insert empty url."))
 		.tap(lambda _: ensure(ctime > 0, "ctime was a nonpositive value."))
-		.tap(lambda _: urlparse(url))
+		.tap(lambda _: urllib.parse(url))
 
 		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
 

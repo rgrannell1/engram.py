@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import utils
 
-import urllib2
+import urllib
 import lxml.html as lh
 
 import subprocess
@@ -40,7 +40,7 @@ def extract_title(url, response, mimetype):
 
 		return (
 				Success(url)
-				.then(urllib2.urlparse.urlparse)
+				.then(urllib.parse)
 				.then(lambda parts: parts[2].rpartition('/')[2])
 			)
 
@@ -55,7 +55,7 @@ def extract_metadata(url):
 
 	response_result = (
 		Success(url)
-		.then(urllib2.urlopen)
+		.then(urllib.urlopen)
 	)
 
 	content_type_result = (

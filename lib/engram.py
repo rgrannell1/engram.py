@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import time
@@ -53,7 +53,7 @@ def main(fpath):
 
 
 	if overall_result.is_failure():
-		print overall_result.from_failure()
+		print(overall_result.from_failure())
 
 
 

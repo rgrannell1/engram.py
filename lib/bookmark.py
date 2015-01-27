@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from urlparse import urlparse
+import urllib
 
 
 
@@ -12,12 +12,11 @@ def bookmark(row):
 		raise Exception("bookmark row too short.")
 
 	try:
-		parse_data = urlparse(row[2])
-	except Exception, err:
+		parse_data = urllib.parse(row[2])
+
+	except Exception as err:
 		raise err
 	else:
-
-		print parse_data.scheme + '://' + parse_data.hostname
 		# this won't work for all URI schemes.
 
 		return {

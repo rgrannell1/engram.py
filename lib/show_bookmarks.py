@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import html
+import pages
 
 from result import Success, Failure
 import static
@@ -53,7 +53,7 @@ def show_bookmarks():
 	.
 	"""
 
-	html_result = html.index(dependencies)
+	html_result = pages.index(dependencies)
 
 	if html_result.is_success():
 		return html_result.from_success(), 200

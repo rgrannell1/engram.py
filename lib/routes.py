@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 from result            import Success, Failure
 from flask             import redirect, request
@@ -6,7 +7,7 @@ from database          import Database
 
 import routes
 import sql
-import html
+import pages
 
 from show_bookmarks    import show_bookmarks
 from save_bookmark     import save_bookmark
