@@ -40,7 +40,7 @@ def extract_title(url, response, mimetype):
 
 		return (
 				Success(url)
-				.then(urllib.parse)
+				.then(urllib.parse.urlparse)
 				.then(lambda parts: parts[2].rpartition('/')[2])
 			)
 
@@ -55,7 +55,7 @@ def extract_metadata(url):
 
 	response_result = (
 		Success(url)
-		.then(urllib.urlopen)
+		.then(urllib.request.urlopen)
 	)
 
 	content_type_result = (

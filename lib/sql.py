@@ -127,7 +127,7 @@ def insert_bookmark(db, title, url, ctime):
 		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
 		.tap(lambda _: ensure(url,       "attempted to insert empty url."))
 		.tap(lambda _: ensure(ctime > 0, "ctime was a nonpositive value."))
-		.tap(lambda _: urllib.parse(url))
+		.tap(lambda _: urllib.parse.urlparse(url))
 
 		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
 

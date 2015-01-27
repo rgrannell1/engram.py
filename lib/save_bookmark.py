@@ -29,7 +29,7 @@ def save_bookmark(db, url):
 
 	title_result  = (
 		Success(url)
-		.tap(urllib.parse)
+		.tap(urllib.parse.urlparse)
 		.then(extract_metadata)
 	)
 
