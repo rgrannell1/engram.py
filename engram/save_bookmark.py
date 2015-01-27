@@ -22,7 +22,7 @@ def save_bookmark(db, url):
 	save_bookmark :: Result Database x string -> string, number
 
 	this is triggered by a GET request, so it has perverse
-	behaviour. It returns a 304 when the save succeeds so the
+	behaviour. It returns a 204 when the save succeeds so the
 	browser doesn't leave the current page.
 
 	This is bad when you are already on the page generated upon
@@ -47,4 +47,4 @@ def save_bookmark(db, url):
 		return message, 500
 
 	else:
-		return '', 304
+		return '', 204
