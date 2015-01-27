@@ -83,7 +83,8 @@ class Failure(Result):
 	def __init__(self, value):
 
 		self.value = value.value if isinstance(value, Result) else value
-		#self.stack = value.stack if isinstance(value, Failure) else traceback.print_exc()
+		#traceback.print_exc()
+
 
 	def __str__(self):
 		return "Failure(%s)" % (str(self.value))

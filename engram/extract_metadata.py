@@ -28,33 +28,18 @@ def is_html(type):
 
 
 
-def extract_title(uri, response, mimetype):
-	"""given a uri, response obtained from looking up that uri, and the mimetype
-	of the response, pick a title for the bookmark uri.
+def find_title_tag(page):
 
-	If the resource is a html page, use the contents of the <title> tag. Otherwise
-	just use the resource basename.
-	"""
+	title = page.find('.//title')
 
-	if is_html(mimetype['type']):
-		# -- extract the title tag.
-
-
-		return (
-			Success(response)
-			.then(lh.parse)
-			.then(lambda page: page.find('.//title').text)
-		)
-
+	if title is None:
+		return Failure({
+			'message': 'lxml failed to find title element: page was probably unicode.',
+			'code':    500
+		})
 	else:
-		# -- extract the resource name from the url.
+		return Success(title.text)
 
-		return (
-				Success(uri)
-				.then(normalise_uri)
-				.then(urllib.parse.urlparse)
-				.then(lambda parts: parts[2].rpartition('/')[2])
-		)
 
 
 
@@ -82,6 +67,36 @@ def request_uri(uri):
 	except Exception as err:
 		return Failure(err)
 
+
+
+
+
+def extract_title(uri, response, mimetype):
+	"""given a uri, response obtained from looking up that uri, and the mimetype
+	of the response, pick a title for the bookmark uri.
+
+	If the resource is a html page, use the contents of the <title> tag. Otherwise
+	just use the resource basename.
+	"""
+
+	if is_html(mimetype['type']):
+		# -- extract the title tag.
+
+		return (
+			Success(response)
+			.then(lh.parse)
+			.then(find_title_tag)
+		)
+
+	else:
+		# -- extract the resource name from the url.
+
+		return (
+				Success(uri)
+				.then(normalise_uri)
+				.then(urllib.parse.urlparse)
+				.then(lambda parts: parts[2].rpartition('/')[2])
+		)
 
 
 

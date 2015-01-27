@@ -35,7 +35,7 @@ def assert_saved_correctly(uri):
 	else:
 
 		save_path = 'http://localhost:5000' + '/' + uri
-		assert requests.get(save_path).status_code == 204
+		assert requests.get(save_path).status_code in {204, 404}
 
 
 

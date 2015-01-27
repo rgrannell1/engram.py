@@ -23,6 +23,11 @@ def handle_save_failure(result):
 		failure = result.from_failure()
 
 		if isinstance(failure, dict):
+
+			print('=============================')
+			print(failure)
+			print('=============================')
+
 			return failure['message'], failure['code']
 		else:
 			return "failed to add %s: '%s'" % (url, failure), 500
@@ -52,6 +57,10 @@ def save_bookmark(db, url):
 		.then(normalise_uri)
 		.then(extract_metadata)
 	)
+
+	print('============================================================')
+	print(title_result)
+	print('============================================================')
 
 	insert_result = (
 		title_result
