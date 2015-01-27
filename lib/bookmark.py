@@ -13,8 +13,7 @@ def bookmark(row):
 		raise Exception("bookmark row too short.")
 
 	try:
-		parse_data = urllib.parse.urlparse( normalise_uri(row[2]) ).from_success()
-
+		parse_data = urllib.parse.urlparse( normalise_uri(row[2]) )
 	except Exception as err:
 		raise err
 	else:
