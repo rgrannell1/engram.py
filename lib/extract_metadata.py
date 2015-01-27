@@ -8,7 +8,7 @@ import httplib2
 
 import subprocess
 
-from normalise_url import normalise_url
+from normalise_uri import normalise_uri
 
 from result import Success, Failure
 
@@ -43,24 +43,30 @@ def extract_title(url, response, mimetype):
 
 		return (
 				Success(url)
-				.then(normalise_url)
+				.then(normalise_uri)
 				.then(urllib.parse.urlparse)
 				.then(lambda parts: parts[2].rpartition('/')[2])
-			)
+		)
 
 
 
+
+def request_uri(url):
+
+	opener = urllib.request.build_opener()
+	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+
+	return opener.open(url)
 
 
 
 def extract_metadata(url):
-
 	# -- fails for non-html resources.
 
 	response_result = (
 		Success(url)
-		.then(normalise_url)
-		.then(urllib.request.urlopen)
+		.then(normalise_uri)
+		.then(request_uri)
 	)
 
 	content_type_result = (

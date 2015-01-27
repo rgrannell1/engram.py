@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import urllib
-from normalise_url import normalise_url
+from normalise_uri import normalise_uri
 
 
 
@@ -13,7 +13,7 @@ def bookmark(row):
 		raise Exception("bookmark row too short.")
 
 	try:
-		parse_data = urllib.parse.urlparse( normalise_url(row[2]) ).from_success()
+		parse_data = urllib.parse.urlparse( normalise_uri(row[2]) ).from_success()
 
 	except Exception as err:
 		raise err

@@ -5,7 +5,7 @@ from result   import Success, Failure
 import urllib
 import httplib2
 
-from normalise_url import normalise_url
+from normalise_uri import normalise_uri
 
 
 
@@ -130,7 +130,7 @@ def insert_bookmark(db, title, url, ctime):
 		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
 		.tap(lambda _: ensure(url,       "attempted to insert empty url."))
 		.tap(lambda _: ensure(ctime > 0, "ctime was a nonpositive value."))
-		.tap(lambda _: normalise_url(url))
+		.tap(lambda _: normalise_uri(url))
 
 		.tap( lambda db: db.commit(sql['insert_bookmark'], (title, url, ctime)) )
 
