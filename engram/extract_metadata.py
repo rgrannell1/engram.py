@@ -4,7 +4,10 @@ import utils
 
 import http
 import urllib
+
+import lxml
 import lxml.html as lh
+
 import httplib2
 
 import subprocess
@@ -12,6 +15,19 @@ import subprocess
 from normalise_uri import normalise_uri
 
 from result import Success, Failure
+
+import re
+import requests
+
+
+
+
+def mimetype(content_type):
+	return {
+		'maintype': content_type.split('/')[0],
+		'subtype':  content_type.split('/')[1].split(';')[0],
+		'type':     content_type.split(';')[0]
+	}
 
 
 
@@ -29,16 +45,29 @@ def is_html(type):
 
 
 def find_title_tag(page):
+	"""get the contents of the page's title tag.
+	"""
 
-	title = page.find('.//title')
+	title = page['parsed'].find('.//title')
 
 	if title is None:
-		return Failure({
-			'message': 'lxml failed to find title element: page was probably unicode.',
-			'code':    500
-		})
+
+		title_regexp ='<title[^>]*>([^<]+)</title>'
+		return Success(page['content'])
+
 	else:
 		return Success(title.text)
+
+
+
+
+
+def parse_html(response):
+
+	return {
+		'parsed':  lh.parse(response.content),
+		'content': response.content
+	}
 
 
 
@@ -52,10 +81,11 @@ def request_uri(uri):
 	try:
 		# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
 
-		opener            = urllib.request.build_opener()
-		opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+		response = requests.get(uri, headers = {
+			'User-agent': 'Mozilla/5.0'
+		})
 
-		return Success(opener.open(uri))
+		return response
 
 	except http.client.BadStatusLine as err:
 
@@ -84,7 +114,7 @@ def extract_title(uri, response, mimetype):
 
 		return (
 			Success(response)
-			.then(lh.parse)
+			.then(parse_html)
 			.then(find_title_tag)
 		)
 
@@ -116,9 +146,9 @@ def extract_metadata(url):
 	content_type_result = (
 		response_result
 		.then(lambda response: {
-			'type':     response.info().get_content_type(),
-			'maintype': response.info().get_content_maintype(),
-			'subtype':  response.info().get_content_subtype()
+			'type':     mimetype(response.headers['content-type'])['type'],
+			'maintype': mimetype(response.headers['content-type'])['maintype'],
+			'subtype':  mimetype(response.headers['content-type'])['subtype']
 		})
 	)
 
