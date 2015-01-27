@@ -4,6 +4,7 @@ import utils
 
 import urllib
 import lxml.html as lh
+import httplib2
 
 import subprocess
 
@@ -54,16 +55,16 @@ def extract_metadata(url):
 	# -- fails for non-html resources.
 
 	response_result = (
-		Success(url)
+		Success(httplib2.iri2uri(url))
 		.then(urllib.request.urlopen)
 	)
 
 	content_type_result = (
 		response_result
 		.then(lambda response: {
-			'type':     response.info().type,
-			'maintype': response.info().maintype,
-			'subtype':  response.info().subtype
+			'type':     response.info().get_content_type(),
+			'maintype': response.info().get_content_maintype(),
+			'subtype':  response.info().get_content_subtype()
 		})
 	)
 

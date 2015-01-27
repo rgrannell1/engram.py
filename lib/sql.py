@@ -120,8 +120,8 @@ def insert_bookmark(db, title, url, ctime):
 	return (
 		Success(db)
 
-		.tap(lambda _: ensure(isinstance(title, basestring), "title was not a string."))
-		.tap(lambda _: ensure(isinstance(url, basestring),   "url was not a string.") )
+		.tap(lambda _: ensure(isinstance(title, str), "title was not a string."))
+		.tap(lambda _: ensure(isinstance(url, str),   "url was not a string.") )
 		.tap(lambda _: ensure(isinstance(ctime, int),        "ctime was not a number."))
 
 		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
