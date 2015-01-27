@@ -155,28 +155,6 @@ def favicon(app, db):
 
 
 
-def shutdown(app, db):
-	"""
-	POST /shutdown
-	"""
-
-	@app.route("/shutdown", methods = ['POST'])
-	def shutdown():
-
-		killer = request.environ.get('werkzeug.server.shutdown')
-
-		if killer is None:
-			raise RuntimeError('Not running with the Werkzeug Server')
-		else:
-			db.close()
-			killer()
-
-			return "shutting down."
-
-
-
-
-
 def default(app, db):
 	"""
 	/<path>
@@ -190,12 +168,3 @@ def default(app, db):
 		print('/' + path)
 
 		return save_bookmark(db, path)
-
-
-
-
-
-
-
-
-
