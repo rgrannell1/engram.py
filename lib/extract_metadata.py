@@ -27,7 +27,13 @@ def is_html(type):
 
 
 
-def extract_title(url, response, mimetype):
+def extract_title(uri, response, mimetype):
+	"""given a uri, response obtained from looking up that uri, and the mimetype
+	of the response, pick a title for the bookmark uri.
+
+	If the resource is a html page, use the contents of the <title> tag. Otherwise
+	just use the resource basename.
+	"""
 
 	if is_html(mimetype['type']):
 		# -- extract the title tag.
@@ -42,7 +48,7 @@ def extract_title(url, response, mimetype):
 		# -- extract the resource name from the url.
 
 		return (
-				Success(url)
+				Success(uri)
 				.then(normalise_uri)
 				.then(urllib.parse.urlparse)
 				.then(lambda parts: parts[2].rpartition('/')[2])
@@ -56,10 +62,11 @@ def request_uri(uri):
 	get the resource associated with a uri.
 	"""
 
-	# -- todo; eliminate pesky assignment so can be put into lambda.
+	# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
 
 	try:
-		opener = urllib.request.build_opener()
+
+		opener            = urllib.request.build_opener()
 		opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
 		return Success(opener.open(uri))
@@ -73,7 +80,9 @@ def request_uri(uri):
 
 
 def extract_metadata(url):
-	# -- fails for non-html resources.
+	"""
+	extract additional data about a uri from the resource itself.
+	"""
 
 	response_result = (
 		Success(url)
