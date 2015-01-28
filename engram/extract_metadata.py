@@ -65,7 +65,7 @@ def find_title_tag(page):
 def parse_html(response):
 
 	return {
-		'parsed':  lh.parse(response.content),
+		'parsed':  lh.fromstring(response.content),
 		'content': response.content
 	}
 

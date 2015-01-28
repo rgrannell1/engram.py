@@ -58,10 +58,6 @@ def save_bookmark(db, url):
 		.then(extract_metadata)
 	)
 
-	print('============================================================')
-	print(title_result)
-	print('============================================================')
-
 	insert_result = (
 		title_result
 		.then( lambda title: [db, title, url, utils.now()] )
