@@ -12,6 +12,7 @@ import httplib2
 
 import subprocess
 
+
 from normalise_uri import normalise_uri
 
 from result import Success, Failure
@@ -82,7 +83,7 @@ def request_uri(uri):
 		# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
 
 		response = requests.get(uri, headers = {
-			'User-agent': 'Mozilla/5.0'
+			'User-agent': 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
 		})
 
 		return response
@@ -94,7 +95,15 @@ def request_uri(uri):
 			'code':    404
 		})
 
+	except requests.exceptions.ConnectionError as err:
+
+		return Failure({
+			'message': "%s refused the connection." % (uri, ),
+			'code':    404
+		})
+
 	except Exception as err:
+
 		return Failure(err)
 
 
