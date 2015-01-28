@@ -64,8 +64,9 @@ def extract_resourcename(uri):
 
 
 
-def remove_scheme(uri):
-
+def get_netloc(uri):
+	"""get_netloc
+	"""
 	return (
 		Success(uri)
 		.then(urllib.parse.urlparse)
@@ -90,7 +91,7 @@ def find_title_tag(page):
 		if has_title:
 			return re.search(title_regexp, has_title).group()
 		else:
-			return remove_scheme(page['url'])
+			return get_netloc(page['url'])
 
 	else:
 		return Success(title.text)
