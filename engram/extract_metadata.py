@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import re
 import utils
 
 import http
@@ -17,8 +18,12 @@ from normalise_uri import normalise_uri
 
 from result import Success, Failure
 
-import re
 import requests
+
+
+
+
+
 
 
 
@@ -45,6 +50,32 @@ def is_html(type):
 
 
 
+def extract_resourcename(uri):
+	"""get the resource name from a uri.
+	"""
+
+	return (
+		Success(uri)
+		.then(urllib.parse.urlparse)
+		.then(lambda parts: parts[2].rpartition('/')[2])
+	)
+
+
+
+
+
+def remove_scheme(uri):
+
+	return (
+		Success(uri)
+		.then(urllib.parse.urlparse)
+		.then(lambda parts: parts.netloc)
+	)
+
+
+
+
+
 def find_title_tag(page):
 	"""get the contents of the page's title tag.
 	"""
@@ -53,8 +84,13 @@ def find_title_tag(page):
 
 	if title is None:
 
-		title_regexp ='<title[^>]*>([^<]+)</title>'
-		return Success(page['content'])
+		title_regexp = '<title[^>]*>([^<]+)</title>'
+		has_title    = re.search(title_regexp, page['content'])
+
+		if has_title:
+			return re.search(title_regexp, has_title).group()
+		else:
+			return remove_scheme(page['url'])
 
 	else:
 		return Success(title.text)
@@ -66,8 +102,9 @@ def find_title_tag(page):
 def parse_html(response):
 
 	return {
+		'url':     response.url,
 		'parsed':  lh.fromstring(response.content),
-		'content': response.content
+		'content': response.content.decode('utf-8')
 	}
 
 
@@ -110,6 +147,7 @@ def request_uri(uri):
 
 
 
+
 def extract_title(uri, response, mimetype):
 	"""given a uri, response obtained from looking up that uri, and the mimetype
 	of the response, pick a title for the bookmark uri.
@@ -133,8 +171,7 @@ def extract_title(uri, response, mimetype):
 		return (
 				Success(uri)
 				.then(normalise_uri)
-				.then(urllib.parse.urlparse)
-				.then(lambda parts: parts[2].rpartition('/')[2])
+				.then(extract_resourcename)
 		)
 
 
@@ -166,3 +203,4 @@ def extract_metadata(url):
 		.cross([content_type_result])
 		.then( lambda data: extract_title(url, data[0], data[1]) )
 	)
+
