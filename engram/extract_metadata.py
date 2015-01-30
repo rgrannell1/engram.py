@@ -112,8 +112,8 @@ def extract_utf8_title(uri, response):
 	"""extract a page title from a utf-8 html page.
 	"""
 
-	parsed         = lh.fromstring(response.content)
-	title = parsed.find('.//title')
+	parsed = lh.fromstring(response.content)
+	title  = parsed.find('.//title')
 
 	if not (title is None) and not (title.text is None):
 		return Success(title.title)
@@ -132,11 +132,12 @@ def extract_utf8_title(uri, response):
 			content      = content_result.from_success()
 
 			title_regexp = re.compile('<title[^>]*>([^<]+)</title>')
-			has_title    = title_regexp.search(content)
+			title_match  = title_regexp.search(content)
 
-			if has_title:
+
+			if title_match:
 				# -- the title exists; extract it.
-				return Success(re.search(title_regexp, content).group())
+				return Success(title_match.group())
 			else:
 				# -- no title; just use network location.
 				return Success(get_netloc(uri))
