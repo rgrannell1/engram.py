@@ -113,10 +113,10 @@ def extract_utf8_title(uri, response):
 	"""
 
 	parsed         = lh.fromstring(response.content)
-	title = parsed.find('.//title').text
+	title = parsed.find('.//title')
 
-	if not (title is None):
-		return Success(title)
+	if not (title is None) and not (title.text is None):
+		return Success(title.title)
 	else:
 		# -- most likely caused by lxml's problems with UTF;
 		# -- use a regular expression fallback.
