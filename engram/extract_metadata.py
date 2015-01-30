@@ -171,9 +171,6 @@ def extract_title(uri, response):
 		# -- default to utf-8, a superset of iso-8859 encoding.
 		charset = mime['params'].get('charset', 'utf-8')
 
-		print(response.encoding)
-		print(mime)
-
 		if charset in {'iso-8859-1', 'utf-8'}:
 			return(extract_utf8_title(uri, response))
 		else:
