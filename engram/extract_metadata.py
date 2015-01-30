@@ -169,6 +169,7 @@ def extract_title(uri, response):
 	if is_html(mime['type'] + '/' + mime['subtype']):
 		# -- extract the title tag.
 		# -- default to utf-8, a superset of iso-8859 encoding.
+
 		charset = mime['params'].get('charset', 'utf-8')
 
 		if charset in {'iso-8859-1', 'utf-8'}:

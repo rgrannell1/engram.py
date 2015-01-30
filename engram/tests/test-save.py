@@ -31,7 +31,11 @@ def assert_saved_correctly(uri):
 
 	is_up_uri = uri if ':' in uri else 'http://' + uri
 
-	if requests.get(is_up_uri).status_code == 200:
+	try:
+		assert requests.get(is_up_uri).status_code == 200
+	except Exception as err:
+		pass
+	else:
 
 		print ('============== ' + uri)
 
@@ -39,7 +43,7 @@ def assert_saved_correctly(uri):
 
 		response  = requests.get(save_path)
 		if not response.status_code in {204, 404}:
-			raise response.status_code
+			raise Exception(response.status_code)
 
 
 
