@@ -61,46 +61,10 @@ def get_netloc(uri):
 
 
 
-def find_title_tag(page):
-	"""get the contents of the page's title tag.
-	"""
-
-	title = page['parsed'].find('.//title')
-
-	if title is None:
-		# -- most likely caused by lxml's problems with unicode;
-		# -- use a regular expression fallback.
-
-		title_regexp = '<title[^>]*>([^<]+)</title>'
-		has_title    = re.search(title_regexp, page['content'])
-
-		if has_title:
-			return Success(re.search(title_regexp, has_title).group())
-		else:
-			return Success( get_netloc(page['url']) )
-
-	else:
-		return Success(title.text)
-
-
-
-
-
 def charset(mime):
+	"""get the character set from a page's content-type."""
+
 	return mimetype.parse(mime)['params'].get('charset', 'utf-8')
-
-
-
-
-
-def parse_html(response):
-
-	return {
-		'url':      response.url,
-		'parsed':   lh.fromstring(response.content),
-		'content':  response.content,
-		'charset':  charset(response.headers['content-type'])
-	}
 
 
 
@@ -144,23 +108,52 @@ def request_uri(uri):
 
 
 
+def extract_utf8_title(uri, response):
+	"""extract a page title from a utf-8 html page.
+	"""
 
-def extract_title(uri, response, mime):
-	"""given a uri, response obtained from looking up that uri, and the mimetype
-	of the response, pick a title for the bookmark uri.
+	parsed = lh.fromstring(response.content)
+	title   = parsed.find('.//title')
+
+	if not (title is None):
+		return Success(title.text)
+	else:
+		# -- most likely caused by lxml's problems with UTF;
+		# -- use a regular expression fallback.
+
+		title_regexp = re.compile('<title[^>]*>([^<]+)</title>')
+		has_title    = title_regexp.search(response.content)
+
+		if has_title:
+			# -- the title exists; extract it.
+			return Success(re.search(title_regexp, response.content).group())
+		else:
+			# -- no title; just use network location.
+			return Success(get_netloc(uri))
+
+
+
+
+
+def extract_title(uri, response):
+	"""given a uri, response obtained from looking up that uri, pick a title for
+	the bookmark uri.
 
 	If the resource is a html page, use the contents of the <title> tag. Otherwise
 	just use the resource basename.
 	"""
 
+	mime = mimetype.parse(response.headers['content-type'])
+
 	if is_html(mime['type'] + '/' + mime['subtype']):
 		# -- extract the title tag.
 
-		return (
-			Success(response)
-			.then(parse_html)
-			.then(find_title_tag)
-		)
+		charset = mime['params'].get('charset', 'utf-8')
+
+		if charset is 'utf-8':
+			print(extract_utf8_title(uri, response))
+		else:
+			pass
 
 	else:
 		# -- extract the resource name from the url.
@@ -175,25 +168,19 @@ def extract_title(uri, response, mime):
 
 
 
-def extract_metadata(url):
+def extract_metadata(uri):
 	"""
 	extract additional data about a uri from the resource itself.
 	"""
 
 	response_result = (
-		Success(url)
+		Success(uri)
 		.then(normalise_uri)
 		.then(request_uri)
 	)
 
-	content_type_result = (
-		response_result
-		.then(lambda response: mimetype.parse(response.headers['content-type']))
-	)
-
 	return (
 		response_result
-		.cross([content_type_result])
-		.then( lambda data: extract_title(url, data[0], data[1]) )
+		.then(lambda response: extract_title(uri, response))
 	)
 
