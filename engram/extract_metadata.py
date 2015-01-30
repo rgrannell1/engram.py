@@ -23,42 +23,6 @@ import mimetype
 
 
 
-
-
-
-type_parts = {
-	'maintype': lambda type: type.split('/')[0],
-	'subtype':  lambda type: type.split('/')[1].split(';')[0],
-	'type':     lambda type: type.split(';')[0]
-}
-
-
-
-
-
-def mimetype(content_type):
-	"""
-	maintype/subtype; content_type
-	"""
-
-	return {
-		'maintype': type_parts['maintype'],
-		'subtype':  type_parts['subtype'],
-		'type':     type_parts['type']
-	}
-
-
-
-
-
-
-def charset(content_type):
-	return content_type.split(';')[1]
-
-
-
-
-
 def is_html(type):
 	""""determine whether a mimetype says a resource is a html
 	file.
@@ -122,6 +86,13 @@ def find_title_tag(page):
 
 
 
+def charset(mime):
+	return mimetype.parse(mime)['params'].get('charset', 'utf-8')
+
+
+
+
+
 def parse_html(response):
 
 	return {
@@ -174,7 +145,7 @@ def request_uri(uri):
 
 
 
-def extract_title(uri, response, mimetype):
+def extract_title(uri, response, mime):
 	"""given a uri, response obtained from looking up that uri, and the mimetype
 	of the response, pick a title for the bookmark uri.
 
@@ -182,7 +153,7 @@ def extract_title(uri, response, mimetype):
 	just use the resource basename.
 	"""
 
-	if is_html(mimetype['type']):
+	if is_html(mime['type'] + '/' + mime['subtype']):
 		# -- extract the title tag.
 
 		return (
@@ -217,7 +188,7 @@ def extract_metadata(url):
 
 	content_type_result = (
 		response_result
-		.then(lambda response: mimetype(response.headers['content-type']))
+		.then(lambda response: mimetype.parse(response.headers['content-type']))
 	)
 
 	return (
