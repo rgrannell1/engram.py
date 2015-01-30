@@ -112,7 +112,8 @@ def extract_utf8_title(uri, response):
 	"""extract a page title from a utf-8 html page.
 	"""
 
-	parsed = lh.fromstring(response.content)
+	parsed  = lh.fromstring(response.content)
+	content = response.content.decode('utf-8')
 	title   = parsed.find('.//title')
 
 	if not (title is None):
@@ -122,11 +123,11 @@ def extract_utf8_title(uri, response):
 		# -- use a regular expression fallback.
 
 		title_regexp = re.compile('<title[^>]*>([^<]+)</title>')
-		has_title    = title_regexp.search(response.content)
+		has_title    = title_regexp.search(content)
 
 		if has_title:
 			# -- the title exists; extract it.
-			return Success(re.search(title_regexp, response.content).group())
+			return Success(re.search(title_regexp, content).group())
 		else:
 			# -- no title; just use network location.
 			return Success(get_netloc(uri))
@@ -148,12 +149,14 @@ def extract_title(uri, response):
 	if is_html(mime['type'] + '/' + mime['subtype']):
 		# -- extract the title tag.
 
+		# -- default to utf-8, a superset of iso-8859 encoding.
 		charset = mime['params'].get('charset', 'utf-8')
 
-		if charset is 'utf-8':
-			print(extract_utf8_title(uri, response))
+		if charset in {'iso-8859-1', 'utf-8'}:
+			return(extract_utf8_title(uri, response))
 		else:
-			pass
+			# -- add iso8859-1 support
+			return(get_netloc(uri))
 
 	else:
 		# -- extract the resource name from the url.
