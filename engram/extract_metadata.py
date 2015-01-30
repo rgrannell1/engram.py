@@ -10,30 +10,50 @@ import lxml
 import lxml.html as lh
 
 import httplib2
-
 import subprocess
 
 
 from normalise_uri import normalise_uri
-
 from result import Success, Failure
 
 import requests
+import mimetype
 
 
 
 
+
+
+
+
+type_parts = {
+	'maintype': lambda type: type.split('/')[0],
+	'subtype':  lambda type: type.split('/')[1].split(';')[0],
+	'type':     lambda type: type.split(';')[0]
+}
 
 
 
 
 
 def mimetype(content_type):
+	"""
+	maintype/subtype; content_type
+	"""
+
 	return {
-		'maintype': content_type.split('/')[0],
-		'subtype':  content_type.split('/')[1].split(';')[0],
-		'type':     content_type.split(';')[0]
+		'maintype': type_parts['maintype'],
+		'subtype':  type_parts['subtype'],
+		'type':     type_parts['type']
 	}
+
+
+
+
+
+
+def charset(content_type):
+	return content_type.split(';')[1]
 
 
 
@@ -84,14 +104,16 @@ def find_title_tag(page):
 	title = page['parsed'].find('.//title')
 
 	if title is None:
+		# -- most likely caused by lxml's problems with unicode;
+		# -- use a regular expression fallback.
 
 		title_regexp = '<title[^>]*>([^<]+)</title>'
 		has_title    = re.search(title_regexp, page['content'])
 
 		if has_title:
-			return re.search(title_regexp, has_title).group()
+			return Success(re.search(title_regexp, has_title).group())
 		else:
-			return get_netloc(page['url'])
+			return Success( get_netloc(page['url']) )
 
 	else:
 		return Success(title.text)
@@ -103,9 +125,10 @@ def find_title_tag(page):
 def parse_html(response):
 
 	return {
-		'url':     response.url,
-		'parsed':  lh.fromstring(response.content),
-		'content': response.content.decode('utf-8')
+		'url':      response.url,
+		'parsed':   lh.fromstring(response.content),
+		'content':  response.content,
+		'charset':  charset(response.headers['content-type'])
 	}
 
 
@@ -120,8 +143,10 @@ def request_uri(uri):
 	try:
 		# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
 
+		user_agent = 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
+
 		response = requests.get(uri, headers = {
-			'User-agent': 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
+			'User-agent': user_agent
 		})
 
 		return response
@@ -170,9 +195,9 @@ def extract_title(uri, response, mimetype):
 		# -- extract the resource name from the url.
 
 		return (
-				Success(uri)
-				.then(normalise_uri)
-				.then(extract_resourcename)
+			Success(uri)
+			.then(normalise_uri)
+			.then(extract_resourcename)
 		)
 
 
@@ -192,11 +217,7 @@ def extract_metadata(url):
 
 	content_type_result = (
 		response_result
-		.then(lambda response: {
-			'type':     mimetype(response.headers['content-type'])['type'],
-			'maintype': mimetype(response.headers['content-type'])['maintype'],
-			'subtype':  mimetype(response.headers['content-type'])['subtype']
-		})
+		.then(lambda response: mimetype(response.headers['content-type']))
 	)
 
 	return (
