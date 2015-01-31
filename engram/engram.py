@@ -2,6 +2,7 @@
 
 import os
 import time
+import sys
 
 from result     import Success, Failure
 from flask      import Flask, redirect, url_for, request
@@ -10,7 +11,7 @@ from database   import Database
 
 import routes
 import sql
-
+import signal
 
 
 
@@ -18,11 +19,21 @@ import sql
 
 def create(fpath, test = None):
 
-	app       = Flask(__name__)
+	app = Flask(__name__)
 
 	if test:
 		app.config['TESTING'] = True
 
+
+
+
+
+	def sigterm_handler(signal, stack_frame):
+
+		request.environ.get('werkzeug.server.shutdown')()
+		sys.exit(0)
+
+	signal.signal(signal.SIGTERM, sigterm_handler)
 
 
 

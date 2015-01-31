@@ -43,6 +43,7 @@ class EngramTestCase(unittest.TestCase):
 		try:
 
 			self.process.terminate()
+			self.process.join()
 
 		except Exception as err:
 
