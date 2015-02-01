@@ -24,16 +24,19 @@ def create(fpath, test = None):
 	if test:
 		app.config['TESTING'] = True
 
-
-
-
-
 	def sigterm_handler(signal, stack_frame):
+		"""
+		cleanly shut down when the SIGTERM signal is sent.
+		"""
 
 		request.environ.get('werkzeug.server.shutdown')()
 		sys.exit(0)
 
 	signal.signal(signal.SIGTERM, sigterm_handler)
+
+
+
+
 
 
 

@@ -31,6 +31,7 @@ def parse_mimetype_tokens(tokens):
 			return Failure('unrecognised content type ' + tokens[0] + '.')
 	else:
 
+		# -- this copes with (malformed?) mimetypes of the form text/html;
 		params = [pair for pair in tokens[2:] if len(pair) is 2]
 
 		return {
