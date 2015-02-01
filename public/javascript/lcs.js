@@ -29,23 +29,63 @@ const scoreAlignment = function (str0, str1) {
 
 		var row = []
 
-		// gaps at the ends of the sequence aren't penalised.
+		// -- gaps at the ends of the sequence aren't penalised.
 		for (var jth = 0; jth <= str1.length; ++jth) {
-			row[jth] = ith * jth === 0 ? 1: undefined
+			if (ith * jth === 0) {
+				row[jth] = {
+					matches: 1,
+					gaps:    0
+				}
+			} else {
+				row[jth] = undefined
+			}
 		}
 
 		cache[ith] = row
-
 	}
 
 	for (var ith = 1; ith <= str0.length; ++ith) {
 		for (var jth = 1; jth <= str1.length; ++jth) {
 
-			cache[ith][jth] = Math.max(
-				cache[ith - 1][jth - 1] + charScore(str0.charAt(ith + 1), str1.charAt(jth + 1)),
-				cache[ith    ][jth - 1] + charScore.gap,
-				cache[ith - 1][jth    ] + charScore.gap
-			)
+			// -- the current best match is either the
+			// -- last
+
+			var char0 = str0.charAt(ith - 1)
+			var char1 = str1.charAt(jth - 1)
+
+			if (char0.toLowerCase() === char1.toLowerCase()) {
+				// -- the characters are aligned. No new gaps, increase the score.
+
+				cache[ith][jth] = {
+					matches: cache[ith - 1][jth - 1].matches + 1,
+					gaps:    cache[ith - 1][jth - 1].gaps
+				}
+
+			} else {
+				// -- have to insert a gap. Use -1/2 as a gap-penalty
+				// -- and choose the best subsequence with respects to
+				// -- matches + (gapPenalty x gaps)
+
+				var topPath  = cache[ith    ][jth - 1]
+				var leftPath = cache[ith - 1][jth    ]
+
+				if (topPath.matches - (0.5 * topPath.gaps) > leftPath.matches - (0.5 * leftPath.gaps)) {
+
+					cache[ith][jth] = {
+						matches: topPath.matches,
+						gaps:    topPath.gaps + 1
+					}
+
+				} else {
+
+					cache[ith][jth] = {
+						matches: leftPath.matches,
+						gaps:    leftPath.gaps + 1
+					}
+
+				}
+
+			}
 
 		}
 	}
@@ -68,6 +108,6 @@ const similarity = function (str0, str1) {
 
 console.log(
 
-	similarity('monk', 'monks is a string')
+	scoreAlignment('monk', 'monk is a string')
 
 )
