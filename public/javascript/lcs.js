@@ -1,5 +1,30 @@
 #!/usr/bin/env node
 
+const charScore = function (char0, char1) {
+
+	if (char0 === char1) {
+		return charScore.matchScore
+	} else if (char0.toLowerCase() === char1.toLowerCase()) {
+		return charScore.caseMatchScore
+	} else {
+		return charScore.mismatchScore
+	}
+
+}
+
+charScore.matchScore     = +2
+charScore.caseMatchScore = +1
+charScore.mismatchScore  = -Infinity
+
+
+
+
+
+
+
+
+
+
 const searchAlign = ( function () {
 
 	var align = function (score, str0, str1) {
@@ -39,18 +64,8 @@ const searchAlign = ( function () {
 
 
 	return align.bind(null, {
-		charPair: function (char0, char1) {
-
-			if (char0 === char1) {
-				return +2
-			} else if (char0.toLowerCase() === char1.toLowerCase()) {
-				return +1
-			} else {
-				return -1
-			}
-
-		}
-		gap: -1,
+		'charPair': charScore,
+		'gap':      -1,
 	})
 
 } )()
