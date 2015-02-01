@@ -7,7 +7,6 @@
 
 var align = function (score, str0, str1) {
 
-	var _     = undefined
 	var cache = []
 
 	for (var ith = 0; ith <= str0.length; ++ith) {
@@ -15,11 +14,7 @@ var align = function (score, str0, str1) {
 		var row = []
 
 		for (var jth = 0; jth <= str1.length; ++jth) {
-
-			row[jth] = ith === 0 || jth === 0?
-				(ith * -1) + (jth * -1):
-				_
-
+			row[jth] = ith * jth === 0 ? (ith * -1) + (jth * -1): undefined
 		}
 
 		cache[ith] = row
