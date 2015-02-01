@@ -4,88 +4,70 @@
 
 
 
-/*
 
-*/
+var align = function (score, str0, str1) {
 
-const memoise = function (fn) {
-	return function () {
+	var _     = undefined
+	var cache = []
 
-		var args = Array.prototype.slice.call(arguments)
-		var hash = ""
-		var ith  = args.length
+	for (var ith = 0; ith <= str0.length; ++ith) {
 
-		while (ith--) {
+		var row = []
 
-			var arg     = args[ith]
-			var argHash = (arg === Object(arg)) ?
-				JSON.stringify(args) : arg
+		for (var jth = 0; jth <= str1.length; ++jth) {
 
-			hash += argHash
+			row[jth] = ith === 0 || jth === 0?
+				(ith * -1) + (jth * -1):
+				_
 
 		}
 
-		if (hash in fn.memoise) {
-			return fn.memoise[hash]
-		} else {
-			return fn.memoise[hash] = fn.apply(this, args)
-		}
+		cache[ith] = row
 
 	}
 
-}
 
 
 
+	for (var ith = 1; ith <= str0.length; ++ith) {
+		for (var jth = 1; jth <= str1.length; ++jth) {
 
+			cache[ith][jth] = Math.max(
 
+				cache[ith - 1][jth - 1] + score.charPair(str0.charAt(ith + 1), str1.charAt(jth + 1)),
+				cache[ith    ][jth - 1] + score.gap,
+				cache[ith - 1][jth    ] + score.gap
 
-
-
-
-/*
-	alignmentFit :: string x string x {charScore: function, gapPenalty: number} -> number
-
-*/
-
-const alignmentFit = function (str0, str1, score) {
-
-	const _rec = function (ith, jth) {
-
-		if (ith < 0 || jth < 0) {
-			return (ith * score.gapPenalty) + (jth * score.gapPenalty)
-		} else {
-			return Math.max(
-				_rec(ith - 1, jth - 1) + score.charScore(str0.charAt(ith), str1.charAt(jth)),
-				_rec(ith,     jth - 1) + score.gapPenalty,
-				_rec(ith - 1, jth    ) + score.gapPenalty
 			)
-		}
 
+		}
 	}
 
-	return _rec(str0.length - 1, str1.length - 1)
+	return cache[str0.length][str1.length]
 
 }
 
+
+
+
+const searchAlign = align.bind(null, {
+	gap: -1,
+	charPair: function (char0, char1) {
+
+		if (char0 === char1) {
+			return +1
+		} else if (char0.toLowerCase() === char1.toLowerCase()) {
+			return +(1 / 2)
+		} else {
+			return -1
+		}
+
+	}
+})
 
 
 
 
 console.log(
-
-	alignmentFit('abcabc', 'cabcabcabc', {
-		'charScore':  function (char0, char1) {
-
-			if (char0 === char1) {
-				return +1
-			} else if (char0.toLowerCase() === char1.toLowerCase()) {
-				return +(1 / 2)
-			} else {
-				return -1
-			}
-		},
-		'gapPenalty': -1,
-	})
-
+	JSON.stringify( searchAlign('mon', 'monkey') )
 )
