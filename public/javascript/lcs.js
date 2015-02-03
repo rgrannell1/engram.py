@@ -1,18 +1,18 @@
 
-const align = function (str0, str1) {
+const align = function (query, text) {
 
 	// todo rewrite with indexOf and a while loop.
 
-	const alignHeads = function (str0, str1) {
+	const alignHeads = function (query, text) {
 
-		if ((str0.length * str1.length) === 0 || str0.charAt(0) === str1.charAt(0)) {
-			return str1
+		if ((query.length * text.length) === 0 || query.charAt(0) === text.charAt(0)) {
+			return text
 		} else {
-			return alignHeads(str0, str1.slice(1))
+			return alignHeads(query, text.slice(1))
 		}
 	}
 
-	const matchResult = str0.split('').reduce(function (state, char) {
+	const matchResult = query.split('').reduce(function (state, char) {
 
 		if (state.toMatch.length === 0) {
 			return state
@@ -28,13 +28,13 @@ const align = function (str0, str1) {
 
 	}, {
 		gaps:    0,
-		toMatch: alignHeads(str0, str1)
+		toMatch: alignHeads(query, text)
 	})
 
 	return {
 		isMatch: matchResult.toMatch.length === 0,
 		gaps:    matchResult.gaps,
-		query:   str0
+		query:   query
 	}
 
 }
