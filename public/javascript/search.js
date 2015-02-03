@@ -150,7 +150,7 @@ const searchMatches = function (getText, query, cache) {
 			}
 		})
 		.filter(function (data) {
-			return data.likelihood / gapPenalty(query, getText(data.bookmark) < 10)
+			return scoreAlignment(query, data.bookmark).matches > 0
 		})
 		.sort(function (bookmark0, bookmark1) {
 			return bookmark0.likelihood - bookmark1.likelihood
