@@ -12,7 +12,7 @@ const align = function (query, text) {
 		}
 	}
 
-	const matchResult = query.split('').reduce(function (state, char) {
+	const alignResult = query.split('').reduce(function (state, char) {
 
 		if (state.toMatch.length === 0) {
 			return state
@@ -22,7 +22,7 @@ const align = function (query, text) {
 
 			return {
 				gaps:       state.gaps +        index === -1 ? 0: index,
-				toMatch:    state.toMatch.slice(index === -1 ? index + 1: Infinity)
+				toMatch:    state.toMatch.slice(index === -1 ? Infinity: index + 1)
 			}
 		}
 
@@ -32,12 +32,25 @@ const align = function (query, text) {
 	})
 
 	return {
-		isMatch: matchResult.toMatch.length === 0,
-		gaps:    matchResult.gaps,
-		query:   query
+		isMatch: alignResult.toMatch.length === 0,
+		gaps:    alignResult.gaps,
+		query:   query,
+		text:    text
 	}
 
 }
 
+const alignmentQuality = function (alignment) {
 
-console.log( align('monkeys are not cats', 'monkeys are not cats') )
+	console.log(alignment)
+
+	return 1 - (alignment.gaps / alignment.text.length)
+}
+
+
+
+
+
+console.log(
+	alignmentQuality(align('monk', 'monkies'))
+)
