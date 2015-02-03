@@ -1,6 +1,8 @@
 
 const align = function (str0, str1) {
 
+	// todo rewrite with indexOf and a while loop.
+
 	const alignHeads = function (str0, str1) {
 
 		if ((str0.length * str1.length) === 0 || str0.charAt(0) === str1.charAt(0)) {
@@ -18,29 +20,14 @@ const align = function (str0, str1) {
 
 			const index = state.toMatch.indexOf(char)
 
-			if (index === -1) {
-
-				return {
-					gaps:    state.gaps,
-					matched: state.matched.slice(1),
-					toMatch: ''
-				}
-
-			} else {
-
-				return {
-					gaps:       state.gaps    + index,
-					matched:    state.matched + char,
-					toMatch:    state.toMatch.slice(index + 1)
-				}
-
+			return {
+				gaps:       state.gaps +        index === -1 ? 0: index,
+				toMatch:    state.toMatch.slice(index === -1 ? index + 1: Infinity)
 			}
-
 		}
 
 	}, {
 		gaps:    0,
-		matched: '',
 		toMatch: alignHeads(str0, str1)
 	})
 
