@@ -1,5 +1,72 @@
 
 /*
+	align
+
+	align two strings locally, and calculate the gaps required to make the match
+	fit.
+
+*/
+
+const align = function (query, text) {
+
+	const alignHeads = function (query, text) {
+
+		if ((query.length * text.length) === 0 || query.charAt(0) === text.charAt(0)) {
+			return text
+		} else {
+			return alignHeads(query, text.slice(1))
+		}
+	}
+
+	const alignResult = query.split('').reduce(function (state, char) {
+
+		if (state.toMatch.length === 0) {
+			return state
+		} else {
+
+			const index = state.toMatch.indexOf(char)
+
+			return {
+				gaps:       state.gaps +        index === -1 ? 0: index,
+				toMatch:    state.toMatch.slice(index === -1 ? Infinity: index + 1)
+			}
+		}
+
+	}, {
+		gaps:    0,
+		toMatch: alignHeads(query, text)
+	})
+
+	return {
+		query:   query,
+		text:    text,
+
+		isMatch: alignResult.toMatch.length === 0,
+		gaps:    alignResult.gaps
+	}
+
+}
+
+
+
+
+
+/*
+	alignQuality
+
+	how well aligned is a string to another?
+*/
+
+const alignQuality = function (alignment) {
+	return 1 - (alignment.gaps / alignment.text.length)
+}
+
+
+
+
+
+
+/*
 
 	findSplitSubstring :: string -> string -> boolean
 
@@ -17,24 +84,6 @@ const isSplitSubstring = function (pattern) {
 	}
 
 }
-
-
-
-
-
-/*
-
-	countGaps :: string x string -> number
-
-	count the gap score between two patterns. Low scores
-	are better.
-
-*/
-
-const countGaps = function (pattern, string) {
-	return Math.abs(pattern.length, string.length)
-}
-
 
 /*
 	rarity :: string -> number
@@ -74,7 +123,7 @@ const rarity = ( function () {
 
 /*
 
-	isSignificantMatch :: string x string -> number
+	likelihood :: string x string -> number
 
 	let A be the character string
 
@@ -109,6 +158,9 @@ const rarity = ( function () {
 	ultimately computes rarity x (|pattern| choose |query|) without the right term overflowing;
 	the left term (rarity) is very small and the right term is too large to compute, but the
 	product of the two is in floating point range.
+
+	The unlikelyness of the pattern is ignored.
+
 */
 
 const likelihood = function (query, pattern) {
@@ -118,13 +170,10 @@ const likelihood = function (query, pattern) {
 
 
 
-/*
-	gapPenalty :: string x string -> number
-*/
-const gapPenalty = function (query, pattern) {
-	return 1
-}
 
+const scoreAlignment = function (query, text) {
+	return likelihood(query, text) * alignQuality(align(query, text))
+}
 
 
 
