@@ -38,20 +38,21 @@ const attachHiddenBookmarks = function (template) {
 
 	const appendChunk = function (maxID, amount) {
 
-		console.log('appending.')
 
-		if (!ENGRAM.cache.isSynced) {
+		if (maxID >= 0) {
 
-			const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+			console.log('appending [' + maxID + ',' + (Math.max(maxID - amount, 0)) + ']')
+
+			const chunk = ENGRAM.cache.fetchChunk(maxID, amount)
 
 			$('#content').append( fillViewgroup(createViewGroup(chunk.maxID), chunk.data) )
 
-			setTimeout(appendChunk.bind(null, chunk.nextID, amount), 50)
+			setTimeout(appendChunk.bind(null, chunk.nextID, amount), 100)
 		}
 
 	}
 
-	appendChunk(getMaxID(), 100)
+	appendChunk(getMaxID(), 250)
 
 }
 
