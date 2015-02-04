@@ -204,12 +204,12 @@ const searchMatches = function (getText, query, cache) {
 
 				const score = scoreAlignment(query, getText(bookmark))
 
-				if (score > 0.20) {
-					$('#' + bookmark.bookmark_id).show()
+				if (score > 0.10) {
+					$('#' + bookmark.bookmark_id + ' article').css('display', 'inline')
 				}
 
 			} else {
-				$('#' + bookmark.bookmark_id).hide()
+				$('#' + bookmark.bookmark_id + ' article').css('display', 'none')
 			}
 
 
@@ -224,7 +224,7 @@ const searchMatches = function (getText, query, cache) {
 ENGRAM.searchState = {
 	previous: '',
 	current:  '',
-	currentMatches: []
+	ids:      []
 }
 
 
@@ -281,7 +281,7 @@ $('#search').keyup(function (event) {
 
 	if (current.length > 1) {
 
-		ENGRAM.searchState.currentMatches = searchMatches(function (bookmark) {
+		searchMatches(function (bookmark) {
 			return bookmark.title
 		}, current, ENGRAM.cache)
 

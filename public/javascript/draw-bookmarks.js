@@ -1,102 +1,60 @@
 
-/*
-	viewingBottom :: undefined -> number
+const getMaxID = function () {
 
-	is the user scrolled to the bottom of the page?
-*/
+	const maxID = $('#content article:last').attr('id')
 
-ENGRAM.viewingBottom = function (offset) {
-
-	if (is.undefined(offset)) {
-		offset = 0
-	} else if (!is.number(offset)) {
-		throw TypeError('viewingBottom:' + JSON.stringify(offset) + ' was not a number.')
+	if (is.undefined(maxID) ) {
+		return ENGRAM.BIGINT
+	} else {
+		return parseInt(maxID, 10)
 	}
-
-	return document.documentElement.clientHeight + $(document).scrollTop() - offset >= document.body.offsetHeight
 
 }
 
+const createViewGroup = function (maxID) {
 
+	return $('<div></div>', {
+		'id':    maxID,
+		'class': 'viewgroup'
+	})
 
+}
 
-
-$.get('/public/html/bookmark-template.html', function (template) {
-
-	if (!is.string(template)) {
-		throw TypeError('template loading failed (loaded a non-string value)')
-	}
-
-
-
-
-4
-	const nudge = function () {
-		$(window).scrollTop($(window).scrollTop() + 1)
-	}
-
-	/*
-		renderBookmark :: Bookmark -> string
-
-		render the bookmark template with Mustache.
-	*/
+const attachHiddenBookmarks = function (template) {
 
 	const renderBookmark = function (bookmark) {
 		return Mustache.render(template, bookmark)
 	}
 
+	const fillViewgroup = function(viewgroup, bookmarks) {
 
+		$viewgroup = $(viewgroup).append(bookmarks.map(renderBookmark).join(''))
 
+		$viewgroup.find('article').css('display', 'none')
 
+		return $viewgroup
 
-	/*
-		appendBookmarks :: number -> undefined
-
-		add bookmarks to the DOM.
-
-		what is cache.maxID === -1 (no update) ?
-
-		THIS IS TERRIBLE, TERRIBLE CODE. Very slow, not reusable.
-	*/
-
-	const appendBookmarks = function (maxID) {
-
-		if (!is.number(maxID)) {
-			throw TypeError('appendBookmarks: ' + maxID + ' was not a number.')
-		}
-
-		if (ENGRAM.viewingBottom(ENGRAM.LOADOFFSET)) {
-
-			const chunk     = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
-
-			const viewgroup = $('<div></div>', {
-				'id':    maxID,
-				'class': 'viewgroup'
-			})
-
-			const innerHTML = chunk.data
-				.map(function (bookmark) {
-					return renderBookmark(bookmark)
-				})
-				.reduce(function (html, bookmark) {
-					return html + bookmark
-				}, '')
-
-			$(viewgroup).append(innerHTML)
-			$('#content').append(viewgroup)
-
-			// rebind scroll handler.
-			$(document).off('scroll')
-			$(document).on( 'scroll', appendBookmarks.bind(null, chunk.nextID) )
-			$(document).on( 'scroll', ENGRAM.updateTimers.bind(null, $('.viewgroup')) )
-
-			nudge() // this sucks; an awful way of triggering this code.
-
-		}
 	}
 
+	const appendChunk = function (maxID, amount) {
 
+		if (maxID <= 0) {
+			console.log('finished appending bookmarks.')
+		} else {
 
-	appendBookmarks(ENGRAM.cache.maxID)
+			console.log('appending [' + maxID + ',' + (Math.max(maxID - amount, 0)) + ']')
 
-})
+			const chunk = ENGRAM.cache.fetchChunk(maxID, amount)
+
+			$('#content').append( fillViewgroup(createViewGroup(chunk.maxID), chunk.data) )
+
+			setTimeout(appendChunk.bind(null, chunk.nextID, amount), 75)
+		}
+
+	}
+
+	appendChunk(getMaxID(), 125)
+
+}
+
+$.get('/public/html/bookmark-template.html', attachHiddenBookmarks)

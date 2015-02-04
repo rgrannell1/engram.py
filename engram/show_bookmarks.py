@@ -26,7 +26,7 @@ dependencies = {
 		"modify-cache",
 
 		"update-times",
-		"draw-bookmarks-2",
+		"draw-bookmarks",
 		"link-tab-highlight",
 
 		"delete-bookmark",
