@@ -172,7 +172,12 @@ const likelihood = function (query, pattern) {
 
 
 const scoreAlignment = function (query, text) {
-	return likelihood(query, text) * alignQuality(align(query, text))
+
+	// small denominator should be small, larger should converge on 1 quickly.
+	const lengthScore = 1 - Math.pow(1 - (query.length / text.length), 2.7)
+	const alignScore  = alignQuality( align(query.toLowerCase(), text.toLowerCase()) )
+
+	return lengthScore * alignScore
 }
 
 
@@ -186,25 +191,26 @@ const scoreAlignment = function (query, text) {
 
 const searchMatches = function (getText, query, cache) {
 
-	const isMatch = isSplitSubstring(query)
+	const isFullMatch = isSplitSubstring(query)
+	$article = $('article')
 
 	return cache.contents
-		.filter(function (bookmark) {
-			return isMatch(getText(bookmark))
-		})
-		.map(function (bookmark) {
-			return {
-				bookmark:   getText(bookmark),
-				likelihood: likelihood(query, getText(bookmark))
+		.forEach(function (bookmark) {
+
+			if ( isFullMatch(getText(bookmark)) ) {
+
+				const score = scoreAlignment(query, getText(bookmark))
+
+				if (score > 0.20) {
+					$('#' + bookmark.bookmark_id).show()
+				}
+
+			} else {
+				$('#' + bookmark.bookmark_id).hide()
 			}
+
+
 		})
-		.filter(function (data) {
-			return scoreAlignment(query, data.bookmark).matches > 0
-		})
-		.sort(function (bookmark0, bookmark1) {
-			return bookmark0.likelihood - bookmark1.likelihood
-		})
-		.reverse()
 
 }
 
@@ -280,7 +286,5 @@ $('#search').keyup(function (event) {
 
 	// if current search is substring of previous search
 	// current elements are a pruning of previous elements.
-
-	console.log(ENGRAM.searchState.currentMatches)
 
 })
