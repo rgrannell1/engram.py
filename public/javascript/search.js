@@ -174,7 +174,10 @@ const likelihood = function (query, pattern) {
 const scoreAlignment = function (query, text) {
 
 	// small denominator should be small, larger should converge on 1 quickly.
-	const lengthScore = 1 - Math.pow(1 - (query.length / text.length), 2.7)
+	// may need to fit a polynomial to that curve.
+
+	const ratio       = query.length / text.length
+	const lengthScore = ratio
 	const alignScore  = alignQuality( align(query.toLowerCase(), text.toLowerCase()) )
 
 	return lengthScore * alignScore

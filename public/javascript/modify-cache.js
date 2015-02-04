@@ -15,7 +15,7 @@ ENGRAM.cache = ENGRAM.Cache(function (bookmark) {
 
 })
 
-
+ENGRAM.cache.isSynced = false
 
 
 
@@ -143,5 +143,6 @@ ENGRAM.syncCache = ( function () {
 ENGRAM.syncCache(ENGRAM.cache, function (startTime, cache) {
 
 	console.log('loaded all ' + cache.contents.length + ' bookmarks in ' + (new Date - startTime) + ' milliseconds.')
+	ENGRAM.cache.isSynced = true
 
 })

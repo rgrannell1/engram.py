@@ -151,13 +151,15 @@ ENGRAM.Cache = function (getID) {
 
 			return {
 				data:   chunk,
-				nextID: minID - 1
+				nextID: minID - 1,
+				maxID:  chunk.map(getID).reduce(function (a, b) {return Math.max(a, b)})
 			}
 
 		} else {
 			return {
 				data:   chunk,
-				nextID: -1
+				nextID: -1,
+				maxID:  -1
 			}
 		}
 
