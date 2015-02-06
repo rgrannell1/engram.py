@@ -1,4 +1,13 @@
 
+
+/*
+	http://math.stackexchange.com/questions/64716/approximating-the-logarithm-of-the-binomial-coefficient
+*/
+
+const lnChoose = function (n, m) {
+	return n * Math.log(n) - m * Math.log(m) - (n - m) * Math.log(n - m)
+}
+
 /*
 	align
 
@@ -187,33 +196,41 @@ const scoreAlignment = function (query, text) {
 
 
 /*
-	searchMatches :: string x string x string
+	scoreBookmarks :: string x string x string
 
 	find all bookmarks in the cache matching a query string.
+
 */
 
-const searchMatches = function (getText, query, cache) {
+const scoreBookmarks = function (getText, query, cache) {
 
 	const isFullMatch = isSplitSubstring(query)
-	$article = $('article')
 
-	return cache.contents
-		.forEach(function (bookmark) {
+	return cache.contents.map(function (bookmark) {
 
-			if ( isFullMatch(getText(bookmark)) ) {
+		return isFullMatch(getText(bookmark))
+		? [ bookmark.bookmark_id, scoreAlignment(query, getText(bookmark)) ]
+		: [ bookmark.bookmark_id, 0]
 
-				const score = scoreAlignment(query, getText(bookmark))
+	})
 
-				if (score > 0.10) {
-					$('#' + bookmark.bookmark_id + ' article').css('display', 'inline')
-				}
+}
 
-			} else {
-				$('#' + bookmark.bookmark_id + ' article').css('display', 'none')
-			}
+/*
+	setURI :: string -> undefined
 
+	set the user URI, to keep the current state synced in the location
+	for future use.
 
-		})
+*/
+
+const setURI = function (query) {
+
+	if (query.length === 0) {
+		history.pushState(null, '', '/bookmarks')
+	} else {
+		history.pushState(null, '', '/bookmarks?q=' + query)
+	}
 
 }
 
@@ -232,24 +249,6 @@ ENGRAM.searchState = {
 
 
 /*
-	setLocation :: string -> undefined
-*/
-
-const setLocation = function (query) {
-
-	if (query.length === 0) {
-		history.pushState(null, '', '/bookmarks')
-	} else {
-		history.pushState(null, '', '/bookmarks?q=' + query)
-	}
-
-}
-
-
-
-
-
-/*
 	updateSearchState :: {
 		'previous': string, 'current': string
 	} x string -> {
@@ -260,12 +259,18 @@ const setLocation = function (query) {
 	update the current state and previous state.
 
 */
+
 const updateSearchState = function (state, query) {
 
 	state.previous = state.current
 	state.current  = query
 
 	return state
+}
+
+
+const isPrefixOf = function (str1, str2) {
+	return str2.slice(0, str1.length) === str1
 }
 
 
@@ -277,11 +282,11 @@ $('#search').keyup(function (event) {
 	const current      = $(this).val()
 	ENGRAM.searchState = updateSearchState(ENGRAM.searchState, current)
 
-	setLocation(current)
+	setURI(current)
 
 	if (current.length > 1) {
 
-		searchMatches(function (bookmark) {
+		const ids = scoreBookmarks(function (bookmark) {
 			return bookmark.title
 		}, current, ENGRAM.cache)
 

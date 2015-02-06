@@ -90,7 +90,15 @@ ENGRAM.syncCache = ( function () {
 					throw TypeError("response.data is not a array.")
 				}
 
-				response.data.forEach(cache.add) // side-effectually update the cache.
+				response.data.forEach(function (bookmark) {
+
+					bookmark.metadata = {
+						queryScores: {}
+					}
+
+					cache.add(bookmark)
+
+				})
 
 				callback({
 					cache:      cache,
