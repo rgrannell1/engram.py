@@ -60,14 +60,15 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	appendChunk(ENGRAM.BIGINT, template)
 
+
+
+
+
 	$(window).on('scroll', function () {
 
 		window.requestAnimationFrame(function () {
 
-			const scrollHeight   = $(document).height()
-			const scrollPosition = $(window).height() + $(window).scrollTop()
-
-			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
+			if (($(document).height() - $(window).height() + $(window).scrollTop()) < ENGRAM.LOADOFFSET) {
 				appendChunk(getNextID(), template)
 			}
 
@@ -76,8 +77,3 @@ $.get('/public/html/bookmark-template.html', function (template) {
 	})
 
 })
-
-
-
-
-
