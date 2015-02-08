@@ -94,6 +94,10 @@ const isSplitSubstring = function (pattern) {
 
 }
 
+
+
+
+
 /*
 	rarity :: string -> number
 
@@ -268,6 +272,12 @@ const updateSearchState = function (state, query) {
 	return state
 }
 
+/*
+	isPrefixOf
+
+	is a string a prefix of another?
+
+*/
 
 const isPrefixOf = function (str1, str2) {
 	return str2.slice(0, str1.length) === str1

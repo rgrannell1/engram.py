@@ -30,9 +30,6 @@ dependencies = {
 		"link-tab-highlight",
 
 		"delete-bookmark",
-
-		"choose",
-		"lcs",
 		"search"
 	]),
 

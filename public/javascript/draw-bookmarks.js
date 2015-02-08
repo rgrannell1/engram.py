@@ -1,4 +1,10 @@
 
+/*
+	getMaxID
+
+	get the largest bookmark id currently loaded on the DOM.
+*/
+
 const getMaxID = function () {
 
 	const maxID = $('#content article:last').attr('id')
@@ -11,50 +17,57 @@ const getMaxID = function () {
 
 }
 
-const createViewGroup = function (maxID) {
 
-	return $('<div></div>', {
-		'id':    maxID,
+
+
+/*
+	createViewGroup
+
+	create a viewgroup <div> element and
+	add a maxID giving the id of the largest element
+	contained within it upon creation.
+
+*/
+
+
+
+
+
+const createViewGroup = function (chunk, renderer) {
+
+	const $viewgroup = $('<div></div>', {
+		'id':    chunk.maxID,
 		'class': 'viewgroup'
 	})
 
+	return $viewgroup.append(chunk.data.map(renderer).join(''))
+
 }
 
-const attachHiddenBookmarks = function (template) {
 
-	const renderBookmark = function (bookmark) {
+
+
+/*
+	attachFirstChunk
+
+	load some initial bookmarks.
+
+*/
+
+const appendFirstChunk = function (template) {
+
+	const chunk = ENGRAM.cache.fetchChunk(ENGRAM.BIGINT, 100)
+
+	$viewgroup = createViewGroup(chunk, function (bookmark) {
 		return Mustache.render(template, bookmark)
-	}
+	})
 
-	const fillViewgroup = function(viewgroup, bookmarks) {
-
-		$viewgroup = $(viewgroup).append(bookmarks.map(renderBookmark).join(''))
-
-		$viewgroup.find('article').css('display', 'none')
-
-		return $viewgroup
-
-	}
-
-	const appendChunk = function (maxID, amount) {
-
-		if (maxID <= 0) {
-			console.log('finished appending bookmarks.')
-		} else {
-
-			console.log('appending [' + maxID + ',' + (Math.max(maxID - amount, 0)) + ']')
-
-			const chunk = ENGRAM.cache.fetchChunk(maxID, amount)
-
-			$('#content').append( fillViewgroup(createViewGroup(chunk.maxID), chunk.data) )
-
-			setTimeout(appendChunk.bind(null, chunk.nextID, amount), 75)
-		}
-
-	}
-
-	appendChunk(getMaxID(), 125)
+	$('#content').append($viewgroup)
 
 }
 
-$.get('/public/html/bookmark-template.html', attachHiddenBookmarks)
+
+
+
+
+$.get('/public/html/bookmark-template.html', appendFirstChunk)
