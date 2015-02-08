@@ -286,23 +286,3 @@ const isPrefixOf = function (str1, str2) {
 
 
 
-
-$('#search').keyup(function (event) {
-
-	const current      = $(this).val()
-	ENGRAM.searchState = updateSearchState(ENGRAM.searchState, current)
-
-	setURI(current)
-
-	if (current.length > 1) {
-
-		const ids = scoreBookmarks(function (bookmark) {
-			return bookmark.title
-		}, current, ENGRAM.cache)
-
-	}
-
-	// if current search is substring of previous search
-	// current elements are a pruning of previous elements.
-
-})

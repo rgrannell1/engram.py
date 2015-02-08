@@ -104,13 +104,23 @@ $('#search').keyup(function (event) {
 
 	if (current.length > 1) {
 
-		console.log(
+		const isMatch = isSplitSubstring(current)
 
-			ENGRAM.cache.fetchChunk(ENGRAM.BIGINT, 100, function (bookmark) {
-				return scoreAlignment(current, bookmark.title) > 0.10
+		const matches = ENGRAM.cache
+			.fetchChunk(ENGRAM.BIGINT, ENGRAM.BIGINT, function (bookmark) {
+				return isMatch(bookmark.title)
 			})
 
-		)
+		const scored = matches.data.map(function (bookmark) {
+
+			bookmark.metadata                      = bookmark.metadata                      || {queryScores: {}}
+			bookmark.metadata.queryScores[current] = bookmark.metadata.queryScores[current] || scoreAlignment(current, bookmark.title)
+
+			return bookmark
+
+		})
+
+		console.log( scored )
 
 	}
 
