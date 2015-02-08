@@ -1,22 +1,7 @@
 
-/*
-	getMaxID
-
-	get the largest bookmark id currently loaded on the DOM.
-*/
-
-const getMaxID = function () {
-
-	const maxID = $('#content article:last').attr('id')
-
-	if (is.undefined(maxID) ) {
-		return ENGRAM.BIGINT
-	} else {
-		return parseInt(maxID, 10)
-	}
-
+const getNextID = function () {
+	return parseInt($('.viewgroup:last').attr('data-nextID'), 10)
 }
-
 
 
 
@@ -43,8 +28,9 @@ const appendChunk = ( function () {
 	const viewgroup = function (chunk, renderer) {
 
 		return $('<div></div>', {
-			'id':    chunk.maxID,
-			'class': 'viewgroup'
+			'id':          chunk.maxID,
+			'data-nextID': chunk.nextID,
+			'class':       'viewgroup'
 		})
 		.append(chunk.data.map(renderer).join(''))
 
@@ -82,7 +68,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			const scrollPosition = $(window).height() + $(window).scrollTop()
 
 			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-				appendChunk(getMaxID(), template)
+				appendChunk(getNextID(), template)
 			}
 
 		})
