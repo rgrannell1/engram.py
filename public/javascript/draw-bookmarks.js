@@ -106,18 +106,17 @@ $('#search').keyup(function (event) {
 
 		const isMatch = isSplitSubstring(current)
 
-		const matches = ENGRAM.cache
-			.fetchChunk(ENGRAM.BIGINT, ENGRAM.BIGINT, function (bookmark) {
-				return isMatch(bookmark.title)
-			})
+		ENGRAM.cache.contents.map(function (bookmark) {
 
-		const scored = matches.data.map(function (bookmark) {
+			bookmark.metadata = bookmark.metadata || {queryScores: {}}
 
-			bookmark.metadata                      = bookmark.metadata                      || {queryScores: {}}
-			bookmark.metadata.queryScores[current] = bookmark.metadata.queryScores[current] || scoreAlignment(current, bookmark.title)
+			bookmark.metadata.queryScores[current] = isMatch(bookmark.title)
+			? bookmark.metadata.queryScores[current] || scoreAlignment(current, bookmark.title)
+			: bookmark.metadata.queryScores[current] || 0
+		})
 
-			return bookmark
-
+		const scored = ENGRAM.cache.contents.filter(function (bookmark) {
+			return bookmark.metadata.queryScores[current] > 0.10
 		})
 
 		console.log( scored )
