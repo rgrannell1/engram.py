@@ -21,7 +21,7 @@ const getMaxID = function () {
 
 
 /*
-	createViewGroup
+	viewgroup
 
 	create a viewgroup <div> element and
 	add a maxID giving the id of the largest element
@@ -29,18 +29,13 @@ const getMaxID = function () {
 
 */
 
+const viewgroup = function (chunk, renderer) {
 
-
-
-
-const createViewGroup = function (chunk, renderer) {
-
-	const $viewgroup = $('<div></div>', {
+	return $('<div></div>', {
 		'id':    chunk.maxID,
 		'class': 'viewgroup'
 	})
-
-	return $viewgroup.append(chunk.data.map(renderer).join(''))
+	.append(chunk.data.map(renderer).join(''))
 
 }
 
@@ -58,11 +53,9 @@ const appendFirstChunk = function (template) {
 
 	const chunk = ENGRAM.cache.fetchChunk(ENGRAM.BIGINT, 100)
 
-	$viewgroup = createViewGroup(chunk, function (bookmark) {
+	return $('#content').append( viewgroup(chunk, function (bookmark) {
 		return Mustache.render(template, bookmark)
-	})
-
-	$('#content').append($viewgroup)
+	}) )
 
 }
 
