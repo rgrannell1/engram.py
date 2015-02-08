@@ -113,7 +113,7 @@ ENGRAM.Cache = function (getID) {
 
 
 
-	self.fetchChunk = function (maxID, amount) {
+	self.fetchChunk = function (maxID, amount, pred) {
 
 		if (!is.number(maxID)) {
 			throw "fetchChunk: attempt to set maxID to non-number (" + JSON.stringify(maxID) + ")"
@@ -123,6 +123,8 @@ ENGRAM.Cache = function (getID) {
 			throw "fetchChunk: attempt to set amount to non-number (" + JSON.stringify(amount) + ")"
 		}
 
+		pred = pred || function (entry) {return true}
+
 
 
 
@@ -131,8 +133,10 @@ ENGRAM.Cache = function (getID) {
 
 		for (var ith = 0; ith < self.contents.length; ++ith) {
 
-			if (getID(self.contents[ith]) <= maxID) {
-				chunk.push(self.contents[ith])
+			var entry = self.contents[ith]
+
+			if ( getID(entry) <= maxID && pred(entry) ) {
+				chunk.push(entry)
 			}
 
 			if (chunk.length >= amount) {

@@ -68,7 +68,10 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		window.requestAnimationFrame(function () {
 
-			if (($(document).height() - $(window).height() + $(window).scrollTop()) < ENGRAM.LOADOFFSET) {
+			const scrollHeight = $(document).height()
+			const scrollPosition = $(window).height() + $(window).scrollTop()
+
+			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
 				appendChunk(getNextID(), template)
 			}
 
