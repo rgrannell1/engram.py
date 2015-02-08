@@ -20,44 +20,54 @@ const getMaxID = function () {
 
 
 
-/*
-	viewgroup
-
-	create a viewgroup <div> element and
-	add a maxID giving the id of the largest element
-	contained within it upon creation.
-
-*/
-
-const viewgroup = function (chunk, renderer) {
-
-	return $('<div></div>', {
-		'id':    chunk.maxID,
-		'class': 'viewgroup'
-	})
-	.append(chunk.data.map(renderer).join(''))
-
-}
-
-
 
 
 /*
-	attachFirstChunk
+	appendChunk
 
 	load some initial bookmarks.
 
 */
 
-const appendFirstChunk = function (template) {
+const appendChunk = ( function () {
 
-	const chunk = ENGRAM.cache.fetchChunk(ENGRAM.BIGINT, 100)
+	/*
+		viewgroup
 
-	return $('#content').append( viewgroup(chunk, function (bookmark) {
-		return Mustache.render(template, bookmark)
-	}) )
+		create a viewgroup <div> element and
+		add a maxID giving the id of the largest element
+		contained within it upon creation.
 
-}
+	*/
+
+	const viewgroup = function (chunk, renderer) {
+
+		return $('<div></div>', {
+			'id':    chunk.maxID,
+			'class': 'viewgroup'
+		})
+		.append(chunk.data.map(renderer).join(''))
+
+	}
+
+
+
+
+
+	return function (maxID, template) {
+
+		const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+
+		return $('#content').append( viewgroup(chunk, function (bookmark) {
+			return Mustache.render(template, bookmark)
+		}) )
+
+	}
+
+} )()
+
+
+const appendFirstChunk = appendChunk.bind({}, ENGRAM.BIGINT)
 
 
 
