@@ -1,5 +1,5 @@
 
-const getNextID = function () {
+const nextID = function () {
 	return parseInt($('.viewgroup:last').attr('data-nextID'), 10)
 }
 
@@ -46,6 +46,9 @@ const appendChunk = ( function () {
 
 		return $('#content').append( viewgroup(chunk, function (bookmark) {
 			return Mustache.render(template, bookmark)
+
+			// todo add unloading of old viewgroup dom elements.
+
 		}) )
 
 	}
@@ -56,27 +59,62 @@ const appendChunk = ( function () {
 
 
 
-$.get('/public/html/bookmark-template.html', function (template) {
-
-	appendChunk(ENGRAM.BIGINT, template)
-
-
-
-
+const loadScroll = function (template) {
 
 	$(window).on('scroll', function () {
 
 		window.requestAnimationFrame(function () {
 
-			const scrollHeight = $(document).height()
+			const scrollHeight   = $(document).height()
 			const scrollPosition = $(window).height() + $(window).scrollTop()
 
 			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-				appendChunk(getNextID(), template)
+				appendChunk(nextID(), template)
 			}
 
 		})
 
 	})
+
+}
+
+
+
+
+
+$.get('/public/html/bookmark-template.html', function (template) {
+
+	appendChunk(ENGRAM.BIGINT, template)
+
+	loadScroll(template)
+
+})
+
+
+
+
+
+
+$('#search').keyup(function (event) {
+
+	const current      = $(this).val()
+	ENGRAM.searchState = updateSearchState(ENGRAM.searchState, current)
+
+	setURI(current)
+
+	if (current.length > 1) {
+
+		console.log(
+
+			ENGRAM.cache.fetchChunk(ENGRAM.BIGINT, 100, function (bookmark) {
+				return scoreAlignment(current, bookmark.title) > 0.10
+			})
+
+		)
+
+	}
+
+	// if current search is substring of previous search
+	// current elements are a pruning of previous elements.
 
 })
