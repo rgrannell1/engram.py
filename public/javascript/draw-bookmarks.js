@@ -67,10 +67,31 @@ const appendChunk = ( function () {
 } )()
 
 
-const appendFirstChunk = appendChunk.bind({}, ENGRAM.BIGINT)
+
+
+
+$.get('/public/html/bookmark-template.html', function (template) {
+
+	appendChunk(ENGRAM.BIGINT, template)
+
+	$(window).on('scroll', function () {
+
+		window.requestAnimationFrame(function () {
+
+			const scrollHeight   = $(document).height()
+			const scrollPosition = $(window).height() + $(window).scrollTop()
+
+			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
+				appendChunk(getMaxID(), template)
+			}
+
+		})
+
+	})
+
+})
 
 
 
 
 
-$.get('/public/html/bookmark-template.html', appendFirstChunk)

@@ -23,6 +23,7 @@ def bookmark(row):
 			'title':       row[1],
 			'url':         row[2],
 			'ctime':       row[3],
+
 			'hostname':    parse_data.hostname,
 			'hosturl':     parse_data.scheme + '://' + parse_data.hostname
 		}
