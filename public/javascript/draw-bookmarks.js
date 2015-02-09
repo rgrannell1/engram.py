@@ -40,15 +40,12 @@ const appendChunk = ( function () {
 
 
 
-	return function (maxID, template) {
+	return function (cache, maxID, template) {
 
-		const chunk = ENGRAM.cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+		const chunk = cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 
 		return $('#content').append( viewgroup(chunk, function (bookmark) {
 			return Mustache.render(template, bookmark)
-
-			// todo add unloading of old viewgroup dom elements.
-
 		}) )
 
 	}
@@ -59,7 +56,7 @@ const appendChunk = ( function () {
 
 
 
-const loadScroll = function (template) {
+const loadScroll = function (cache, template) {
 
 	$(window).on('scroll', function () {
 
@@ -84,7 +81,7 @@ const loadScroll = function (template) {
 
 const saveQuery = function (query, isMatch, bookmark) {
 
-	bookmark.metadata = bookmark.metadata    || {queryScores: {}}
+	bookmark.metadata = bookmark.metadata  || {queryScores: {}}
 
 	bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
 	? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
