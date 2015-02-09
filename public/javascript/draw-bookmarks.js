@@ -1,4 +1,9 @@
 
+
+const maxID = function () {
+	return parseInt($('.viewgroup:first').attr('id'), 10)
+}
+
 /*
 	nextID
 */
@@ -12,13 +17,13 @@ const nextID = function () {
 
 
 /*
-	appendChunk
+	attachChunk
 
 	load some initial bookmarks.
 
 */
 
-const appendChunk = ( function () {
+const attachChunk = ( function () {
 
 	/*
 		viewgroup
@@ -64,18 +69,18 @@ const appendChunk = ( function () {
 
 
 
-	return function (cache, maxID, template) {
+	return function (method, cache, maxID, template) {
 
 		if (!is.object(cache)) {
-			throw TypeError('appendChunk: cache must be an object.')
+			throw TypeError('attachChunk: cache must be an object.')
 		}
 
 		if (!is.number(maxID)) {
-			throw TypeError('appendChunk: maxID must be a number.')
+			throw TypeError('attachChunk: maxID must be a number.')
 		}
 
 		if (!is.string(template)) {
-			throw TypeError('appendChunk: template must be a string.')
+			throw TypeError('attachChunk: template must be a string.')
 		}
 
 
@@ -84,13 +89,19 @@ const appendChunk = ( function () {
 
 		const chunk = cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 
-		return $('#content').append( viewgroup(chunk, function (bookmark) {
+		return $('#content')[method]( viewgroup(chunk, function (bookmark) {
 			return Mustache.render(template, bookmark)
 		}) )
 
 	}
 
 } )()
+
+
+
+
+const appendChunk  = attachChunk.bind({}, 'append')
+const prependChunk = attachChunk.bind({}, 'prepend')
 
 
 
@@ -105,22 +116,45 @@ const appendChunk = ( function () {
 const loadScroll = ( function () {
 
 	/*
-		exchangeChunk :: Cache x string
+		loadUp :: Cache x string
 
 		unload an old chunk, load a new one.
 
 	*/
-	const exchangeChunk = function (cache, template) {
+
+	const loadUp = function (cache, template) {
+
+		prependChunk(cache, maxID(), template)
+
+		if ($('.viewgroup').length >= 5) {
+
+			$('.viewgroup:last').remove()
+			$(document).scrollTop($('.viewgroup:first').offset().bottom)
+
+		}
+
+	}
+
+	/*
+		loadDown :: Cache x string
+
+		unload an old chunk, load a new one.
+
+	*/
+
+	const loadDown = function (cache, template) {
 
 		appendChunk(cache, nextID(), template)
 
-		if ($('.viewgroup').length >= 3) {
+		if ($('.viewgroup').length >= 5) {
 			$('.viewgroup:first').remove()
 		}
 
 		$(document).scrollTop($('.viewgroup:last').offset().top)
 
 	}
+
+
 
 
 
@@ -143,7 +177,11 @@ const loadScroll = ( function () {
 				const scrollPosition = $(window).height() + $(window).scrollTop()
 
 				if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-					exchangeChunk(cache, template)
+					loadDown(cache, template)
+				}
+
+				if ($(window).scrollTop() < 50) {
+					loadUp(cache, template)
 				}
 
 			})
@@ -152,3 +190,7 @@ const loadScroll = ( function () {
 	}
 
 } )()
+
+
+
+
