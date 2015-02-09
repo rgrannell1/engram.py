@@ -310,7 +310,7 @@ const saveQueryScores = function (query, cache) {
 
 }
 
-const loadAllBookmarks = function (cache, template) {
+const loadBookmarks = function (cache, template) {
 
 	$('#content article').remove()
 	appendChunk(cache, ENGRAM.BIGINT, template)
@@ -318,13 +318,31 @@ const loadAllBookmarks = function (cache, template) {
 
 }
 
+const rankBookmarks = function (query, cache) {
+
+	return cache
+		.contents
+		.filter(function (bookmark) {
+			return bookmark.metadata.queryScores[query] > 0.10
+		})
+		.sort(function (bookmark0, bookmark1) {
+			return bookmark1.metadata.queryScores[query] - bookmark0.metadata.queryScores[query]
+		})
+
+}
+
+
+
+
+
+
 
 
 
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
-	loadAllBookmarks(ENGRAM.cache, template)
+	loadBookmarks(ENGRAM.cache, template)
 
 	$('#search').keyup(function (event) {
 
@@ -337,38 +355,18 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 			ENGRAM.cache = saveQueryScores(current, ENGRAM.cache)
 
-			const scored = ENGRAM.cache
-				.contents
-				.filter(function (bookmark) {
-					return bookmark.metadata.queryScores[current] > 0.10
+			ENGRAM.searchState.searchCache =
+				ENGRAM.Cache(function (bookmark) {
+					return bookmark.bookmark_id
 				})
-				.sort(function (bookmark0, bookmark1) {
-					return bookmark1.metadata.queryScores[current] - bookmark0.metadata.queryScores[current]
-				})
+				.addAll(rankBookmarks(current, ENGRAM.cache))
 
-			ENGRAM.searchState.searchCache = ENGRAM.Cache(function (bookmark) {
-				return bookmark.bookmark_id
-			})
-			.addAll(scored)
-
-			ENGRAM.searchState.searchCache.fetchChunk(ENGRAM.BIGINT, ENGRAM.PERSCROLL)
-
-			$('#content article').remove()
-
-			appendChunk(ENGRAM.searchState.searchCache, ENGRAM.BIGINT, template)
-			loadScroll(ENGRAM.searchState.searchCache,  template)
+			loadBookmarks(ENGRAM.searchState.searchCache, template)
 
 		} else {
-			loadAllBookmarks(ENGRAM.cache, template)
+			loadBookmarks(ENGRAM.cache, template)
 		}
 
 	})
 
 })
-
-
-
-
-
-
-
