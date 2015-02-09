@@ -89,13 +89,24 @@ const attachChunk = ( function () {
 
 		const chunk = cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
 
-		return $('#content')[method]( viewgroup(chunk, function (bookmark) {
-			return Mustache.render(template, bookmark)
-		}) )
+		if (maxID > 0) {
+			return $('#content')[method]( viewgroup(chunk, function (bookmark) {
+				return Mustache.render(template, bookmark)
+			}) )
+		} else {
+			return $('#content')
+		}
+
 
 	}
 
 } )()
+
+
+
+
+
+
 
 
 
