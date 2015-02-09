@@ -1,4 +1,8 @@
 
+/*
+	nextID
+*/
+
 const nextID = function () {
 	return parseInt($('.viewgroup:last').attr('data-nextID'), 10)
 }
@@ -92,39 +96,59 @@ const appendChunk = ( function () {
 
 
 
-const loadScroll = function (cache, template) {
+/*
+	loadScroll :: Cache x string
 
-	if (!is.object(cache)) {
-		throw TypeError('cache must be an object.')
+
+*/
+
+const loadScroll = ( function () {
+
+	/*
+		exchangeChunk :: Cache x string
+
+		unload an old chunk, load a new one.
+
+	*/
+	const exchangeChunk = function (cache, template) {
+
+		appendChunk(cache, nextID(), template)
+
+		if ($('.viewgroup').length >= 3) {
+			$('.viewgroup:first').remove()
+		}
+
+		$(document).scrollTop($('.viewgroup:last').offset().top)
+
 	}
 
-	if (!is.string(template)) {
-		throw TypeError('template must be a string.')
-	}
 
 
+	// -- TODO scroll jack each time chunks are loaded.
 
+	return function (cache, template) {
 
+		if (!is.object(cache)) {
+			throw TypeError('cache must be an object.')
+		}
 
-	$(window).on('scroll', function () {
+		if (!is.string(template)) {
+			throw TypeError('template must be a string.')
+		}
 
-		window.requestAnimationFrame(function () {
+		$(window).on('scroll', function () {
+			window.requestAnimationFrame(function () {
 
-			const scrollHeight   = $(document).height()
-			const scrollPosition = $(window).height() + $(window).scrollTop()
+				const scrollHeight   = $(document).height()
+				const scrollPosition = $(window).height() + $(window).scrollTop()
 
-			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-
-				if ($('.viewgroup').length > 3) {
-					$('.viewgroup:first').remove()
-				} else {
-					appendChunk(cache, nextID(), template)
+				if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
+					exchangeChunk(cache, template)
 				}
 
-			}
-
+			})
 		})
 
-	})
+	}
 
-}
+} )()
