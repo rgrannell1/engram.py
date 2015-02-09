@@ -58,6 +58,18 @@ const appendChunk = ( function () {
 
 const loadScroll = function (cache, template) {
 
+	if (!is.object(cache)) {
+		throw TypeError('cache must be an object.')
+	}
+
+	if (!is.string(template)) {
+		throw TypeError('template must be a string.')
+	}
+
+
+
+
+
 	$(window).on('scroll', function () {
 
 		window.requestAnimationFrame(function () {
@@ -72,21 +84,5 @@ const loadScroll = function (cache, template) {
 		})
 
 	})
-
-}
-
-
-
-
-
-const saveQuery = function (query, isMatch, bookmark) {
-
-	bookmark.metadata = bookmark.metadata  || {queryScores: {}}
-
-	bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
-	? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
-	: bookmark.metadata.queryScores[query] || 0
-
-	return bookmark
 
 }

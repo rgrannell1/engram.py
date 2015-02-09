@@ -287,6 +287,28 @@ const isPrefixOf = function (str1, str2) {
 
 
 
+const saveQuery = function (query, isMatch, bookmark) {
+
+	bookmark.metadata = bookmark.metadata  || {queryScores: {}}
+
+	bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
+	? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
+	: bookmark.metadata.queryScores[query] || 0
+
+	return bookmark
+
+}
+
+
+
+
+
+const saveQueryScores = function (query, cache) {
+
+	cache.contents = cache.contents.map( saveQuery.bind({}, query, isSplitSubstring(query)) )
+	return cache
+
+}
 
 
 
@@ -295,8 +317,7 @@ const isPrefixOf = function (str1, str2) {
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	appendChunk(ENGRAM.cache, ENGRAM.BIGINT, template)
-
-	loadScroll(ENGRAM.cache, template)
+	loadScroll(ENGRAM.cache,  template)
 
 	$('#search').keyup(function (event) {
 
@@ -307,7 +328,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		if (current.length > 1) {
 
-			ENGRAM.cache.contents = ENGRAM.cache.contents.map( saveQuery.bind({}, current, isSplitSubstring(current)) )
+			ENGRAM.cache = saveQueryScores(current, ENGRAM.cache)
 
 			const scored = ENGRAM.cache
 				.contents
@@ -321,10 +342,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			ENGRAM.searchState.searchCache = ENGRAM.Cache(function (bookmark) {
 				return bookmark.bookmark_id
 			})
-
-			scored.forEach(function (bookmark) {
-				ENGRAM.searchState.searchCache.add(bookmark)
-			})
+			.addAll(scored)
 
 			ENGRAM.searchState.searchCache.fetchChunk(ENGRAM.BIGINT, ENGRAM.PERSCROLL)
 

@@ -54,7 +54,33 @@ ENGRAM.Cache = function (getID) {
 
 		}
 
+		return self
+
 	}
+
+
+
+
+
+	/*
+
+
+	*/
+
+	self.addAll = function (entries) {
+
+		if (self.contents.length === 0){
+			console.log(entries)
+		}
+
+		entries.forEach(function (entry) {
+			self.add(entry)
+		})
+
+		return self
+
+	}
+
 
 
 
@@ -66,6 +92,7 @@ ENGRAM.Cache = function (getID) {
 		error if no match is found.
 
 	*/
+
 	self.remove = function (id) {
 
 		if (self.has(id)) {
@@ -80,6 +107,8 @@ ENGRAM.Cache = function (getID) {
 		} else {
 			throw "no match found for " + id
 		}
+
+		return self
 
 	}
 
