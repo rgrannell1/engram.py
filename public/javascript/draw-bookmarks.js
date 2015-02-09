@@ -173,8 +173,6 @@ const loadScroll = ( function () {
 
 
 
-	// -- TODO scroll jack each time chunks are loaded.
-
 	return function (cache, template) {
 
 		if (!is.object(cache)) {
@@ -188,14 +186,13 @@ const loadScroll = ( function () {
 		$(window).on('scroll', function () {
 			window.requestAnimationFrame(function () {
 
+				const windowTop      = $(window).scrollTop()
 				const scrollHeight   = $(document).height()
-				const scrollPosition = $(window).height() + $(window).scrollTop()
+				const scrollPosition = $(window).height() + windowTop
 
 				if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
 					loadDown(cache, template)
-				}
-
-				if ($(window).scrollTop() < 50) {
+				} else if (windowTop < 50) {
 					loadUp(cache, template)
 				}
 
