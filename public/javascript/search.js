@@ -310,14 +310,21 @@ const saveQueryScores = function (query, cache) {
 
 }
 
+const loadAllBookmarks = function (cache, template) {
+
+	$('#content article').remove()
+	appendChunk(cache, ENGRAM.BIGINT, template)
+	loadScroll(cache,  template)
+
+}
+
 
 
 
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
-	appendChunk(ENGRAM.cache, ENGRAM.BIGINT, template)
-	loadScroll(ENGRAM.cache,  template)
+	loadAllBookmarks(ENGRAM.cache, template)
 
 	$('#search').keyup(function (event) {
 
@@ -352,11 +359,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			loadScroll(ENGRAM.searchState.searchCache,  template)
 
 		} else {
-
-			$('#content article').remove()
-			appendChunk(ENGRAM.cache, ENGRAM.BIGINT, template)
-			loadScroll(ENGRAM.cache,  template)
-
+			loadAllBookmarks(ENGRAM.cache, template)
 		}
 
 	})
