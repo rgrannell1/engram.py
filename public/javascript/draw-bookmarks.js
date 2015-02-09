@@ -28,19 +28,19 @@ const appendChunk = ( function () {
 	const viewgroup = function (chunk, renderer) {
 
 		if (!is.object(chunk)) {
-			throw TypeError('chunk must be an object')
+			throw TypeError('viewgroup: chunk must be an object')
 		}
 
 		if (!is.number(chunk.maxID)) {
-			throw TypeError('chunk.maxID must be a number')
+			throw TypeError('viewgroup: chunk.maxID must be a number')
 		}
 
 		if (!is.number(chunk.nextID)) {
-			throw TypeError('chunk.nextID must be a number')
+			throw TypeError('viewgroup: chunk.nextID must be a number')
 		}
 
 		if (!is.function(renderer)) {
-			throw TypeError('renderer must be an object.')
+			throw TypeError('viewgroup: renderer must be an object.')
 		}
 
 
@@ -63,15 +63,15 @@ const appendChunk = ( function () {
 	return function (cache, maxID, template) {
 
 		if (!is.object(cache)) {
-			throw TypeError('cache must be an object.')
+			throw TypeError('appendChunk: cache must be an object.')
 		}
 
 		if (!is.number(maxID)) {
-			throw TypeError('maxID must be a number.')
+			throw TypeError('appendChunk: maxID must be a number.')
 		}
 
 		if (!is.string(template)) {
-			throw TypeError('template must be a string.')
+			throw TypeError('appendChunk: template must be a string.')
 		}
 
 

@@ -46,11 +46,11 @@ ENGRAM.Cache = function (getID) {
 		const id = getID(entry)
 
 		if (typeof id === 'undefined') {
-			throw "undefined id."
+			throw "add: undefined id."
 		}
 
 		if (self.has(id)) {
-			throw "already has id " + id
+			throw "add: already has id " + id
 		} else {
 
 			self.maxID = Math.max(id, self.maxID)
