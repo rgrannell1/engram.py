@@ -243,9 +243,9 @@ const setURI = function (query) {
 
 
 ENGRAM.searchState = {
-	previous: '',
-	current:  '',
-	ids:      []
+	previous:    '',
+	current:     '',
+	searchCache: undefined,
 }
 
 
@@ -286,3 +286,44 @@ const isPrefixOf = function (str1, str2) {
 
 
 
+
+
+
+
+
+
+$.get('/public/html/bookmark-template.html', function (template) {
+
+	appendChunk(ENGRAM.BIGINT, template)
+
+	loadScroll(template)
+
+})
+
+
+
+
+
+
+$('#search').keyup(function (event) {
+
+	const current      = $(this).val()
+	ENGRAM.searchState = updateSearchState(ENGRAM.searchState, current)
+
+	setURI(current)
+
+	if (current.length > 1) {
+
+		ENGRAM.cache.contents = ENGRAM.cache.contents.map( saveQuery.bind({}, current, isSplitSubstring(current)) )
+
+		const scored = ENGRAM.cache.contents
+			.filter(function (bookmark) {
+				return bookmark.metadata.queryScores[current] > 0.10
+			})
+			.sort(function (bookmark0, bookmark1) {
+				return bookmark1.metadata.queryScores[current] - bookmark0.metadata.queryScores[current]
+			})
+
+	}
+
+})
