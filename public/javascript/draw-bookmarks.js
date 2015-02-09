@@ -88,10 +88,12 @@ const attachChunk = ( function () {
 
 		// TODO STRING FLAGS ARE NOT GREAT.
 		const chunk = method === 'append'
-		? cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
-		: cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
+			? cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
+			: cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
 
-		if (maxID > 0) {
+		console.log(chunk)
+
+		if (maxID > 0 && (chunk.data.length) > 0) {
 			return $('#content')[method]( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
@@ -137,7 +139,7 @@ const loadScroll = ( function () {
 
 	const loadUp = function (cache, template) {
 
-		prependChunk(cache, maxID() +, template)
+		prependChunk(cache, maxID(), template)
 
 		if ($('.viewgroup').length >= 5) {
 

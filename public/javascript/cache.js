@@ -199,21 +199,33 @@ ENGRAM.Cache = function (getID) {
 
 		} else {
 			return {
-				data:   chunk,
-				nextID: -1,
-				maxID:  -1
+				data:   [],
+				nextID: maxID - 1,
+				maxID:  undefined
 			}
 		}
 
 	}
 
-	self.fetchPrevChunk = = function (maxID, amount, pred) {
+	self.fetchPrevChunk = function (maxID, amount, pred) {
+
+		if (!is.number(maxID)) {
+			throw "fetchNextChunk: attempt to set maxID to non-number (" + JSON.stringify(maxID) + ")"
+		}
+
+		if (!is.number(amount)) {
+			throw "fetchNextChunk: attempt to set amount to non-number (" + JSON.stringify(amount) + ")"
+		}
+
+
+
+
 
 		pred = pred || function (entry) {return true}
 
 		const chunk = []
 
-		for (var ith = self.contents.length; ith >= 0 ; --ith) {
+		for (var ith = self.contents.length - 1; ith >= 0 ; --ith) {
 
 			var entry = self.contents[ith]
 
@@ -238,10 +250,19 @@ ENGRAM.Cache = function (getID) {
 			return {
 				data:   chunk,
 				nextID: minID - 1,
-				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b), ENGRAM.BIGINT} )
+				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b)} )
+			}
+
+		} else {
+
+			return {
+				data:   [],
+				nextID: maxID - 1,
+				maxID:  maxID
 			}
 
 		}
+
 	}
 
 
