@@ -82,6 +82,22 @@ const loadScroll = function (template) {
 
 
 
+const saveQuery = function (query, isMatch, bookmark) {
+
+	bookmark.metadata = bookmark.metadata    || {queryScores: {}}
+
+	bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
+	? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
+	: bookmark.metadata.queryScores[query] || 0
+
+	return bookmark
+
+}
+
+
+
+
+
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	appendChunk(ENGRAM.BIGINT, template)
@@ -104,22 +120,21 @@ $('#search').keyup(function (event) {
 
 	if (current.length > 1) {
 
-		const isMatch = isSplitSubstring(current)
-
-		ENGRAM.cache.contents.map(function (bookmark) {
-
-			bookmark.metadata = bookmark.metadata || {queryScores: {}}
-
-			bookmark.metadata.queryScores[current] = isMatch(bookmark.title)
-			? bookmark.metadata.queryScores[current] || scoreAlignment(current, bookmark.title)
-			: bookmark.metadata.queryScores[current] || 0
-		})
+		ENGRAM.cache.contents = ENGRAM.cache.contents.map( saveQuery.bind({}, current, isSplitSubstring(current)) )
 
 		const scored = ENGRAM.cache.contents.filter(function (bookmark) {
 			return bookmark.metadata.queryScores[current] > 0.10
 		})
 
-		console.log( scored )
+		const scoreCache = ENGRAM.Cache(function (bookmark) {
+			return bookmark.bookmark_id
+		})
+
+		scored.forEach(function (bookmark) {
+			scoreCache.add(bookmark)
+		})
+
+		console.log(scoreCache)
 
 	}
 
