@@ -20,6 +20,11 @@ ENGRAM.Cache = function (getID) {
 	*/
 
 	self.has = function (id) {
+
+		if (!is.number(id)) {
+			throw "has: attempt to retrieve a non-number."
+		}
+
 		return self.ids.indexOf(id) !== -1
 	}
 
@@ -193,7 +198,7 @@ ENGRAM.Cache = function (getID) {
 			return {
 				data:   chunk,
 				nextID: minID - 1,
-				maxID:  chunk.map(getID).reduce(function (a, b) {return Math.max(a, b)})
+				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b)} )
 			}
 
 		} else {

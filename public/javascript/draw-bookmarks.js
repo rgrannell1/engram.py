@@ -114,7 +114,7 @@ const loadScroll = function (cache, template) {
 			const scrollPosition = $(window).height() + $(window).scrollTop()
 
 			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-				appendChunk(nextID(), template)
+				appendChunk(cache, nextID(), template)
 			}
 
 		})
