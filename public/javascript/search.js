@@ -64,6 +64,7 @@ const align = function (query, text) {
 	alignQuality
 
 	how well aligned is a string to another?
+
 */
 
 const alignQuality = function (alignment) {
@@ -184,10 +185,16 @@ const likelihood = function (query, pattern) {
 
 
 
+/*
+	scoreAlignment :: string  xstring -> number
+
+	given a query and a text string, calculate how well the query matches the string
+	in the interval [0, 1)
+
+*/
+
 const scoreAlignment = function (query, text) {
 
-	// small denominator should be small, larger should converge on 1 quickly.
-	// may need to fit a polynomial to that curve.
 
 	const ratio       = query.length / text.length
 	const lengthScore = ratio
@@ -219,6 +226,10 @@ const scoreBookmarks = function (getText, query, cache) {
 	})
 
 }
+
+
+
+
 
 /*
 	updateAddressBar :: string -> undefined
@@ -293,6 +304,10 @@ const isPrefixOf = function (str1, str2) {
 
 /*
 	saveQueryScores :: string x Cache -> Cache
+
+	given a text query and a source of bookmarks, score each bookmark
+	for the query and save that value.
+
 */
 
 const saveQueryScores = function (query, cache) {
@@ -322,13 +337,14 @@ const saveQueryScores = function (query, cache) {
 /*
 	loadBookmarks :: Cache x string -> undefined
 
-
+	given a source of bookmarks and the rendering template,
+	set up the bookmarks to load on scroll.
 */
 
 const loadBookmarks = function (cache, template) {
 
 	$('#content article').remove()
-	appendChunk(cache, ENGRAM.BIGINT, template)
+	attachChunk.append(cache, ENGRAM.BIGINT, template)
 	loadScroll(cache,  template)
 
 }
@@ -341,7 +357,8 @@ const loadBookmarks = function (cache, template) {
 
 	searchBookmarks :: string x Cache -> [bookmark]
 
-	.
+	given a cache full of bookmarks with scored queries and a search query,
+	find and sort matching bookmarks.
 
 */
 

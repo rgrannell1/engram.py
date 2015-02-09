@@ -1,11 +1,23 @@
 
 
+/*
+	maxID
+
+	get the largest ID (ignoring deletions) of any viewgroup.
+*/
+
 const maxID = function () {
 	return parseInt($('.viewgroup:first').attr('id'), 10)
 }
 
+
+
+
+
 /*
 	nextID
+
+	get the next ID to load from.
 */
 
 const nextID = function () {
@@ -52,10 +64,6 @@ const attachChunk = ( function () {
 			throw TypeError('viewgroup: renderer must be an object.')
 		}
 
-
-
-
-
 		return $('<div></div>', {
 			'id':          chunk.maxID,
 			'data-nextID': chunk.nextID,
@@ -65,11 +73,7 @@ const attachChunk = ( function () {
 
 	}
 
-
-
-
-
-	return function (method, cache, maxID, template) {
+	const append = function (cache, maxID, template) {
 
 		if (!is.object(cache)) {
 			throw TypeError('attachChunk: cache must be an object.')
@@ -83,41 +87,55 @@ const attachChunk = ( function () {
 			throw TypeError('attachChunk: template must be a string.')
 		}
 
-
-
-
-		// TODO STRING FLAGS ARE NOT GREAT.
-		const chunk = method === 'append'
-			? cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
-			: cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
-
-		console.log(chunk)
+		const chunk = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
 
 		if (maxID > 0 && (chunk.data.length) > 0) {
-			return $('#content')[method]( viewgroup(chunk, function (bookmark) {
+			return $('#content').append( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
 		} else {
 			return $('#content')
 		}
 
+	}
+
+	const prepend = function (cache, maxID, template) {
+
+		if (!is.object(cache)) {
+			throw TypeError('attachChunk: cache must be an object.')
+		}
+
+		if (!is.number(maxID)) {
+			throw TypeError('attachChunk: maxID must be a number.')
+		}
+
+		if (!is.string(template)) {
+			throw TypeError('attachChunk: template must be a string.')
+		}
+
+		const chunk = cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
+
+		if (maxID > 0 && (chunk.data.length) > 0) {
+			return $('#content').prepend( viewgroup(chunk, function (bookmark) {
+				return Mustache.render(template, bookmark)
+			}) )
+		} else {
+			return $('#content')
+		}
 
 	}
 
+
+
+
+
+
+	return {
+		prepend: prepend,
+		append:  append
+	}
+
 } )()
-
-
-
-
-
-
-
-
-
-
-const appendChunk  = attachChunk.bind({}, 'append')
-const prependChunk = attachChunk.bind({}, 'prepend')
-
 
 
 
@@ -130,36 +148,43 @@ const prependChunk = attachChunk.bind({}, 'prepend')
 
 const loadScroll = ( function () {
 
+
+
+
+
 	/*
 		loadUp :: Cache x string
 
-		unload an old chunk, load a new one.
+		unload an old chunk at the bottom, load a new one at the top.
 
 	*/
 
 	const loadUp = function (cache, template) {
 
-		prependChunk(cache, maxID(), template)
+		attachChunk.prepend(cache, maxID(), template)
 
 		if ($('.viewgroup').length >= 5) {
-
 			$('.viewgroup:last').remove()
-			$(document).scrollTop($('.viewgroup:first').offset().bottom)
-
 		}
 
+		$(document).scrollTop($('.viewgroup:first').offset().bottom)
+
 	}
+
+
+
+
 
 	/*
 		loadDown :: Cache x string
 
-		unload an old chunk, load a new one.
+		unload an old chunk at the top, load a new one at the bottom.
 
 	*/
 
 	const loadDown = function (cache, template) {
 
-		appendChunk(cache, nextID(), template)
+		attachChunk.append(cache, nextID(), template)
 
 		if ($('.viewgroup').length >= 5) {
 			$('.viewgroup:first').remove()
