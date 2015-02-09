@@ -114,7 +114,13 @@ const loadScroll = function (cache, template) {
 			const scrollPosition = $(window).height() + $(window).scrollTop()
 
 			if ((scrollHeight - scrollPosition) < ENGRAM.LOADOFFSET) {
-				appendChunk(cache, nextID(), template)
+
+				if ($('.viewgroup').length > 3) {
+					$('.viewgroup:first').remove()
+				} else {
+					appendChunk(cache, nextID(), template)
+				}
+
 			}
 
 		})

@@ -221,14 +221,14 @@ const scoreBookmarks = function (getText, query, cache) {
 }
 
 /*
-	setURI :: string -> undefined
+	updateAddressBar :: string -> undefined
 
 	set the user URI, to keep the current state synced in the location
 	for future use.
 
 */
 
-const setURI = function (query) {
+const updateAddressBar = function (query) {
 
 	if (query.length === 0) {
 		history.pushState(null, '', '/bookmarks')
@@ -272,6 +272,10 @@ const updateSearchState = function (state, query) {
 	return state
 }
 
+
+
+
+
 /*
 	isPrefixOf
 
@@ -287,28 +291,39 @@ const isPrefixOf = function (str1, str2) {
 
 
 
-const saveQuery = function (query, isMatch, bookmark) {
-
-	bookmark.metadata = bookmark.metadata  || {queryScores: {}}
-
-	bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
-	? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
-	: bookmark.metadata.queryScores[query] || 0
-
-	return bookmark
-
-}
-
-
-
-
+/*
+	saveQueryScores :: string x Cache -> Cache
+*/
 
 const saveQueryScores = function (query, cache) {
 
-	cache.contents = cache.contents.map( saveQuery.bind({}, query, isSplitSubstring(query)) )
+	const isMatch = isSplitSubstring(query)
+
+	cache.contents = cache.contents.map(function (bookmark) {
+
+		bookmark.metadata = bookmark.metadata  || {queryScores: {}}
+
+		bookmark.metadata.queryScores[query] = isMatch(bookmark.title)
+		? bookmark.metadata.queryScores[query] || scoreAlignment(query, bookmark.title)
+		: bookmark.metadata.queryScores[query] || 0
+
+		return bookmark
+
+	})
+
 	return cache
 
 }
+
+
+
+
+
+/*
+	loadBookmarks :: Cache x string -> undefined
+
+
+*/
 
 const loadBookmarks = function (cache, template) {
 
@@ -318,7 +333,19 @@ const loadBookmarks = function (cache, template) {
 
 }
 
-const rankBookmarks = function (query, cache) {
+
+
+
+
+/*
+
+	searchBookmarks :: string x Cache -> [bookmark]
+
+	.
+
+*/
+
+const searchBookmarks = function (query, cache) {
 
 	return cache
 		.contents
@@ -346,25 +373,27 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	$('#search').keyup(function (event) {
 
-		const current      = $(this).val()
-		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, current)
+		const query        = $(this).val()
+		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, query)
 
-		setURI(current)
+		updateAddressBar(query)
 
-		if (current.length > 1) {
+		if (query.length < 2) {
+			loadBookmarks(ENGRAM.cache, template)
+		} else {
 
-			ENGRAM.cache = saveQueryScores(current, ENGRAM.cache)
-
-			ENGRAM.searchState.searchCache =
-				ENGRAM.Cache(function (bookmark) {
+			ENGRAM.cache      = saveQueryScores(query, ENGRAM.cache)
+			const searchCache =
+				ENGRAM
+				.Cache(function (bookmark) {
 					return bookmark.bookmark_id
 				})
-				.addAll(rankBookmarks(current, ENGRAM.cache))
+				.addAll(searchBookmarks(query, ENGRAM.cache))
 
-			loadBookmarks(ENGRAM.searchState.searchCache, template)
+			loadBookmarks(searchCache, template)
 
-		} else {
-			loadBookmarks(ENGRAM.cache, template)
+			ENGRAM.searchState.searchCache = searchCache
+
 		}
 
 	})

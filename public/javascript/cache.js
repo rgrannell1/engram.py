@@ -68,15 +68,11 @@ ENGRAM.Cache = function (getID) {
 
 
 	/*
-
+		Cache.addAll :: [entry] -> Cache
 
 	*/
 
 	self.addAll = function (entries) {
-
-		if (self.contents.length === 0){
-			console.log(entries)
-		}
 
 		entries.forEach(function (entry) {
 			self.add(entry)
