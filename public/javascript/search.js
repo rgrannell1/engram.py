@@ -351,6 +351,12 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			appendChunk(ENGRAM.searchState.searchCache, ENGRAM.BIGINT, template)
 			loadScroll(ENGRAM.searchState.searchCache,  template)
 
+		} else {
+
+			$('#content article').remove()
+			appendChunk(ENGRAM.cache, ENGRAM.BIGINT, template)
+			loadScroll(ENGRAM.cache,  template)
+
 		}
 
 	})
