@@ -95,6 +95,10 @@ ENGRAM.Cache = function (getID) {
 
 	self.remove = function (id) {
 
+		if (!is.number(id)) {
+			throw "remove: attempt to retrieve a non-number"
+		}
+
 		if (self.has(id)) {
 
 			const id_ith = self.ids.indexOf(id)
@@ -124,6 +128,10 @@ ENGRAM.Cache = function (getID) {
 	*/
 
 	self.retrieve = function (id) {
+
+		if (!is.number(id)) {
+			throw "retrieve: attempt to retrieve a non-number"
+		}
 
 		if (self.has(id)) {
 
