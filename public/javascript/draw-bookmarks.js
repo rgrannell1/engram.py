@@ -73,6 +73,10 @@ const attachChunk = ( function () {
 
 	}
 
+
+
+
+
 	const append = function (cache, maxID, template) {
 
 		if (!is.object(cache)) {
@@ -98,6 +102,10 @@ const attachChunk = ( function () {
 		}
 
 	}
+
+
+
+
 
 	const prepend = function (cache, maxID, template) {
 
@@ -147,10 +155,6 @@ const attachChunk = ( function () {
 */
 
 const loadScroll = ( function () {
-
-
-
-
 
 	/*
 		loadUp :: Cache x string

@@ -9,8 +9,8 @@ from result import Success, Failure
 
 
 
-def add_default_scheme(uri):
-	return uri if ':' in uri else 'http://' + uri
+def add_default_scheme(uri, default = 'http://'):
+	return uri if ':' in uri else default + uri
 
 def normalise_uri(uri):
 

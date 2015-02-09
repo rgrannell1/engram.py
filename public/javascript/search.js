@@ -384,13 +384,21 @@ const searchBookmarks = function (query, cache) {
 
 
 
+
+
+
+
+
 $.get('/public/html/bookmark-template.html', function (template) {
 
-	loadBookmarks(ENGRAM.cache, template)
+	const queryParams = function (name) {
+		const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
+		return match && decodeURIComponent(match[1].replace(/\+/g, ' '))
+	}
 
-	$('#search').keyup(function (event) {
+	const startSearch = function () {
 
-		const query        = $(this).val()
+		const query        = $('#search').val()
 		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, query)
 
 		updateAddressBar(query)
@@ -413,6 +421,16 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		}
 
+	}
+
+	loadBookmarks(ENGRAM.cache, template)
+
+	$('#search').keyup(startSearch)
+
+	$(function () {
+		$('#search').val(queryParams('q'))
+		startSearch()
 	})
 
 })
+

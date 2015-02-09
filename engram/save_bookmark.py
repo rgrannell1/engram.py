@@ -15,19 +15,17 @@ from bookmark import bookmark, getID
 
 
 
-def handle_save_failure(result):
+
+def handle_save_result(result):
+	"""report errors to the client.
+
+	"""
 
 	if result.is_failure():
-
 
 		failure = result.from_failure()
 
 		if isinstance(failure, dict):
-
-			print('=============================')
-			print(failure)
-			print('=============================')
-
 			return failure['message'], failure['code']
 		else:
 			return "failed to add %s: '%s'" % (url, failure), 500
@@ -60,8 +58,8 @@ def save_bookmark(db, url):
 
 	insert_result = (
 		title_result
-		.then( lambda title: [db, title, url, utils.now()] )
-		.then( lambda data: sql.insert_bookmark(data[0], data[1], data[2], data[3]) )
+		.then( lambda title: (db, title, url, utils.now()) )
+		.then( lambda data:  sql.insert_bookmark(*data) )
 	)
 
-	return handle_save_failure(insert_result)
+	return handle_save_result(insert_result)

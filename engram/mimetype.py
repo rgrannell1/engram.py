@@ -26,7 +26,9 @@ def parse_mimetype_tokens(tokens):
 	currently doesn't check if tokens have correct character set.
 	"""
 
-	if tokens[0] not in {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}:
+	types = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
+
+	if tokens[0] not in types:
 		if not tokens[0].startswith('x-'):
 			return Failure('unrecognised content type ' + tokens[0] + '.')
 	else:

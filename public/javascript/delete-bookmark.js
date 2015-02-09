@@ -3,14 +3,18 @@
 /*
 	deleteBookmark :: undefined -> undefined
 
-	delete the bookmark holding the delete button bound to 'this'.
+	delete the bookmark holding the delete button passed in.
 
 */
 
-ENGRAM.deleteBookmark = function () {
+ENGRAM.deleteBookmark = function (button) {
 
-	const $article = $(this).closest('article')
-	const id       = $(this).closest('article').attr('id')
+	const $article = $(button).closest('article')
+	const id       = parseInt($article.attr('id'), 10)
+
+	if (!is.number(id) || id < 0) {
+		throw TypeError('deleteBookmark: article did not contain a valid id (' + id + ')')
+	}
 
 	$article.hide(ENGRAM.DELETEFADE)
 
@@ -22,7 +26,7 @@ ENGRAM.deleteBookmark = function () {
 		},
 		failure: function () {
 
-			alert('attempt to delete ' + id + ' failed!')
+			alert('failed to remove bookmark #' + id + '!')
 			$article.show()
 
 		}
@@ -32,4 +36,6 @@ ENGRAM.deleteBookmark = function () {
 
 
 
-$(document).on('click', '.delete-bookmark', ENGRAM.deleteBookmark)
+$(document).on('click', '.delete-bookmark', function () {
+	ENGRAM.deleteBookmark(this)
+})

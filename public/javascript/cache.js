@@ -20,16 +20,26 @@ ENGRAM.Cache = function (getID) {
 	*/
 
 	self.has = function (id) {
-
-		if (!is.number(id)) {
-			throw "has: attempt to retrieve a non-number."
-		}
-
-		return self.ids.indexOf(id) !== -1
+		self.has.precond(id)
+		return self.has.postcond(self.ids.indexOf(id) !== -1)
 	}
 
+	self.has.precond = function (id) {
 
+		if (!is.number(id)) {
+			throw "has: attempt to use non-numeric (" + is.what(id) + ") value as an ID."
+		}
 
+	}
+
+	self.has.postcond = function (result) {
+
+		if (!is.boolean(result)) {
+			throw 'has: returned non-boolean (' + is.what(result) + ') value '
+		}
+
+		return result
+	}
 
 
 	/*
@@ -45,10 +55,6 @@ ENGRAM.Cache = function (getID) {
 
 		const id = getID(entry)
 
-		if (typeof id === 'undefined') {
-			throw "add: undefined id."
-		}
-
 		if (self.has(id)) {
 			throw "add: already has id " + id
 		} else {
@@ -63,6 +69,13 @@ ENGRAM.Cache = function (getID) {
 
 	}
 
+	self.add.precond = function (entry) {
+
+		if (!is.number(id)) {
+			throw "add: attempt to use non-numeric (" + is.what(id) + ") value as an ID."
+		}
+
+	}
 
 
 
