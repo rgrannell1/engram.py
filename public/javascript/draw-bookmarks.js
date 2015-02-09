@@ -86,8 +86,10 @@ const attachChunk = ( function () {
 
 
 
-
-		const chunk = cache.fetchChunk(maxID, ENGRAM.PERSCROLL)
+		// TODO STRING FLAGS ARE NOT GREAT.
+		const chunk = method === 'append'
+		? cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
+		: cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
 
 		if (maxID > 0) {
 			return $('#content')[method]( viewgroup(chunk, function (bookmark) {
@@ -135,7 +137,7 @@ const loadScroll = ( function () {
 
 	const loadUp = function (cache, template) {
 
-		prependChunk(cache, maxID(), template)
+		prependChunk(cache, maxID() +, template)
 
 		if ($('.viewgroup').length >= 5) {
 
@@ -201,7 +203,3 @@ const loadScroll = ( function () {
 	}
 
 } )()
-
-
-
-
