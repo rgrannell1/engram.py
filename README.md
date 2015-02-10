@@ -1,5 +1,5 @@
 
-# engr.am
+# engr.am [![Build Status](https://travis-ci.org/rgrannell1/engram.py.svg)](https://travis-ci.org/rgrannell1/engram.py)
 
 <img src="example.png"></img>
 
