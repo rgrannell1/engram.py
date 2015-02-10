@@ -6,6 +6,7 @@ from result import Success, Failure
 
 
 
+
 def tokenise_parametre(param):
 	# -- split on = not surrounded by quotes.
 	return re.compile('(?<![\'\"])[=](?![\'\"])').split(param)
