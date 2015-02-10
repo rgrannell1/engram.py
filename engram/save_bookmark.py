@@ -17,9 +17,7 @@ from bookmark import bookmark, getID
 
 
 def handle_save_result(result):
-	"""report errors to the client.
-
-	"""
+	"""report errors to the client, if they occurred."""
 
 	if result.is_failure():
 
