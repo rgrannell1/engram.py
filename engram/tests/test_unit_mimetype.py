@@ -21,6 +21,7 @@ class TestMimetype(unittest.TestCase):
 	def test_tokenise_parametre(self):
 
 		cases = [
+			('charset=UTF8'),       ['charset', 'UTF8']
 			('q=0',                 ['q',       '0']),
 			('param="=app=4"'),     ['param',   '"=app=4"']
 			('version="app/3.0.0"', ['version', '"app/3.0.0"'])
