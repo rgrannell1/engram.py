@@ -9,6 +9,7 @@ import sql
 
 
 
+
 def fetch_chunk(db, max_id, amount):
 	"""send a certain number of bookmarks from an id offset to the client.
 	"""
