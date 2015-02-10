@@ -1,5 +1,5 @@
 language: python
 python:
   - "3.4"
-install: "pip install -r requirements.txt"
+install: python setup.py install
 script:  "engram/test/all.sh"
