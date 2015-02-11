@@ -20,47 +20,26 @@ tspecials  = {'(', ')', '<', '>', '@', ',', ';', ':', '\\', '"', "/", "[", "]", 
 token_char = {char for char in ascii if char != ' ' and not char in tspecials}
 
 grammar = {
+
 	'type': dict({
 		'/': '_SLASH'
 	},
 	**{key: 'type' for key in token_char}),
-
-
-
-
-
-
-	'_SLASH': {key: 'subtype' for key in token_char},
-
-	'_BIND': dict({
-		'"': 'double-quoted',
-		"'": 'single-quoted'
-	},
-
-	**{key: 'unquoted' for key in token_char}),
-
-
-
 
 	'subtype': dict({
 		';': '_SPACE',
 	},
 	**{key: 'subtype' for key in token_char}),
 
-	'_SPACE': dict({
-		' ':   '_SPACE',
-		'\t':  '_SPACE',
-		'\n':  '_SPACE',
-	},
 
-	**{key: 'attribute' for key in token_char}),
 
 
 
 	'attribute': dict({
-		'=': '_BIND',
+		'=': '_EQUAL',
 	},
 	**{key: 'attribute' for key in token_char}),
+
 
 
 
@@ -79,6 +58,28 @@ grammar = {
 		';': '_SPACE'
 	},
 	**{key: 'unquoted' for key in token_char}),
+
+
+
+
+	# -- delimiters.
+
+	'_SLASH': {key: 'subtype' for key in token_char},
+
+	'_EQUAL': dict({
+		'"': 'double-quoted',
+		"'": 'single-quoted'
+	},
+
+	**{key: 'unquoted' for key in token_char}),
+
+	'_SPACE': dict({
+		' ':   '_SPACE',
+		'\t':  '_SPACE',
+		'\n':  '_SPACE',
+	},
+
+	**{key: 'attribute' for key in token_char})
 
 }
 
