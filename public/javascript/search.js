@@ -367,7 +367,7 @@ const searchBookmarks = function (query, cache) {
 	return cache
 		.contents
 		.filter(function (bookmark) {
-			return bookmark.metadata.queryScores[query] > 0.10
+			return bookmark.metadata.queryScores[query] > 0
 		})
 		.sort(function (bookmark0, bookmark1) {
 			return bookmark1.metadata.queryScores[query] - bookmark0.metadata.queryScores[query]
@@ -398,7 +398,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	const startSearch = function () {
 
-		const query        = $('#search').val()
+		const query        = ENGRAM.searchState.current
 		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, query)
 
 		updateAddressBar(query)
@@ -425,11 +425,32 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	loadBookmarks(ENGRAM.cache, template)
 
-	$('#search').keyup(startSearch)
-
 	$(function () {
-		$('#search').val(queryParams('q'))
+
+		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, queryParams('q'))
+		updateAddressBar(queryParams('q'))
 		startSearch()
+	})
+
+	$(window).keydown(function (event) {
+
+		console.log( event )
+
+		if (event.keyCode === 27) {
+			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, '')
+			updateAddressBar('')
+
+		} else {
+
+			if (event.ctrlKey || event.altKey) {
+				return
+			}
+
+
+			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, ENGRAM.searchState.current + event.key)
+			startSearch()
+		}
+
 	})
 
 })

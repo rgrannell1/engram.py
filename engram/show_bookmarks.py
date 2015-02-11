@@ -29,6 +29,7 @@ dependencies = {
 		"draw-bookmarks",
 		"link-tab-highlight",
 
+		"keylog",
 		"delete-bookmark",
 		"search"
 	]),
