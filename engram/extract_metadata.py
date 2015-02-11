@@ -168,9 +168,9 @@ def extract_title(uri, response):
 			# -- extract the title tag.
 			# -- default to utf-8, a superset of iso-8859 encoding.
 
-			charset = content_type['params'].get('charset', 'utf-8')
+			charset = content_type['params'].get('charset', 'utf-8').lower()
 
-			if charset in {'iso-8859-1', 'utf-8'}:
+			if charset in {'iso-8859-1', 'utf-8', 'utf8'}:
 				return(extract_utf8_title(uri, response))
 			else:
 				# -- add iso8859-1 support
