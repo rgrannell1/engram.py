@@ -37,8 +37,6 @@ def assert_saved_correctly(uri):
 			'Connection': 'close'
 		}, timeout = 10)
 
-		open("contenttypes.txt", "a").write(response.headers['content-type'] + '\n').close()
-
 		assert response.status_code == 200
 
 		response.connection.close()
