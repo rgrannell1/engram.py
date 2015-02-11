@@ -148,10 +148,8 @@ def parse_lexeme(lexeme):
 	labels = label(lexeme)
 	types  = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
 
-	print(labels)
-
-	if not labels[0][1].lower() in types:
-		return Failure('invalid content type "%s"' % labels[0][1].lower())
+	if not labels[0][0].lower() in types:
+		return Failure('invalid content type "%s"' % labels[0][0].lower())
 
 	params  = {}
 	options = labels[2:]
@@ -163,8 +161,8 @@ def parse_lexeme(lexeme):
 		params[options[ith][1]] = options[ith + 1][1]
 
 	return Success({
-		'type':    labels[0][1].lower(),
-		'subtype': labels[1][1].lower(),
+		'type':    labels[0][0].lower(),
+		'subtype': labels[1][0].lower(),
 		'params':  params
 	})
 
