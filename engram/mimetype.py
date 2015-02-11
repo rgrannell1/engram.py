@@ -21,24 +21,23 @@ token_char = {char for char in ascii if char != ' ' and not char in tspecials}
 
 grammar = {
 	'type': dict({
-		'/': 'subtype'
+		'/': '_SLASH'
 	},
 	**{key: 'type' for key in token_char}),
+
+	'_SLASH': {key: 'subtype' for key in token_char},
 
 	'subtype': dict({
 		';': '_SPACE',
 	},
 	**{key: 'subtype' for key in token_char}),
 
-
-
-
-
 	'_SPACE': dict({
 		' ':   '_SPACE',
 		'\t':  '_SPACE',
 		'\n':  '_SPACE',
 	},
+
 	**{key: 'attribute' for key in token_char}),
 
 	'attribute': dict({
@@ -87,10 +86,10 @@ def lex(content_type):
 	state       = 'type'
 	transitions = []
 
-	for ith, char in enumerate(list(content_type)):
+	for char in list(content_type):
 
 		if len(transitions) > 0:
-			state = transitions[ith - 1][1]
+			state = transitions[-1][1]
 
 		if char in grammar[state]:
 			transitions.append( (char, grammar[state][char]) )
@@ -98,7 +97,32 @@ def lex(content_type):
 			print(transitions)
 			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
 
-	return Success( [trans for trans in transitions if not trans[1].startswith('_')] )
+	return Success( [trans for trans in transitions if not trans[1].startswith('_')] ).value
+
+
+
+
+
+def parse(lexeme):
+
+	tokens = []
+
+	for char_state in lexeme:
+
+		if tokens and tokens[-1] and tokens[-1][-1][1] == char_state[1]:
+			tokens[-1].append(char_state)
+		else:
+			tokens.append([char_state])
+
+	labelled = []
+
+	for token in tokens:
+
+		labelled.append({
+			token[0][1]: ''.join([char_state[0] for char_state in token])
+		})
+
+	return labelled
 
 
 
@@ -111,7 +135,7 @@ def lex(content_type):
 #print(lex( "application/xml; charset=ISO-8859-1" ))
 #print(lex( "application/xhtml+xml; charset=utf-8" ))
 #print(lex( "application/x-web-app-manifest+json" ))
-print(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' ))
+print(parse(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' )))
 
 
 
