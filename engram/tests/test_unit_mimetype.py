@@ -16,12 +16,20 @@ import mimetype
 
 
 
+"text/html; charset=utf-8"
+"application/java-archive"
+"text/html; charset=windows-874"
+"application/xhtml+xml; charset=utf-8"
+"application/xml; charset=ISO-8859-1"
+"application/xhtml+xml; charset=utf-8"
+"application/x-web-app-manifest+json"
+'multipart/x-mixed-replace; boundary="testingtesting"'
 
 class TestMimetype(unittest.TestCase):
 	def test_tokenise_parametre(self):
 
 		cases = [
-			('charset=UTF8'),       ['charset', 'UTF8']
+			('charset=utf-8'),      ['charset', 'utf-8']
 			('q=0',                 ['q',       '0']),
 			('param="=app=4"'),     ['param',   '"=app=4"']
 			('version="app/3.0.0"', ['version', '"app/3.0.0"'])

@@ -26,19 +26,26 @@ grammar = {
 	**{key: 'type' for key in token_char}),
 
 	'subtype': dict({
-		';': 'attribute',
+		';': 'space',
 	},
 	**{key: 'subtype' for key in token_char}),
+
+	'space': dict({
+		' ':   'space',
+		'\t':  'space',
+		'\n':  'space',
+	},
+	**{key: 'attribute' for key in token_char}),
 
 	'attribute': dict({
 		'=': 'value',
 	},
-	**{key: 'type' for key in token_char}),
+	**{key: 'attribute' for key in token_char}),
 
 	'value':  dict({
-		';': 'attribute',
+		';': 'space',
 	},
-	**{key: 'type' for key in token_char}),
+	**{key: 'value' for key in token_char}),
 
 }
 
@@ -63,7 +70,7 @@ def lex(content_type):
 			transitions.append( (char, grammar[state][char]) )
 		else:
 			print(transitions)
-			return Failure('%s not allowed in content-type header (%s)' % (char, state))
+			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
 
 	return Success(transitions)
 
@@ -71,7 +78,25 @@ def lex(content_type):
 
 
 
-print(lex('text/html; charset=UTF8'))
+print(lex( "text/html; charset=utf-8" ))
+print(lex( "application/java-archive" ))
+print(lex( "text/html; charset=windows-874" ))
+print(lex( "application/xhtml+xml; charset=utf-8" ))
+print(lex( "application/xml; charset=ISO-8859-1" ))
+print(lex( "application/xhtml+xml; charset=utf-8" ))
+print(lex( "application/x-web-app-manifest+json" ))
+print(lex( 'multipart/x-mixed-replace; boundary="testingtesting"' ))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
