@@ -48,21 +48,10 @@ const attachChunk = ( function () {
 
 	const viewgroup = function (chunk, renderer) {
 
-		if (!is.object(chunk)) {
-			throw TypeError('viewgroup: chunk must be an object')
-		}
-
-		if (!is.number(chunk.maxID)) {
-			throw TypeError('viewgroup: chunk.maxID must be a number')
-		}
-
-		if (!is.number(chunk.nextID)) {
-			throw TypeError('viewgroup: chunk.nextID must be a number')
-		}
-
-		if (!is.function(renderer)) {
-			throw TypeError('viewgroup: renderer must be an object.')
-		}
+		is.always.object(chunk)
+		is.always.number(chunk.maxID)
+		is.always.number(chunk.nextID)
+		is.always.function(renderer)
 
 		return $('<div></div>', {
 			'id':          chunk.maxID,
@@ -79,17 +68,9 @@ const attachChunk = ( function () {
 
 	const append = function (cache, maxID, template) {
 
-		if (!is.object(cache)) {
-			throw TypeError('attachChunk: cache must be an object.')
-		}
-
-		if (!is.number(maxID)) {
-			throw TypeError('attachChunk: maxID must be a number.')
-		}
-
-		if (!is.string(template)) {
-			throw TypeError('attachChunk: template must be a string.')
-		}
+		is.always.object(chunk)
+		is.always.number(maxID)
+		is.always.string(maxID)
 
 		const chunk = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
 
@@ -109,17 +90,9 @@ const attachChunk = ( function () {
 
 	const prepend = function (cache, maxID, template) {
 
-		if (!is.object(cache)) {
-			throw TypeError('attachChunk: cache must be an object.')
-		}
-
-		if (!is.number(maxID)) {
-			throw TypeError('attachChunk: maxID must be a number.')
-		}
-
-		if (!is.string(template)) {
-			throw TypeError('attachChunk: template must be a string.')
-		}
+		is.always.object(chunk)
+		is.always.number(maxID)
+		is.always.string(maxID)
 
 		const chunk = cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
 
@@ -204,13 +177,8 @@ const loadScroll = ( function () {
 
 	return function (cache, template) {
 
-		if (!is.object(cache)) {
-			throw TypeError('cache must be an object.')
-		}
-
-		if (!is.string(template)) {
-			throw TypeError('template must be a string.')
-		}
+		is.always.object(cache)
+		is.always.string(template)
 
 		$(window).on('scroll', function () {
 			window.requestAnimationFrame(function () {
