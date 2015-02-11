@@ -38,7 +38,7 @@ class TestRedirect(utils_test.EngramTestCase):
 			And the response has status 200.
 		"""
 
-		index_response = requests.get('http://localhost:5000/')
+		index_response = requests.get('http://localhost:5000/', timeout = 10)
 
 		assert index_response.status_code             == 200
 		assert index_response.headers['content-type'] == "text/html; charset=utf-8"

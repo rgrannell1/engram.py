@@ -40,7 +40,7 @@ class TestExists(utils_test.EngramTestCase):
 			Then the server sends back a response code indicating the page exists (anything but 404).
 		"""
 
-		bookmarks_response = requests.get('http://localhost:5000/bookmarks')
+		bookmarks_response = requests.get('http://localhost:5000/bookmarks', timeout = 10)
 		assert bookmarks_response.status_code != 404
 
 unittest.main()

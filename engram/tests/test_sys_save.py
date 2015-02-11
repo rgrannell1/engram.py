@@ -35,7 +35,7 @@ def assert_saved_correctly(uri):
 
 		response = requests.get(is_up_uri, headers = {
 			'Connection': 'close'
-		})
+		}, timeout = 10)
 
 		open("contenttypes.txt", "a").write(response.headers['content-type'] + '\n').close()
 
@@ -51,7 +51,7 @@ def assert_saved_correctly(uri):
 
 		response = requests.get('http://localhost:5000' + '/' + uri, headers = {
 			'Connection': 'close'
-		})
+		}, timeout = 10)
 
 		if not response.status_code in {204, 404}:
 			raise Exception(response.status_code)

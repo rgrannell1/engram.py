@@ -74,7 +74,7 @@ def request_uri(uri):
 		response = requests.get(uri, headers = {
 			'User-agent': user_agent,
 			'Connection': 'close'
-		})
+		}, timeout = 5)
 
 		return response
 
@@ -89,6 +89,13 @@ def request_uri(uri):
 
 		return Failure({
 			'message': "%s refused the connection." % (uri, ),
+			'code':    404
+		})
+
+	except requests.exceptions.Timeout as err:
+
+		return Failure({
+			'message': "%s timed out." % (uri, ),
 			'code':    404
 		})
 
