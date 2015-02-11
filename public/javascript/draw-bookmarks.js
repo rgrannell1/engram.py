@@ -68,9 +68,9 @@ const attachChunk = ( function () {
 
 	const append = function (cache, maxID, template) {
 
-		is.always.object(chunk)
+		is.always.object(cache)
 		is.always.number(maxID)
-		is.always.string(maxID)
+		is.always.string(template)
 
 		const chunk = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
 
@@ -90,9 +90,9 @@ const attachChunk = ( function () {
 
 	const prepend = function (cache, maxID, template) {
 
-		is.always.object(chunk)
+		is.always.object(cache)
 		is.always.number(maxID)
-		is.always.string(maxID)
+		is.always.string(template)
 
 		const chunk = cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
 
