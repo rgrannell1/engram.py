@@ -7,6 +7,76 @@ from result import Success, Failure
 
 
 
+ascii = {
+	" ", "!", '"', "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0",
+	"1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A",
+	"B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+	"S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c",
+	"d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+	"u", "v", "w", "x", "y", "z", "{", "|", "}", "~", "\	"
+}
+
+tspecials  = {'(', ')', '<', '>', '@', ',', ';', ':', '\\', '"', "/", "[", "]", "?", "="}
+token_char = {char for char in ascii if char != ' ' and not char in tspecials}
+
+grammar = {
+	'type': dict({
+		'/': 'subtype'
+	},
+	**{key: 'type' for key in token_char}),
+
+	'subtype': dict({
+		';': 'attribute',
+	},
+	**{key: 'subtype' for key in token_char}),
+
+	'attribute': dict({
+		'=': 'value',
+	},
+	**{key: 'type' for key in token_char}),
+
+	'value':  dict({
+		';': 'attribute',
+	},
+	**{key: 'type' for key in token_char}),
+
+}
+
+
+
+
+
+def lex(content_type):
+	"""
+	# http://tools.ietf.org/html/rfc2045#page-10
+	"""
+
+	state       = 'type'
+	transitions = []
+
+	for ith, char in enumerate(list(content_type)):
+
+		if len(transitions) > 0:
+			state = transitions[ith - 1][1]
+
+		if char in grammar[state]:
+			transitions.append( (char, grammar[state][char]) )
+		else:
+			print(transitions)
+			return Failure('%s not allowed in content-type header (%s)' % (char, state))
+
+	return Success(transitions)
+
+
+
+
+
+print(lex('text/html; charset=UTF8'))
+
+
+
+
+
 def tokenise_parametre(param):
 	# -- split on = not surrounded by quotes.
 	return re.compile('(?<![\'\"])[=](?![\'\"])').split(param)

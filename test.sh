@@ -10,9 +10,8 @@ echo '============================================='
 echo '======== running javascript tests ==========='
 echo '============================================='
 
-for fpath in $(find ./jstests/ -name "test_*")
+for fpath in ./jstests/*
 do
-	echo $($fpath)
 	phantomjs "$fpath"
 done
 
