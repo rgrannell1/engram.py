@@ -30,6 +30,10 @@ grammar = {
 	},
 	**{key: 'subtype' for key in token_char}),
 
+
+
+
+
 	'space': dict({
 		' ':   'space',
 		'\t':  'space',
@@ -42,10 +46,30 @@ grammar = {
 	},
 	**{key: 'attribute' for key in token_char}),
 
+
+
+
+
+
 	'value':  dict({
 		';': 'space',
+		'"': 'double-quoted',
+		"'": 'single-quoted'
 	},
-	**{key: 'value' for key in token_char}),
+
+	**{key: 'unquoted' for key in token_char}),
+
+	'single-quoted': dict({
+
+	}),
+
+	'double-quoted': dict({
+
+	}),
+
+	'unquoted': dict({
+
+	})
 
 }
 
