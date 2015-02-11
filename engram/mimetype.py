@@ -177,7 +177,3 @@ def parse(content_type):
 		.then(label)
 		.then(parse_lexeme)
 	)
-
-
-
-print( parse('multipart/x-mixed-replace; boundary="testing"') )
