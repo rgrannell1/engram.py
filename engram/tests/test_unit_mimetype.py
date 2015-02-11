@@ -34,7 +34,7 @@ class TestMimetype(unittest.TestCase):
 				'charset': 'utf-8'
 			}} ),
 			( "application/xml; charset=ISO-8859-1",           {'type': 'application', 'subtype': 'xml',                     'params': {
-				'charset': 'charset=ISO-8859-1'
+				'charset': 'ISO-8859-1'
 			}} ),
 			( "application/xhtml+xml; charset=utf-8",          {'type': 'application', 'subtype': 'xhtml+xml',               'params': {
 				'charset': 'utf-8'
@@ -46,6 +46,11 @@ class TestMimetype(unittest.TestCase):
 				'boundary': '"testing"'
 			}} )
 		]
+
+
+
+
+
 
 		for before, after in content_types:
 
