@@ -74,7 +74,7 @@ def request_uri(uri):
 		response = requests.get(uri, headers = {
 			'User-agent': user_agent,
 			'Connection': 'close'
-		}, timeout = 5)
+		}, timeout = 30)
 
 		return response
 
