@@ -1,7 +1,7 @@
 
 # engr.am [![Build Status](https://travis-ci.org/rgrannell1/engram.py.svg)](https://travis-ci.org/rgrannell1/engram.py)
 
-<img src="example.png"></img>
+<img src="example.gif"></img>
 
 engr.am is a simple tool to fit my need for a bookmarking tool. Rather than having several browser plugins, engr.am gets you ninety percent of the functionality with:
 
@@ -11,7 +11,7 @@ engr.am/http://myfavouritesite.com
 
 very simple.
 
-* **locally-hosted**: I prefer to have control over my own bookmarks, and it is frustrating trying to save 
+* **locally-hosted**: I prefer to have control over my own bookmarks, and it is frustrating trying to save
 links on a bad network.
 
 * **archiving**: engr.am creates a PDF copy of every bookmark. The result isn't always pretty, but it guarantees you'll never lose data through link-rotting.
@@ -24,7 +24,7 @@ links on a bad network.
 
 engr.am does not support manual tagging, as it is hard to assign meaningful tags to many bookmarks without mislabelling. Instead, engr.am extracts keywords from your documents you can use to search by.
 
-## Search 
+## Search
 
 <kbd>Ctrl + F</kbd>
 
@@ -46,6 +46,3 @@ Versioning.
 All versions post-release will be compliant with the Semantic Versioning 2.0.0 standard.
 
 http://semver.org/
-
-
-

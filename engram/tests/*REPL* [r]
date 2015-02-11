@@ -1,0 +1,7 @@
+> x_(dd) $ xAsCharacter() $ xImplode('\n') $ xTap(cat)
+Error:
+ Could not find the method “xTap” in the methods available for collections:
+ did you mean xMap?
+ Thrown from $
+ In the call x_(dd)$xAsCharacter()$xImplode("\n")$xTap
+> x_(dd) $ xAsCharacter() $ xImplode('\n') $ xInvoke(cat)
