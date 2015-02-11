@@ -171,6 +171,8 @@ def parse_lexeme(lexeme):
 
 
 def parse(content_type):
+	"""parse the Content-Type header.
+	"""
 	return (
 		Success(content_type)
 		.then(lex)
