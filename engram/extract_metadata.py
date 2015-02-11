@@ -61,15 +61,6 @@ def get_netloc(uri):
 
 
 
-def charset(mime):
-	"""get the character set from a page's content-type."""
-
-	return mimetype.parse(mime)['params'].get('charset', 'utf-8')
-
-
-
-
-
 def request_uri(uri):
 	"""
 	get the resource associated with a uri.
@@ -165,28 +156,35 @@ def extract_title(uri, response):
 	just use the resource basename.
 	"""
 
-	mime = mimetype.parse(response.headers['content-type'])
+	content_type_result = mimetype.parse(response.headers['content-type'])
 
-	if is_html(mime['type'] + '/' + mime['subtype']):
-		# -- extract the title tag.
-		# -- default to utf-8, a superset of iso-8859 encoding.
-
-		charset = mime['params'].get('charset', 'utf-8')
-
-		if charset in {'iso-8859-1', 'utf-8'}:
-			return(extract_utf8_title(uri, response))
-		else:
-			# -- add iso8859-1 support
-			return(get_netloc(uri))
-
+	if content_type_result.is_failure():
+		print(content_type_result)
+		return content_type_result
 	else:
-		# -- extract the resource name from the url.
 
-		return (
-			Success(uri)
-			.then(normalise_uri)
-			.then(extract_resourcename)
-		)
+		content_type = content_type_result.from_success()
+
+		if is_html(content_type['type'] + '/' + content_type['subtype']):
+			# -- extract the title tag.
+			# -- default to utf-8, a superset of iso-8859 encoding.
+
+			charset = content_type['params'].get('charset', 'utf-8')
+
+			if charset in {'iso-8859-1', 'utf-8'}:
+				return(extract_utf8_title(uri, response))
+			else:
+				# -- add iso8859-1 support
+				return(get_netloc(uri))
+
+		else:
+			# -- extract the resource name from the url.
+
+			return (
+				Success(uri)
+				.then(normalise_uri)
+				.then(extract_resourcename)
+			)
 
 
 

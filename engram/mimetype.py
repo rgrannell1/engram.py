@@ -154,6 +154,9 @@ def parse(lexeme):
 	params  = {}
 	options = labels[2:]
 
+	if not len(options) % 2 == 0:
+		return Failure('no argument value supplied to final parametre.')
+
 	for ith in range(0, len(options), 2):
 		params[options[ith][1]] = options[ith + 1][1]
 
@@ -162,69 +165,3 @@ def parse(lexeme):
 		'subtype': labels[1][1].lower(),
 		'params':  params
 	})
-
-
-
-
-content_types = [
-	'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8'
-]
-
-for content_type in content_types:
-
-	res = (
-		Success(content_type)
-		.then(lex)
-		.then(parse)
-	)
-
-	print(res)
-	print('¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬')
-
-
-
-
-
-def tokenise_parametre(param):
-	# -- split on = not surrounded by quotes.
-	return re.compile('(?<![\'\"])[=](?![\'\"])').split(param)
-
-def tokenise_mimetype(content_type):
-
-	# -- split on / or ; not surrounded by quotes.
-	parts = re.compile('(?<![\'\"])[/](?![\'\"])|(?<![\'\"])[;]+(?![\'\"])').split(content_type)
-
-	return parts[:2] + [tokenise_parametre(param) for param in parts[2:]]
-
-
-
-
-
-def parse_mimetype_tokens(tokens):
-	"""
-	currently doesn't check if tokens have correct character set.
-	"""
-
-	types = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
-
-	if tokens[0] not in types:
-		if not tokens[0].startswith('x-'):
-			return Failure('unrecognised content type ' + tokens[0] + '.')
-	else:
-
-		# -- this copes with (malformed?) mimetypes of the form text/html;
-		params = [pair for pair in tokens[2:] if len(pair) is 2]
-
-		return {
-			'type':    tokens[0],
-			'subtype': tokens[1],
-			'params':  {key: val for (key, val) in params}
-		}
-
-
-
-
-
-
-def parse(content_type):
-	return parse_mimetype_tokens(tokenise_mimetype(content_type))
