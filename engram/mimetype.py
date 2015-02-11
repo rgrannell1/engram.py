@@ -143,13 +143,13 @@ def label(lexeme):
 
 
 
-def parse(lexeme):
+def parse_lexeme(lexeme):
 
 	labels = label(lexeme)
 	types  = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
 
 	if not labels[0][1].lower() in types:
-		return Failure('invalid content type %s' % labels[0][1].lower())
+		return Failure('invalid content type "%s"' % labels[0][1].lower())
 
 	params  = {}
 	options = labels[2:]
@@ -165,3 +165,19 @@ def parse(lexeme):
 		'subtype': labels[1][1].lower(),
 		'params':  params
 	})
+
+
+
+
+
+def parse(content_type):
+	return (
+		Success(content_type)
+		.then(lex)
+		.then(label)
+		.then(parse_lexeme)
+	)
+
+
+
+print( parse('text/html') )

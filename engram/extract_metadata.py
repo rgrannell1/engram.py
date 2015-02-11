@@ -156,10 +156,13 @@ def extract_title(uri, response):
 	just use the resource basename.
 	"""
 
+	print('==============================================')
+	print(mimetype.parse('text/html'))
+	print('==============================================')
 	content_type_result = mimetype.parse(response.headers['content-type'])
 
+
 	if content_type_result.is_failure():
-		print(content_type_result)
 		return content_type_result
 	else:
 
@@ -205,4 +208,3 @@ def extract_metadata(uri):
 		response_result
 		.then(lambda response: extract_title(uri, response))
 	)
-
