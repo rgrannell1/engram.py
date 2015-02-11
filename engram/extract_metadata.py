@@ -156,11 +156,7 @@ def extract_title(uri, response):
 	just use the resource basename.
 	"""
 
-	print('==============================================')
-	print(mimetype.parse('text/html'))
-	print('==============================================')
 	content_type_result = mimetype.parse(response.headers['content-type'])
-
 
 	if content_type_result.is_failure():
 		return content_type_result

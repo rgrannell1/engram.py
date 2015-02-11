@@ -158,7 +158,7 @@ def parse_lexeme(lexeme):
 		return Failure('no argument value supplied to final parametre.')
 
 	for ith in range(0, len(options), 2):
-		params[options[ith][1]] = options[ith + 1][1]
+		params[options[ith][0]] = options[ith + 1][0]
 
 	return Success({
 		'type':    labels[0][0].lower(),
@@ -180,4 +180,4 @@ def parse(content_type):
 
 
 
-print( parse('text/html') )
+print( parse('multipart/x-mixed-replace; boundary="testing"') )
