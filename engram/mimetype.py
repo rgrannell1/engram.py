@@ -45,12 +45,12 @@ grammar = {
 
 
 	'single-quoted': dict({
-		"'": 'unquoted'
+		"'": '_SPACE'
 	},
 	**{key: 'single-quoted' for key in ascii if key != "'"}),
 
 	'double-quoted': dict({
-		'"': 'unquoted'
+		'"': '_SPACE'
 	},
 	**{key: 'double-quoted' for key in ascii if key != '"'}),
 
@@ -62,7 +62,6 @@ grammar = {
 
 
 
-	# -- delimiters.
 
 	'_SLASH': {key: 'subtype' for key in token_char},
 
@@ -74,6 +73,7 @@ grammar = {
 	**{key: 'unquoted' for key in token_char}),
 
 	'_SPACE': dict({
+		';':   '_SPACE',
 		' ':   '_SPACE',
 		'\t':  '_SPACE',
 		'\n':  '_SPACE',
@@ -95,7 +95,7 @@ def lex(content_type):
 	state       = 'type'
 	transitions = []
 
-	for char in list(content_type):
+	for char in content_type:
 
 		if len(transitions) > 0:
 			state = transitions[-1][1]
@@ -112,7 +112,8 @@ def lex(content_type):
 
 
 
-def parse(lexeme):
+
+def label(lexeme):
 
 	tokens = []
 
@@ -127,41 +128,58 @@ def parse(lexeme):
 
 	for token in tokens:
 
-		labelled.append({
-			token[0][1]: ''.join([char_state[0] for char_state in token])
-		})
+		label = token[0][1]
+		text  = ''.join([char_state[0] for char_state in token])
+
+		if label == 'double-quoted':
+			text += '"'
+		elif label == 'single-quoted':
+			text += "'"
+
+		labelled.append((label, text))
 
 	return labelled
 
 
 
 
+def parse(lexeme):
 
-#print(lex( "text/html; charset=utf-8" ))
-#print(lex( "application/java-archive" ))
-#print(lex( "text/html; charset=windows-874" ))
-#print(lex( "application/xhtml+xml; charset=utf-8" ))
-#print(lex( "application/xml; charset=ISO-8859-1" ))
-#print(lex( "application/xhtml+xml; charset=utf-8" ))
-#print(lex( "application/x-web-app-manifest+json" ))
-#print(parse(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' )))
+	labels = label(lexeme)
+	types  = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
 
+	if not labels[0][1].lower() in types:
+		return Failure('invalid content type %s' % labels[0][1].lower())
 
+	params  = {}
+	options = labels[2:]
 
+	for ith in range(0, len(options), 2):
+		params[options[ith][1]] = options[ith + 1][1]
 
-res = (
-	Success('multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8')
-	.then(lex)
-	.then(parse)
-)
-
-print(res)
-
+	return Success({
+		'type':    labels[0][1].lower(),
+		'subtype': labels[1][1].lower(),
+		'params':  params
+	})
 
 
 
 
+content_types = [
+	'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8'
+]
 
+for content_type in content_types:
+
+	res = (
+		Success(content_type)
+		.then(lex)
+		.then(parse)
+	)
+
+	print(res)
+	print('¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬')
 
 
 
