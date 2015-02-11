@@ -26,7 +26,7 @@ grammar = {
 	**{key: 'type' for key in token_char}),
 
 	'subtype': dict({
-		';': 'space',
+		';': '_SPACE',
 	},
 	**{key: 'subtype' for key in token_char}),
 
@@ -34,10 +34,10 @@ grammar = {
 
 
 
-	'space': dict({
-		' ':   'space',
-		'\t':  'space',
-		'\n':  'space',
+	'_SPACE': dict({
+		' ':   '_SPACE',
+		'\t':  '_SPACE',
+		'\n':  '_SPACE',
 	},
 	**{key: 'attribute' for key in token_char}),
 
@@ -52,7 +52,6 @@ grammar = {
 
 
 	'value':  dict({
-		';': 'space',
 		'"': 'double-quoted',
 		"'": 'single-quoted'
 	},
@@ -60,16 +59,19 @@ grammar = {
 	**{key: 'unquoted' for key in token_char}),
 
 	'single-quoted': dict({
-
-	}),
+		"'": 'unquoted'
+	},
+	**{key: 'single-quoted' for key in ascii if key != "'"}),
 
 	'double-quoted': dict({
-
-	}),
+		'"': 'unquoted'
+	},
+	**{key: 'double-quoted' for key in ascii if key != '"'}),
 
 	'unquoted': dict({
-
-	})
+		';': '_SPACE'
+	},
+	**{key: 'unquoted' for key in token_char}),
 
 }
 
@@ -96,20 +98,20 @@ def lex(content_type):
 			print(transitions)
 			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
 
-	return Success(transitions)
+	return Success( [trans for trans in transitions if not trans[1].startswith('_')] )
 
 
 
 
 
-print(lex( "text/html; charset=utf-8" ))
-print(lex( "application/java-archive" ))
-print(lex( "text/html; charset=windows-874" ))
-print(lex( "application/xhtml+xml; charset=utf-8" ))
-print(lex( "application/xml; charset=ISO-8859-1" ))
-print(lex( "application/xhtml+xml; charset=utf-8" ))
-print(lex( "application/x-web-app-manifest+json" ))
-print(lex( 'multipart/x-mixed-replace; boundary="testingtesting"' ))
+#print(lex( "text/html; charset=utf-8" ))
+#print(lex( "application/java-archive" ))
+#print(lex( "text/html; charset=windows-874" ))
+#print(lex( "application/xhtml+xml; charset=utf-8" ))
+#print(lex( "application/xml; charset=ISO-8859-1" ))
+#print(lex( "application/xhtml+xml; charset=utf-8" ))
+#print(lex( "application/x-web-app-manifest+json" ))
+print(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' ))
 
 
 
