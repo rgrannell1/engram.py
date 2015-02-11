@@ -367,7 +367,7 @@ const searchBookmarks = function (query, cache) {
 	return cache
 		.contents
 		.filter(function (bookmark) {
-			return bookmark.metadata.queryScores[query] > 0
+			return bookmark.metadata.queryScores[query] > 0.05
 		})
 		.sort(function (bookmark0, bookmark1) {
 			return bookmark1.metadata.queryScores[query] - bookmark0.metadata.queryScores[query]
@@ -392,8 +392,11 @@ const searchBookmarks = function (query, cache) {
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	const queryParams = function (name) {
-		const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
-		return match && decodeURIComponent(match[1].replace(/\+/g, ' '))
+		const match  = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
+		const result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
+
+		return is.null(result) ? '': result
+
 	}
 
 	const startSearch = function () {
@@ -437,15 +440,22 @@ $.get('/public/html/bookmark-template.html', function (template) {
 		console.log( event )
 
 		if (event.keyCode === 27) {
+
 			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, '')
 			updateAddressBar('')
+			startSearch()
+
+		} else if (event.keyCode === 8) {
+
+			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, ENGRAM.searchState.current.slice(0, -1))
+			updateAddressBar(ENGRAM.searchState.current)
+			startSearch()
 
 		} else {
 
-			if (event.ctrlKey || event.altKey) {
+			if (event.ctrlKey || event.altKey || event.keyCode < 34 || event.keyCode > 127) {
 				return
 			}
-
 
 			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, ENGRAM.searchState.current + event.key)
 			startSearch()
