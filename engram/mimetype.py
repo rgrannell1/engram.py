@@ -148,6 +148,8 @@ def parse_lexeme(lexeme):
 	labels = label(lexeme)
 	types  = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
 
+	print(labels)
+
 	if not labels[0][1].lower() in types:
 		return Failure('invalid content type "%s"' % labels[0][1].lower())
 
