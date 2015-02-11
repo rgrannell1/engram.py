@@ -241,6 +241,8 @@ const scoreBookmarks = function (getText, query, cache) {
 
 const updateAddressBar = function (query) {
 
+	is.always.string(query)
+
 	if (query.length === 0) {
 		history.pushState(null, '', '/bookmarks')
 	} else {
@@ -254,33 +256,37 @@ const updateAddressBar = function (query) {
 
 
 ENGRAM.searchState = {
-	previous:    '',
-	current:     '',
+	previous:   '',
+	current:    '',
 	searchCache: undefined,
-}
 
+	escape: function () {
+		this.previous = this.current
+		this.current  = ''
+	},
+	backspace: function () {
+		this.previous = this.current
+		this.current  = this.current.slice(0, -1)
+	},
 
+	addKey: function (char) {
+		this.previous = this.current
+		this.current += char
+	},
 
+	setCurrent: function (query) {
 
+		is.always.string(query)
+		this.current = query
 
-/*
-	updateSearchState :: {
-		'previous': string, 'current': string
-	} x string -> {
-		'previous': string, 'current': string
+	},
+	setCache: function (cache) {
+
+		is.always.object(cache)
+		this.searchCache = cache
+
 	}
 
-	given the current search state object and a text query,
-	update the current state and previous state.
-
-*/
-
-const updateSearchState = function (state, query) {
-
-	state.previous = state.current
-	state.current  = query
-
-	return state
 }
 
 
@@ -399,10 +405,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	}
 
-	const startSearch = function () {
-
-		const query        = ENGRAM.searchState.current
-		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, query)
+	const startSearch = function (query) {
 
 		updateAddressBar(query)
 
@@ -420,7 +423,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 			loadBookmarks(searchCache, template)
 
-			ENGRAM.searchState.searchCache = searchCache
+			ENGRAM.searchState.setCache(searchCache)
 
 		}
 
@@ -430,38 +433,36 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	$(function () {
 
-		ENGRAM.searchState = updateSearchState(ENGRAM.searchState, queryParams('q'))
-		updateAddressBar(queryParams('q'))
-		startSearch()
+		ENGRAM.searchState.setCurrent(queryParams('q'))
+		startSearch(ENGRAM.searchState.current)
+
 	})
 
-	$(window).keydown(function (event) {
 
-		console.log( event )
 
-		if (event.keyCode === 27) {
 
-			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, '')
-			updateAddressBar('')
-			startSearch()
 
-		} else if (event.keyCode === 8) {
 
-			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, ENGRAM.searchState.current.slice(0, -1))
-			updateAddressBar(ENGRAM.searchState.current)
-			startSearch()
+	$(window).keydown( keylog.bind({}, function (isEscape, isBackspace, key) {
+
+		if (isEscape) {
+
+			ENGRAM.searchState.escape()
+			startSearch(ENGRAM.searchState.current)
+
+		} else if (isBackspace) {
+
+			ENGRAM.searchState.backspace()
+			startSearch(ENGRAM.searchState.current)
 
 		} else {
 
-			if (event.ctrlKey || event.altKey || event.keyCode < 34 || event.keyCode > 127) {
-				return
-			}
+			ENGRAM.searchState.addKey(key)
+			startSearch(ENGRAM.searchState.current)
 
-			ENGRAM.searchState = updateSearchState(ENGRAM.searchState, ENGRAM.searchState.current + event.key)
-			startSearch()
 		}
 
-	})
+	}) )
 
 })
 
