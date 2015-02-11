@@ -25,7 +25,22 @@ grammar = {
 	},
 	**{key: 'type' for key in token_char}),
 
+
+
+
+
+
 	'_SLASH': {key: 'subtype' for key in token_char},
+
+	'_BIND': dict({
+		'"': 'double-quoted',
+		"'": 'single-quoted'
+	},
+
+	**{key: 'unquoted' for key in token_char}),
+
+
+
 
 	'subtype': dict({
 		';': '_SPACE',
@@ -40,22 +55,15 @@ grammar = {
 
 	**{key: 'attribute' for key in token_char}),
 
+
+
 	'attribute': dict({
-		'=': 'value',
+		'=': '_BIND',
 	},
 	**{key: 'attribute' for key in token_char}),
 
 
 
-
-
-
-	'value':  dict({
-		'"': 'double-quoted',
-		"'": 'single-quoted'
-	},
-
-	**{key: 'unquoted' for key in token_char}),
 
 	'single-quoted': dict({
 		"'": 'unquoted'
@@ -97,7 +105,7 @@ def lex(content_type):
 			print(transitions)
 			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
 
-	return Success( [trans for trans in transitions if not trans[1].startswith('_')] ).value
+	return Success( [trans for trans in transitions if not trans[1].startswith('_')] )
 
 
 
@@ -135,12 +143,18 @@ def parse(lexeme):
 #print(lex( "application/xml; charset=ISO-8859-1" ))
 #print(lex( "application/xhtml+xml; charset=utf-8" ))
 #print(lex( "application/x-web-app-manifest+json" ))
-print(parse(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' )))
+#print(parse(lex( 'multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8' )))
 
 
 
 
+res = (
+	Success('multipart/x-mixed-replace; boundary="testingtesting";	charset=utf-8')
+	.then(lex)
+	.then(parse)
+)
 
+print(res)
 
 
 
