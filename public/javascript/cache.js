@@ -232,7 +232,7 @@ ENGRAM.Cache = function (getID) {
 
 		const chunk = []
 
-		for (var ith = 0; ith < self.contents.length; ++ith) {
+		for (var ith = self.contents.length - 1; ith >= 0 ; --ith) {
 
 			var entry = self.contents[ith]
 
@@ -255,7 +255,7 @@ ENGRAM.Cache = function (getID) {
 			}, -Infinity)
 
 			return {
-				data:   chunk,
+				data:   chunk.reverse(),
 				nextID: maxID + 1,
 				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b)} )
 			}

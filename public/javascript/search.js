@@ -143,10 +143,16 @@ ENGRAM.searchState = {
 	escape: function () {
 		this.previous = this.current
 		this.current  = ''
+
+		return this
+
 	},
 	backspace: function () {
 		this.previous = this.current
 		this.current  = this.current.slice(0, -1)
+
+		return this
+
 	},
 
 	addKey: function (char) {
@@ -155,6 +161,9 @@ ENGRAM.searchState = {
 
 		this.previous = this.current
 		this.current += char
+
+		return this
+
 	},
 
 	setCurrent: function (query) {
@@ -162,6 +171,7 @@ ENGRAM.searchState = {
 		is.always.string(query)
 
 		this.current = query
+		return this
 
 	},
 	setCache: function (cache) {
@@ -169,6 +179,7 @@ ENGRAM.searchState = {
 		is.always.object(cache)
 
 		this.searchCache = cache
+		return this
 
 	}
 
