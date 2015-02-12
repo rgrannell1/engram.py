@@ -88,15 +88,15 @@ const attachChunk = ( function () {
 
 
 
-	const prepend = function (cache, maxID, template) {
+	const prepend = function (cache, minID, template) {
 
 		is.always.object(cache)
-		is.always.number(maxID)
+		is.always.number(minID)
 		is.always.string(template)
 
-		const chunk = cache.fetchPrevChunk(maxID, ENGRAM.PERSCROLL)
+		const chunk = cache.fetchPrevChunk(minID, ENGRAM.PERSCROLL)
 
-		if (maxID > 0 && (chunk.data.length) > 0) {
+		if (minID > 0 && (chunk.data.length) > 0) {
 			return $('#content').prepend( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )

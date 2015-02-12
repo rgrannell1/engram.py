@@ -218,19 +218,15 @@ ENGRAM.Cache = function (getID) {
 
 	}
 
-	self.fetchPrevChunk = function (maxID, amount, pred) {
+	self.fetchPrevChunk = function (minID, amount, pred) {
 
-		if (!is.number(maxID)) {
-			throw "fetchNextChunk: attempt to set maxID to non-number (" + JSON.stringify(maxID) + ")"
+		if (!is.number(minID)) {
+			throw "fetchNextChunk: attempt to set minID to non-number (" + JSON.stringify(minID) + ")"
 		}
 
 		if (!is.number(amount)) {
 			throw "fetchNextChunk: attempt to set amount to non-number (" + JSON.stringify(amount) + ")"
 		}
-
-
-
-
 
 		pred = pred || function (entry) {return true}
 
@@ -240,7 +236,7 @@ ENGRAM.Cache = function (getID) {
 
 			var entry = self.contents[ith]
 
-			if ( getID(entry) > maxID && pred(entry) ) {
+			if ( getID(entry) > minID && pred(entry) ) {
 				chunk.push(entry)
 			}
 
@@ -254,13 +250,13 @@ ENGRAM.Cache = function (getID) {
 			throw RangeError('internal error: chunk was too long (' + chunk.length + ')')
 		} else if (chunk.length > 0) {
 
-			const maxiID = chunk.reduce(function (smallest, current) {
+			const maxID = chunk.reduce(function (smallest, current) {
 				return Math.max(smallest, getID(current))
 			}, -Infinity)
 
 			return {
 				data:   chunk,
-				nextID: maxiID + 1,
+				nextID: maxID + 1,
 				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b)} )
 			}
 
