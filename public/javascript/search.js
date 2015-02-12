@@ -9,35 +9,32 @@
 
 const align = function (query, text) {
 
-	const alignHeads = function (query, text) {
-		return text.slice( text.indexOf(query.charAt(0)) )
+	var state = {
+		gaps:    0,
+		toMatch: text.slice( text.indexOf(query.charAt(0)) )
 	}
 
-	const alignResult = query.split('').reduce(function (state, char) {
+	for (var ith = 0; ith < query.length; ++ith) {
 
 		if (state.toMatch.length === 0) {
-			return state
+			break
 		} else {
 
-			const index = state.toMatch.indexOf(char)
+			const index = state.toMatch.indexOf(query.charAt(ith))
 
-			return {
-				gaps:       state.gaps +        index === -1 ? 0: index,
-				toMatch:    state.toMatch.slice(index === -1 ? Infinity: index + 1)
-			}
+			state.gaps    += index === -1 ? 0: index
+			state.toMatch =  state.toMatch.slice(index === -1 ? Infinity: index + 1)
+
 		}
 
-	}, {
-		gaps:    0,
-		toMatch: alignHeads(query, text)
-	})
+	}
 
 	return {
 		query:   query,
 		text:    text,
 
-		isMatch: alignResult.toMatch.length === 0,
-		gaps:    alignResult.gaps
+		isMatch: state.toMatch.length === 0,
+		gaps:    state.gaps
 	}
 
 }
