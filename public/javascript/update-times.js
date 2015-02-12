@@ -1,227 +1,140 @@
 
-ENGRAM.timerJob = []
+const constants = {
+	months: [
+		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	],
+	second: 1,
+	minute: 60,
+	hour:   3600,
+	day:    24 * 3600
+}
 
 
 
 
 
-ENGRAM.updateTimers = ( function ( ) {
+/*
+	formatInterval :: number -> string
 
-	const constants = {
-		months: [
-			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-		],
-		second: 1,
-		minute: 60,
-		hour:   3600,
-		day:    24 * 3600
-	}
+	given a number of seconds a human-readable time interval representation.
 
+	For example,
 
+	13    => 13s
+	120   => 2m
+	10000 => June 18
 
+*/
 
+const formatInterval = function (sec) {
 
-	/*
-		formatInterval :: number -> string
+	if (sec < constants.minute) {
 
-		given a number of seconds a human-readable time interval representation.
+		return sec + 's'
 
-		For example,
+	} else if (sec < constants.hour) {
 
-		13    => 13s
-		120   => 2m
-		10000 => June 18
+		return Math.round(sec / constants.minute) + 'm'
 
-	*/
+	} else if (sec < constants.day) {
 
-	const formatInterval = function (sec) {
+		return Math.round(sec / constants.hour) + 'h'
 
-		if (sec < constants.minute) {
+	} else {
 
-			return sec + 's'
+		const ctime = new Date(new Date - (1000 * sec))
 
-		} else if (sec < constants.hour) {
-
-			return Math.round(sec / constants.minute) + 'm'
-
-		} else if (sec < constants.day) {
-
-			return Math.round(sec / constants.hour) + 'h'
-
-		} else {
-
-			const ctime = new Date(new Date - (1000 * sec))
-
-			return constants.months[ctime.getMonth( )] + " " + ctime.getDate( )
-
-		}
+		return constants.months[ctime.getMonth( )] + " " + ctime.getDate( )
 
 	}
 
+}
 
 
 
 
-	/*
-		extractTime :: element -> Date
 
-		get a javascript date from a <time> tag's data-ctime attribute.
+/*
+	extractTime :: element -> Date
 
-	*/
-	const extractTime = function (time) {
-		return new Date(parseInt($(time).attr('data-ctime'), 10) * 1000)
+	get a javascript date from a <time> tag's data-ctime attribute.
+
+*/
+const extractTime = function (time) {
+	return new Date(parseInt($(time).attr('data-ctime'), 10) * 1000)
+}
+
+
+
+
+
+/*
+	secondsBetween :: Date x Date -> number
+
+	get the time interval between two dates to the nearest second.
+
+*/
+
+const secondsBetween = function (recent, old) {
+	return Math.floor((recent.getTime( ) - old.getTime( ) ) / 1000)
+}
+
+
+
+
+
+
+/*
+	elapsedTime :: TimeTag -> message: string
+
+	given a time element, give the difference in that time from
+	the present.
+*/
+
+const elapsedTime = function (elem) {
+
+	if (is.undefined(elem)) {
+		throw "elapsedTime: elem was undefined."
 	}
 
+	return formatInterval( secondsBetween(new Date, extractTime(elem)) )
+}
 
 
 
 
-	/*
-		secondsBetween :: Date x Date -> number
 
-		get the time interval between two dates to the nearest second.
+/*
+	showTime :: time -> undefined
 
-	*/
+	update the text of a time element to show
+	the current time or time difference in a human-readable format.
 
-	const secondsBetween = function (recent, old) {
-		return Math.floor((recent.getTime( ) - old.getTime( ) ) / 1000)
+*/
+
+const showTime = function ($time) {
+
+	if (is.undefined($time)) {
+		throw "showTime: $time was undefined."
 	}
 
+	$time.text(elapsedTime($time))
+
+}
 
 
 
 
 
-	/*
-		elapsedTime :: TimeTag -> message: string
+$(function () {
 
-		given a time element, give the difference in that time from
-		the present.
-	*/
+	setInterval(function () {
 
-	const elapsedTime = function (elem) {
-
-		if (is.undefined(elem)) {
-			throw "elapsedTime: elem was undefined."
-		}
-
-		return formatInterval( secondsBetween(new Date, extractTime(elem)) )
-	}
-
-
-
-
-
-	/*
-		showTime :: time -> undefined
-
-		update the text of a time element to show
-		the current time or time difference in a human-readable format.
-
-	*/
-
-	const showTime = function ($time) {
-
-		if (is.undefined($time)) {
-			throw "showTime: $time was undefined."
-		}
-
-		$time.text(elapsedTime($time))
-
-	}
-
-
-
-
-
-	/*
-		updateJobs :: number -> [{viewgroup_id: number, pid: number}]
-
-		update the data structure keeping track of which time elements
-		are currently being updated via setIntervals.
-	*/
-
-	const updateJobs = function (viewgroup_id, $time) {
-
-		if (is.undefined($time)) {
-			throw "updateJobs: $time was undefined."
-		}
-
-		showTime($time)
-
-		return ENGRAM.timerJob
-			.map(function (job) {
-
-				if (job.viewgroup_id !== viewgroup_id) {
-					clearInterval(job.pid)
-				}
-
-				return job
-
-			})
-			.filter(function (job){
-				return job.viewgroup_id === viewgroup_id
-			})
-			.concat({
-				viewgroup_id: viewgroup_id,
-				pid:          setInterval(showTime.bind(null, $time), 1000)
-			})
-
-			// todo: add a slower tick rate.
-
-	}
-
-
-
-
-
-	/*
-		forEachActiveTime :: undefined -> undefined
-
-		apply a function to each time element currently
-		in the viewport.
-
-	*/
-
-
-
-
-
-	const forEachActiveTime = function ($viewgroup, callback) {
-
-		if (!is.function(callback)) {
-			throw "forEachActiveTime: non-callback argument." + JSON.stringify(callback)
-		}
-
-		inView($viewgroup).find('time').each(callback)
-
-	}
-
-
-
-
-
-	/*
-		updateTimers :: undefined -> undefined
-
-		update each time in the viewport.
-
-	*/
-
-	return function ($viewgroup) {
-		forEachActiveTime($viewgroup, function ( ) {
-
-			$this = $(this)
-			ENGRAM.timerJob = updateJobs($this.closest('.viewgroup').attr('id'), $this)
-
+		$('time').each(function () {
+			showTime($(this))
 		})
-	}
 
-})( )
+	}, 1000)
 
-
-
-
-
-$(window).scrollTop($(window).scrollTop( ) + 1) // terrible.
+})

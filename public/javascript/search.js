@@ -124,13 +124,9 @@ const updateAddressBar = function (query) {
 	is.always.string(query)
 
 	if (query.length === 0) {
-		setTimeout(function () {
-			history.pushState(null, '', '/bookmarks')
-		}, 0)
+		history.pushState(null, '', '/bookmarks')
 	} else {
-		setTimeout(function () {
-			history.pushState(null, '', '/bookmarks?q=' + query)
-		}, 0)
+		history.pushState(null, '', '/bookmarks?q=' + query)
 	}
 
 }
@@ -329,7 +325,16 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		is.always.string(query)
 
-		updateAddressBar(query)
+		setTimeout(updateAddressBar.bind({}, query), 0)
+
+		// move
+		if (query.length > 0) {
+			$('#search-status').text('Results for "' + query + '"')
+		} else {
+			$('#search-status').text("")
+		}
+
+
 		var searchCache = ENGRAM.cache
 
 		if (query.length >= 2) {
