@@ -270,6 +270,9 @@ ENGRAM.searchState = {
 	},
 
 	addKey: function (char) {
+
+		is.always.string(char)
+
 		this.previous = this.current
 		this.current += char
 	},
@@ -277,12 +280,14 @@ ENGRAM.searchState = {
 	setCurrent: function (query) {
 
 		is.always.string(query)
+
 		this.current = query
 
 	},
 	setCache: function (cache) {
 
 		is.always.object(cache)
+
 		this.searchCache = cache
 
 	}
@@ -318,8 +323,14 @@ const isPrefixOf = function (str1, str2) {
 
 const saveQueryScores = function (query, cache) {
 
-	const isMatch = isSplitSubstring(query)
+	is.always.string(query)
+	is.always.object(cache)
 
+
+
+
+
+	const isMatch  = isSplitSubstring(query)
 	cache.contents = cache.contents.map(function (bookmark) {
 
 		bookmark.metadata = bookmark.metadata  || {queryScores: {}}
@@ -397,7 +408,7 @@ const searchBookmarks = function (query, cache) {
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
-	const queryParams = function (name) {
+	const loadAddressBar = function (name) {
 
 		const match  = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
 		const result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
@@ -406,7 +417,22 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	}
 
+
+
+
+
+	/*
+
+		startSearch :: string -> undefined
+
+		given a query, score each bookmark if appropriate and display
+		the search results.
+
+	*/
+
 	const startSearch = function (query) {
+
+		is.always.string(query)
 
 		updateAddressBar(query)
 		var searchCache = ENGRAM.cache
@@ -441,7 +467,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	const loadSearchURI = function () {
 
-		ENGRAM.searchState.setCurrent(queryParams('q'))
+		ENGRAM.searchState.setCurrent(loadAddressBar('q'))
 		startSearch(ENGRAM.searchState.current)
 
 	}
