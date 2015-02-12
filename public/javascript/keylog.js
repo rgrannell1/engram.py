@@ -15,11 +15,18 @@ const keylog = ( function () {
 			callback(true, false, undefined)
 		} else if (event.keyCode === codes.backspace) {
 			callback(false, true, undefined)
-		} else if ((event.keyCode > 34 && event.keyCode < 127) && !event.ctrlKey && !event.altKey) {
-			callback(false, false, event.key)
+		} else {
+
+			const isTypeable = (
+				(event.keyCode >= 41 && event.keyCode < 122) ||
+				(event.keyCode == 32 || event.keyCode > 186)) &&
+			event.key.length === 1
+
+			if (isTypeable && !event.ctrlKey && !event.altKey) {
+				callback(false, false, event.key)
+			}
 		}
 
 	}
 
 } )()
-

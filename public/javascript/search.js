@@ -2,7 +2,7 @@
 /*
 	align
 
-	align two strings locally, and calculate the gaps required to make the match
+	efficiently align two strings locally, and calculate the gaps required to make the match
 	fit.
 
 */
@@ -124,9 +124,13 @@ const updateAddressBar = function (query) {
 	is.always.string(query)
 
 	if (query.length === 0) {
-		setTimeout(history.pushState(null, '', '/bookmarks'),            0)
+		setTimeout(function () {
+			history.pushState(null, '', '/bookmarks')
+		}, 0)
 	} else {
-		setTimeout(history.pushState(null, '', '/bookmarks?q=' + query), 0)
+		setTimeout(function () {
+			history.pushState(null, '', '/bookmarks?q=' + query)
+		}, 0)
 	}
 
 }
