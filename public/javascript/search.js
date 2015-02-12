@@ -10,12 +10,7 @@
 const align = function (query, text) {
 
 	const alignHeads = function (query, text) {
-
-		if ((query.length * text.length) === 0 || query.charAt(0) === text.charAt(0)) {
-			return text
-		} else {
-			return alignHeads(query, text.slice(1))
-		}
+		return text.slice( text.indexOf(query.charAt(0)) )
 	}
 
 	const alignResult = query.split('').reduce(function (state, char) {
@@ -52,6 +47,7 @@ const align = function (query, text) {
 
 
 const align2 = function (query, text) {
+
 
 }
 
@@ -256,14 +252,14 @@ const loadBookmarks = function (cache, template) {
 
 /*
 
-	searchBookmarks :: string x Cache -> [bookmark]
+	findMatchingBookmarks :: string x Cache -> [bookmark]
 
 	given a cache full of bookmarks with scored queries and a search query,
 	find and sort matching bookmarks.
 
 */
 
-const searchBookmarks = ( function () {
+const findMatchingBookmarks = ( function () {
 
 	const meetsThreshold = function (query) {
 		return function (bookmark) {
@@ -343,7 +339,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			searchCache = ENGRAM.Cache(function (bookmark) {
 				return bookmark.bookmark_id
 			})
-			.addAll(searchBookmarks(query, ENGRAM.cache))
+			.addAll(findMatchingBookmarks(query, ENGRAM.cache))
 
 		}
 
