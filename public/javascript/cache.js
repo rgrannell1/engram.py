@@ -236,7 +236,7 @@ ENGRAM.Cache = function (getID) {
 
 		const chunk = []
 
-		for (var ith = self.contents.length - 1; ith >= 0 ; --ith) {
+		for (var ith = 0; ith < self.contents.length; ++ith) {
 
 			var entry = self.contents[ith]
 
