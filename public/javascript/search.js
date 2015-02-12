@@ -1,16 +1,4 @@
 
-const locate = function (char, string, from) {
-
-	for (var ith = from; ith < string.length; ++ith) {
-		if (char === string.charAt(ith)) {
-			return ith
-		}
-	}
-
-	return -1
-}
-
-
 /*
 	align
 
@@ -19,36 +7,45 @@ const locate = function (char, string, from) {
 
 */
 
-const align = function (query, text) {
+const align = ( function () {
 
-	var alignResult = {
-		query:   query,
-		text:    text,
-		gaps:    0,
-		isMatch: true
+	const locate = function (char, string, from) {
+
+		for (var ith = from; ith < string.length; ++ith) {
+			if (char === string.charAt(ith)) {
+				return ith
+			}
+		}
+
+		return -1
 	}
 
-	var from = locate(query.charAt(0), text, 0)
-	var nextFrom;
+	return function (query, text) {
 
-	for (var ith = 0; ith < query.length; ++ith) {
+		var alignResult = {
+			gaps:    0,
+			text:    text,
+			query:   query
+		}
 
-		if (from < text.length) {
+		var from = locate(query.charAt(0), text, 0)
+		var nextFrom;
+
+		for (var ith = 0; ith < query.length; ++ith) {
+			// assume 'from' never overruns,as
 
 			nextFrom          = locate(query.charAt(ith), text, from) + 1
 			alignResult.gaps += (nextFrom - from - 1)
 			from              = nextFrom
 
-		} else {
-			alignResult.isMatch = false
-			return alignResult
 		}
+
+		return alignResult
 
 	}
 
-	return alignResult
+} )()
 
-}
 
 
 
@@ -127,9 +124,9 @@ const updateAddressBar = function (query) {
 	is.always.string(query)
 
 	if (query.length === 0) {
-		history.pushState(null, '', '/bookmarks')
+		setTimeout(history.pushState(null, '', '/bookmarks'),            0)
 	} else {
-		history.pushState(null, '', '/bookmarks?q=' + query)
+		setTimeout(history.pushState(null, '', '/bookmarks?q=' + query), 0)
 	}
 
 }

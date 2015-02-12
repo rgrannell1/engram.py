@@ -4,7 +4,7 @@ ENGRAM.Cache = function (getID) {
 	var self = {}
 
 	self.contents = []
-	self.ids      = []
+	self.ids      = {}
 
 	self.maxID    = -1
 
@@ -21,7 +21,7 @@ ENGRAM.Cache = function (getID) {
 
 	self.has = function (id) {
 		self.has.precond(id)
-		return self.has.postcond(self.ids.indexOf(id) !== -1)
+		return self.has.postcond(id in self.ids)
 	}
 
 	self.has.precond = function (id) {
@@ -60,7 +60,7 @@ ENGRAM.Cache = function (getID) {
 		} else {
 
 			self.maxID = Math.max(id, self.maxID)
-			self.ids.push(id)
+			self.ids[id] = null
 			self.contents.push(entry)
 
 		}
@@ -115,9 +115,7 @@ ENGRAM.Cache = function (getID) {
 
 		if (self.has(id)) {
 
-			const id_ith = self.ids.indexOf(id)
-
-			self.ids      = self.ids.slice(id_ith, 1)
+			delete self.ids[id]
 			self.contents = self.contents.filter(function (entry) {
 				return getID(entry) != id
 			})
