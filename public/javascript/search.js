@@ -32,7 +32,7 @@ const align = ( function () {
 		var nextFrom;
 
 		for (var ith = 0; ith < query.length; ++ith) {
-			// assume 'from' never overruns,as
+			// assume 'from' never over- or under-runs, as query should always be a substring of text.
 
 			nextFrom          = locate(query.charAt(ith), text, from) + 1
 			alignResult.gaps += (nextFrom - from - 1)

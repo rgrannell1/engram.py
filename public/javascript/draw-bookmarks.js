@@ -140,12 +140,15 @@ const loadScroll = ( function () {
 
 		attachChunk.prepend(cache, maxID(), template)
 
-		if ($('.viewgroup').length >= 5) {
+		$viewgroup = $('.viewgroup')
 
-			$('.viewgroup:last').remove()
+		if ($viewgroup.length >= 5) {
 
-			if ($('.viewgroup article:first').length > 0) {
-				$(document).scrollTop(300)
+			$viewgroup.last().remove()
+			$elem = $viewgroup.find('article').first()
+
+			if ($elem.length > 0) {
+				$(document).scrollTop($elem.position().top + $elem.height())
 			}
 
 		}
