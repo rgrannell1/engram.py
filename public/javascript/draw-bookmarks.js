@@ -142,9 +142,8 @@ const loadScroll = ( function () {
 
 		if ($('.viewgroup').length >= 5) {
 			$('.viewgroup:last').remove()
+			$(document).scrollTop(300)
 		}
-
-		$(document).scrollTop($('.viewgroup:first').offset().bottom)
 
 	}
 
