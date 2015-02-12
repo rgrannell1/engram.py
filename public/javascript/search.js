@@ -51,6 +51,14 @@ const align = function (query, text) {
 
 
 
+const align2 = function (query, text) {
+
+}
+
+
+
+
+
 /*
 	alignQuality
 
@@ -255,18 +263,25 @@ const loadBookmarks = function (cache, template) {
 
 */
 
-const searchBookmarks = function (query, cache) {
+const searchBookmarks = ( function () {
 
-	return cache
-		.contents
-		.filter(function (bookmark) {
+	const meetsThreshold = function (query) {
+		return function (bookmark) {
 			return bookmark.metadata.queryScores[query] > 0.05
-		})
-		.sort(function (bookmark0, bookmark1) {
-			return bookmark1.metadata.queryScores[query] - bookmark0.metadata.queryScores[query]
-		})
+		}
+	}
 
-}
+	const compareBookmarks = function (query) {
+		return function (bookmark0, bookmark1) {
+			return bookmark1.metadata.queryScores[query] - bookmark0.metadata.queryScores[query]
+		}
+	}
+
+	return function (query, cache) {
+		return cache.contents.filter(meetsThreshold(query)).sort(compareBookmarks(query))
+	}
+
+} )()
 
 
 
