@@ -141,8 +141,13 @@ const loadScroll = ( function () {
 		attachChunk.prepend(cache, maxID(), template)
 
 		if ($('.viewgroup').length >= 5) {
+
 			$('.viewgroup:last').remove()
-			$(document).scrollTop(300)
+
+			if ($('.viewgroup article:first').length > 0) {
+				$(document).scrollTop(300)
+			}
+
 		}
 
 	}
