@@ -398,6 +398,7 @@ const searchBookmarks = function (query, cache) {
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	const queryParams = function (name) {
+
 		const match  = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search)
 		const result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
 
@@ -408,32 +409,69 @@ $.get('/public/html/bookmark-template.html', function (template) {
 	const startSearch = function (query) {
 
 		updateAddressBar(query)
+		var searchCache = ENGRAM.cache
 
-		if (query.length < 2) {
-			loadBookmarks(ENGRAM.cache, template)
-		} else {
+		if (query.length >= 2) {
 
-			ENGRAM.cache      = saveQueryScores(query, ENGRAM.cache)
-			const searchCache =
-				ENGRAM
-				.Cache(function (bookmark) {
-					return bookmark.bookmark_id
-				})
-				.addAll(searchBookmarks(query, ENGRAM.cache))
+			ENGRAM.cache = saveQueryScores(query, ENGRAM.cache)
 
-			loadBookmarks(searchCache, template)
-
-			ENGRAM.searchState.setCache(searchCache)
+			searchCache = ENGRAM.Cache(function (bookmark) {
+				return bookmark.bookmark_id
+			})
+			.addAll(searchBookmarks(query, ENGRAM.cache))
 
 		}
 
+		ENGRAM.searchState.setCache(searchCache)
+		loadBookmarks(searchCache, template)
+
 	}
 
-	loadBookmarks(ENGRAM.cache, template)
 
-	$(function () {
+
+
+
+	/*
+
+		loadSearchURI :: -> undefined
+
+		load and start a search with the contents of the address bar.
+
+	*/
+
+	const loadSearchURI = function () {
 
 		ENGRAM.searchState.setCurrent(queryParams('q'))
+		startSearch(ENGRAM.searchState.current)
+
+	}
+
+
+
+
+
+	/*
+		liveSearch :: event -> undefined
+
+		takes a key event. If it is 'escape' clears the current search,
+		if 'backspace' if removes the last character, and if any other key
+		appends that to the current query. Runs the search for the updated query.
+
+	*/
+
+	const liveSearch = keylog.bind({}, function (isEscape, isBackspace, key) {
+
+		is.always.boolean(isEscape)
+		is.always.boolean(isBackspace)
+
+		if (isEscape) {
+			ENGRAM.searchState.escape()
+		} else if (isBackspace) {
+			ENGRAM.searchState.backspace()
+		} else {
+			ENGRAM.searchState.addKey(key)
+		}
+
 		startSearch(ENGRAM.searchState.current)
 
 	})
@@ -442,27 +480,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 
-
-	$(window).keydown( keylog.bind({}, function (isEscape, isBackspace, key) {
-
-		if (isEscape) {
-
-			ENGRAM.searchState.escape()
-			startSearch(ENGRAM.searchState.current)
-
-		} else if (isBackspace) {
-
-			ENGRAM.searchState.backspace()
-			startSearch(ENGRAM.searchState.current)
-
-		} else {
-
-			ENGRAM.searchState.addKey(key)
-			startSearch(ENGRAM.searchState.current)
-
-		}
-
-	}) )
+	$(loadSearchURI)
+	$(window).keydown(liveSearch)
 
 })
-
