@@ -308,6 +308,24 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	}
 
+	/*
+
+		updateSearchStatus
+
+		perform any DOM updates needed to inform the user they are
+		searching.
+
+	*/
+
+	const updateSearchStatus = function (query) {
+
+		if (query.length > 0) {
+			$('#search-status').text('Results for "' + query + '"')
+		} else {
+			$('#search-status').text("")
+		}
+
+	}
 
 
 
@@ -325,15 +343,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		is.always.string(query)
 
-		setTimeout(updateAddressBar.bind({}, query), 0)
-
-		// move
-		if (query.length > 0) {
-			$('#search-status').text('Results for "' + query + '"')
-		} else {
-			$('#search-status').text("")
-		}
-
+		setTimeout(updateAddressBar.bind({}, query),   0)
+		setTimeout(updateSearchStatus.bind({}, query), 0)
 
 		var searchCache = ENGRAM.cache
 

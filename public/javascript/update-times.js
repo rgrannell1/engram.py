@@ -129,9 +129,10 @@ const showTime = function ($time) {
 
 $(function () {
 
+	// todo add different tickrates.
 	setInterval(function () {
 
-		$('time').each(function () {
+		$('.viewgroup time').each(function () {
 			showTime($(this))
 		})
 

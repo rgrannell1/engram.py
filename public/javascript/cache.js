@@ -254,13 +254,13 @@ ENGRAM.Cache = function (getID) {
 			throw RangeError('internal error: chunk was too long (' + chunk.length + ')')
 		} else if (chunk.length > 0) {
 
-			const minID = chunk.reduce(function (smallest, current) {
-				return Math.min(smallest, getID(current))
-			}, Infinity)
+			const maxiID = chunk.reduce(function (smallest, current) {
+				return Math.max(smallest, getID(current))
+			}, -Infinity)
 
 			return {
 				data:   chunk,
-				nextID: minID - 1,
+				nextID: maxiID + 1,
 				maxID:  chunk.map(getID).reduce( function (a, b) {return Math.max(a, b)} )
 			}
 
@@ -268,7 +268,7 @@ ENGRAM.Cache = function (getID) {
 
 			return {
 				data:   [],
-				nextID: maxID - 1,
+				nextID: maxID,
 				maxID:  maxID
 			}
 
