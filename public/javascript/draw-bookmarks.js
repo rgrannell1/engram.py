@@ -75,11 +75,11 @@ const attachChunk = ( function () {
 		const chunk = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
 
 		if (maxID > 0 && (chunk.data.length) > 0) {
-			return $('#content').append( viewgroup(chunk, function (bookmark) {
+			return $('#bookmark-container').append( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
 		} else {
-			return $('#content')
+			return $('#bookmark-container')
 		}
 
 	}
@@ -97,11 +97,11 @@ const attachChunk = ( function () {
 		const chunk = cache.fetchPrevChunk(minID, ENGRAM.PERSCROLL)
 
 		if (minID > 0 && (chunk.data.length) > 0) {
-			return $('#content').prepend( viewgroup(chunk, function (bookmark) {
+			return $('#bookmark-container').prepend( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
 		} else {
-			return $('#content')
+			return $('#bookmark-container')
 		}
 
 	}
@@ -170,8 +170,10 @@ const loadScroll = ( function () {
 
 		attachChunk.append(cache, nextID(), template)
 
-		if ($('.viewgroup').length >= 5) {
-			$('.viewgroup:first').remove()
+		$viewgroup = $('.viewgroup')
+
+		if ($viewgroup.length >= 5) {
+			$viewgroup.first().remove()
 		}
 
 		$(document).scrollTop($('.viewgroup:last').offset().top)

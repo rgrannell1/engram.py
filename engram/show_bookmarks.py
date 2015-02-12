@@ -16,7 +16,6 @@ dependencies = {
 
 	'javascript-bottom': static.loadJS([
 		"jquery",
-		"jquery-viewport",
 		"mustache",
 		"is",
 

@@ -12,6 +12,7 @@ from database   import Database
 import routes
 import sql
 import signal
+import threading
 
 
 
@@ -81,4 +82,13 @@ def create(fpath, test = None):
 
 if __name__ == "__main__":
 
-	create('data/engram')
+	def start_server():
+		create('data/engram')
+
+	def start_archiver():
+		print('running.')
+
+	for task in [start_server, start_archiver]:
+
+		thread = threading.Thread(target = task)
+		thread.start()

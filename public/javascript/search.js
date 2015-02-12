@@ -247,7 +247,7 @@ const saveQueryScores = function (query, cache) {
 
 const loadBookmarks = function (cache, template) {
 
-	$('#content article').remove()
+	$('#bookmark-container article').remove()
 	attachChunk.append(cache, ENGRAM.BIGINT, template)
 	loadScroll(cache,  template)
 
