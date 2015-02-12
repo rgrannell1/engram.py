@@ -1,4 +1,16 @@
 
+const locate = function (char, string, from) {
+
+	for (var ith = from; ith < string.length; ++ith) {
+		if (char === string.charAt(ith)) {
+			return ith
+		}
+	}
+
+	return -1
+}
+
+
 /*
 	align
 
@@ -9,42 +21,32 @@
 
 const align = function (query, text) {
 
-	var state = {
+	var alignResult = {
+		query:   query,
+		text:    text,
 		gaps:    0,
-		toMatch: text.slice( text.indexOf(query.charAt(0)) )
+		isMatch: true
 	}
+
+	var from = locate(query.charAt(0), text, 0)
+	var nextFrom;
 
 	for (var ith = 0; ith < query.length; ++ith) {
 
-		if (state.toMatch.length === 0) {
-			break
+		if (from < text.length) {
+
+			nextFrom          = locate(query.charAt(ith), text, from) + 1
+			alignResult.gaps += (nextFrom - from - 1)
+			from              = nextFrom
+
 		} else {
-
-			const index = state.toMatch.indexOf(query.charAt(ith))
-
-			state.gaps    += index === -1 ? 0: index
-			state.toMatch =  state.toMatch.slice(index === -1 ? Infinity: index + 1)
-
+			alignResult.isMatch = false
+			return alignResult
 		}
 
 	}
 
-	return {
-		query:   query,
-		text:    text,
-
-		isMatch: state.toMatch.length === 0,
-		gaps:    state.gaps
-	}
-
-}
-
-
-
-
-
-const align2 = function (query, text) {
-
+	return alignResult
 
 }
 
