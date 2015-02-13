@@ -76,7 +76,7 @@ WHERE bookmark_id = ?;
 """
 
 select_unarchived_bookmarks = """
-SELECT DISTINCT bookmark_id
+SELECT bookmark_id
 FROM bookmarks
 WHERE bookmark_id NOT IN
     (SELECT DISTINCT bookmark_id FROM bookmark_archives);
