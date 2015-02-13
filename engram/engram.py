@@ -14,6 +14,12 @@ import sql
 import signal
 import threading
 
+from complete_archives import complete_archives
+
+import logging
+logging.basicConfig(level =  logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 
 
@@ -70,13 +76,12 @@ def create_server(fpath, test = None):
 
 def create_archiver(fpath, test = None):
 
-	db_result = Success('data/engram').then(Database)
+	logger.info('connecting to database for archiving.')
 
-	print('starting archiver.')
-
-	(
-		db_result
-		.then(lambda db: update_archives(db))
+	create_result = (
+		Success('data/engram')
+		.then(Database)
+		.then(lambda db: complete_archives(db))
 	)
 
 
@@ -86,9 +91,9 @@ def create_archiver(fpath, test = None):
 def create(fpath, test = None):
 
 	def sigterm_handler(signal, stack_frame):
-		"""
-		cleanly shut down when the SIGTERM signal is sent.
-		"""
+		"""	cleanly shut down when the SIGTERM signal is sent. """
+
+		logger.info('shutting down.')
 
 		request.environ.get('werkzeug.server.shutdown')()
 		sys.exit(0)
@@ -100,7 +105,7 @@ def create(fpath, test = None):
 
 
 	archiver_result = (
-		Success(lambda: create_archiver(fpath, test))
+		Success(lambda:      create_archiver(fpath, test))
 		.then(lambda task:   threading.Thread(target = task))
 		.then(lambda thread: thread.start())
 	)
@@ -117,5 +122,3 @@ def create(fpath, test = None):
 if __name__ == "__main__":
 
 	create('data/engram')
-
-	print('running.')

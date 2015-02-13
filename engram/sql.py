@@ -46,6 +46,14 @@ CREATE TABLE IF NOT EXISTS bookmark_archives (
 );
 """
 
+create_table_failed_archive_jobs = """
+CREATE TABLE IF NOT EXISTS failed_archive_jobs (
+
+	failed_archive_job_id    integer    PRIMARY KEY    AUTOINCREMENT,
+	bookmark_id              REFERENCES bookmarks(bookmark_id)
+
+);
+"""
 
 
 
@@ -79,7 +87,10 @@ select_unarchived_bookmarks = """
 SELECT bookmark_id
 FROM bookmarks
 WHERE bookmark_id NOT IN
-    (SELECT DISTINCT bookmark_id FROM bookmark_archives);
+    (SELECT bookmark_id FROM bookmark_archives)
+
+AND bookmark_id NOT IN
+	(SELECT bookmark_id FROM failed_archive_jobs);
 """
 
 fetch_chunk = """
@@ -126,6 +137,7 @@ def create_tables(db):
 		.tap( lambda db: db.commit(sql['create_table_archives']) )
 		.tap( lambda db: db.commit(sql['create_table_bookmarks']) )
 		.tap( lambda db: db.commit(sql['create_table_bookmark_archives']) )
+		.tap( lambda db: db.commit(sql['create_table_failed_archive_jobs']) )
 
 	)
 

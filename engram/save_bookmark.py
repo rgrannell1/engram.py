@@ -37,8 +37,6 @@ def handle_save_result(result):
 def save_bookmark(db, url):
 	"""save a bookmark to a database.
 
-	save_bookmark :: Result Database x string -> string, number
-
 	this is triggered by a GET request, so it has perverse
 	behaviour. It returns a 204 when the save succeeds so the
 	browser doesn't leave the current page.
