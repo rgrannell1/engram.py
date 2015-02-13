@@ -101,15 +101,23 @@ const attachChunk = ( function () {
 		is.always.number(minID)
 		is.always.string(template)
 
-		const chunk = cache.fetchPrevChunk(minID, ENGRAM.PERSCROLL)
+		const $container = $('#bookmark-container')
+		const chunk      = cache.fetchPrevChunk(minID, ENGRAM.PERSCROLL)
 
 		if (minID > 0 && (chunk.data.length) > 0) {
-			return $('#bookmark-container').prepend( viewgroup(chunk, function (bookmark) {
+
+			$container.prepend( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
-		} else {
-			return $('#bookmark-container')
+
+			$container.find('time').each(function () {
+				showTime($(this))
+			})
+
 		}
+
+		return $container
+
 
 	}
 
