@@ -93,12 +93,9 @@ const attachChunk = ( function () {
 		}
 	}
 
-	const append  = concat('fetchNextChunk', 'append')
-	const prepend = concat('fetchPrevChunk', 'prepend')
-
 	return {
-		prepend: prepend,
-		append:  append
+		prepend: concat('fetchPrevChunk', 'prepend'),
+		append:  concat('fetchNextChunk', 'append')
 	}
 
 } )()
