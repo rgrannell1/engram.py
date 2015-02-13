@@ -66,65 +66,35 @@ const attachChunk = ( function () {
 
 
 
-	const append = function (cache, maxID, template) {
+	const concat = function (fetchMethod, attachMethod) {
+		return function (cache, id, template) {
 
-		is.always.object(cache)
-		is.always.number(maxID)
-		is.always.string(template)
+			is.always.object(cache)
+			is.always.number(id)
+			is.always.string(template)
 
-		const $container = $('#bookmark-container')
-		const chunk      = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
+			const $container = $('#bookmark-container')
+			const chunk      = cache[fetchMethod](id, ENGRAM.PERSCROLL)
 
-		if (maxID > 0 && (chunk.data.length) > 0) {
+			if (id > 0 && (chunk.data.length) > 0) {
 
-			$container.append( viewgroup(chunk, function (bookmark) {
-				return Mustache.render(template, bookmark)
-			}) )
+				$container[attachMethod]( viewgroup(chunk, function (bookmark) {
+					return Mustache.render(template, bookmark)
+				}) )
 
-			$container.find('time').each(function () {
-				showTime($(this))
-			})
+				$container.find('time').each(function () {
+					showTime($(this))
+				})
 
-		}
+			}
 
-		return $container
-
-	}
-
-
-
-
-
-	const prepend = function (cache, minID, template) {
-
-		is.always.object(cache)
-		is.always.number(minID)
-		is.always.string(template)
-
-		const $container = $('#bookmark-container')
-		const chunk      = cache.fetchPrevChunk(minID, ENGRAM.PERSCROLL)
-
-		if (minID > 0 && (chunk.data.length) > 0) {
-
-			$container.prepend( viewgroup(chunk, function (bookmark) {
-				return Mustache.render(template, bookmark)
-			}) )
-
-			$container.find('time').each(function () {
-				showTime($(this))
-			})
+			return $container
 
 		}
-
-		return $container
-
-
 	}
 
-
-
-
-
+	const append  = concat('fetchNextChunk', 'append')
+	const prepend = concat('fetchPrevChunk', 'prepend')
 
 	return {
 		prepend: prepend,
