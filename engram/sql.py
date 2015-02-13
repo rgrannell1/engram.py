@@ -93,7 +93,7 @@ def insert_bookmark(db, title, url, ctime):
 	return (
 		Success(db)
 		.tap(lambda _:   normalise_uri(url))
-		.tap( lambda db: db.commit(sql, (title, url, ctime)) )
+		.tap( lambda db: db.commit(sql, (url, title, ctime)) )
 	)
 
 
@@ -130,13 +130,19 @@ def insert_archive(db, url, content, ctime):
 
 
 
-def select_bookmark(db, id):
+def select_bookmark(db, id, column = 'url'):
+
+	valid_columns = {'bookmark_id', 'url', 'title', 'ctime'}
+
+	if column not in valid_columns:
+		return Failure('%s is not a valid column name.')
+
 
 	sql = """
-	SELECT url
+	SELECT %s
 	FROM bookmarks
 	WHERE bookmark_id = ?;
-	"""
+	""" % (column, )
 
 	assert isinstance(id, int), "id must be an integer."
 	assert id >= 0,             "id must be nonnegative."
@@ -144,6 +150,7 @@ def select_bookmark(db, id):
 	return (
 		Success(db)
 		.then( lambda db: db.execute(sql, (id, )) )
+		.then( lambda cursor: cursor.fetchall())
 	)
 
 
