@@ -110,19 +110,19 @@ WHERE bookmark_id = ?
 
 
 sql = {
-	'create_table_archives':          create_table_archives,
-	'create_table_bookmarks':         create_table_bookmarks,
-	'create_table_bookmark_archives': create_table_bookmark_archives,
+	'create_table_archives':            create_table_archives,
+	'create_table_bookmarks':           create_table_bookmarks,
+	'create_table_bookmark_archives':   create_table_bookmark_archives,
+	'create_table_failed_archive_jobs': create_table_failed_archive_jobs,
+	'insert_bookmark':                  insert_bookmark,
+	'select_max_bookmark_id':           select_max_bookmark_id,
+	'select_unarchived_bookmarks':      select_unarchived_bookmarks,
+	'insert_archive':                   insert_archive,
+	'select_bookmarks':                 select_bookmarks,
+	'lookup_bookmark':                  lookup_bookmark,
+	'delete_bookmark':                  delete_bookmark,
 
-	'insert_bookmark':                insert_bookmark,
-	'select_max_bookmark_id':         select_max_bookmark_id,
-	'select_unarchived_bookmarks':    select_unarchived_bookmarks,
-	'insert_archive':                 insert_archive,
-	'select_bookmarks':               select_bookmarks,
-	'lookup_bookmark':                lookup_bookmark,
-	'delete_bookmark':                delete_bookmark,
-
-	'fetch_chunk':                    fetch_chunk
+	'fetch_chunk':                      fetch_chunk
 }
 
 

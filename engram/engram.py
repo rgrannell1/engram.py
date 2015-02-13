@@ -84,6 +84,8 @@ def create_archiver(fpath, test = None):
 		.then(lambda db: complete_archives(db))
 	)
 
+	print(create_result)
+
 
 
 

@@ -14,15 +14,39 @@ logger = logging.getLogger(__name__)
 
 
 def select_unarchived_bookmarks(db):
-	""" """
+	""" select the bookmark ids that aren't archived, and didn't cause
+	a failure when trying to archive."""
 
 	logger.info('fetching unarchived bookmarks.')
 
 	return (
 		Success(db)
-		.then(lambda db: sql.select_unarchived_bookmarks(db))
+		.then(sql.select_unarchived_bookmarks)
+		.then(lambda ids: (id[0] for id in ids))
 	)
 
+
+
+
+
+def archive_bookmark(db, id):
+	"""  """
+
+	logger.info('attempting to archive bookmark #%d' % (id,))
+	return Success(None)
+
+
+
+
+def archive_bookmarks(db, ids):
+	""" try to archive each bookmark. """
+
+	archive_result = Success(None).cross([archive_bookmark(db, id) for id in ids])
+
+	if archive_result.is_success():
+		return Success(None)
+	else:
+		return archive_result
 
 
 
@@ -32,10 +56,12 @@ def complete_archives(db):
 
 	logger.info('completing archives.')
 
-	# find bookmarks that didn't fail, and aren't bookmarked.
+	return (
+		Success(db)
+		.then(select_unarchived_bookmarks)
+		.then(lambda ids: archive_bookmarks(db, ids))
+	)
 
-	unarchived_result = select_unarchived_bookmarks(db)
-	print(unarchived_result)
 
-	# find unarchived urls
-	# for each , try archive
+
+	# for each, try to archive the bookmarked content.
