@@ -5,7 +5,6 @@ import utils
 
 from result           import Success, Failure
 from extract_metadata import extract_metadata
-from archive_url      import archive_url
 
 from normalise_uri import normalise_uri
 

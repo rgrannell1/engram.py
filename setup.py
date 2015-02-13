@@ -13,6 +13,6 @@ setup(
 	url              = 'https://github.com/rgrannell1/engram.py',
 	py_modules       = ["engram"],
 	install_requires = [
-		"pystache", "requests", "httplib2", "lxml", "flask"
+		"pystache", "requests", "httplib2", "lxml", "flask", "wget"
 	]
 )

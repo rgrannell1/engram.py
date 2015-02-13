@@ -69,6 +69,19 @@ FROM bookmarks
 ORDER BY ctime DESC
 """
 
+lookup_bookmark = """
+SELECT *
+FROM bookmarks
+WHERE bookmark_id = ?;
+"""
+
+select_unarchived_bookmarks = """
+SELECT DISTINCT bookmark_id
+FROM bookmarks
+WHERE bookmark_id NOT IN
+    (SELECT DISTINCT bookmark_id FROM bookmark_archives);
+"""
+
 fetch_chunk = """
 SELECT bookmark_id, url, title, ctime
 FROM bookmarks
@@ -92,8 +105,10 @@ sql = {
 
 	'insert_bookmark':                insert_bookmark,
 	'select_max_bookmark_id':         select_max_bookmark_id,
+	'select_unarchived_bookmarks':    select_unarchived_bookmarks,
 	'insert_archive':                 insert_archive,
 	'select_bookmarks':               select_bookmarks,
+	'lookup_bookmark':                lookup_bookmark,
 	'delete_bookmark':                delete_bookmark,
 
 	'fetch_chunk':                    fetch_chunk
@@ -165,6 +180,32 @@ def select_bookmarks(db):
 
 	)
 
+
+
+
+def lookup_bookmark(db, id):
+
+	return (
+
+		Success(db)
+		.then( lambda db: db.execute(sql['lookup_bookmark'], (id, )) )
+		.then( lambda cursor: cursor.fetchall())
+
+	)
+
+
+
+
+
+def select_unarchived_bookmarks(db):
+
+	return (
+
+		Success(db)
+		.then( lambda db: db.execute(sql['select_unarchived_bookmarks']) )
+		.then( lambda cursor: cursor.fetchall())
+
+	)
 
 
 

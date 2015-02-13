@@ -72,15 +72,22 @@ const attachChunk = ( function () {
 		is.always.number(maxID)
 		is.always.string(template)
 
-		const chunk = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
+		const $container = $('#bookmark-container')
+		const chunk      = cache.fetchNextChunk(maxID, ENGRAM.PERSCROLL)
 
 		if (maxID > 0 && (chunk.data.length) > 0) {
-			return $('#bookmark-container').append( viewgroup(chunk, function (bookmark) {
+
+			$container.append( viewgroup(chunk, function (bookmark) {
 				return Mustache.render(template, bookmark)
 			}) )
-		} else {
-			return $('#bookmark-container')
+
+			$container.find('time').each(function () {
+				showTime($(this))
+			})
+
 		}
+
+		return $container
 
 	}
 

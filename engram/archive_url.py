@@ -11,7 +11,10 @@ from result import Success, Failure
 
 
 
-def archive_url(db, url):
+def update_archives(db, url):
 	""" """
 
-	print('running')
+
+
+	# find unarchived urls
+	# for each , try archive

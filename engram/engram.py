@@ -14,6 +14,8 @@ import sql
 import signal
 import threading
 
+from update_archives import update_archives
+
 
 
 
@@ -80,15 +82,30 @@ def create(fpath, test = None):
 
 
 
+
+
+def start_archiver():
+
+	db_result = Success('data/engram').then(Database)
+
+	print('starting archiver.')
+
+	(
+		db_result
+		.then(lambda db: update_archives(db))
+	)
+
+
+
+
+
+
 if __name__ == "__main__":
 
-	def start_server():
-		create('data/engram')
-
-	def start_archiver():
-		print('running.')
-
-	for task in [start_server, start_archiver]:
-
-		thread = threading.Thread(target = task)
+	if False:
+		thread = threading.Thread(target = start_archiver)
 		thread.start()
+
+	create('data/engram')
+
+	print('running.')
