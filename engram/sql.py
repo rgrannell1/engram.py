@@ -76,22 +76,24 @@ def insert_bookmark(db, title, url, ctime):
 	INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
 	"""
 
+	assert isinstance(title, str),          "title was not a string."
+	assert isinstance(url,   str),          "url was not a string."
+
+	assert normalise_uri(url).is_success(), "inserting invalid bookmark uri."
+
+	assert isinstance(ctime, int),          "ctime was not a number."
+	assert ctime > 0,                       "ctime was a nonpositive value."
+
+	assert title,                           "attempted to insert empty title."
+	assert url,                             "attempted to insert empty url."
+
+
+
+
 	return (
 		Success(db)
-
-		# what the fuck is this !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-		.tap(lambda _: ensure(isinstance(title, str), "title was not a string."))
-		.tap(lambda _: ensure(isinstance(url, str),   "url was not a string.") )
-		.tap(lambda _: ensure(isinstance(ctime, int),        "ctime was not a number."))
-
-		.tap(lambda _: ensure(title,     "attempted to insert empty title."))
-		.tap(lambda _: ensure(url,       "attempted to insert empty url."))
-		.tap(lambda _: ensure(ctime > 0, "ctime was a nonpositive value."))
-		.tap(lambda _: normalise_uri(url))
-
+		.tap(lambda _:   normalise_uri(url))
 		.tap( lambda db: db.commit(sql, (title, url, ctime)) )
-
 	)
 
 

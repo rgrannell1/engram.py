@@ -53,8 +53,6 @@ def archive_bookmark(db, id):
 
 	(
 		Success(db)
-		.then(lambda db: sql.)
-
 	)
 
 	return Success(None)
