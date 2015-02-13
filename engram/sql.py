@@ -108,6 +108,19 @@ def insert_archive(db, url, content, ctime):
 	INSERT INTO archives VALUES (NULL, ?, ?);
 	"""
 
+	assert isinstance(url,   str),          "url was not a string."
+	assert normalise_uri(url).is_success(), "inserting invalid bookmark uri."
+
+	assert isinstance(archive,   str),      "archive was not a string."
+
+	assert isinstance(ctime, int),          "ctime was not a number."
+	assert ctime      > 0,                  "ctime was a nonpositive value."
+
+
+
+
+
+
 	return (
 		Success(db)
 		.tap( lambda db: db.commit(sql, (content, ctime)) )
@@ -124,6 +137,9 @@ def select_bookmark(db, id):
 	FROM bookmarks
 	WHERE bookmark_id = ?;
 	"""
+
+	assert isinstance(id, int), "id must be an integer."
+	assert id >= 0,             "id must be nonnegative."
 
 	return (
 		Success(db)
@@ -159,6 +175,9 @@ def lookup_bookmark(db, id):
 	WHERE bookmark_id = ?;
 	"""
 
+	assert isinstance(id, int), "id must be an integer."
+	assert id >= 0,             "id must be nonnegative."
+
 	return (
 		Success(db)
 		.then( lambda db: db.execute(sql, (id, )) )
@@ -192,6 +211,7 @@ def select_unarchived_bookmarks(db):
 
 def fetch_chunk(db, max_id, amount):
 
+
 	sql = """
 	SELECT bookmark_id, url, title, ctime
 	FROM bookmarks
@@ -199,6 +219,9 @@ def fetch_chunk(db, max_id, amount):
 	ORDER BY ctime DESC
 	LIMIT ?
 	"""
+
+	assert isinstance(max_id, int), "max_id must be an integer."
+	assert max_id >= 0,             "max_id must be nonnegative."
 
 	return (
 		Success(db)
@@ -216,6 +239,9 @@ def delete_bookmark(db, id):
 	DELETE FROM bookmarks
 	WHERE bookmark_id = ?
 	"""
+
+	assert isinstance(id, int), "id must be an integer."
+	assert id >= 0,             "id must be nonnegative."
 
 	return (
 		Success(db)
