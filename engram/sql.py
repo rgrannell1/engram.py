@@ -82,10 +82,10 @@ def insert_bookmark(db, title, url, ctime):
 	assert normalise_uri(url).is_success(), "inserting invalid bookmark uri."
 
 	assert isinstance(ctime, int),          "ctime was not a number."
-	assert ctime > 0,                       "ctime was a nonpositive value."
+	assert ctime      > 0,                  "ctime was a nonpositive value."
 
-	assert title,                           "attempted to insert empty title."
-	assert url,                             "attempted to insert empty url."
+	assert len(title) > 0,                  "attempted to insert empty title."
+	assert len(url)   > 0,                  "attempted to insert empty url."
 
 
 
