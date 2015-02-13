@@ -3,7 +3,8 @@
 import sql
 import utils
 
-from result import Success, Failure
+from result          import Success, Failure
+from archive_webpage import archive_webpage
 
 import logging
 logging.basicConfig(level =  logging.INFO)
@@ -29,10 +30,33 @@ def select_unarchived_bookmarks(db):
 
 
 
+def archive_webpage(url):
+	""" save the contents of an arbitrary resource to a string giving a valid
+	tar-gz file.  """
+
+	logger.info('downloading %s' % (url, ))
+
+
+
+
+
 def archive_bookmark(db, id):
-	"""  """
+	"""  attempt to archive the contents of a particular website """
+
+	# -- load the uri from the database.
+	# ---- if it doesn't exist, just exit (likely deleted)
+	# ---- otherwise DL the page
+	# ----
+
 
 	logger.info('attempting to archive bookmark #%d' % (id,))
+
+	(
+		Success(db)
+		.then(lambda db: sql.)
+
+	)
+
 	return Success(None)
 
 
@@ -47,6 +71,7 @@ def archive_bookmarks(db, ids):
 		return Success(None)
 	else:
 		return archive_result
+
 
 
 
