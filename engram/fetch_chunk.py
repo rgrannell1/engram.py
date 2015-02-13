@@ -17,7 +17,7 @@ def fetch_chunk(db, max_id, amount):
 	fetch_result = (
 		Success(db)
 		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
-		.then(lambda rows: [bookmark(row) for row in rows])
+		.then(lambda rows: Success([bookmark(row) for row in rows]).productOf())
 		.then(lambda data: {
 			'data':    data,
 			'next_id': getID(min(data, key = getID)) - 1

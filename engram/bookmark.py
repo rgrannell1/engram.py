@@ -3,32 +3,30 @@
 import urllib
 from normalise_uri import normalise_uri
 
+from result import Success, Failure
+
 
 
 
 
 def bookmark(row):
 
-	if len(row) < 4:
-		raise Exception("bookmark row too short.")
-	try:
-		parse_data = urllib.parse.urlparse( normalise_uri(row[2]).from_success() )
-	except Exception as err:
-		raise err
-	else:
-		# -- this won't work for all URI schemes.
-
-		return {
+	return (
+		Success(row[1])
+		.then(urllib.parse.urlparse)
+		.then(lambda parse_data: (
+			parse_data if parse_data.scheme else Failure( 'loaded invalid uri "%s"' % (row[1]) ))
+		)
+		.then(lambda parse_data: {
 			'bookmark_id': row[0],
-			'title':       row[1],
-			'url':         row[2],
+			'url':         row[1],
+			'title':       row[2],
 			'ctime':       row[3],
 
 			'hostname':    parse_data.hostname,
 			'hosturl':     parse_data.scheme + '://' + parse_data.hostname
-		}
-
-
+		})
+	)
 
 
 

@@ -48,10 +48,7 @@ def archive_bookmark(db, id):
 	# ---- otherwise DL the page
 	# ----
 
-
-	logger.info('attempting to archive bookmark #%d' % (id,))
-
-	print(
+	(
 		Success(db)
 		.then(lambda db: sql.select_bookmark(db, id, 'title'))
 		.then(lambda row: row[0][0])

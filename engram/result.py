@@ -83,7 +83,7 @@ class Failure(Result):
 	def __init__(self, value):
 
 		self.value = value.value if isinstance(value, Result) else value
-		#traceback.print_exc()
+		#print(traceback.print_exc())
 
 
 	def __str__(self):
@@ -99,13 +99,13 @@ class Failure(Result):
 	def tap(self, fn):
 		return Failure(self.value)
 
-
+	def productOf(self):
+		return self
 
 
 
 	def cross(self, results):
 		return self
-
 
 
 
@@ -171,6 +171,21 @@ class Success(Result):
 		values = [self.value]
 
 		for result in results:
+			if not isinstance(result, Result):
+				raise Exception("result wasn't a Result instance.")
+
+			if isinstance(result, Success):
+				values.append(result.value)
+			else:
+				return result
+
+		return Success(values)
+
+	def productOf(self):
+
+		values = []
+
+		for result in self.value:
 			if not isinstance(result, Result):
 				raise Exception("result wasn't a Result instance.")
 
