@@ -16,6 +16,24 @@ logger = logging.getLogger(__name__)
 
 
 
+def handle_fetch_result(result):
+
+	if result.is_failure():
+
+		failure = result.from_failure()
+
+		if isinstance(failure, dict):
+			return failure['message'], failure['code']
+		else:
+			return "failed to fetch", 500
+
+	else:
+		return '', 200
+
+
+
+
+
 
 
 
@@ -26,31 +44,32 @@ def fetch_chunk(db, max_id, amount):
 
 	logging.info('fetch_chunk: %d %d' % (max_id, amount))
 
+	# -- fix this crap.
 	if max_id < 0:
-		return Failure({
+		return handle_fetch_result( Failure({
 			'message': 'max_id must be larger than zero.',
 			'code':    422
-		})
+		}) )
 
 	if amount < 0:
-		return Failure({
+		return handle_fetch_result( Failure({
 			'message': 'amount must be larger than zero.',
 			'code':    422
-		})
+		}) )
 
 	if max_id > 9223372036854775807:
 		# -- good to have an upper limit on fields.
-		return Failure({
+		return handle_fetch_result( Failure({
 			'message': 'max_id was too large.',
 			'code':    422
-		})
+		}) )
 
 	if amount > 9223372036854775807:
 		# -- good to have an upper limit on fields.
-		return Failure({
+		return handle_fetch_result( Failure({
 			'message': 'amount was too large.',
 			'code':    422
-		})
+		}) )
 
 
 
@@ -61,7 +80,6 @@ def fetch_chunk(db, max_id, amount):
 		Success(db)
 		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
 		.then(lambda rows: Success([bookmark(row) for row in rows]).productOf())
-		.tap(print)
 		.then(lambda data: {
 			'data':    data,
 			'next_id': getID(min(data, key = getID)) - 1 if data else max_id
@@ -69,8 +87,5 @@ def fetch_chunk(db, max_id, amount):
 		.then(jsonify)
 	)
 
-	if fetch_result.is_success():
-		return fetch_result.from_success(), 200
-	else:
-		print(fetch_result.from_failure())
-		return '', 500
+
+	return handle_fetch_result(fetch_result)

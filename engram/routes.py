@@ -64,6 +64,7 @@ def bookmarks_api_route(app, db):
 		if route_result.is_success():
 			return route_result.from_success()
 		else:
+			print(route_result)
 			return route_result.from_failure()
 
 

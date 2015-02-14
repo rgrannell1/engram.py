@@ -56,13 +56,25 @@ class TestFetchChunk(utils_test.EngramTestCase):
 		Then the server should return throw an obvious error.
 		"""
 
-		print (
+		assert (
 			requests
 			.get(fetch_url(-1, 0), headers = {
 				'Connection': 'close'
 			})
-			#.status_code == 422
+			.status_code == 422
 		)
+
+		assert (
+			requests
+			.get(fetch_url(0, -1), headers = {
+				'Connection': 'close'
+			})
+			.status_code == 422
+		)
+
+
+
+
 
 
 
