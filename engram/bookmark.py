@@ -43,15 +43,15 @@ def bookmark(row):
 	return (
 		Success(row)
 		.tap(revalidate_bookmark)
-		.then( lambda row: urllib.parse.urlparse(row[2]) )
+		.then( lambda row: urllib.parse.urlparse(row[1]) )
 		.then(lambda parse_data: {
 			'bookmark_id': row[0],
 			'url':         row[1],
 			'title':       row[2],
 			'ctime':       row[3],
 
-			'hostname':    parse_data.hostname,
-			'hosturl':     parse_data.scheme + '://' + parse_data.hostname
+			'hostname':    parse_data.netloc,
+			'hosturl':     parse_data.scheme + '://' + parse_data.netloc
 		})
 	)
 
@@ -65,3 +65,4 @@ def getID(bookmark):
 		return bookmark['bookmark_id']
 	else:
 		raise Exception('no key "bookmark_id" found in bookmark object.')
+

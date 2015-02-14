@@ -89,7 +89,7 @@ class Failure(Result):
 		self.value = value.value if isinstance(value, Result) else value
 
 		logging.error(self.value)
-		#print(traceback.print_exc())
+		print(traceback.print_exc())
 
 
 	def __str__(self):
