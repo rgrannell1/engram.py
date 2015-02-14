@@ -7,7 +7,6 @@ import requests
 
 import utils_test
 
-from multiprocessing import Process
 import time
 
 
@@ -61,10 +60,9 @@ def assert_saved_correctly(uri):
 
 class TestSave(utils_test.EngramTestCase):
 
-	def test_save_http(save):
+	def test_save_http(self):
 		"""
 		Story: Saving HTTP links.
-
 
 		Scenario: saving URIs
 		Given a running engram server
@@ -105,9 +103,3 @@ class TestSave(utils_test.EngramTestCase):
 
 
 unittest.main()
-
-
-
-
-
-

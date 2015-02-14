@@ -31,11 +31,7 @@ def create_server(fpath, test = None):
 	if test:
 		app.config['TESTING'] = True
 
-
-
-
 	db_result = Success(fpath).then(Database)
-
 
 	route_result = (
 
@@ -54,7 +50,6 @@ def create_server(fpath, test = None):
 	main_result = (
 
 		db_result
-		.tap(sql.create_tables)
 		.tap(lambda _: app.run())
 
 	)
@@ -81,6 +76,7 @@ def create_archiver(fpath, test = None):
 	create_result = (
 		Success('data/engram')
 		.then(Database)
+		.tap(sql.create_tables)
 		.then(lambda db: complete_archives(db))
 	)
 

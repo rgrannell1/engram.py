@@ -62,7 +62,10 @@ def archive_bookmark(db, id):
 def archive_bookmarks(db, ids):
 	""" try to archive each bookmark. """
 
-	archive_result = Success(None).cross([archive_bookmark(db, id) for id in ids])
+	archive_result = (
+		Success(None)
+		.cross([archive_bookmark(db, id) for id in ids])
+	)
 
 	if archive_result.is_success():
 		return Success(None)

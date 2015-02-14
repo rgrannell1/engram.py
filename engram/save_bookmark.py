@@ -53,7 +53,7 @@ def save_bookmark(db, url):
 
 	insert_result = (
 		title_result
-		.then( lambda title: (db, title, url, utils.now()) )
+		.then( lambda title: (db, url, title, utils.now()) )
 		.then( lambda data:  sql.insert_bookmark(*data) )
 	)
 
