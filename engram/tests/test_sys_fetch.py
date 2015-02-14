@@ -39,11 +39,18 @@ class TestFetchChunk(utils_test.EngramTestCase):
 		Then the server returns that many bookmarks.
 		"""
 
-		response = requests.get(fetch_url(9007199254740992, 0), headers = {
-			'Connection': 'close'
-		})
 
-		assert response.status_code == 200 #422
+		for ith in range(0, 100):
+
+			response = requests.get(fetch_url(9007199254740992, ith), headers = {
+				'Connection': 'close'
+			})
+
+			assert response.status_code == 200
+
+
+
+
 
 	def test_fetch_chunk_malformed(self):
 		"""

@@ -28,7 +28,7 @@ def handle_fetch_result(result):
 			return "failed to fetch", 500
 
 	else:
-		return '', 200
+		return result.from_success(), 200
 
 
 
@@ -70,7 +70,6 @@ def fetch_chunk(db, max_id, amount):
 			'message': 'amount was too large.',
 			'code':    422
 		}) )
-
 
 
 
