@@ -181,6 +181,10 @@ class Success(Result):
 
 		return Success(values)
 
+
+
+
+
 	def productOf(self):
 
 		values = []

@@ -25,7 +25,7 @@ def handle_fetch_result(result):
 		if isinstance(failure, dict):
 			return failure['message'], failure['code']
 		else:
-			return "failed to fetch", 500
+			return "failed to fetch: '%s'" % (failure,), 500
 
 	else:
 		return result.from_success(), 200

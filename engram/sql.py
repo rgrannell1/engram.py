@@ -232,7 +232,9 @@ def fetch_chunk(db, max_id, amount):
 
 	return (
 		Success(db)
-		.then( lambda db: db.execute(sql, (max_id, amount)) )
+		.then(lambda db: db.execute(sql, (max_id, amount)))
+		.then( lambda cursor: cursor.fetchall())
+
 	)
 
 
