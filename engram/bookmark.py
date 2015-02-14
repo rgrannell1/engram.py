@@ -8,21 +8,46 @@ from result import Success, Failure
 
 
 
+def revalidate_bookmark(row):
+
+	if not isinstance(row[0], int):
+		return Failure('non-integer bookmark id %d' % (row[0], ) )
+	elif row[0] < 0:
+		return Failure('negative bookmark id %d' % (row[0], ))
+
+	if not isinstance(row[3], int):
+		return Failure('non-integer timestamp %d' % (row[3], ) )
+	elif row[3] < 0:
+		return Failure('negative timestamp %d' % (row[3], ))
+
+	if not isinstance(row[1], str):
+		return Failure('non-string url %d' % (row[2], ))
+
+	if not isinstance(row[2], str):
+		return Failure('non-string title %d' % (row[2], ))
+
+	parsed = urllib.parse.urlparse(row[1])
+
+	if not parsed.scheme and not parsed.netloc:
+		return Failure('url field appeared to contain invalid url %s' % (row[1],))
+
+
+
+
 
 def bookmark(row):
 
 	# -- todo fix load order.
 
+
 	return (
-		Success(row[2])
-		.then(urllib.parse.urlparse)
-		.then(lambda parse_data: (
-			parse_data if parse_data.scheme else Failure( 'loaded invalid uri "%s"' % (row[2]) ))
-		)
+		Success(row)
+		.tap(revalidate_bookmark)
+		.then( lambda row: urllib.parse.urlparse(row[2]) )
 		.then(lambda parse_data: {
 			'bookmark_id': row[0],
-			'url':         row[2],
-			'title':       row[1],
+			'url':         row[1],
+			'title':       row[2],
 			'ctime':       row[3],
 
 			'hostname':    parse_data.hostname,

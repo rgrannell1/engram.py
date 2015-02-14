@@ -70,7 +70,7 @@ def create_tables(db):
 
 
 
-def insert_bookmark(db, title, url, ctime):
+def insert_bookmark(db, url, title, ctime):
 
 	sql = """
 	INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
@@ -234,7 +234,6 @@ def fetch_chunk(db, max_id, amount):
 		Success(db)
 		.then(lambda db: db.execute(sql, (max_id, amount)))
 		.then( lambda cursor: cursor.fetchall())
-
 	)
 
 

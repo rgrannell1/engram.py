@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 import traceback
+import logging
+
+logging.basicConfig(level =  logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 
@@ -83,6 +87,8 @@ class Failure(Result):
 	def __init__(self, value):
 
 		self.value = value.value if isinstance(value, Result) else value
+
+		logging.error(self.value)
 		#print(traceback.print_exc())
 
 
