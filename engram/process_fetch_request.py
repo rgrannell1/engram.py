@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from result import Success, Failure
-
+from fetch_chunk import fetch_chunk
 
 
 
@@ -12,6 +12,7 @@ def get_arg(request, str):
 	arg = request.args.get(str)
 
 	if arg is None:
+
 		return Failure({
 			'message': '%s must be included in the URI.' % (str,),
 			'code':    422
@@ -60,15 +61,16 @@ def process_max_id(max_id):
 				'message': 'max_id was too large.',
 				'code':    422
 			})
+		else:
+			return max_id
 
 
 
 
-
-def process_amount_id(amount_id):
+def process_amount(amount):
 
 	try:
-		max_id = int(max_id)
+		amount = int(amount)
 	except Exception as err:
 		return Failure(err)
 	else:
@@ -83,6 +85,8 @@ def process_amount_id(amount_id):
 				'message': 'amount was too large.',
 				'code':    422
 			})
+		else:
+			return amount
 
 
 
@@ -98,17 +102,14 @@ def process_fetch_request(db, request):
 		))
 		.productOf()
 		.then(lambda args: {
-			'max_id': process_max_id(args[0]),
-			'amount': process_amount(args[1])
+			'max_id': args[0],
+			'amount': args[1]
 		})
 
 	)
 
-
 	route_result = (
 		args_result
-		.tap(args_result)
-		.tap('================================================================')
 		.then( lambda args: fetch_chunk(db, args['max_id'], args['amount']) )
 	)
 
