@@ -107,6 +107,8 @@ def process_fetch_request(db, request):
 
 	route_result = (
 		args_result
+		.tap(args_result)
+		.tap('================================================================')
 		.then( lambda args: fetch_chunk(db, args['max_id'], args['amount']) )
 	)
 
