@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 
-from result            import Success, Failure
-from flask             import redirect, request
+from result                import Success, Failure
+from flask                 import redirect, request
 
-from database          import Database
+from database              import Database
 
 import routes
 import sql
 import pages
 
-from show_bookmarks    import show_bookmarks
-from save_bookmark     import save_bookmark
+from show_bookmarks        import show_bookmarks
+from save_bookmark         import save_bookmark
 
-from delete_bookmark   import delete_bookmark
-from fetch_chunk       import fetch_chunk
-from serve_public_file import serve_public_file
-
+from delete_bookmark       import delete_bookmark
+from fetch_chunk           import fetch_chunk
+from serve_public_file     import serve_public_file
+from process_fetch_request import process_fetch_request
 
 
 
@@ -42,6 +42,7 @@ def index(app):
 
 
 
+
 def bookmarks_api_route(app, db):
 	"""
 	GET /api/bookmarks
@@ -53,19 +54,7 @@ def bookmarks_api_route(app, db):
 	def bookmarks_api():
 
 		print('/api/bookmarks')
-
-		get_num = lambda str: int(request.args.get(str))
-
-		route_result = (
-			Success(db)
-			.then( lambda db: fetch_chunk(db, get_num('max_id'), get_num('amount')) )
-		)
-
-		if route_result.is_success():
-			return route_result.from_success()
-		else:
-			print(route_result)
-			return route_result.from_failure()
+		return process_fetch_request(db, request)
 
 
 

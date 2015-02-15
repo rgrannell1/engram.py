@@ -40,8 +40,8 @@ class TestFetchChunk(utils_test.EngramTestCase):
 		"""
 
 
-		for max_id in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992, 9999999999999999999999999}:
-			for amount in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992, 9999999999999999999999999}:
+		for max_id in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992}:
+			for amount in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992}:
 
 				response = requests.get(fetch_url(max_id, amount))
 

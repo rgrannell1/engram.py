@@ -16,23 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 
-def handle_fetch_result(result):
-
-	if result.is_failure():
-
-		failure = result.from_failure()
-
-		if isinstance(failure, dict):
-			return failure['message'], failure['code']
-		else:
-			return "failed to fetch: '%s'" % (failure,), 500
-
-	else:
-		return result.from_success(), 200
-
-
-
-
+def parse_bookmarks(rows):
+	return Success([bookmark(row) for row in rows]).productOf()
 
 
 
@@ -44,41 +29,10 @@ def fetch_chunk(db, max_id, amount):
 
 	logging.info('fetch_chunk: %d %d' % (max_id, amount))
 
-	# -- fix this crap.
-	if max_id < 0:
-		return handle_fetch_result( Failure({
-			'message': 'max_id must be larger than zero.',
-			'code':    422
-		}) )
-
-	if amount < 0:
-		return handle_fetch_result( Failure({
-			'message': 'amount must be larger than zero.',
-			'code':    422
-		}) )
-
-	if max_id > 9223372036854775807:
-		# -- good to have an upper limit on fields.
-		return handle_fetch_result( Failure({
-			'message': 'max_id was too large.',
-			'code':    422
-		}) )
-
-	if amount > 9223372036854775807:
-		# -- good to have an upper limit on fields.
-		return handle_fetch_result( Failure({
-			'message': 'amount was too large.',
-			'code':    422
-		}) )
-
-
-
-
-
 	fetch_result = (
 		Success(db)
 		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
-		.then(lambda rows: Success([bookmark(row) for row in rows]).productOf())
+		.then(parse_bookmarks)
 		.then(lambda data: {
 			'data':    data,
 			'next_id': getID(min(data, key = getID)) - 1 if data else max_id
@@ -87,4 +41,4 @@ def fetch_chunk(db, max_id, amount):
 	)
 
 
-	return handle_fetch_result(fetch_result)
+	return fetch_result
