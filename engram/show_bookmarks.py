@@ -2,8 +2,9 @@
 
 import pages
 
-from result import Success, Failure
+from result         import Success, Failure
 import static
+from display_result import display_result
 
 
 
@@ -45,14 +46,17 @@ def show_bookmarks():
 	"""
 	return a html page showing the user's bookmarks.
 
-	show_bookmarks :: Database -> string, number
-
-	.
+	show_bookmarks :: Database -> string, number	.
 	"""
 
-	html_result = pages.index(dependencies)
+	page_result = (
 
-	if html_result.is_success():
-		return html_result.from_success(), 200
-	else:
-		return "something went terribly wrong!", 500
+		pages.index(dependencies)
+		.then(lambda html: {
+			'message': html,
+			'code':    200
+		})
+
+	)
+
+	return display_result(page_result)

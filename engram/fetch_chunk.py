@@ -40,5 +40,4 @@ def fetch_chunk(db, max_id, amount):
 		.then(jsonify)
 	)
 
-
 	return fetch_result

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure
-from fetch_chunk import fetch_chunk
+from result         import Success, Failure
+from fetch_chunk    import fetch_chunk
+from display_result import display_result
 
 
 
@@ -20,24 +21,6 @@ def get_arg(request, str):
 
 	else:
 		return Success(arg)
-
-
-
-
-
-def display_fetch_result(result):
-
-	if result.is_failure():
-
-		failure = result.from_failure()
-
-		if isinstance(failure, dict):
-			return failure['message'], failure['code']
-		else:
-			return "failed to fetch: '%s'" % (failure,), 500
-
-	else:
-		return result.from_success(), 200
 
 
 
@@ -112,6 +95,10 @@ def process_fetch_request(db, request):
 	route_result = (
 		args_result
 		.then( lambda args: fetch_chunk(db, args['max_id'], args['amount']) )
+		.then( lambda response: {
+			'message': response,
+			'code':    200
+		})
 	)
 
-	return display_fetch_result(route_result)
+	return display_result(route_result)
