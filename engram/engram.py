@@ -40,7 +40,10 @@ def create_server(fpath, test = None):
 		.tap( lambda pair: routes.delete             (pair[0], pair[1]) )
 		.tap( lambda pair: routes.index              (pair[0]) )
 		.tap( lambda pair: routes.bookmarks          (pair[0]) )
+
 		.tap( lambda pair: routes.export             (pair[0], pair[1]) )
+		.tap( lambda pair: routes.restore            (pair[0], pair[1]) )
+
 		.tap( lambda pair: routes.archives           (pair[0]) )
 		.tap( lambda pair: routes.favicon            (pair[0], pair[1]) )
 		.tap( lambda pair: routes.public             (pair[0]) )

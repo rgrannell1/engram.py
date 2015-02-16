@@ -122,6 +122,18 @@ def export(app, db):
 
 
 
+
+def restore(app, db):
+
+	@app.route("/import/<path:path>")
+	def restore_route(path):
+
+		print('/import/' + path)
+		return import_bookmarks(db, path)
+
+
+
+
 def archives(app):
 	"""
 	GET /archives/<int:id>
