@@ -223,7 +223,7 @@ def fetch_chunk(db, max_id, amount):
 	SELECT bookmark_id, url, title, ctime
 	FROM bookmarks
 	WHERE bookmark_id <= ?
-	ORDER BY ctime DESC
+	ORDER BY bookmark_id DESC
 	LIMIT ?
 	"""
 

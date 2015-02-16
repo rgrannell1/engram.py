@@ -17,6 +17,7 @@ def get_arg(request, str):
 			'message': '%s must be included in the URI.' % (str,),
 			'code':    422
 		})
+
 	else:
 		return Success(arg)
 

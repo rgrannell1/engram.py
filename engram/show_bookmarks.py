@@ -26,7 +26,6 @@ dependencies = {
 
 		"update-times",
 		"draw-bookmarks",
-		"link-tab-highlight",
 
 		"keylog",
 		"delete-bookmark",
