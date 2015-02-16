@@ -18,6 +18,7 @@ from serve_public_file import serve_public_file
 from fetch_bookmarks   import fetch_bookmarks
 
 from export_bookmarks  import export_bookmarks
+from import_bookmarks  import import_bookmarks
 
 
 

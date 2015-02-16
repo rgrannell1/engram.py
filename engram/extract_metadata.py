@@ -3,21 +3,20 @@
 import re
 import utils
 
-import http
 import urllib
 
 import lxml
 import lxml.html as lh
 
-import httplib2
 import subprocess
 
 
 from normalise_uri import normalise_uri
 from result import Success, Failure
 
-import requests
 import mimetype
+
+from request_url import request_url
 
 
 
@@ -60,48 +59,6 @@ def get_netloc(uri):
 
 
 
-
-def request_uri(uri):
-	"""
-	get the resource associated with a uri.
-	"""
-
-	try:
-		# -- todo; eliminate pesky assignment so can be put into chain of Success then's.
-
-		user_agent = 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
-
-		response = requests.get(uri, headers = {
-			'User-agent': user_agent,
-			'Connection': 'close'
-		}, timeout = 30)
-
-		return response
-
-	except http.client.BadStatusLine as err:
-
-		return Failure({
-			'message': "%s returned an unrecognised status." % (uri, ),
-			'code':    404
-		})
-
-	except requests.exceptions.ConnectionError as err:
-
-		return Failure({
-			'message': "%s refused the connection." % (uri, ),
-			'code':    404
-		})
-
-	except requests.exceptions.Timeout as err:
-
-		return Failure({
-			'message': "%s timed out." % (uri, ),
-			'code':    404
-		})
-
-	except Exception as err:
-
-		return Failure(err)
 
 
 
@@ -204,7 +161,7 @@ def extract_metadata(uri):
 	response_result = (
 		Success(uri)
 		.then(normalise_uri)
-		.then(request_uri)
+		.then(request_url)
 	)
 
 	return (
