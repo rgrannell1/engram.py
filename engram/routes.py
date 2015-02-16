@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 
-from result                import Success, Failure
-from flask                 import redirect, request
+from result            import Success, Failure
+from flask             import redirect, request
 
-from database              import Database
+from database          import Database
 
 import routes
 import sql
 import pages
 
-from show_bookmarks        import show_bookmarks
-from save_bookmark         import save_bookmark
+from show_bookmarks    import show_bookmarks
+from save_bookmark     import save_bookmark
 
-from delete_bookmark       import delete_bookmark
-from fetch_chunk           import fetch_chunk
-from serve_public_file     import serve_public_file
-from fetch_bookmarks import fetch_bookmarks
+from delete_bookmark   import delete_bookmark
+from fetch_chunk       import fetch_chunk
+from serve_public_file import serve_public_file
+from fetch_bookmarks   import fetch_bookmarks
 
-
+from export_bookmarks  import export_bookmarks
 
 
 
@@ -155,3 +155,15 @@ def default(app, db):
 
 		print('/' + path)
 		return save_bookmark(db, path)
+
+
+
+
+
+def export(app, db):
+
+	@app.route("/export")
+	def export_route():
+
+		print('/export')
+		return export_bookmarks(db)

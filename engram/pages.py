@@ -10,8 +10,9 @@ from result import Success, Failure
 
 
 pages = {
-	'index': open('public/html/index.html', 'r').read(),
-	'save':  open('public/html/save.html',  'r').read()
+	'index':  open('public/html/index.html',  'r').read(),
+	'save':   open('public/html/save.html',   'r').read(),
+	'export': open('public/html/export.html', 'r').read()
 }
 
 
@@ -29,5 +30,12 @@ def save(context):
 
 	return (
 		Success(pages['save'])
+		.then(lambda html: pystache.render(html, context))
+	)
+
+def export(context):
+
+	return (
+		Success(pages['export'])
 		.then(lambda html: pystache.render(html, context))
 	)
