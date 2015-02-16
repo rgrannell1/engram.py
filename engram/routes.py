@@ -143,6 +143,17 @@ def favicon(app, db):
 
 
 
+def export(app, db):
+
+	@app.route("/export")
+	def export_route():
+
+		print('/export')
+		return export_bookmarks(db)
+
+
+
+
 def default(app, db):
 	"""
 	/<path>
@@ -160,10 +171,3 @@ def default(app, db):
 
 
 
-def export(app, db):
-
-	@app.route("/export")
-	def export_route():
-
-		print('/export')
-		return export_bookmarks(db)
