@@ -8,7 +8,7 @@
 ENGRAM = {}
 // how many bookmarks to append on scroll?
 ENGRAM.PERSCROLL    = 10
-ENGRAM.BIGINT       = 9007199254740992
+ENGRAM.BIGINT       = 1000000
 
 // how many bookmarks to retrieve per request?
 ENGRAM.PERREQUEST   = 1000

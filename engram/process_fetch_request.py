@@ -37,7 +37,7 @@ def process_max_id(max_id):
 				'code':    422
 			})
 
-		elif max_id > 9223372036854775807:
+		elif max_id > 100000:
 			# -- good to have an upper limit on fields.
 			return Failure({
 				'message': 'max_id was too large.',
@@ -61,7 +61,7 @@ def process_amount(amount):
 				'message': 'amount must be larger than zero.',
 				'code':    422
 			})
-		elif amount > 9223372036854775807:
+		elif amount > 1000000:
 			# -- good to have an upper limit on fields.
 			return Failure({
 				'message': 'amount was too large.',
