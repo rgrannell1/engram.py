@@ -15,7 +15,7 @@ def get_arg(request, str):
 	except Exception as err:
 		return Failure(err)
 	else:
-		return Success(query_arg) if query_arg is None else Failure({
+		return Success(query_arg) if query_arg is not None else Failure({
 			'message': '%s must be included in the URI.' % (str,),
 			'code':    422
 		})
@@ -37,7 +37,7 @@ def process_max_id(max_id):
 				'code':    422
 			})
 
-		elif max_id > 100000:
+		elif max_id > 1000000:
 			# -- good to have an upper limit on fields.
 			return Failure({
 				'message': 'max_id was too large.',
