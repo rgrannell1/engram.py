@@ -6,30 +6,11 @@ import utils
 from result           import Success, Failure
 from extract_metadata import extract_metadata
 
-from normalise_uri import normalise_uri
+from normalise_uri    import normalise_uri
 
 import urllib
-from bookmark import bookmark, getID
-
-
-
-
-
-def handle_save_result(result):
-	"""report errors to the client, if they occurred."""
-
-	if result.is_failure():
-
-		failure = result.from_failure()
-
-		if isinstance(failure, dict):
-			return failure['message'], failure['code']
-		else:
-			return "failed to add %s: '%s'" % (url, failure), 500
-
-	else:
-		return '', 204
-
+from bookmark         import bookmark, getID
+from display_result   import display_result
 
 
 
@@ -55,6 +36,10 @@ def save_bookmark(db, url):
 		title_result
 		.then( lambda title: (db, url, title, utils.now()) )
 		.then( lambda data:  sql.insert_bookmark(*data) )
+		.then( lambda data: {
+			'message': data,
+			'code':    204
+		})
 	)
 
-	return handle_save_result(insert_result)
+	return display_result(insert_result)

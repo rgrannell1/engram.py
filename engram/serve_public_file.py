@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-from result import Success, Failure
-
+from result         import Success, Failure
+from display_result import display_result
 
 
 
@@ -12,9 +12,10 @@ def serve_public_file(resource_type, resource):
 	load_result = (
 		Success(os.path.join('public', resource_type, resource))
 		.then(lambda fpath: open(fpath, 'r').read())
+		.then(lambda data: {
+			'message': data,
+			'code':    200
+		})
 	)
 
-	if load_result.is_success():
-		return load_result.from_success()
-	else:
-		return "%s/%s not found." % (resource_type, resource), 404
+	return display_result(load_result)
