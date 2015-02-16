@@ -44,7 +44,6 @@ class TestFetchChunk(utils_test.EngramTestCase):
 
 
 
-
 	def test_fetch_chunk_malformed(self):
 		"""
 		Story: Fetching bookmarks with a bad uri

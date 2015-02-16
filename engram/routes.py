@@ -15,7 +15,7 @@ from save_bookmark         import save_bookmark
 from delete_bookmark       import delete_bookmark
 from fetch_chunk           import fetch_chunk
 from serve_public_file     import serve_public_file
-from process_fetch_request import process_fetch_request
+from fetch_bookmarks import fetch_bookmarks
 
 
 
@@ -35,7 +35,6 @@ def index(app):
 	def index_page():
 
 		print('/')
-
 		return redirect('/bookmarks', 302)
 
 
@@ -54,7 +53,7 @@ def bookmarks_api_route(app, db):
 	def bookmarks_api():
 
 		print('/api/bookmarks')
-		return process_fetch_request(db, request)
+		return fetch_bookmarks(db, request)
 
 
 
@@ -138,7 +137,6 @@ def favicon(app, db):
 	def favicon():
 
 		print('/favicon.ico')
-
 		return "no available favicon.", 404
 
 
@@ -156,5 +154,4 @@ def default(app, db):
 	def default_route(path):
 
 		print('/' + path)
-
 		return save_bookmark(db, path)

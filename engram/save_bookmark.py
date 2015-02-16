@@ -35,9 +35,9 @@ def save_bookmark(db, url):
 	insert_result = (
 		title_result
 		.then( lambda title: (db, url, title, utils.now()) )
-		.then( lambda data:  sql.insert_bookmark(*data) )
+		.tap(  lambda data:  sql.insert_bookmark(*data) )
 		.then( lambda data: {
-			'message': data,
+			'message': '',
 			'code':    204
 		})
 	)
