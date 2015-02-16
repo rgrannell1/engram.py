@@ -40,14 +40,6 @@ class TestFetchChunk(utils_test.EngramTestCase):
 		"""
 
 
-		for max_id in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992}:
-			for amount in {0, 1, 2, 10, 100, 1000, 10000, 9007199254740992}:
-
-				response = requests.get(fetch_url(max_id, amount))
-
-				assert response.status_code == 200
-
-				response.connection.close()
 
 
 

@@ -37,3 +37,7 @@ def display_result(result, default_success = None, default_failure = None):
 			return success['message'], success['code']
 		else:
 			return default_success(success)
+
+	else:
+
+		raise TypeError('attempted to return fron non-success object %s' % (result.from_success(),))

@@ -29,7 +29,7 @@ def fetch_chunk(db, max_id, amount):
 
 	logging.info('fetch_chunk: %d %d' % (max_id, amount))
 
-	fetch_result = (
+	return (
 		Success(db)
 		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
 		.then(parse_bookmarks)
@@ -39,5 +39,3 @@ def fetch_chunk(db, max_id, amount):
 		})
 		.then(jsonify)
 	)
-
-	return fetch_result

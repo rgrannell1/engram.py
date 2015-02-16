@@ -197,6 +197,7 @@ class Success(Result):
 		values = []
 
 		for result in self.value:
+
 			if not isinstance(result, Result):
 				raise Exception("result wasn't a Result instance.")
 
