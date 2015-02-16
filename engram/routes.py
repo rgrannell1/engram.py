@@ -111,6 +111,17 @@ def bookmarks(app):
 
 
 
+def export(app, db):
+
+	@app.route("/export")
+	def export_route():
+
+		print('/export')
+		return export_bookmarks(db)
+
+
+
+
 def archives(app):
 	"""
 	GET /archives/<int:id>
@@ -139,17 +150,6 @@ def favicon(app, db):
 		print('/favicon.ico')
 		return "no available favicon.", 404
 
-
-
-
-
-def export(app, db):
-
-	@app.route("/export")
-	def export_route():
-
-		print('/export')
-		return export_bookmarks(db)
 
 
 

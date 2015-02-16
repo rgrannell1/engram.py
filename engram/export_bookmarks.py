@@ -9,6 +9,10 @@ from fetch_chunk    import fetch_chunk
 from bookmark import bookmark, getID
 import sql
 
+import logging
+logging.basicConfig(level =  logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 
 
@@ -22,9 +26,11 @@ def parse_bookmarks(rows):
 
 def export_bookmarks(db):
 
+	logger.info('exporting bookmarks.')
+
 	bookmark_result = (
 		Success(db)
-		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
+		.then(lambda db:   sql.fetch_chunk(db, 1000000, 1000000))
 		.then(parse_bookmarks)
 	)
 
