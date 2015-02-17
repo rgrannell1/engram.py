@@ -83,7 +83,8 @@ class TestSave(utils_test.EngramTestCase):
 			"山东大学.cn/",
 			"a8.net/",
 			"weather.com/",
-			"pagesperso-orange.fr/"
+			"pagesperso-orange.fr/",
+			"http://artyom.me/lens-over-tea-1"
 		]
 
 

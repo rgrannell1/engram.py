@@ -103,7 +103,6 @@ def lex(content_type):
 		if char in grammar[state]:
 			transitions.append( (char, grammar[state][char]) )
 		else:
-			print(transitions)
 			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
 
 	return Success( [trans for trans in transitions if not trans[1].startswith('_')] )

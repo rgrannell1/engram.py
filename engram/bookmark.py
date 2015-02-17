@@ -65,4 +65,3 @@ def getID(bookmark):
 		return bookmark['bookmark_id']
 	else:
 		raise Exception('no key "bookmark_id" found in bookmark object.')
-

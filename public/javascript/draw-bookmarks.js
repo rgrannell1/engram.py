@@ -130,7 +130,12 @@ const loadScroll = ( function () {
 			$elem = $viewgroup.find('article').first()
 
 			if ($elem.length > 0) {
-				$(document).scrollTop($elem.position().top + $elem.height())
+				//$(document).scrollTop($elem.position().top + $elem.height())
+
+				$(document).scrollTop(
+					$(window).height() - $(window).scrollTop() + 550
+				)
+
 			}
 
 		}
@@ -158,7 +163,9 @@ const loadScroll = ( function () {
 			$viewgroup.first().remove()
 		}
 
-		$(document).scrollTop($('.viewgroup:last').offset().top)
+		$(document).scrollTop(
+			$('.viewgroup:last').offset().top - $( window ).height()
+		)
 
 	}
 
