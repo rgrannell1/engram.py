@@ -20,7 +20,7 @@ from fetch_bookmarks   import fetch_bookmarks
 from export_bookmarks  import export_bookmarks
 from import_bookmarks  import import_bookmarks
 
-
+from restore_bookmarks import restore_bookmarks
 
 
 
@@ -126,11 +126,13 @@ def export(app, db):
 
 def restore(app, db):
 
-	@app.route("/import/<path:path>")
-	def restore_route(path):
+	@app.route("/restore")
+	def restore_route():
 
-		print('/import/' + path)
-		return import_bookmarks(db, path)
+		print('/restore/')
+
+		return restore_bookmarks(db)
+
 
 
 

@@ -54,7 +54,7 @@ def import_bookmark_list(url):
 
 
 
-def import_bookmarks(db, url):
+def import_bookmarks(db):
 
 	import_result = (
 		Success(url)

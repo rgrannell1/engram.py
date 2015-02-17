@@ -11,6 +11,7 @@ from result import Success, Failure
 
 pages = {
 	'index':  open('public/html/index.html',  'r').read(),
+	'import': open('public/html/import.html', 'r').read(),
 	'export': open('public/html/export.html', 'r').read()
 }
 
@@ -29,5 +30,12 @@ def export(context):
 
 	return (
 		Success(pages['export'])
+		.then(lambda html: pystache.render(html, context))
+	)
+
+def restore(context):
+
+	return (
+		Success(pages['import'])
 		.then(lambda html: pystache.render(html, context))
 	)
