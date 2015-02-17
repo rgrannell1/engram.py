@@ -28,8 +28,6 @@ const uploadFile = function () {
 		setTimeout(uploadFile, 100)
 	} else {
 
-		alert('reader')
-
 		const reader  = new FileReader()
 		reader.onload = function () {
 
