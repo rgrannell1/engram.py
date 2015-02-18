@@ -54,7 +54,7 @@ const uploadFile = function (retries, callback) {
 
 
 const host = function (path) {
-	return location.protocol + '//' + location.hostname + ':' + location.port + '/' + path
+	return location.protocol + '//' + location.hostname + ':' + location.port + '/' + encodeURIComponent(path)
 }
 
 
