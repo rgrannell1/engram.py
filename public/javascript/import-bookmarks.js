@@ -62,26 +62,16 @@ const host = function (path) {
 
 const sendBookmarks = function (bookmarks) {
 
-	if (bookmarks.length === 0) {
-		return
-	} else {
+	$(bookmarks).each(function (ith, bookmark) {
 
 		$.ajax({
-			url: host(bookmarks[0].url),
+			url: host(bookmark.url),
 			headers: {
 				'Connection': 'keep-alive'
 			}
 		})
-		.done(function () {
-			sendBookmarks(bookmarks.slice(1))
-		})
-		.fail(function () {
-			console.log('failed')
-			sendBookmarks(bookmarks.slice(1))
-		})
 
-
-	}
+	})
 
 }
 
