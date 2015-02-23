@@ -13,16 +13,19 @@ var readDataURL = function (reader, callback) {
 
 		// -- watch out for code-execution here.
 		var $bookmarks   = $($.parseHTML(html))
-		var bookmarkData = $bookmarks.find('a').map(function (ith, link) {
+		var bookmarkData = $bookmarks
+			.find('a')
+			.map(function (ith, link) {
 
-			return {
-				url:   $(link).attr('href'),
-				ctime: $(link).attr('time_added')
-			}
+				return {
+					url:   $(link).attr('href'),
+					ctime: $(link).attr('time_added')
+				}
 
-		}).sort(function (bookmark0, bookmark1) {
-			return bookmark0.ctime - bookmark0.ctime
-		})
+			})
+			.sort(function (bookmark0, bookmark1) {
+				return bookmark0.ctime - bookmark1.ctime
+			})
 
 		callback(bookmarkData)
 
