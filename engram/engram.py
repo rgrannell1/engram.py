@@ -47,7 +47,10 @@ def create_server(fpath, test = None):
 		.tap( lambda pair: routes.archives           (pair[0]) )
 		.tap( lambda pair: routes.favicon            (pair[0], pair[1]) )
 		.tap( lambda pair: routes.public             (pair[0]) )
+
+		.tap( lambda pair: routes.resave             (pair[0], pair[1]) )
 		.tap( lambda pair: routes.default            (pair[0], pair[1]) )
+
 		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
 	)
 

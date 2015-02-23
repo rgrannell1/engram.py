@@ -88,7 +88,7 @@ const attachChunk = ( function () {
 
 			}
 
-			return $container
+			return chunk.data.length > 0
 
 		}
 	}
@@ -120,7 +120,7 @@ const loadScroll = ( function () {
 
 	const loadUp = function (cache, template) {
 
-		attachChunk.prepend(cache, maxID(), template)
+		const dataLoaded = attachChunk.prepend(cache, maxID(), template)
 
 		$viewgroup = $('.viewgroup')
 
@@ -155,7 +155,7 @@ const loadScroll = ( function () {
 
 	const loadDown = function (cache, template) {
 
-		attachChunk.append(cache, nextID(), template)
+		const dataLoaded = attachChunk.append(cache, nextID(), template)
 
 		$viewgroup = $('.viewgroup')
 
@@ -163,10 +163,9 @@ const loadScroll = ( function () {
 			$viewgroup.first().remove()
 		}
 
-		$(document).scrollTop(
-			$('.viewgroup:last').offset().top - $( window ).height()
-		)
-
+		if (dataLoaded) {
+			$(document).scrollTop($('.viewgroup:last').offset().top - $( window ).height())
+		}
 	}
 
 

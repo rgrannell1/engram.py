@@ -1,22 +1,27 @@
 
-const readDataURL = function (reader, callback) {
+var readDataURL = function (reader, callback) {
 
-	const dataURL      = reader.result
-	const contentType  = "data:text/html;base64,"
+	var dataURL      = reader.result
+	var contentType  = "data:text/html;base64,"
 
 	if (!dataURL.startsWith(contentType)) {
 		alert('invalid data uri.')
 	} else {
 
-		const htmlBase64 = dataURL.slice(contentType.length)
-		const html       = atob(htmlBase64)
+		var htmlBase64 = dataURL.slice(contentType.length)
+		var html       = atob(htmlBase64)
 
 		// -- watch out for code-execution here.
-		const $bookmarks   = $($.parseHTML(html))
-		const bookmarkData = $bookmarks.find('a').map(function (ith, link) {
+		var $bookmarks   = $($.parseHTML(html))
+		var bookmarkData = $bookmarks.find('a').map(function (ith, link) {
+
 			return {
-				url: $(link).attr('href')
+				url:   $(link).attr('href'),
+				ctime: $(link).attr('time_added')
 			}
+
+		}).sort(function (bookmark0, bookmark1) {
+			return bookmark0.ctime - bookmark0.ctime
 		})
 
 		callback(bookmarkData)
@@ -29,10 +34,10 @@ const readDataURL = function (reader, callback) {
 
 
 
-const uploadFile = function (retries, callback) {
+var uploadFile = function (retries, callback) {
 
-	const $uploader = $('#uploader')
-	const files     = $uploader.prop('files')
+	var $uploader = $('#uploader')
+	var files     = $uploader.prop('files')
 
 	if ( is.undefined(files[0]) ) {
 
@@ -42,7 +47,7 @@ const uploadFile = function (retries, callback) {
 		throw Error('expired.')
 	} else {
 
-		const reader  = new FileReader()
+		var reader  = new FileReader()
 		reader.onload = readDataURL.bind({}, reader, callback)
 		reader.readAsDataURL(files[0])
 
@@ -53,26 +58,47 @@ const uploadFile = function (retries, callback) {
 
 
 
-const host = function (path) {
-	return location.protocol + '//' + location.hostname + ':' + location.port + '/' + encodeURIComponent(path)
+var host = function (path) {
+	return location.protocol + '//' + location.hostname + ':' + location.port + '/' + path
 }
 
 
 
 
-const sendBookmarks = function (bookmarks) {
 
-	$(bookmarks).each(function (ith, bookmark) {
+var sendBookmarks = function (bookmarks) {
+
+	if (bookmarks.length === 0) {
+
+		console.log( 'done.' )
+		return
+
+	} else {
+
+		var url = 'api/resave/' + encodeURIComponent(bookmarks[0].url)
 
 		$.ajax({
-			url: host(bookmark.url),
+			type: "POST",
+			url:  host(url),
+
+			dataType : "json",
+			data: JSON.stringify({
+				url:   url,
+				ctime: bookmarks[0].ctime
+			}),
 			headers: {
-				'Connection': 'keep-alive'
+				'Connection':   'keep-alive',
+				'Content-Type': 'application/json'
 			}
 		})
+		.done(function () {
+			setTimeout(function () { sendBookmarks(bookmarks.slice(1)) }, 50)
+		})
+		.fail(function () {
+			setTimeout(function () { sendBookmarks(bookmarks.slice(1)) }, 50)
+		})
 
-	})
-
+	}
 }
 
 

@@ -9,8 +9,11 @@ import routes
 import sql
 import pages
 
+import utils
+
 from show_bookmarks    import show_bookmarks
 from save_bookmark     import save_bookmark
+from resave_bookmark   import resave_bookmark
 
 from delete_bookmark   import delete_bookmark
 from fetch_chunk       import fetch_chunk
@@ -18,8 +21,6 @@ from serve_public_file import serve_public_file
 from fetch_bookmarks   import fetch_bookmarks
 
 from export_bookmarks  import export_bookmarks
-from import_bookmarks  import import_bookmarks
-
 from restore_bookmarks import restore_bookmarks
 
 
@@ -169,6 +170,22 @@ def favicon(app, db):
 
 
 
+def resave(app, db):
+	"""
+	POST /resave/*
+	"""
+
+	@app.route("/api/resave/<path:uri>", methods = ["POST"])
+	def resave_route(uri):
+
+		print('/api/resave/' + uri)
+
+		entity_body = request.get_json()
+
+		return resave_bookmark(db, uri, entity_body)
+
+
+
 def default(app, db):
 	"""
 	/<path>
@@ -180,7 +197,7 @@ def default(app, db):
 	def default_route(path):
 
 		print('/' + path)
-		return save_bookmark(db, path)
+		return save_bookmark(db, path, utils.now())
 
 
 

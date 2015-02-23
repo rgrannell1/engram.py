@@ -1,0 +1,896 @@
+INFO:__main__:connecting to database for archiving.
+INFO:complete_archives:completing archives.
+INFO:complete_archives:fetching unarchived bookmarks.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:09:48] "GET /bookmarks HTTP/1.1" 200 -
+INFO:root:fetch_chunk: 1000000 1000
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:09:48] "GET /api/bookmarks?max_id=1000000&amount=1000 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:09:48] "GET /public/html/bookmark-template.html HTTP/1.1" 200 -
+INFO:__main__:connecting to database for archiving.
+INFO:complete_archives:completing archives.
+INFO:complete_archives:fetching unarchived bookmarks.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:02] "GET /bookmarks HTTP/1.1" 200 -
+INFO:root:fetch_chunk: 1000000 1000
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:02] "GET /api/bookmarks?max_id=1000000&amount=1000 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:02] "GET /public/html/bookmark-template.html HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:08] "GET /restore HTTP/1.1" 200 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ww2.it.nuigalway.ie
+ERROR:root:'utf-8' codec can't decode byte 0x96 in position 297: invalid start byte
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:11] "GET /http%3A%2F%2Fww2.it.nuigalway.ie%2Fstaff%2Fpbigioi%2Fct542%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.lazzaro.com.ar
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:11] "GET /http%3A%2F%2Fwww.lazzaro.com.ar%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.fpcomplete.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:13] "GET /https%3A%2F%2Fwww.fpcomplete.com%2Fuser%2Ftel%2Flenses-from-scratch HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): linuxg.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:13] "GET /http%3A%2F%2Flinuxg.net%2Fhow-to-install-tagspaces-1-8-on-ubuntu-linux-mint-elementary-os-pinguy-os-debian-and-their-derivative-systems%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): ifttt.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:13] "GET /https%3A%2F%2Fifttt.com%2Fjoin HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): tessel.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:15] "GET /https%3A%2F%2Ftessel.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:16] "GET /https%3A%2F%2Fgithub.com%2Fgetify%2FYou-Dont-Know-JS HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): leanpub.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:17] "GET /https%3A%2F%2Fleanpub.com%2Fleprechauns%2Fread HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): twanvl.nl
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:17] "GET /http%3A%2F%2Ftwanvl.nl%2Fblog%2Fhaskell%2Fcps-functional-references HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:18] "GET /https%3A%2F%2Fgithub.com%2Fmilessabin%2Fshapeless HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): terminal.sexy
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:18] "GET /http%3A%2F%2Fterminal.sexy%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): longren.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:19] "GET /https%3A%2F%2Flongren.io%2Fgigantic-list-of-sublime-text-themes%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): comonad.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:20] "GET /http%3A%2F%2Fcomonad.com%2Freader%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.eikeland.se
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:20] "GET /http%3A%2F%2Fblog.eikeland.se%2F2014%2F10%2F06%2Fpid-transducer%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): wiki.openmw.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:21] "GET /https%3A%2F%2Fwiki.openmw.org%2Findex.php%3Ftitle%3DInstallation_Instructions HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.icce.rug.nl
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:21] "GET /http%3A%2F%2Fwww.icce.rug.nl%2Fdocuments%2Fcplusplus%2Fcplusplus.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:22] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F221346%2Fwhat-can-i-use-instead-of-the-arrow-operator HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ondras.zarovi.cz
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:22] "GET /http%3A%2F%2Fondras.zarovi.cz%2Fsql%2Fdemo%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.bkent.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:23] "GET /http%3A%2F%2Fwww.bkent.net%2FDoc%2Fsimple5.htm HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): foorious.com
+INFO:urllib3.connectionpool:Resetting dropped connection: foorious.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:24] "GET /http%3A%2F%2Ffoorious.com%2F2014%2F09%2Fstreaming-json%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): sourcemaking.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:24] "GET /http%3A%2F%2Fsourcemaking.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): andrew.gibiansky.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:25] "GET /http%3A%2F%2Fandrew.gibiansky.com%2Fblog%2Fhaskell%2Ffinger-trees%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): 100yrsofbrinton.tumblr.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:26] "GET /http%3A%2F%2F100yrsofbrinton.tumblr.com%2F%3Fog%3D1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.joyent.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:28] "GET /https%3A%2F%2Fwww.joyent.com%2Fdevelopers%2Fnode%2Fdesign HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): encrypted.google.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:29] "GET /https%3A%2F%2Fencrypted.google.com%2Fsearch%3Fhl%3Den%26q%3Dpocket%23safe%3Doff%26hl%3Den%26q%3Dpocket%20finance HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:30] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DBiHH3LzKV04 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:30] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F5767129%2Flenses-fclabels-data-accessor-which-library-for-structure-access-and-mutatio HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.algorist.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:30] "GET /http%3A%2F%2Fwww.algorist.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): monadmadness.wordpress.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): monadmadness.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:31] "GET /http%3A%2F%2Fmonadmadness.wordpress.com%2F2014%2F11%2F10%2Fpurely-functional-graph-search-algorithms%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.kimonolabs.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:32] "GET /https%3A%2F%2Fwww.kimonolabs.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:33] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMogensen%C3%A2%C2%80%C2%93Scott_encoding HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:33] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DuJm-its3ZWM HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): shop.oreilly.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:35] "GET /http%3A%2F%2Fshop.oreilly.com%2Fproduct%2F9780596529321.do HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): spiderlang.org
+INFO:urllib3.connectionpool:Resetting dropped connection: spiderlang.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:36] "GET /http%3A%2F%2Fspiderlang.org%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.abookapart.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:36] "GET /http%3A%2F%2Fwww.abookapart.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:37] "GET /https%3A%2F%2Fgithub.com%2Fleebyron%2Ftestcheck-js HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.pandastrike.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:38] "GET /https%3A%2F%2Fwww.pandastrike.com%2Fposts%2F20141112-git-smart HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:39] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D4JGu33WF0Us HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.html5rocks.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:39] "GET /http%3A%2F%2Fwww.html5rocks.com%2Fen%2Ftutorials%2Fshapes%2Fgetting-started%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:40] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D824yVKUPFjU HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): xeushack.com
+INFO:urllib3.connectionpool:Resetting dropped connection: xeushack.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:42] "GET /http%3A%2F%2Fxeushack.com%2Ftutorials%2Finitiation%2FZipBomb HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.saintsjd.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:43] "GET /http%3A%2F%2Fwww.saintsjd.com%2F2012%2F01%2Fa-better-ui-for-git%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blog.codeship.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:44] "GET /https%3A%2F%2Fblog.codeship.com%2Fnode-js-security-tips%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): martinfowler.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:45] "GET /http%3A%2F%2Fmartinfowler.com%2Fbliki%2FTestPyramid.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): apis.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:46] "GET /http%3A%2F%2Fapis.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): astralapp.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:46] "GET /http%3A%2F%2Fastralapp.com%2Fprivacy%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.diveintopython.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:48] "GET /http%3A%2F%2Fwww.diveintopython.net%2Ffile_handling%2Ffile_objects.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): color.adobe.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:49] "GET /https%3A%2F%2Fcolor.adobe.com%2Fcreate%2Fcolor-wheel%2F%3Fbase%3D2%26rule%3DAnalogous%26selected%3D4%26name%3DMy%20Color%20Theme%26mode%3Drgb%26rgbvalues%3D1%2C0.050000000000000044%2C0.22418242289422785%2C0.91%2C0.04550000000000004%2C0.12475300241687365%2C1%2C0%2C0%2C0.91%2C0.03981700953708841%2C0.015910367220290305%2C1%2C0.053477059660735904%2C0%26swatchOrder%3D0%2C1%2C2%2C3%2C4 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): ququplay.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:50] "GET /https%3A%2F%2Fququplay.github.io%2Fjquery-mobile-flat-ui-theme%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.designrazzi.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.designsrazzi.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:50] "GET /http%3A%2F%2Fwww.designrazzi.com%2Ffree-flat-logos-download%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.statisticsdonewrong.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:50] "GET /http%3A%2F%2Fwww.statisticsdonewrong.com%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.ams.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:52] "GET /http%3A%2F%2Fwww.ams.org%2Fjournals%2Fmcom%2F1997-66-218%2FS0025-5718-97-00856-9%2Fhome.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): raganwald.com
+INFO:urllib3.connectionpool:Resetting dropped connection: raganwald.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:52] "GET /http%3A%2F%2Fraganwald.com%2F2013%2F03%2F28%2Ftrampolines-in-javascript.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): fogus.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:53] "GET /http%3A%2F%2Ffogus.github.io%2Flemonad%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:53] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Freduce-in-rcpp11%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): osteele.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:53] "GET /http%3A%2F%2Fosteele.com%2Fsources%2Fjavascript%2Ffunctional%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.stephendiehl.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:54] "GET /http%3A%2F%2Fwww.stephendiehl.com%2Fposts%2Fmonads.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:55] "GET /https%3A%2F%2Fgithub.com%2Ffantasyland%2Ffantasy-land HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:56] "GET /https%3A%2F%2Fgithub.com%2Fbbatsov%2Fclojure-style-guide HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:56] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Fhaskell%2Fcomments%2F1k3fq7%2Fwhat_are_some_killer_libraries_and_frameworks%2Fcbldpgy HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): lambda.haskell.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:57] "GET /http%3A%2F%2Flambda.haskell.org%2Fplatform%2Fdoc%2Fcurrent%2Fghc-api%2FUtil.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:58] "GET /https%3A%2F%2Fgithub.com%2Famark%2Ftheory HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:58] "GET /https%3A%2F%2Fgithub.com%2FKrisJordan%2Ff_underscore HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): clojure-doc.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:10:59] "GET /http%3A%2F%2Fclojure-doc.org%2Farticles%2Flanguage%2Fcore_overview.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): jeremykun.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:00] "GET /http%3A%2F%2Fjeremykun.com%2F2013%2F09%2F30%2Fthe-universal-properties-of-map-fold-and-filter%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): bartoszmilewski.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:02] "GET /http%3A%2F%2Fbartoszmilewski.com%2F2013%2F10%2F08%2Flenses-stores-and-yoneda%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): skillsmatter.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:07] "GET /https%3A%2F%2Fskillsmatter.com%2Fskillscasts%2F4251-lenses-compositional-data-access-and-manipulation HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): yinwang0.wordpress.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): yinwang0.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:08] "GET /http%3A%2F%2Fyinwang0.wordpress.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): mtnviewmark.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:09] "GET /https%3A%2F%2Fmtnviewmark.wordpress.com%2F2013%2F12%2F02%2Fmfmf%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): hackage.haskell.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:10] "GET /http%3A%2F%2Fhackage.haskell.org%2Fpackage%2Fbase-4.6.0.1%2Fdocs%2FPrelude.html%23v%3AsplitAt HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): eliperelman.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:11] "GET /http%3A%2F%2Feliperelman.com%2Ffn.js%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): gist.github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:11] "GET /https%3A%2F%2Fgist.github.com%2Fbryangoodrich%2F8275787 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): lodash.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:12] "GET /https%3A%2F%2Flodash.com%2Fdocs%23countBy HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:13] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Fa-taste-of-functional-programmming-in-rcpp11%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.confreaks.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): confreaks.tv
+INFO:urllib3.connectionpool:Resetting dropped connection: confreaks.tv
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:15] "GET /http%3A%2F%2Fwww.confreaks.com%2Fvideos%2F1287-rubyconf2012-y-not-adventures-in-functional-programming HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.noelherrick.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:16] "GET /http%3A%2F%2Fwww.noelherrick.com%2Fblog%2Finner-vs-outer-joins HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:16] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Frstats%2Fcomments%2F22wtqx%2Fquestion_learning_functional_programming_in_r%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:17] "GET /https%3A%2F%2Fgithub.com%2FTobCap%2FR HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): alexott.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:18] "GET /http%3A%2F%2Falexott.net%2Fen%2Ffp%2Fbooks%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:19] "GET /https%3A%2F%2Fgithub.com%2Fcrowding%2Flazr HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:20] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Ffunctionalprogramming%2Fcomments%2F26fzkx%2Fwhat_fp_blogs_do_you_read%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): jelv.is
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:21] "GET /http%3A%2F%2Fjelv.is%2Fblog%2FLazy-Dynamic-Programming%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): fsharpforfunandprofit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:23] "GET /http%3A%2F%2Ffsharpforfunandprofit.com%2Fposts%2Frecipe-part2%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): vimeo.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): vimeo.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:23] "GET /http%3A%2F%2Fvimeo.com%2F97408202 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:24] "GET /https%3A%2F%2Fgithub.com%2Fyallop%2Ficfp2014-papers HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): homepages.inf.ed.ac.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:24] "GET /http%3A%2F%2Fhomepages.inf.ed.ac.uk%2Fwadler%2Ftopics%2Ftype-classes.html%23implicits HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): okmij.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:26] "GET /http%3A%2F%2Fokmij.org%2Fftp%2FHaskell%2Fextensible%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): dmwit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:28] "GET /http%3A%2F%2Fdmwit.com%2Fpapers%2F201107EL.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): artyom.me
+ERROR:root:'content-type'
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:28] "GET /http%3A%2F%2Fartyom.me%2Flens-over-tea-1 HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): math.andrej.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:29] "GET /http%3A%2F%2Fmath.andrej.com%2F2007%2F09%2F28%2Fseemingly-impossible-functional-programs%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): hackage.haskell.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:29] "GET /https%3A%2F%2Fhackage.haskell.org%2Fpackage%2Flens-1.2%2Fdocs%2FControl-Lens.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): bartoszmilewski.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:30] "GET /http%3A%2F%2Fbartoszmilewski.com%2F2014%2F10%2F17%2Fc-ranges-are-pure-monadic-goodness%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): dl.dropboxusercontent.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:34] "GET /https%3A%2F%2Fdl.dropboxusercontent.com%2Fu%2F7810909%2Fmedia%2Fdoc%2Fasymmetric-lenses.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.fpcomplete.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:36] "GET /https%3A%2F%2Fwww.fpcomplete.com%2Fschool%2Fto-infinity-and-beyond%2Fpick-of-the-week%2Fa-little-lens-starter-tutorial%23-sidenote--what-is-that-forall-thing-- HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): julesjacobs.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:36] "GET /http%3A%2F%2Fjulesjacobs.github.io%2F2014%2F10%2F18%2Fthe-best-collections-library-design-2.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): wry.me
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:38] "GET /http%3A%2F%2Fwry.me%2Fmisc%2Fpeval.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): java.ociweb.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:38] "GET /http%3A%2F%2Fjava.ociweb.com%2Fmark%2Fclojure%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): adit.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:39] "GET /http%3A%2F%2Fadit.io%2Fposts%2F2013-07-22-lenses-in-pictures.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): createyourproglang.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:40] "GET /http%3A%2F%2Fcreateyourproglang.com%2F%3Fhn%3D1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): writingcoding.blogspot.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): writingcoding.blogspot.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:41] "GET /http%3A%2F%2Fwritingcoding.blogspot.com%2F2008%2F06%2Fclojure-series-table-of-contents.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.fpcomplete.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:42] "GET /https%3A%2F%2Fwww.fpcomplete.com%2Fschool%2Fto-infinity-and-beyond%2Fpick-of-the-week%2Fbasic-lensing HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): kestas.kuliukas.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:43] "GET /http%3A%2F%2Fkestas.kuliukas.com%2FYCombinatorExplained%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:44] "GET /https%3A%2F%2Fgithub.com%2Fpuffnfresh%2Fbilby.js HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:45] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Ffunctional-programming-in-r%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): cran.r-project.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:45] "GET /http%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2Fpolicies.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.mikeash.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:46] "GET /https%3A%2F%2Fwww.mikeash.com%2Fpyblog%2Ffriday-qa-2013-05-03-proper-use-of-asserts.html%3Futm_source%3DiOS%20Dev%20Weekly%26utm_campaign%3D7dba454803-iOS_Dev_Weekly_Issue_93%26utm_medium%3Demail%26utm_term%3D0_7bda94b7ca-7dba454803-299408873 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): oli.me.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:47] "GET /http%3A%2F%2Foli.me.uk%2F2013%2F07%2F12%2Ftuples-in-javascript%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.thc.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:48] "GET /https%3A%2F%2Fwww.thc.org%2Froot%2Fphun%2Funmaintain.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): apiaxle.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:49] "GET /http%3A%2F%2Fapiaxle.github.io%2Fblog%2Fpost%2Fsigns-youre-veering-from-good-api-design%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): sett.ociweb.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:50] "GET /http%3A%2F%2Fsett.ociweb.com%2Fsett%2FsettApr2014.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): caspervonb.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:50] "GET /https%3A%2F%2Fcaspervonb.github.io%2F2014%2F03%2F05%2Fecmascript-6-features-and-tools%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): michaelfeathers.tumblr.com
+INFO:urllib3.connectionpool:Resetting dropped connection: michaelfeathers.tumblr.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:51] "GET /http%3A%2F%2Fmichaelfeathers.tumblr.com%2Fpost%2F81489281%2F10-papers-every-programmer-should-read-at-least-twice HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): seriot.ch
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:55] "GET /http%3A%2F%2Fseriot.ch%2Fresources%2Ftalks_papers%2Fi_love_unicode_softshake.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): codeutopia.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:56] "GET /http%3A%2F%2Fcodeutopia.net%2Fblog%2F2014%2F10%2F20%2Fwhat-do-the-top-1-of-software-engineers-do-that-the-other-99-do-not%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ipestov.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:57] "GET /http%3A%2F%2Fipestov.com%2Fawesomeness-and-usefulness-for-web-developers-10%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.faqs.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:57] "GET /http%3A%2F%2Fwww.faqs.org%2Fdocs%2Fartu%2Fch01s06.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.sellarafaeli.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:58] "GET /http%3A%2F%2Fwww.sellarafaeli.com%2Fblog%2Fidempotency HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): users.ece.cmu.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:59] "GET /http%3A%2F%2Fusers.ece.cmu.edu%2F~koopman%2Fdes_s99%2Fsw_testing%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): caniuse.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:11:59] "GET /http%3A%2F%2Fcaniuse.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): sassmeister.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:00] "GET /http%3A%2F%2Fsassmeister.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): sitr.us
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:01] "GET /http%3A%2F%2Fsitr.us%2F2013%2F11%2F04%2Ffunctional-data-structures.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.ustream.tv
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:02] "GET /http%3A%2F%2Fwww.ustream.tv%2Frecorded%2F46640057 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): sweetjs.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:02] "GET /http%3A%2F%2Fsweetjs.org%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.slideshare.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:03] "GET /http%3A%2F%2Fwww.slideshare.net%2Fvictorandresperez%2Fjavascript-operators HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): mislav.uniqpath.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:04] "GET /http%3A%2F%2Fmislav.uniqpath.com%2F2010%2F05%2Fsemicolons%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): raganwald.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:04] "GET /http%3A%2F%2Fraganwald.com%2F2014%2F10%2F24%2Ffun-with-named-functions.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): johncarlosbaez.wordpress.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): johncarlosbaez.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:06] "GET /http%3A%2F%2Fjohncarlosbaez.wordpress.com%2F2013%2F10%2F11%2Fautocatalysis-in-reaction-networks%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): serious-science.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:06] "GET /http%3A%2F%2Fserious-science.org%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): aria2.sourceforge.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:07] "GET /http%3A%2F%2Faria2.sourceforge.net%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): cstheory.stackexchange.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:08] "GET /http%3A%2F%2Fcstheory.stackexchange.com%2Fquestions%2F14811%2Fwhat-is-the-enlightenment-im-supposed-to-attain-after-studying-finite-automata HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:08] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Fmachine-learning-for-identification-of-cars%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): knowitbasic.blogspot.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): knowitbasic.blogspot.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:09] "GET /http%3A%2F%2Fknowitbasic.blogspot.com%2F2013%2F11%2Fdifferent-types-of-joins-in-sql.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): chriskempson.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:09] "GET /https%3A%2F%2Fchriskempson.github.io%2Fbase16%2F%23atelierforest HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.faceplusplus.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:11] "GET /http%3A%2F%2Fwww.faceplusplus.com%2Fdemo-son%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): karpathy.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:12] "GET /http%3A%2F%2Fkarpathy.github.io%2Fneuralnets%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): lauris.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:12] "GET /https%3A%2F%2Flauris.github.io%2Fdevelopment%2F2014%2F09%2F01%2Fgit-aliases%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:12] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FThe_Art_of_Electronics HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.santosvelasco.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:13] "GET /http%3A%2F%2Fblog.santosvelasco.com%2F2012%2F06%2F14%2Fextending-git-add-a-custom-command%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:13] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FDoctest HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): shamansir.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:13] "GET /http%3A%2F%2Fshamansir.github.io%2Fblog%2Farticles%2Fgenerating-functional-parsers%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): intolerable.me
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:14] "GET /http%3A%2F%2Fintolerable.me%2Flens-operators-intro%2F HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): adolfoalvarez.cl
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:14] "GET /http%3A%2F%2Fadolfoalvarez.cl%2Fplumbers-chains-and-famous-painters-the-history-of-the-pipe-operator-in-r%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.gitbook.io
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.gitbook.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:17] "GET /https%3A%2F%2Fwww.gitbook.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:17] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Fprogramming%2Fcomments%2F2ge8y2%2Fi_wrote_a_test_data_generator_that_uses_a_regex%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.wilfred.me.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:17] "GET /http%3A%2F%2Fwww.wilfred.me.uk%2Fblog%2F2014%2F09%2F15%2Fcomparative-macrology%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): elbenshira.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:18] "GET /http%3A%2F%2Felbenshira.com%2Fblog%2Funderstanding-transducers%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.petersobot.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:19] "GET /http%3A%2F%2Fblog.petersobot.com%2Fpipes-and-filters HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.philosophicalgeek.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:19] "GET /http%3A%2F%2Fwww.philosophicalgeek.com%2F2014%2F09%2F15%2F5-more-attributes-of-highly-effective-programmers%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): codeinthehole.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:20] "GET /http%3A%2F%2Fcodeinthehole.com%2Fwriting%2Ftips-for-using-a-git-pre-commit-hook%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): githut.info
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:21] "GET /http%3A%2F%2Fgithut.info%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:22] "GET /https%3A%2F%2Fgithub.com%2Ffacebook%2Fimmutable-js HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:22] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Ffunctionalprogramming%2Fcomments%2F2c8r8h%2Fis_r_language_a_functional_programming_language%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): lifehacker.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:24] "GET /http%3A%2F%2Flifehacker.com%2Flifehacker-pack-for-firefox-our-list-of-the-essential-896766794 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:25] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKlwkt9oJwg0 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:26] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DzzCrZEil9iI HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): preshing.com
+INFO:urllib3.connectionpool:Resetting dropped connection: preshing.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:27] "GET /http%3A%2F%2Fpreshing.com%2F20110504%2Fhash-collision-probabilities HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): mathforum.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:28] "GET /http%3A%2F%2Fmathforum.org%2Flibrary%2Fdrmath%2Fview%2F72775.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): backhub.co
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:28] "GET /https%3A%2F%2Fbackhub.co%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): michaelfeathers.silvrback.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:30] "GET /https%3A%2F%2Fmichaelfeathers.silvrback.com%2Fliterate-chains-for-functional-programming HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): meeet.co
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:30] "GET /http%3A%2F%2Fmeeet.co%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): radar.oreilly.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:33] "GET /http%3A%2F%2Fradar.oreilly.com%2F2014%2F08%2Fbuilding-pipelines-to-facilitate-data-analysis.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:34] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DAc8t6l92ALw HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.markshead.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:36] "GET /http%3A%2F%2Fblog.markshead.com%2F869%2Fstate-machines-computer-science%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.gura-lang.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:37] "GET /http%3A%2F%2Fwww.gura-lang.org%2Fdocuments%2FIterator-List-Operation.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): encrypt.to
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:38] "GET /https%3A%2F%2Fencrypt.to%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): noexcuselist.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:39] "GET /http%3A%2F%2Fnoexcuselist.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.omgubuntu.co.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:40] "GET /http%3A%2F%2Fwww.omgubuntu.co.uk%2F2014%2F08%2Fsimplenote-linux-app-happen-help HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): vasir.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:41] "GET /http%3A%2F%2Fvasir.net%2Fblog%2Fgame-development%2Fhow-to-build-entity-component-system-in-javascript HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): upload.wikimedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:42] "GET /https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F20%2FRadiation_Dose_Chart_by_Xkcd.png HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): biochemical-pathways.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:43] "GET /http%3A%2F%2Fbiochemical-pathways.com%2F%23%2Fmap%2F1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): cybersecurity.ieee.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:44] "GET /http%3A%2F%2Fcybersecurity.ieee.org%2Fcenter-for-secure-design%2Fearn-or-give-but-never-assume-trust.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): regex101.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): regex101.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:44] "GET /http%3A%2F%2Fregex101.com%2Fr%2FrM5uW8%2F1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): programmers.stackexchange.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:45] "GET /http%3A%2F%2Fprogrammers.stackexchange.com%2Fquestions%2F98669%2Fare-there-any-empirical-studies-on-the-effect-of-different-languages-on-software HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): input.fontbureau.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:46] "GET /http%3A%2F%2Finput.fontbureau.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:47] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DL7b7AW14rYE HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): isbndb.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:48] "GET /http%3A%2F%2Fisbndb.com%2Fapi%2Fv2%2Fdocs%2Fbooks HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.infoq.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:49] "GET /http%3A%2F%2Fwww.infoq.com%2Fpresentations%2Ffunctional-category-theory HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): arxiv.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:50] "GET /http%3A%2F%2Farxiv.org%2Fabs%2F1406.2294 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.cognitect.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:51] "GET /http%3A%2F%2Fblog.cognitect.com%2Fblog%2F2014%2F8%2F6%2Ftransducers-are-coming HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.cs.umd.edu
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:52] "GET /https%3A%2F%2Fwww.cs.umd.edu%2Fusers%2Fbasili%2Fpublications%2Fjournals%2FJ60.pdf HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): tratt.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:53] "GET /http%3A%2F%2Ftratt.net%2Flaurie%2Fblog%2Fentries%2Fhow_difficult_is_it_to_write_a_compiler HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:54] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F4912586%2Fexplanation-of-script-type-text-template-script HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.toggl.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:55] "GET /https%3A%2F%2Fwww.toggl.com%2Ftour%2Fweb HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): phys.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:55] "GET /http%3A%2F%2Fphys.org%2Fnews%2F2014-06-off-switch-drugs-toxic-side-effects.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cdc.gov
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:56] "GET /http%3A%2F%2Fwww.cdc.gov%2Fpcd%2Fissues%2F2014%2F13_0293.htm HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): amitdev.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:57] "GET /https%3A%2F%2Famitdev.github.io%2Fcoding%2F2014%2F06%2F29%2FLearning-Functional-Programming%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.omgubuntu.co.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:57] "GET /http%3A%2F%2Fwww.omgubuntu.co.uk%2F2014%2F06%2Flinux-podcast-app-vocal-hits-preview-kicker HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:58] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D9TJTbRw4ri8 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): vimeo.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): vimeo.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:59] "GET /http%3A%2F%2Fvimeo.com%2F94184685 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): bonsaiden.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:12:59] "GET /https%3A%2F%2Fbonsaiden.github.io%2FJavaScript-Garden%2F%23types HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): norvig.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:01] "GET /http%3A%2F%2Fnorvig.com%2Flispy.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): mplus-fonts.sourceforge.jp
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:02] "GET /http%3A%2F%2Fmplus-fonts.sourceforge.jp%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:03] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dv3bo3Uv5u9E HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): repository.readscheme.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:04] "GET /http%3A%2F%2Frepository.readscheme.org%2Fftp%2Fpapers%2Fpepm99%2Fbawden.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): breach.cc
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:04] "GET /http%3A%2F%2Fbreach.cc%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): googledevelopers.blogspot.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): googledevelopers.blogspot.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:05] "GET /http%3A%2F%2Fgoogledevelopers.blogspot.com%2F2014%2F07%2Fthe-new-roboto.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): kundansingh.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:07] "GET /http%3A%2F%2Fkundansingh.com%2Finterview%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.amazon.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:08] "GET /http%3A%2F%2Fwww.amazon.com%2FMachine-Learning-R-Brett-Lantz%2Fdp%2F1782162143%3F%26tag%3Drnwap-20 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): oldgeeksguide.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:09] "GET /http%3A%2F%2Foldgeeksguide.github.io%2Fpresentations%2Fhtml5devconf2013%2Fwtod.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:10] "GET /https%3A%2F%2Fgithub.com%2Fcran%2Flambda.tools HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): renkun.me
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:12] "GET /http%3A%2F%2Frenkun.me%2F HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.stat.ufl.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:18] "GET /http%3A%2F%2Fwww.stat.ufl.edu%2Farchived%2Fcasella%2FShortCourse%2FSDSC11-1.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): worrydream.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:19] "GET /http%3A%2F%2Fworrydream.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:19] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Ftest-coverage-of-the-10-most-downloaded-r-packages%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): functionalconf.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:20] "GET /http%3A%2F%2Ffunctionalconf.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): orchestrate.io
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): orchestrate.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:22] "GET /http%3A%2F%2Forchestrate.io%2Fblog%2F2014%2F07%2F28%2Fhow-to-document-a-project%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): citeseer.ist.psu.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:23] "GET /http%3A%2F%2Fciteseer.ist.psu.edu%2Fviewdoc%2Fdownload%3Fdoi%3D10.1.1.14.9450%26rep%3Drep1%26type%3Dpdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blog.mozilla.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:25] "GET /https%3A%2F%2Fblog.mozilla.org%2Fjavascript%2F2014%2F07%2F21%2Fslimmer-and-faster-javascript-strings-in-firefox%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): community.dur.ac.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:25] "GET /http%3A%2F%2Fcommunity.dur.ac.uk%2Febse%2Fevidence.php%3Fstudy%3D38 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): adv-r.had.co.nz
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:26] "GET /http%3A%2F%2Fadv-r.had.co.nz%2FVocabulary.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:27] "GET /https%3A%2F%2Fgithub.com%2Fbolshchikov%2Fjs-must-watch HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.python.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:28] "GET /https%3A%2F%2Fwww.python.org%2Fdev%2Fpeps%2Fpep-0008%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): lignos.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:28] "GET /http%3A%2F%2Flignos.org%2Fpy_antipatterns%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): howistart.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:29] "GET /http%3A%2F%2Fhowistart.org%2Fposts%2Felixir%2F1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.reddit.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:29] "GET /http%3A%2F%2Fwww.reddit.com%2Fr%2Fjavascript%2Fcomments%2F2n3fji%2Fcan_you_describe_the_reduce_function_in_a_single%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:30] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D3oQTSP4FngY HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:31] "GET /https%3A%2F%2Fgithub.com%2Fztellman%2Fautomat HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): adamilab.blogspot.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): adamilab.blogspot.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:31] "GET /http%3A%2F%2Fadamilab.blogspot.com%2F2014%2F06%2Fwhose-entropy-is-it-anyway-part-1.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.jefftk.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:32] "GET /http%3A%2F%2Fwww.jefftk.com%2Fp%2Fwhy-parse-the-user-agent HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.logolounge.com
+ERROR:root:"," not allowed in content-type header (unquoted)
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:33] "GET /https%3A%2F%2Fwww.logolounge.com%2Farticle%2F2014logotrends HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.logoswish.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:34] "GET /http%3A%2F%2Fblog.logoswish.com%2F20-best-security-logo-design-examples-for-inspiration%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.logolounge.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:35] "GET /https%3A%2F%2Fwww.logolounge.com%2Fpreview.asp HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): developer.mozilla.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:36] "GET /https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FSupporting_search_suggestions_in_search_plugins HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.glyphsapp.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:37] "GET /http%3A%2F%2Fwww.glyphsapp.com%2Ftutorials%2Fdrawing-good-paths HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.sitepoint.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:37] "GET /http%3A%2F%2Fwww.sitepoint.com%2Faugmenting-javascript-core-objects%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.cognitect.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:38] "GET /http%3A%2F%2Fblog.cognitect.com%2Fblog%2F2014%2F7%2F22%2Ftransit HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): developer.mozilla.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:40] "GET /https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2FAdd-ons%2FCreating_OpenSearch_plugins_for_Firefox HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:40] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D3S1i71rlqPo HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.ams.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:46] "GET /http%3A%2F%2Fwww.ams.org%2Fnotices%2F201003%2Frtx100300357p.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:47] "GET /https%3A%2F%2Fgithub.com%2FSemantic-Org%2FSemantic-UI HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.symantec.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:48] "GET /http%3A%2F%2Fwww.symantec.com%2Fcontent%2Fen%2Fus%2Fenterprise%2Fmedia%2Fsecurity_response%2Fwhitepapers%2Fregin-analysis.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.perlmonks.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:53] "GET /http%3A%2F%2Fwww.perlmonks.org%2F%3Fnode_id%3D450922 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.coolaj86.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:55] "GET /http%3A%2F%2Fblog.coolaj86.com%2Farticles%2Fhow-to-create-a-debian-installer.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.google.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:55] "GET /https%3A%2F%2Fwww.google.ie%2Fsearch%3Fclient%3Dubuntu%26channel%3Dfs%26q%3D!tw%26ie%3Dutf-8%26oe%3Dutf-8%26gws_rd%3Dcr%26ei%3D5-dzVO6iGYvzapmsgLAK%23q%3D!tw%26channel%3Dfs%26tbm%3Dvid HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): vimeo.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): vimeo.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:56] "GET /http%3A%2F%2Fvimeo.com%2F6624203 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ericniebler.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:58] "GET /http%3A%2F%2Fericniebler.com%2F2014%2F11%2F23%2Fcontainer-algorithms%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:13:59] "GET /https%3A%2F%2Fgithub.com%2Flibgit2%2Frugged HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): getpocket.com
+INFO:urllib3.connectionpool:Resetting dropped connection: getpocket.com
+INFO:urllib3.connectionpool:Resetting dropped connection: getpocket.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): getpocket.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:02] "GET /http%3A%2F%2Fgetpocket.com%2Fa%2Fqueue%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.wefearchange.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:02] "GET /http%3A%2F%2Fwww.wefearchange.org%2F2010%2F05%2Ffrom-python-package-to-ubuntu-package.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.csstyle.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:03] "GET /http%3A%2F%2Fwww.csstyle.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): c2.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:05] "GET /http%3A%2F%2Fc2.com%2Fcgi%2Fwiki%3FFutureOfProgrammingLanguages HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): pikock.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:05] "GET /http%3A%2F%2Fpikock.github.io%2Fbootstrap-magic%2Fapp%2Findex.html%23!%2Feditor HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): pikock.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:05] "GET /http%3A%2F%2Fpikock.github.io%2Fbootstrap-magic%2Fapp%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): regex101.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): regex101.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:06] "GET /http%3A%2F%2Fregex101.com%2F%23python HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): hackage.haskell.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:06] "GET /https%3A%2F%2Fhackage.haskell.org%2Fpackage%2Fbase-4.2.0.1%2Fdocs%2FData-List.html%23v%3Aspan HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): cs.coloradocollege.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:07] "GET /http%3A%2F%2Fcs.coloradocollege.edu%2F~bylvisaker%2FMonadMotivation%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.binarymist.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:09] "GET /http%3A%2F%2Fblog.binarymist.net%2F2013%2F04%2F27%2Fsoftware-engineer-interview-process-and-questions%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): williamdurand.fr
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:10] "GET /http%3A%2F%2Fwilliamdurand.fr%2F2013%2F07%2F04%2Fon-open-sourcing-libraries%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): practicaltypography.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:11] "GET /http%3A%2F%2Fpracticaltypography.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): listen.hatnote.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:11] "GET /http%3A%2F%2Flisten.hatnote.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.feynmanlectures.caltech.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:12] "GET /http%3A%2F%2Fwww.feynmanlectures.caltech.edu%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.michael-noll.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:13] "GET /http%3A%2F%2Fwww.michael-noll.com%2Fblog%2F2013%2F12%2F02%2Ftwitter-algebird-monoid-monad-for-large-scala-data-analytics%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.kfirlavi.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:14] "GET /http%3A%2F%2Fwww.kfirlavi.com%2Fblog%2F2012%2F11%2F14%2Fdefensive-bash-programming%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blog.mariusschulz.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:15] "GET /https%3A%2F%2Fblog.mariusschulz.com%2F2014%2F06%2F03%2Fwhy-using-in-regular-expressions-is-almost-never-what-you-actually-want HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.getprismatic.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:16] "GET /http%3A%2F%2Fblog.getprismatic.com%2Fom-sweet-om-high-functional-frontend-engineering-with-clojurescript-and-react%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): bost.ocks.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:16] "GET /http%3A%2F%2Fbost.ocks.org%2Fmike%2Falgorithms%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): martinfowler.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:18] "GET /http%3A%2F%2Fmartinfowler.com%2Farticles%2Fcollection-pipeline%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): bjorn.tipling.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:19] "GET /http%3A%2F%2Fbjorn.tipling.com%2Fstate-and-regular-expressions-in-javascript HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): speakerdeck.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:24] "GET /https%3A%2F%2Fspeakerdeck.com%2Faddyosmani%2Fjavascript-memory-management-masterclass HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): lifehacker.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:25] "GET /http%3A%2F%2Flifehacker.com%2Fpersevy-is-a-pomodoro-tool-to-help-you-learn-skills-or-1641947181 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.smashcompany.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:27] "GET /http%3A%2F%2Fwww.smashcompany.com%2Ftechnology%2Fobject-oriented-programming-is-an-expensive-disaster-which-must-end HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): okmij.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:28] "GET /http%3A%2F%2Fokmij.org%2Fftp%2Fcontinuations%2Fagainst-callcc.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.vinaysahni.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:28] "GET /http%3A%2F%2Fwww.vinaysahni.com%2Fbest-practices-for-a-pragmatic-restful-api HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:29] "GET /https%3A%2F%2Fgithub.com%2Fmixu%2Fnplay HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:29] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FHTTP_ETag HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): itunes.apple.com
+INFO:urllib3.connectionpool:Resetting dropped connection: itunes.apple.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:30] "GET /https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fquiver-programmers-notebook%2Fid866773894%3Fmt%3D12%26at%3D10l4Mc HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): monkey.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:31] "GET /http%3A%2F%2Fmonkey.org%2F~marius%2Funix-tools-hints.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.notdot.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:31] "GET /http%3A%2F%2Fblog.notdot.net%2F2010%2F07%2FDamn-Cool-Algorithms-Levenshtein-Automata HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): moalquraishi.wordpress.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): moalquraishi.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:32] "GET /http%3A%2F%2Fmoalquraishi.wordpress.com%2F2014%2F05%2F25%2Fwhat-does-a-neural-network-actually-do%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): scott.sauyet.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:33] "GET /http%3A%2F%2Fscott.sauyet.com%2FJavascript%2FTalk%2F2014%2F01%2FFuncProgTalk%2F%23slide-2 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:34] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FTag_(metadata) HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ejohn.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:35] "GET /http%3A%2F%2Fejohn.org%2Fblog%2Fpartial-functions-in-javascript%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:35] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F4283418%2Finstapaper-like-algorithm HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): docs.writethedocs.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:36] "GET /http%3A%2F%2Fdocs.writethedocs.org%2Fstarting%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): two-wrongs.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:36] "GET /http%3A%2F%2Ftwo-wrongs.com%2Fdiscoverability-of-functions-in-functional-languages HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): microjs.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:36] "GET /http%3A%2F%2Fmicrojs.com%2F%23 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ianstormtaylor.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:37] "GET /http%3A%2F%2Fianstormtaylor.com%2Fdesign-tip-never-use-black%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:38] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DSDTZ7iX4vTQ HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:38] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D51V1VMkuyx0 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:39] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjyQwRUeFSV0%26list%3DPLGkp1XrpT8mnmgxA6Mvs4PRTa687k4mVi%26index%3D5 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:40] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DBrxZhWCAuQw%26list%3DPLGkp1XrpT8mnmgxA6Mvs4PRTa687k4mVi%26index%3D33 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:40] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DOzexP58si0w%26list%3DPLGkp1XrpT8mnmgxA6Mvs4PRTa687k4mVi%26index%3D37 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:41] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DMHHv4u8Vomw%26list%3DPLGkp1XrpT8mnmgxA6Mvs4PRTa687k4mVi%26index%3D46 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.bfilipek.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:42] "GET /http%3A%2F%2Fwww.bfilipek.com%2F2014%2F12%2Ftop-5-beautiful-c-std-algorithms.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): people.fas.harvard.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:44] "GET /http%3A%2F%2Fpeople.fas.harvard.edu%2F~lib113%2Freference%2Funix%2Fwritingtools.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): duckduckgo.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:44] "GET /https%3A%2F%2Fduckduckgo.com%2Fapi HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cs.cmu.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:45] "GET /http%3A%2F%2Fwww.cs.cmu.edu%2F~adamchik%2F15-121%2Flectures%2FStacks%20and%20Queues%2FStacks%20and%20Queues.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:14:45] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DP4AaGQIo0HY%26list%3DUUBa5G_ESCn8Yd4vw5U-gIcg HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): hashcat.net
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:16] "GET /http%3A%2F%2Fhashcat.net%2Ftools%2Fprinceprocessor%2Fprince-attack.pdf HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:16] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DQPS9JHUG6RA HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): pubs.opengroup.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:17] "GET /http%3A%2F%2Fpubs.opengroup.org%2Fonlinepubs%2F009696899%2Fbasedefs%2Fxbd_chap12.html%23tag_12_02 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.catb.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:18] "GET /http%3A%2F%2Fwww.catb.org%2Fesr%2Fwritings%2Ftaoup%2Fhtml%2Fch10s05.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): algorithmicbotany.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:20] "GET /http%3A%2F%2Falgorithmicbotany.org%2Fpapers%2F%23abop HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): algorithmicbotany.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:21] "GET /http%3A%2F%2Falgorithmicbotany.org%2Fpapers%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): substack.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:22] "GET /http%3A%2F%2Fsubstack.net%2Ftask_automation_with_npm_run HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): medium.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:23] "GET /https%3A%2F%2Fmedium.com%2F%40erikdkennedy%2F7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): wiki.ubuntu.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:24] "GET /https%3A%2F%2Fwiki.ubuntu.com%2FNotifyOSD HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): perfectionkills.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:25] "GET /http%3A%2F%2Fperfectionkills.com%2Fknow-thy-reference%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): rpubs.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:26] "GET /https%3A%2F%2Frpubs.com%2Fwch%2F18793 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): papl.cs.brown.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:27] "GET /http%3A%2F%2Fpapl.cs.brown.edu%2F2014%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): pyret.org
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.pyret.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:28] "GET /http%3A%2F%2Fpyret.org%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cs.ox.ac.uk
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:28] "GET /http%3A%2F%2Fwww.cs.ox.ac.uk%2Fpeople%2Fmichael.wooldridge%2Fteaching%2Fsoft-eng%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): hussain.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:29] "GET /http%3A%2F%2Fhussain.io%2F2014%2F12%2Fawesomeness-of-sublime-text-editor%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): analytics.twitter.com
+INFO:urllib3.connectionpool:Resetting dropped connection: analytics.twitter.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:29] "GET /https%3A%2F%2Fanalytics.twitter.com%2Faccounts%2F18ce53vzf38%2Ffollowers_dashboard HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.wisdom.weizmann.ac.il
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:30] "GET /http%3A%2F%2Fwww.wisdom.weizmann.ac.il%2F~naor%2FCOURSE%2Ffoundations_of_crypto.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): medium.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:32] "GET /https%3A%2F%2Fmedium.com%2Fjavascript-scene%2Fthe-two-pillars-of-javascript-ee6f3281e7f3 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): jsoneditoronline.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:32] "GET /http%3A%2F%2Fjsoneditoronline.org%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): thenodeway.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:33] "GET /http%3A%2F%2Fthenodeway.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): viget.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:33] "GET /http%3A%2F%2Fviget.com%2Fextend%2Fmy-overused-sublime-text-keyboard-shortcuts HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): benkurtovic.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:34] "GET /http%3A%2F%2Fbenkurtovic.com%2F2014%2F06%2F01%2Fobfuscating-hello-world.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): robots.thoughtbot.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:34] "GET /http%3A%2F%2Frobots.thoughtbot.com%2Fyou-could-invent-objectoriented-programming HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): xmodulo.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:35] "GET /http%3A%2F%2Fxmodulo.com%2Fuseful-cli-tools-linux-system-admins.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): gitaarik.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:35] "GET /http%3A%2F%2Fgitaarik.github.io%2Fprint-sticky-notes%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cs.cmu.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:36] "GET /http%3A%2F%2Fwww.cs.cmu.edu%2F~tom%2F10701_sp11%2Flectures.shtml HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blogs.oracle.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:37] "GET /https%3A%2F%2Fblogs.oracle.com%2Fmeem%2Fentry%2Fcreating_shell_friendly_parsable_output HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blogs.oracle.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:38] "GET /https%3A%2F%2Fblogs.oracle.com%2Falanc%2Fentry%2Fcollected_advice_on_unix_cli HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): lwn.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:38] "GET /http%3A%2F%2Flwn.net%2FArticles%2F387202%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.moserware.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:39] "GET /http%3A%2F%2Fwww.moserware.com%2F2009%2F06%2Ffirst-few-milliseconds-of-https.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): code.tutsplus.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:40] "GET /http%3A%2F%2Fcode.tutsplus.com%2Ftutorials%2Fhow-to-scrape-web-pages-with-nodejs-and-jquery--net-22478 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): realmode.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:40] "GET /http%3A%2F%2Frealmode.com%2Fpunch22.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.cs.umd.edu
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:41] "GET /https%3A%2F%2Fwww.cs.umd.edu%2Fclass%2Ffall2001%2Fcmsc411%2Fproj01%2Fproja%2Floop.html HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:42] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DxKRndVoo2ms HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): harry.me
+INFO:urllib3.connectionpool:Resetting dropped connection: harry.me
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:42] "GET /http%3A%2F%2Fharry.me%2Fblog%2F2012%2F01%2F22%2Fjavascript-documentation-sucks HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): monadmadness.wordpress.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): monadmadness.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:44] "GET /http%3A%2F%2Fmonadmadness.wordpress.com%2F2015%2F01%2F02%2Fmonoids-functors-applicatives-and-monads-10-main-ideas%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:44] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Ffactors-are-not-first-class-citizens-in-r%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cyberciti.biz
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:45] "GET /http%3A%2F%2Fwww.cyberciti.biz%2Ffaq%2Fhowto-add-postgresql-user-account%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): packaging.ubuntu.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:46] "GET /http%3A%2F%2Fpackaging.ubuntu.com%2Fhtml%2Fpackaging-new-software.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:46] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F11072710%2Fusing-gzip-compression-in-sinatra-with-ruby HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): promisesaplus.com
+INFO:urllib3.connectionpool:Resetting dropped connection: promisesaplus.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:47] "GET /https%3A%2F%2Fpromisesaplus.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): tools.ietf.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:48] "GET /http%3A%2F%2Ftools.ietf.org%2Fhtml%2Frfc2396 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): mrale.ph
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:49] "GET /http%3A%2F%2Fmrale.ph%2Fblog%2F2015%2F01%2F11%2Fwhats-up-with-monomorphism.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): blog.engineyard.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:50] "GET /https%3A%2F%2Fblog.engineyard.com%2F2015%2Fmastering-this-in-javascript HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): getpocket.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:51] "GET /http%3A%2F%2Fgetpocket.com%2Finstalled%3Fnewfirefox%3D1 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): mail.google.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): accounts.google.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:52] "GET /https%3A%2F%2Fmail.google.com%2Fmail%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): weblog.raganwald.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:53] "GET /http%3A%2F%2Fweblog.raganwald.com%2F2007%2F03%2Fwhy-why-functional-programming-matters HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): xlinux.nist.gov
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:53] "GET /http%3A%2F%2Fxlinux.nist.gov%2Fdads%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): encrypted.google.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:54] "GET /https%3A%2F%2Fencrypted.google.com%2Fsearch%3Fhl%3Den%26q%3Dshare%20service%20tutorial%20firefox HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): major.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:56] "GET /https%3A%2F%2Fmajor.io%2Fwp-content%2Fuploads%2F2012%2F06%2FRAS_Traceroute_Book_Format.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): madebynathan.com
+INFO:urllib3.connectionpool:Resetting dropped connection: madebynathan.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:57] "GET /http%3A%2F%2Fmadebynathan.com%2F2011%2F10%2F04%2Fa-nicer-way-to-use-xclip HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): graphemica.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:58] "GET /http%3A%2F%2Fgraphemica.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cultofmetatron.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:15:59] "GET /http%3A%2F%2Fwww.cultofmetatron.io%2Fweird-currying-javascript-style%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.tompawlak.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:00] "GET /http%3A%2F%2Fblog.tompawlak.org%2Fhow-to-generate-random-values-nodejs-javascript HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): twitter.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:00] "GET /http%3A%2F%2Ftwitter.github.io%2Fhogan.js%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.javascripting.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:05] "GET /http%3A%2F%2Fblog.javascripting.com%2F2015%2F01%2F12%2Freal-world-javascript-anti-patterns-part-two%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): bartoszmilewski.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:07] "GET /http%3A%2F%2Fbartoszmilewski.com%2F2015%2F01%2F07%2Fproducts-and-coproducts%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): tonyday567.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:07] "GET /http%3A%2F%2Ftonyday567.github.io%2Fblog%2Fpipes-v-machines%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.slideshare.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:08] "GET /http%3A%2F%2Fwww.slideshare.net%2FScottWlaschin%2Ffp-patterns-buildstufflt HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): localhost
+ERROR:root:name 'http' is not defined
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:38] "GET /http%3A%2F%2Flocalhost%3A5000%2F%252Fhttp%253A%252F%252Fist-socrates.berkeley.edu%252F~maccoun%252FPP279_Cohen1.pdf HTTP/1.1" 500 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): ist-socrates.berkeley.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:43] "GET /%2Fhttp%3A%2F%2Fist-socrates.berkeley.edu%2F~maccoun%2FPP279_Cohen1.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.cidrdb.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:46] "GET /http%3A%2F%2Fwww.cidrdb.org%2Fcidr2015%2FPapers%2FCIDR15_Paper16.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.eevblog.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:47] "GET /http%3A%2F%2Fwww.eevblog.com%2Fforum%2Fchat%2Fthe-art-of-electronics-3rd-edition-finished-writing-and-copy-editing%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.foia.cia.gov
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:48] "GET /http%3A%2F%2Fwww.foia.cia.gov%2Fsites%2Fdefault%2Ffiles%2FDOC_0000619182.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): 6to5.org
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): babeljs.io
+INFO:urllib3.connectionpool:Resetting dropped connection: babeljs.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:49] "GET /https%3A%2F%2F6to5.org%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): intronetworks.cs.luc.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:51] "GET /http%3A%2F%2Fintronetworks.cs.luc.edu%2Fcurrent%2Fhtml%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): amaral-lab.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:52] "GET /http%3A%2F%2Famaral-lab.org%2Fpublications%2Fhigh-reproducibility-and-high-accuracy-method-automated-topic-classification%2F%23.VMzwjSiN1WU HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): oai.cwi.nl
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:53] "GET /http%3A%2F%2Foai.cwi.nl%2Foai%2Fasset%2F9253%2F9253A.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): codefisher.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:56] "GET /https%3A%2F%2Fcodefisher.org%2Fcatch%2Fblog%2F2015%2F01%2F27%2Fpython-tips-tricks-and-idioms%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): heim.ifi.uio.no
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:57] "GET /https%3A%2F%2Fheim.ifi.uio.no%2Fdanielry%2FStringMetric.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): web.williams.edu
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:58] "GET /http%3A%2F%2Fweb.williams.edu%2FMathematics%2Fsjmiller%2Fpublic_html%2F105Sp10%2Faddcomments%2FHayes_ThirdBase.htm HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): mathiasbynens.be
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:59] "GET /https%3A%2F%2Fmathiasbynens.be%2Fdemo%2Furl-regex HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): phantomjs.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:16:59] "GET /http%3A%2F%2Fphantomjs.org%2Fquick-start.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.pfq.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:00] "GET /http%3A%2F%2Fwww.pfq.io%2F%3Fref%3Dreddit HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.r-bloggers.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:00] "GET /http%3A%2F%2Fwww.r-bloggers.com%2Frcppstreams-0-1-0%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): kovach.me
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:01] "GET /http%3A%2F%2Fkovach.me%2Fnanoscope%2Fgetting-started.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): commits.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:02] "GET /https%3A%2F%2Fcommits.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): tomasp.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:03] "GET /http%3A%2F%2Ftomasp.net%2Fblog%2F2015%2Flibrary-layers%2Findex.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): speakerdeck.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:08] "GET /https%3A%2F%2Fspeakerdeck.com%2Fanildigital%2Ffunctional-programming-in-javascript HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:09] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyFXzuCFeRGM HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): diveintohtml5.info
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:09] "GET /http%3A%2F%2Fdiveintohtml5.info%2Fhistory.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): developer.atlassian.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:10] "GET /https%3A%2F%2Fdeveloper.atlassian.com%2Fblog%2F2015%2F02%2Ften-tips-for-wonderful-bash-productivity%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): hacks.mozilla.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:12] "GET /https%3A%2F%2Fhacks.mozilla.org%2F2015%2F02%2Fintroducing-node-firefox%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): stackoverflow.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:12] "GET /http%3A%2F%2Fstackoverflow.com%2Fquestions%2F5998694%2Fhow-to-create-an-https-server-in-node-js HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): silas.sewell.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:13] "GET /http%3A%2F%2Fsilas.sewell.org%2Fblog%2F2010%2F06%2F03%2Fnode-js-https-ssl-server-example%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): github.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:13] "GET /https%3A%2F%2Fgithub.com%2Frvagg%2Fnode-errno HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.thomann.de
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:14] "GET /http%3A%2F%2Fwww.thomann.de%2Fie%2Fyamaha_dgx_650_b.htm HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.technologyreview.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:16] "GET /http%3A%2F%2Fwww.technologyreview.com%2Ffeaturedstory%2F532421%2Fthe-search-for-exceptional-genomes%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): en.wikipedia.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:16] "GET /http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FByzantine_fault_tolerance HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): bitheap.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:17] "GET /https%3A%2F%2Fbitheap.org%2Fcram%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.turingarchive.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:17] "GET /http%3A%2F%2Fwww.turingarchive.org%2Fbrowse.php%2FB%2F9 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): the-paper-trail.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:19] "GET /http%3A%2F%2Fthe-paper-trail.org%2Fblog%2Fthe-elephant-was-a-trojan-horse-on-the-death-of-map-reduce-at-google%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.thecshandbook.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:19] "GET /http%3A%2F%2Fwww.thecshandbook.com%2FDynamic_Programming HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): brikis98.blogspot.com
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): brikis98.blogspot.ie
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:20] "GET /http%3A%2F%2Fbrikis98.blogspot.com%2F2015%2F02%2Fare-static-typing-and-functional.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): crockpotveggies.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:21] "GET /http%3A%2F%2Fcrockpotveggies.com%2F2015%2F02%2F09%2Fautomating-tinder-with-eigenfaces.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.draw.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:21] "GET /https%3A%2F%2Fwww.draw.io%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.ionelmc.ro
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:22] "GET /http%3A%2F%2Fblog.ionelmc.ro%2F2015%2F02%2F09%2Funderstanding-python-metaclasses%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.webupd8.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:22] "GET /http%3A%2F%2Fwww.webupd8.org%2F2015%2F02%2Fgthumb-333-released-with-two-new-image.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:23] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DyydZbVoCbn0 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.w3.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:23] "GET /http%3A%2F%2Fwww.w3.org%2Fblog%2Fnews%2Farchives%2F4365 HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.youtube.com
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.youtube.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:24] "GET /http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D6mTbuzafcII HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): harry.me
+INFO:urllib3.connectionpool:Resetting dropped connection: harry.me
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:25] "GET /http%3A%2F%2Fharry.me%2Fblog%2F2014%2F12%2F27%2Fneat-algorithms-paxos HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): journal.stuffwithstuff.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:26] "GET /http%3A%2F%2Fjournal.stuffwithstuff.com%2F2015%2F02%2F01%2Fwhat-color-is-your-function%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): raganwald.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:26] "GET /http%3A%2F%2Fraganwald.com%2F2015%2F02%2F02%2Fdestructuring.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): jimmyg.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:27] "GET /http%3A%2F%2Fjimmyg.org%2Fblog%2F2009%2Fworking-with-python-subprocess.html HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): aserg-ufmg.github.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:27] "GET /http%3A%2F%2Faserg-ufmg.github.io%2F2015_saner.pdf HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): blog.jooq.org
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:28] "GET /http%3A%2F%2Fblog.jooq.org%2F2015%2F02%2F13%2F10-sql-articles-everyone-must-read%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): kaspars.net
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:29] "GET /http%3A%2F%2Fkaspars.net%2Fblog%2Fweb-development%2Finvisible-click-tracking HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): keepachangelog.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:29] "GET /http%3A%2F%2Fkeepachangelog.com%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): www.fpcomplete.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:30] "GET /https%3A%2F%2Fwww.fpcomplete.com%2Fuser%2Fedwardk%2Fsnippets%2Ffmap HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): babeljs.io
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:31] "GET /https%3A%2F%2Fbabeljs.io%2Fdocs%2Flearn-es6%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): www.html5rocks.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:31] "GET /http%3A%2F%2Fwww.html5rocks.com%2Fen%2Ftutorials%2Ffile%2Fdndfiles%2F HTTP/1.1" 204 -
+INFO:urllib3.connectionpool:Starting new HTTPS connection (1): nationalpostcom.files.wordpress.com
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:32] "GET /https%3A%2F%2Fnationalpostcom.files.wordpress.com%2F2012%2F05%2Ffo0505_nuclearweaponsw25001.gif HTTP/1.1" 204 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET / HTTP/1.1" 302 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /bookmarks HTTP/1.1" 200 -
+INFO:root:fetch_chunk: 1000000 1000
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /api/bookmarks?max_id=1000000&amount=1000 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /public/html/bookmark-template.html HTTP/1.1" 200 -
