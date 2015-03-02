@@ -50,8 +50,7 @@ def assert_saved_correctly(uri):
 			'Connection': 'close'
 		}, timeout = 10)
 
-		if not response.status_code in {204, 404}:
-			raise Exception(response.status_code)
+		assert response.status_code in {204, 404}, "%s failed with %d" % (uri, response.status_code)
 
 		response.connection.close()
 

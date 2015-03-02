@@ -66,4 +66,4 @@ def resave_bookmark(db, url, entity_body):
 		})
 	)
 
-	return display_result(insert_result)
+	return display_result(insert_result, )

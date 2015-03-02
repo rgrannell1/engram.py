@@ -2,6 +2,7 @@
 
 from result            import Success, Failure
 from flask             import redirect, request
+import urllib
 
 from database          import Database
 
@@ -180,9 +181,7 @@ def resave(app, db):
 
 		print('/api/resave/' + uri)
 
-		entity_body = request.get_json()
-
-		return resave_bookmark(db, uri, entity_body)
+		return resave_bookmark(db, uri, request.get_json())
 
 
 
@@ -196,10 +195,8 @@ def default(app, db):
 	@app.route("/<path:path>")
 	def default_route(path):
 
-		print('/' + path)
-		return save_bookmark(db, path, utils.now())
+		full_path = (request.path + '?' + request.query_string.decode('utf-8'))[1:]
 
+		print('/' + full_path)
 
-
-
-
+		return save_bookmark(db, full_path, utils.now())

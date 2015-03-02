@@ -29,7 +29,7 @@ class EngramTestCase(unittest.TestCase):
 
 	def setUp(self):
 
-		self.process = Process(target = engram.create, args = (':memory', ))
+		self.process = Process(target = engram.create, args = (':memory', True))
 		self.process.start()
 
 		print('running tests in four seconds...')
