@@ -83,7 +83,8 @@ class TestSave(utils_test.EngramTestCase):
 			"a8.net/",
 			"weather.com/",
 			"pagesperso-orange.fr/",
-			"http://artyom.me/lens-over-tea-1"
+			"http://artyom.me/lens-over-tea-1",
+			"https://www.youtube.com/results?search_query=rachmaninoff+opera"
 		]
 
 

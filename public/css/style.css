@@ -47,9 +47,21 @@ time {
 
 
 
+header * {
+	padding: 10px 0px 10px 0px;
+}
 
 header {
 	border-bottom: 2px solid #e9ecee;
 	font-weight:   bold;
 	color:         #667581;
+}
+
+header ul h1 {
+	display: inline-block;
+}
+
+header ul li {
+	display: inline-block;
+	width:   32%;
 }

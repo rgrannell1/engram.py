@@ -59,7 +59,10 @@ const align = ( function () {
 */
 
 const alignQuality = function (alignment) {
-	return 1 - (alignment.gaps / alignment.text.length)
+
+	var power    = 1 / 5
+
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, power)
 }
 
 
@@ -105,6 +108,7 @@ const scoreQueryMatch = function (query, text) {
 	const alignScore  = alignQuality( align(query.toLowerCase(), text.toLowerCase()) )
 
 	return lengthScore * alignScore
+
 }
 
 
