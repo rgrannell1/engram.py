@@ -79,7 +79,7 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 })
 
 
-// -- TODO set searchState to previous.
+
 
 
 // -- update the query on search.
@@ -135,9 +135,19 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 var searchState = {
 	previous: '',
-	index:    {}
+	current:  ''
 }
 
+
+
+// -- update the search state.
+
+ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
+
+	searchState.previous = searchState.current
+	searchState.current  = query
+
+})
 
 
 
@@ -175,29 +185,38 @@ var loadSearchURL = ( ) => {
 
 
 
+var scoreTextMatch = (query, title) => {
+
+	return 0.5
+
+}
 
 
-var isMatchingBookmark = (query, cache, searchState) => {
+
+
+
+var scoreBookmarks = (query, cache, searchState) => {
+
+	Object.keys(cache).forEach(key => {
+
+		var scoresRef = cache[key].metadata.scores
+
+		scoresRef[query] = is.number(scoresRef[query])
+			? scoresRef[query]
+			: scoreTextMatch(query, cache[key].bookmark.title)
+
+
+	})
 
 }
 
 
 
 
-
-var searchBookmarks = query => {
-
-	Object.keys(ENGRAM.cache)
-		.map(id => ENGRAM.cache[id])
-		.filter(bookmark => {
-			return isMatchingBookmark(query, ENGRAM.cache, ENGRAM.searchState)
-		})
-
-}
 
 var redrawBookmarks = ({query}) => {
 
-	searchBookmarks(query)
+	scoreBookmarks(query, ENGRAM.cache, ENGRAM.searchState)
 
 }
 
@@ -220,7 +239,12 @@ ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 	is.always.object(bookmark)
 	is.always.number(bookmark.bookmark_id)
 
-	ENGRAM.cache[bookmark.bookmark_id] = bookmark
+	ENGRAM.cache[bookmark.bookmark_id] = {
+		bookmark,
+		metadata: {
+			scores: {}
+		}
+	}
 
 })
 

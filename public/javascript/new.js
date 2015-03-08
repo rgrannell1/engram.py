@@ -103,8 +103,17 @@ ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 
 var searchState = {
 	previous: "",
-	index: {}
+	current: ""
 };
+
+// -- update the search state.
+
+ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
+	var query = _ref.query;
+
+	searchState.previous = searchState.current;
+	searchState.current = query;
+});
 
 var getQueryParam = function (param) {
 
@@ -121,24 +130,27 @@ var loadSearchURL = function () {
 	});
 };
 
-var isMatchingBookmark = function (query, cache) {
+var scoreTextMatch = function (query, title) {
 
-	console.log(query);
+	return 0.5;
 };
 
-var searchBookmarks = function (query) {
+var scoreBookmarks = function (query, cache, searchState) {
 
-	Object.keys(ENGRAM.cache).map(function (id) {
-		return ENGRAM.cache[id];
-	}).filter(function (bookmark) {
-		return isMatchingBookmark(query, ENGRAM.cache);
+	Object.keys(cache).forEach(function (key) {
+
+		var scoresRef = cache[key].metadata.scores;
+
+		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, cache[key].bookmark.title);
+
+		console.log(cache[key].metadata.scores);
 	});
 };
 
 var redrawBookmarks = function (_ref) {
 	var query = _ref.query;
 
-	searchBookmarks(query);
+	scoreBookmarks(query, ENGRAM.cache, ENGRAM.searchState);
 };
 
 ENGRAM.eventBus.subscribe(":update-query", redrawBookmarks);
@@ -150,7 +162,12 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 	is.always.object(bookmark);
 	is.always.number(bookmark.bookmark_id);
 
-	ENGRAM.cache[bookmark.bookmark_id] = bookmark;
+	ENGRAM.cache[bookmark.bookmark_id] = {
+		bookmark: bookmark,
+		metadata: {
+			scores: {}
+		}
+	};
 });
 
 ENGRAM.eventBus.subscribe(":prepend-bookmark", function (bookmark) {});
