@@ -113,6 +113,8 @@ var loadSearchURL = function () {
 
 $(loadSearchURL);
 
+ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {});
+
 {
 	(function () {
 
@@ -123,8 +125,15 @@ $(loadSearchURL);
 			$.ajax({
 				url: "/api/bookmarks?max_id=" + maxID + "&amount=" + ENGRAM.PERREQUEST,
 				dataType: "json",
-				success: function (res) {
-					console.log();
+				success: function (_ref) {
+					var data = _ref.data;
+					var next_id = _ref.next_id;
+
+					data.forEach(function (bookmark) {
+						ENGRAM.eventBus.publish(":load-bookmark", bookmark);
+					});
+
+					next_id >= 0 ? console.log("loaded all bookmarks.") : setTimeout(requestChunk, ENGRAM.loadInterval, next_id);
 				},
 				failure: function (res) {}
 
@@ -138,6 +147,13 @@ $(loadSearchURL);
 			});
 		};
 
-		ENGRAM.syncBookmarks = function () {};
+		ENGRAM.syncBookmarks = function () {
+
+			console.log("loading.");
+
+			requestChunk(ENGRAM.BIGINT);
+		};
 	})();
 }
+
+ENGRAM.syncBookmarks();

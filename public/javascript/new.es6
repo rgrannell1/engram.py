@@ -136,7 +136,7 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 
 
-var getQueryParam = (param) => {
+var getQueryParam = param => {
 
 	var match  = RegExp('[?&]' + param + '=([^&]*)').exec(window.location.search)
 	var result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
@@ -165,6 +165,12 @@ $(loadSearchURL)
 
 
 
+ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
+
+})
+
+
+
 
 
 {
@@ -176,20 +182,28 @@ $(loadSearchURL)
 		$.ajax({
 			url: `/api/bookmarks?max_id=${maxID}&amount=${ENGRAM.PERREQUEST}`,
 			dataType: 'json',
-			success: (res) => {
-				console.log()
-			},
-			failure: (res) => {
+			success: ({data, next_id}) => {
 
+				data.forEach(bookmark => {
+					ENGRAM.eventBus.publish(':load-bookmark', bookmark)
+				})
+
+				next_id >= 0
+					? console.log('loaded all bookmarks.')
+					: setTimeout(requestChunk, ENGRAM.loadInterval, next_id)
+
+			},
+			failure: res => {
+				console.log('internal failure: bookmark chunk failed to load.')
 			}
 
 		})
 
 	}
 
-	requestChunk.precond = (maxID) => {
+	requestChunk.precond = maxID => {
 
-		is.always.number(maxID, (maxID) => {
+		is.always.number(maxID, maxID => {
 			`requestChunk: maxID was not a number (actual value: ${ JSON.stringify(maxID) })`
 		})
 
@@ -201,10 +215,13 @@ $(loadSearchURL)
 
 	ENGRAM.syncBookmarks = () => {
 
+		console.log('loading.')
 
+		requestChunk(ENGRAM.BIGINT)
 	}
 
 }
 
 
 
+ENGRAM.syncBookmarks()
