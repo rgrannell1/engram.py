@@ -19,18 +19,21 @@ dependencies = {
 		"jquery",
 		"mustache",
 		"is",
+		"require",
 
 		"engram",
-
-		"cache",
-		"modify-cache",
-
-		"update-times",
-		"draw-bookmarks",
-
-		"keylog",
-		"delete-bookmark",
-		"search"
+		"pubsub",
+		"new",
+#
+#		"cache",
+#		"modify-cache",
+#
+#		"update-times",
+#		"draw-bookmarks",
+#
+#		"keylog",
+#		"delete-bookmark",
+#		"search"
 	]),
 
 	'css': static.loadCSS([
@@ -46,7 +49,7 @@ def show_bookmarks():
 	"""
 	return a html page showing the user's bookmarks.
 
-	show_bookmarks :: Database -> string, number	.
+	show_bookmarks :: Database -> string, number.
 	"""
 
 	page_result = (

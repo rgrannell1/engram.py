@@ -64,4 +64,5 @@ header ul h1 {
 header ul li {
 	display: inline-block;
 	width:   32%;
+	text-align: center;
 }
