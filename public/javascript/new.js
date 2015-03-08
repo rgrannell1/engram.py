@@ -143,7 +143,7 @@ var scoreBookmarks = function (query, cache, searchState) {
 
 		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, cache[key].bookmark.title);
 
-		console.log(cache[key].metadata.scores);
+		console.log(scoresRef);
 	});
 };
 

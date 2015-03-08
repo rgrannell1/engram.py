@@ -186,9 +186,7 @@ var loadSearchURL = ( ) => {
 
 
 var scoreTextMatch = (query, title) => {
-
-	return 0.5
-
+	return Math.random( ) // -- run our algorithms here.
 }
 
 
@@ -204,7 +202,6 @@ var scoreBookmarks = (query, cache, searchState) => {
 		scoresRef[query] = is.number(scoresRef[query])
 			? scoresRef[query]
 			: scoreTextMatch(query, cache[key].bookmark.title)
-
 
 	})
 
