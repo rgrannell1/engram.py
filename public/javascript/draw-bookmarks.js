@@ -196,20 +196,3 @@ const loadScroll = ( function () {
 	}
 
 } )()
-
-
-
-
-class Foo {
-
-	constructor(opts) {
-		this opts.hi = 1
-	}
-
-	render( ) {
-		return this.hi
-	}
-
-}
-
-console.log( Foo.render() )

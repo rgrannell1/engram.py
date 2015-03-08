@@ -1,6 +1,8 @@
 "use strict";
 
 ENGRAM.eventBus = EventBus();
+ENGRAM.cache = {};
+ENGRAM.inView = { lower: +Infinity, upper: -Infinity };
 
 // -- publish detailed position data on scroll.
 
@@ -96,6 +98,14 @@ ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 	query.length === 0 ? history.pushState(null, "", "/bookmarks") : history.pushState(null, "", "/bookmarks?q=" + query);
 });
 
+// -- a collection of data used to speed-up searches, as search is
+// -- slow and caching helps.
+
+var searchState = {
+	previous: "",
+	index: {}
+};
+
 var getQueryParam = function (param) {
 
 	var match = RegExp("[?&]" + param + "=([^&]*)").exec(window.location.search);
@@ -111,9 +121,41 @@ var loadSearchURL = function () {
 	});
 };
 
-$(loadSearchURL);
+var isMatchingBookmark = function (query, cache) {
 
-ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {});
+	console.log(query);
+};
+
+var searchBookmarks = function (query) {
+
+	Object.keys(ENGRAM.cache).map(function (id) {
+		return ENGRAM.cache[id];
+	}).filter(function (bookmark) {
+		return isMatchingBookmark(query, ENGRAM.cache);
+	});
+};
+
+var redrawBookmarks = function (_ref) {
+	var query = _ref.query;
+
+	searchBookmarks(query);
+};
+
+ENGRAM.eventBus.subscribe(":update-query", redrawBookmarks);
+
+// -- populate the cache with all loaded bookmarks.
+
+ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
+
+	is.always.object(bookmark);
+	is.always.number(bookmark.bookmark_id);
+
+	ENGRAM.cache[bookmark.bookmark_id] = bookmark;
+});
+
+ENGRAM.eventBus.subscribe(":prepend-bookmark", function (bookmark) {});
+
+ENGRAM.eventBus.subscribe(":append-bookmark", function (bookmark) {});
 
 {
 	(function () {
@@ -135,7 +177,9 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {});
 
 					next_id >= 0 ? console.log("loaded all bookmarks.") : setTimeout(requestChunk, ENGRAM.loadInterval, next_id);
 				},
-				failure: function (res) {}
+				failure: function (res) {
+					console.log("internal failure: bookmark chunk failed to load.");
+				}
 
 			});
 		};
@@ -157,3 +201,5 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {});
 }
 
 ENGRAM.syncBookmarks();
+
+// -- append relevant queries to the DOM.

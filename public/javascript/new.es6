@@ -1,6 +1,7 @@
 
-ENGRAM.eventBus = EventBus( )
-
+ENGRAM.eventBus    = EventBus( )
+ENGRAM.cache       = { }
+ENGRAM.inView      = {lower: +Infinity, upper: -Infinity}
 
 
 
@@ -78,7 +79,7 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 })
 
 
-
+// -- TODO set searchState to previous.
 
 
 // -- update the query on search.
@@ -129,6 +130,20 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 
 
+// -- a collection of data used to speed-up searches, as search is
+// -- slow and caching helps.
+
+var searchState = {
+	previous: '',
+	index:    {}
+}
+
+
+
+
+
+
+
 
 
 
@@ -161,11 +176,66 @@ var loadSearchURL = ( ) => {
 
 
 
-$(loadSearchURL)
+
+var isMatchingBookmark = (query, cache, searchState) => {
+
+}
 
 
+
+
+
+var searchBookmarks = query => {
+
+	Object.keys(ENGRAM.cache)
+		.map(id => ENGRAM.cache[id])
+		.filter(bookmark => {
+			return isMatchingBookmark(query, ENGRAM.cache, ENGRAM.searchState)
+		})
+
+}
+
+var redrawBookmarks = ({query}) => {
+
+	searchBookmarks(query)
+
+}
+
+
+
+
+
+ENGRAM.eventBus.subscribe(':update-query', redrawBookmarks)
+
+
+
+
+
+
+
+// -- populate the cache with all loaded bookmarks.
 
 ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
+
+	is.always.object(bookmark)
+	is.always.number(bookmark.bookmark_id)
+
+	ENGRAM.cache[bookmark.bookmark_id] = bookmark
+
+})
+
+
+
+
+
+
+ENGRAM.eventBus.subscribe(':prepend-bookmark', bookmark => {
+
+	// -- append relevant queries to the DOM.
+
+})
+
+ENGRAM.eventBus.subscribe(':append-bookmark', bookmark => {
 
 })
 
@@ -221,6 +291,11 @@ ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 	}
 
 }
+
+
+
+
+
 
 
 
