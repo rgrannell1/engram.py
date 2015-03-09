@@ -31,7 +31,7 @@ a:focus, a:hover {
 	color: #0b77e6;
 }
 
-.viewgroup > article {
+article {
 	margin-top:    60px;
 	margin-bottom: 60px;
 }

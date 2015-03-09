@@ -2,7 +2,7 @@
 
 ENGRAM.eventBus = EventBus();
 ENGRAM.cache = {};
-ENGRAM.inView = { lower: +Infinity, upper: -Infinity };
+ENGRAM.loadedIndex = 0;
 
 // -- publish detailed position data on scroll.
 
@@ -278,13 +278,25 @@ ENGRAM.eventBus.subscribe(":rescore", function (_) {
 	});
 });
 
+// -- todo fix loading.
+var renderBookmark = function renderBookmark() {};
+
+$.get("/public/html/bookmark-template.html", function (template) {
+
+	renderBookmark = function (bookmark) {
+		return Mustache.render(template, bookmark);
+	};
+});
+
 ENGRAM.eventBus.subscribe(":change-focus", function (_ref) {
 	var focus = _ref.focus;
 
-	console.log(focus.map(function (_ref2) {
+	$("#bookmark-container").html(focus.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL).map(function (_ref2) {
 		var bookmark = _ref2.bookmark;
 		var _ = _ref2._;
-		return bookmark.title;
+		return renderBookmark(bookmark);
+	}).reduce(function (html0, html1) {
+		return html0 + html1;
 	}));
 });
 

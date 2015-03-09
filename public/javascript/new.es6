@@ -1,7 +1,7 @@
 
 ENGRAM.eventBus    = EventBus( )
 ENGRAM.cache       = { }
-ENGRAM.inView      = {lower: +Infinity, upper: -Infinity}
+ENGRAM.loadedIndex = 0
 
 
 
@@ -382,10 +382,32 @@ ENGRAM.eventBus.subscribe(':rescore', _ => {
 
 
 
+// -- todo fix loading.
+var renderBookmark = function () { }
+
+$.get('/public/html/bookmark-template.html', function (template) {
+
+	renderBookmark = bookmark => Mustache.render(template, bookmark)
+
+})
+
+
+
+
+
 
 ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
 
-	focus.map( ({bookmark, _}) => bookmark.title )
+
+	$('#bookmark-container').html(
+		focus
+		.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL)
+		.map(
+			({bookmark, _}) => renderBookmark(bookmark))
+		.reduce(
+			(html0, html1) => html0 + html1)
+	)
+
 
 })
 
