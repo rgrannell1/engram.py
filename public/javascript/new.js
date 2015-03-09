@@ -230,9 +230,9 @@ var isSplitSubstring = function (pattern) {
 
 */
 
-var scoreTextMatch = function (query, pattern, text) {
+var scoreTextMatch = function (query, matchesPattern, text) {
 
-	return pattern(text) ? query.length / text.length * alignQuality(align(query, text)) : 0;
+	return matchesPattern(text) ? query.length / text.length * alignQuality(align(query, text)) : 0;
 };
 
 /*
@@ -252,16 +252,41 @@ var scoreBookmarks = function (_ref) {
 
 		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, isSplitSubstring(query), cacheRef[key].bookmark.title);
 	});
+
+	ENGRAM.eventBus.publish(":rescore", {});
 };
 
-var redrawBookmarks = function (_ref) {
-	var query = _ref.query;
+var selectBookmarks = function (query) {
 
-	console.log(ENGRAM.cache);
+	return Object.keys(ENGRAM.cache).map(function (key) {
+		return ENGRAM.cache[key];
+	}).filter(function (bookmark) {
+		return bookmark.metadata.scores[query] > 0;
+	}).sort(function (bookmark0, bookmark1) {
+		bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query];
+	});
 };
 
 ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
-ENGRAM.eventBus.subscribe(":update-query", redrawBookmarks);
+
+ENGRAM.eventBus.subscribe(":rescore", function (_) {
+
+	ENGRAM.inFocus = selectBookmarks(ENGRAM.QUERY);
+
+	ENGRAM.eventBus.publish(":change-focus", {
+		focus: ENGRAM.inFocus
+	});
+});
+
+ENGRAM.eventBus.subscribe(":change-focus", function (_ref) {
+	var focus = _ref.focus;
+
+	console.log(focus.map(function (_ref2) {
+		var bookmark = _ref2.bookmark;
+		var _ = _ref2._;
+		return bookmark.title;
+	}));
+});
 
 // -- populate the cache with all loaded bookmarks.
 

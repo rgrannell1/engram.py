@@ -66,12 +66,12 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(':atTop', {})
+		ENGRAM.eventBus.publish(':atTop', { })
 
 	} else if (windowTop < 50) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(':atBottom', {})
+		ENGRAM.eventBus.publish(':atBottom', { })
 
 	}
 
@@ -303,9 +303,9 @@ var isSplitSubstring = pattern => {
 
 */
 
-var scoreTextMatch = (query, pattern, text) => {
+var scoreTextMatch = (query, matchesPattern, text) => {
 
-	return pattern(text)
+	return matchesPattern(text)
 		? query.length / text.length * alignQuality(align(query, text))
 		: 0
 
@@ -335,14 +335,28 @@ var scoreBookmarks = ({query}) => {
 
 	})
 
+	ENGRAM.eventBus.publish(':rescore', {})
+
 }
 
 
 
 
 
-var redrawBookmarks = ({query}) => {
-	console.log( ENGRAM.cache )
+var selectBookmarks = query => {
+
+	return Object.keys(ENGRAM.cache)
+
+		.map(
+			key => ENGRAM.cache[key])
+
+		.filter(
+			bookmark => bookmark.metadata.scores[query] > 0)
+
+		.sort((bookmark0, bookmark1) => {
+			bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query]
+		})
+
 }
 
 
@@ -350,8 +364,30 @@ var redrawBookmarks = ({query}) => {
 
 
 ENGRAM.eventBus.subscribe(':update-query', scoreBookmarks)
-ENGRAM.eventBus.subscribe(':update-query', redrawBookmarks)
 
+
+
+
+
+
+ENGRAM.eventBus.subscribe(':rescore', _ => {
+
+	ENGRAM.inFocus = selectBookmarks(ENGRAM.QUERY)
+
+	ENGRAM.eventBus.publish(':change-focus', {
+		focus: ENGRAM.inFocus
+	})
+
+})
+
+
+
+
+ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
+
+	focus.map( ({bookmark, _}) => bookmark.title )
+
+})
 
 
 
@@ -368,7 +404,7 @@ ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 	ENGRAM.cache[bookmark.bookmark_id] = {
 		bookmark,
 		metadata: {
-			scores: {}
+			scores: { }
 		}
 	}
 
@@ -380,7 +416,6 @@ ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 
 
 ENGRAM.eventBus.subscribe(':prepend-bookmark', bookmark => {
-
 	// -- append relevant queries to the DOM.
 
 })
@@ -433,7 +468,7 @@ ENGRAM.eventBus.subscribe(':append-bookmark', bookmark => {
 
 
 
-	ENGRAM.syncBookmarks = () => {
+	ENGRAM.syncBookmarks = ( ) => {
 
 		console.log('loading.')
 
@@ -449,4 +484,4 @@ ENGRAM.eventBus.subscribe(':append-bookmark', bookmark => {
 
 
 
-ENGRAM.syncBookmarks()
+ENGRAM.syncBookmarks( )
