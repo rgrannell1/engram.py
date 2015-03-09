@@ -180,7 +180,7 @@ ENGRAM.Cache = function (getID) {
 
 		const chunk = []
 
-		for (var ith = 0; ith < self.contents.length; ++ith) {
+		for (let ith = 0; ith < self.contents.length; ++ith) {
 
 			var entry = self.contents[ith]
 
@@ -232,7 +232,7 @@ ENGRAM.Cache = function (getID) {
 
 		const chunk = []
 
-		for (var ith = self.contents.length - 1; ith >= 0 ; --ith) {
+		for (let ith = self.contents.length - 1; ith >= 0 ; --ith) {
 
 			var entry = self.contents[ith]
 

@@ -2,7 +2,7 @@
 {
 	let locate = (char, string, from) => {
 
-		for (var ith = from; ith < string.length; ++ith) {
+		for (let ith = from; ith < string.length; ++ith) {
 			if (char === string.charAt(ith)) {
 				return ith
 			}
@@ -25,7 +25,7 @@
 		var from = locate(query.charAt(0), text, 0)
 		var nextFrom;
 
-		for (var ith = 0; ith < query.length; ++ith) {
+		for (let ith = 0; ith < query.length; ++ith) {
 			// assume 'from' never over- or under-runs, as query should always be a substring of text.
 
 			nextFrom          = locate(query.charAt(ith), text, from) + 1
