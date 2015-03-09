@@ -55,6 +55,46 @@ $(window).keydown((event) => {
 
 
 
+$(document).on('click', '.delete-bookmark', ( ) => {
+
+	var $button  = this
+
+	var $article = $(button).closest('article')
+	var id       = parseInt($article.attr('id'), 10)
+
+	ENGRAM.eventBus.publish(':delete-bookmark', {
+		id: id
+	})
+
+})
+
+
+
+
+
+ENGRAM.eventBus.subscribe(':delete-bookmark', ({id}) => {
+
+	const $article = $(button).find(id).closest('article')
+
+	$article.hide(ENGRAM.DELETEFADE)
+
+	$.ajax({
+		url: `/bookmarks/${id}`,
+		type: 'DELETE',
+		success: $article.remove,
+		failure: ( ) => {
+
+			alert(`failed to remove bookmark #${id}`)
+			$article.show( )
+
+		}
+	})
+
+})
+
+
+
+
 
 
 
@@ -124,7 +164,7 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 	query.length === 0
 		? history.pushState(null, '', '/bookmarks')
-		: history.pushState(null, '', '/bookmarks?q=' + query)
+		: history.pushState(null, '', `/bookmarks?q=${query}`)
 
 })
 
@@ -383,7 +423,7 @@ ENGRAM.eventBus.subscribe(':rescore', _ => {
 
 
 // -- todo fix loading.
-var renderBookmark = function () { }
+var renderBookmark = function ( ) { }
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
@@ -405,7 +445,7 @@ ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
 		.map(
 			({bookmark, _}) => renderBookmark(bookmark))
 		.reduce(
-			(html0, html1) => html0 + html1)
+			(html0, html1) => html0 + html1, '')
 	)
 
 
@@ -420,17 +460,24 @@ ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
 
 ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 
+	var query = ENGRAM.QUERY
+
 	is.always.object(bookmark)
 	is.always.number(bookmark.bookmark_id)
 
 	ENGRAM.cache[bookmark.bookmark_id] = {
 		bookmark,
 		metadata: {
-			scores: { }
+			scores: query.length === 0
+				? { }
+				: {
+					[query]: scoreTextMatch(query, isSplitSubstring(query), bookmark.title)
+				}
 		}
 	}
 
 })
+
 
 
 

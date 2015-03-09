@@ -1,5 +1,7 @@
 "use strict";
 
+var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
+
 ENGRAM.eventBus = EventBus();
 ENGRAM.cache = {};
 ENGRAM.loadedIndex = 0;
@@ -38,6 +40,37 @@ $(window).keydown(function (event) {
 			});
 		}
 	}
+});
+
+$(document).on("click", ".delete-bookmark", function () {
+
+	var $button = undefined;
+
+	var $article = $(button).closest("article");
+	var id = parseInt($article.attr("id"), 10);
+
+	ENGRAM.eventBus.publish(":delete-bookmark", {
+		id: id
+	});
+});
+
+ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
+	var id = _ref.id;
+
+	var $article = $(button).find(id).closest("article");
+
+	$article.hide(ENGRAM.DELETEFADE);
+
+	$.ajax({
+		url: "/bookmarks/" + id,
+		type: "DELETE",
+		success: $article.remove,
+		failure: function () {
+
+			alert("failed to remove bookmark #" + id);
+			$article.show();
+		}
+	});
 });
 
 // -- publish when the top or bottom of the document is reached.
@@ -297,12 +330,14 @@ ENGRAM.eventBus.subscribe(":change-focus", function (_ref) {
 		return renderBookmark(bookmark);
 	}).reduce(function (html0, html1) {
 		return html0 + html1;
-	}));
+	}, ""));
 });
 
 // -- populate the cache with all loaded bookmarks.
 
 ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
+
+	var query = ENGRAM.QUERY;
 
 	is.always.object(bookmark);
 	is.always.number(bookmark.bookmark_id);
@@ -310,7 +345,7 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 	ENGRAM.cache[bookmark.bookmark_id] = {
 		bookmark: bookmark,
 		metadata: {
-			scores: {}
+			scores: query.length === 0 ? {} : _defineProperty({}, query, scoreTextMatch(query, isSplitSubstring(query), bookmark.title))
 		}
 	};
 });
