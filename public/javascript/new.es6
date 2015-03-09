@@ -185,8 +185,137 @@ var loadSearchURL = ( ) => {
 
 
 
-var scoreTextMatch = (query, title) => {
-	return Math.random( ) // -- run our algorithms here.
+
+
+
+
+
+
+
+
+/*
+	align
+
+	efficiently align two strings locally, and calculate the gaps required to make the match
+	fit.
+
+*/
+
+{
+	let locate = (char, string, from) => {
+
+		for (var ith = from; ith < string.length; ++ith) {
+			if (char === string.charAt(ith)) {
+				return ith
+			}
+		}
+
+		return -1
+	}
+
+	var align = (query, text) => {
+
+		var alignResult = {
+			gaps: 0,
+			text,
+			query
+		}
+
+		var from = locate(query.charAt(0), text, 0)
+		var nextFrom;
+
+		for (var ith = 0; ith < query.length; ++ith) {
+			// assume 'from' never over- or under-runs, as query should always be a substring of text.
+
+			nextFrom          = locate(query.charAt(ith), text, from) + 1
+			alignResult.gaps += (nextFrom - from - 1)
+			from              = nextFrom
+
+		}
+
+		return alignResult
+
+	}
+}
+
+
+
+
+
+
+
+/*
+	alignQuality
+
+	how well aligned is a string to another?
+
+*/
+
+var alignQuality = alignment => {
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, 1 / 5)
+}
+
+
+
+
+
+
+
+/*
+
+	findSplitSubstring :: string -> string -> boolean
+
+	detect whether a string is contained within another, allowing
+	for gaps but not mismatches.
+
+*/
+
+var isSplitSubstring = pattern => {
+
+	var regexp = new RegExp(pattern.split('').join('.*?'), 'i')
+
+	return string => regexp.test(string)
+}
+
+
+
+
+
+/*
+	scoreQueryMatch :: string  xstring -> number
+
+	given a query and a text string, calculate how well the query matches the string
+	in the interval [0, 1)
+
+*/
+
+var scoreQueryMatch = (query, text) => {
+
+}
+
+
+
+
+
+
+
+
+
+
+var scoreTextMatch = (query, pattern, text) => {
+
+	if (pattern(text)) {
+
+		var ratio       = query.length / text.length
+		var lengthScore = ratio
+		var alignScore  = alignQuality( align(query.toLowerCase(), text.toLowerCase()) )
+
+		return lengthScore * alignScore
+
+	} else {
+		return 0
+	}
+
 }
 
 
@@ -201,7 +330,7 @@ var scoreBookmarks = (query, cache, searchState) => {
 
 		scoresRef[query] = is.number(scoresRef[query])
 			? scoresRef[query]
-			: scoreTextMatch(query, cache[key].bookmark.title)
+			: scoreTextMatch(query, isSplitSubstring(query), cache[key].bookmark.title)
 
 	})
 
@@ -212,9 +341,7 @@ var scoreBookmarks = (query, cache, searchState) => {
 
 
 var redrawBookmarks = ({query}) => {
-
 	scoreBookmarks(query, ENGRAM.cache, ENGRAM.searchState)
-
 }
 
 

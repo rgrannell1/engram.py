@@ -130,9 +130,106 @@ var loadSearchURL = function () {
 	});
 };
 
-var scoreTextMatch = function (query, title) {
+/*
+	align
 
-	return 0.5;
+	efficiently align two strings locally, and calculate the gaps required to make the match
+	fit.
+
+*/
+
+{
+	var align;
+
+	(function () {
+		var locate = function (char, string, from) {
+
+			for (var ith = from; ith < string.length; ++ith) {
+				if (char === string.charAt(ith)) {
+					return ith;
+				}
+			}
+
+			return -1;
+		};
+
+		align = function (query, text) {
+
+			var alignResult = {
+				gaps: 0,
+				text: text,
+				query: query
+			};
+
+			var from = locate(query.charAt(0), text, 0);
+			var nextFrom;
+
+			for (var ith = 0; ith < query.length; ++ith) {
+				// assume 'from' never over- or under-runs, as query should always be a substring of text.
+
+				nextFrom = locate(query.charAt(ith), text, from) + 1;
+				alignResult.gaps += nextFrom - from - 1;
+				from = nextFrom;
+			}
+
+			return alignResult;
+		};
+	})();
+}
+
+/*
+	alignQuality
+
+	how well aligned is a string to another?
+
+*/
+
+var alignQuality = function (alignment) {
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, 1 / 5);
+};
+
+/*
+
+	findSplitSubstring :: string -> string -> boolean
+
+	detect whether a string is contained within another, allowing
+	for gaps but not mismatches.
+
+*/
+
+var isSplitSubstring = function (pattern) {
+
+	var regexp = new RegExp(pattern.split("").join(".*?"), "i");
+
+	return function (string) {
+		return regexp.test(string);
+	};
+};
+
+/*
+	scoreQueryMatch :: string  xstring -> number
+
+	given a query and a text string, calculate how well the query matches the string
+	in the interval [0, 1)
+
+*/
+
+var scoreQueryMatch = function (query, text) {};
+
+var scoreTextMatch = function (query, pattern, text) {
+
+	if (pattern(text)) {
+
+		console.log(text);
+
+		var ratio = query.length / text.length;
+		var lengthScore = ratio;
+		var alignScore = alignQuality(align(query.toLowerCase(), text.toLowerCase()));
+
+		return lengthScore * alignScore;
+	} else {
+		return 0;
+	}
 };
 
 var scoreBookmarks = function (query, cache, searchState) {
@@ -141,9 +238,7 @@ var scoreBookmarks = function (query, cache, searchState) {
 
 		var scoresRef = cache[key].metadata.scores;
 
-		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, cache[key].bookmark.title);
-
-		console.log(scoresRef);
+		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, isSplitSubstring(query), cache[key].bookmark.title);
 	});
 };
 
