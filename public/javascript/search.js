@@ -43,7 +43,7 @@
 }
 
 var alignQuality = function (alignment) {
-	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.2);
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.15);
 };
 
 var isSplitSubstring = function (pattern) {

@@ -22,9 +22,9 @@
 			if (seconds < oneMinute) {
 				return "{seconds}s";
 			} else if (seconds < oneHour) {
-				return "" + Math.round(sec / oneMinute) + "m";
+				return "" + Math.round(seconds / oneMinute) + "m";
 			} else if (seconds < oneDay) {
-				return "" + Math.round(sec / oneHour) + "h";
+				return "" + Math.round(seconds / oneHour) + "h";
 			} else {
 				return "" + months[ctime.getMonth()] + " " + ctime.getDate();
 			}
@@ -44,14 +44,13 @@
 			$time.text(formatInterval(elapsed));
 		};
 
-		$(function () {
+		ENGRAM.updateTimes = function () {
 
-			setInterval(function () {
+			$(".bookmark time").each(function () {
+				renderTime($(this));
+			});
+		};
 
-				$(".bookmark time").each(function () {
-					renderTime($(this));
-				});
-			}, 1000);
-		});
+		setInterval(ENGRAM.updateTimes, 1000);
 	})();
 }

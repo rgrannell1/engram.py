@@ -16,20 +16,20 @@ dependencies = {
 	]),
 
 	'javascript-bottom': static.loadJS([
-		"jquery",
-		"mustache",
-		"is",
-		"require",
-		"pubsub",
+		"lib-jquery",
+		"lib-mustache",
+		"lib-is",
+		"lib-require",
+		"lib-pubsub",
 
 		"engram",
+		"update-time",
 		"sync-bookmarks",
 		"address-bar",
 		"capture-keys",
 		"delete-bookmark",
 		"draw-bookmarks",
 		"load-scroll",
-		"update-time",
 		"search",
 		"main"
 

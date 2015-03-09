@@ -15,8 +15,8 @@ dependencies = {
 	]),
 
 	'javascript-bottom': static.loadJS([
-		'jquery',
-		'is',
+		'lib-jquery',
+		'lib-is',
 		'import-bookmarks'
 	])
 }

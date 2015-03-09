@@ -22,9 +22,9 @@
 		if (seconds < oneMinute) {
 			return `{seconds}s`
 		} else if (seconds < oneHour) {
-			return `${Math.round(sec / oneMinute)}m`
+			return `${Math.round(seconds / oneMinute)}m`
 		} else if (seconds < oneDay) {
-			return `${Math.round(sec / oneHour)}h`
+			return `${Math.round(seconds / oneHour)}h`
 		} else {
 			return `${ months[ctime.getMonth( )] } ${ctime.getDate( )}`
 		}
@@ -50,19 +50,18 @@
 
 
 
+	ENGRAM.updateTimes = ( ) => {
+
+		$('.bookmark time').each(function () {
+			renderTime($(this))
+		})
+
+	}
 
 
 
-	$(( ) => {
 
-		setInterval(( ) => {
 
-			$('.bookmark time').each(function ( ) {
-				renderTime($(this))
-			})
-
-		}, 1000)
-
-	})
+	setInterval(ENGRAM.updateTimes, 1000)
 
 }

@@ -43,7 +43,7 @@
 
 
 var alignQuality = alignment => {
-	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.20)
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.15)
 }
 
 

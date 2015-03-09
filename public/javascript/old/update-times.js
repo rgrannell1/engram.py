@@ -127,15 +127,14 @@ const showTime = function ($time) {
 
 
 
-$(function () {
 
-	// todo add different tickrates.
-	setInterval(function () {
+ENGRAM.updateTimes = ( ) => {
 
-		$('.viewgroup time').each(function () {
-			showTime($(this))
-		})
+	$('.viewgroup time').each(function () {
+		showTime($(this))
+	})
 
-	}, 1000)
+}
 
-})
+ENGRAM.updateTimes( )
+setInterval(ENGRAM.updateTimes, 1000)

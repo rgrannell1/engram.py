@@ -1,8 +1,4 @@
 
-
-
-
-
 {
 
 	let eventCode = {

@@ -7,7 +7,7 @@ var selectBookmarks = function (query) {
 	});
 
 	return query === "" ? cacheArray : cacheArray.filter(function (bookmark) {
-		return bookmark.metadata.scores[query] > 0;
+		return bookmark.metadata.scores[query] > 0.05;
 	}).sort(function (bookmark0, bookmark1) {
 		bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query];
 	});
@@ -38,6 +38,8 @@ $.get("/public/html/bookmark-template.html", function (template) {
 		}).reduce(function (html0, html1) {
 			return html0 + html1;
 		}, ""));
+
+		ENGRAM.updateTimes();
 	};
 
 	ENGRAM.eventBus.subscribe(":change-focus", drawFocus);

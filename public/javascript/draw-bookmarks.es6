@@ -7,7 +7,7 @@ var selectBookmarks = query => {
 		? cacheArray
 		: cacheArray
 			.filter(
-				bookmark => bookmark.metadata.scores[query] > 0)
+				bookmark => bookmark.metadata.scores[query] > 0.05)
 			.sort((bookmark0, bookmark1) => {
 				bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query]
 			})
@@ -47,6 +47,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			.reduce(
 				(html0, html1) => html0 + html1, '')
 		)
+
+		ENGRAM.updateTimes( )
 
 	}
 
