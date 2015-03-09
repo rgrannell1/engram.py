@@ -159,7 +159,11 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 
 
+/*
+	getQueryParam
 
+	get a query parametre from the address bar.
+*/
 
 var getQueryParam = param => {
 
@@ -174,10 +178,17 @@ var getQueryParam = param => {
 
 
 
+/*
+	loadSearchURL
+
+	get the current location from the address bar and
+	set it to the current query.
+*/
+
 var loadSearchURL = ( ) => {
 
 	ENGRAM.eventBus.publish(':update-query', {
-		query: ENGRAM.QUERY += getQueryParam('q')
+		query: ENGRAM.QUERY = getQueryParam('q')
 	})
 
 }
@@ -309,15 +320,17 @@ var scoreTextMatch = (query, pattern, text) => {
 
 
 
-var scoreBookmarks = (query, cache, searchState) => {
+var scoreBookmarks = ({query}) => {
 
-	Object.keys(cache).forEach(key => {
+	var cacheRef = ENGRAM.cache
 
-		var scoresRef = cache[key].metadata.scores
+	Object.keys(cacheRef).forEach(key => {
+
+		var scoresRef = cacheRef[key].metadata.scores
 
 		scoresRef[query] = is.number(scoresRef[query])
 			? scoresRef[query]
-			: scoreTextMatch(query, isSplitSubstring(query), cache[key].bookmark.title)
+			: scoreTextMatch(query, isSplitSubstring(query), cacheRef[key].bookmark.title)
 
 	})
 
@@ -328,13 +341,14 @@ var scoreBookmarks = (query, cache, searchState) => {
 
 
 var redrawBookmarks = ({query}) => {
-	scoreBookmarks(query, ENGRAM.cache, ENGRAM.searchState)
+
 }
 
 
 
 
 
+ENGRAM.eventBus.subscribe(':update-query', scoreBookmarks)
 ENGRAM.eventBus.subscribe(':update-query', redrawBookmarks)
 
 

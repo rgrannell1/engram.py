@@ -115,6 +115,12 @@ ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 	searchState.current = query;
 });
 
+/*
+	getQueryParam
+
+	get a query parametre from the address bar.
+*/
+
 var getQueryParam = function (param) {
 
 	var match = RegExp("[?&]" + param + "=([^&]*)").exec(window.location.search);
@@ -123,10 +129,17 @@ var getQueryParam = function (param) {
 	return is["null"](result) ? "" : result;
 };
 
+/*
+	loadSearchURL
+
+	get the current location from the address bar and
+	set it to the current query.
+*/
+
 var loadSearchURL = function () {
 
 	ENGRAM.eventBus.publish(":update-query", {
-		query: ENGRAM.QUERY += getQueryParam("q")
+		query: ENGRAM.QUERY = getQueryParam("q")
 	});
 };
 
@@ -214,13 +227,9 @@ var isSplitSubstring = function (pattern) {
 
 */
 
-var scoreQueryMatch = function (query, text) {};
-
 var scoreTextMatch = function (query, pattern, text) {
 
 	if (pattern(text)) {
-
-		console.log(text);
 
 		var ratio = query.length / text.length;
 		var lengthScore = ratio;
@@ -232,22 +241,23 @@ var scoreTextMatch = function (query, pattern, text) {
 	}
 };
 
-var scoreBookmarks = function (query, cache, searchState) {
+var scoreBookmarks = function (query) {
 
-	Object.keys(cache).forEach(function (key) {
+	var cacheRef = ENGRAM.cache;
 
-		var scoresRef = cache[key].metadata.scores;
+	Object.keys(cacheRef).forEach(function (key) {
 
-		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, isSplitSubstring(query), cache[key].bookmark.title);
+		var scoresRef = cacheRef[key].metadata.scores;
+
+		scoresRef[query] = is.number(scoresRef[query]) ? scoresRef[query] : scoreTextMatch(query, isSplitSubstring(query), cacheRef[key].bookmark.title);
 	});
 };
 
 var redrawBookmarks = function (_ref) {
 	var query = _ref.query;
-
-	scoreBookmarks(query, ENGRAM.cache, ENGRAM.searchState);
 };
 
+ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
 ENGRAM.eventBus.subscribe(":update-query", redrawBookmarks);
 
 // -- populate the cache with all loaded bookmarks.
