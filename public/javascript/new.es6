@@ -289,19 +289,6 @@ var isSplitSubstring = pattern => {
 
 */
 
-var scoreQueryMatch = (query, text) => {
-
-}
-
-
-
-
-
-
-
-
-
-
 var scoreTextMatch = (query, pattern, text) => {
 
 	if (pattern(text)) {
