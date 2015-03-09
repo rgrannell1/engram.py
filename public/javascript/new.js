@@ -10,7 +10,7 @@ ENGRAM.loadedIndex = 0;
 
 $(window).on("scroll", function () {
 
-	$window = $(window);
+	var $window = $(window);
 
 	ENGRAM.eventBus.publish(":scroll", {
 		windowTop: $window.scrollTop(),
@@ -54,7 +54,7 @@ $(document).on("click", ".delete-bookmark", function () {
 	});
 });
 
-ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
+var deleteBookmark = function (_ref) {
 	var id = _ref.id;
 
 	var $article = $(button).find(id).closest("article");
@@ -71,7 +71,9 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 			$article.show();
 		}
 	});
-});
+};
+
+ENGRAM.eventBus.subscribe(":delete-bookmark", deleteBookmark);
 
 // -- publish when the top or bottom of the document is reached.
 
@@ -291,9 +293,11 @@ var scoreBookmarks = function (_ref) {
 
 var selectBookmarks = function (query) {
 
-	return Object.keys(ENGRAM.cache).map(function (key) {
+	var cacheArray = Object.keys(ENGRAM.cache).map(function (key) {
 		return ENGRAM.cache[key];
-	}).filter(function (bookmark) {
+	});
+
+	return query === "" ? cacheArray : cacheArray.filter(function (bookmark) {
 		return bookmark.metadata.scores[query] > 0;
 	}).sort(function (bookmark0, bookmark1) {
 		bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query];
@@ -311,8 +315,8 @@ ENGRAM.eventBus.subscribe(":rescore", function (_) {
 	});
 });
 
-// -- todo fix loading.
-var renderBookmark = function renderBookmark() {};
+// -- todo fix loading!!
+var renderBookmark = function () {};
 
 $.get("/public/html/bookmark-template.html", function (template) {
 
@@ -321,7 +325,9 @@ $.get("/public/html/bookmark-template.html", function (template) {
 	};
 });
 
-ENGRAM.eventBus.subscribe(":change-focus", function (_ref) {
+// -- todo only redraw when needed.
+
+var drawFocus = function (_ref) {
 	var focus = _ref.focus;
 
 	$("#bookmark-container").html(focus.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL).map(function (_ref2) {
@@ -331,7 +337,9 @@ ENGRAM.eventBus.subscribe(":change-focus", function (_ref) {
 	}).reduce(function (html0, html1) {
 		return html0 + html1;
 	}, ""));
-});
+};
+
+ENGRAM.eventBus.subscribe(":change-focus", drawFocus);
 
 // -- populate the cache with all loaded bookmarks.
 
@@ -348,11 +356,9 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 			scores: query.length === 0 ? {} : _defineProperty({}, query, scoreTextMatch(query, isSplitSubstring(query), bookmark.title))
 		}
 	};
+
+	ENGRAM.eventBus.publish(":rescore");
 });
-
-ENGRAM.eventBus.subscribe(":prepend-bookmark", function (bookmark) {});
-
-ENGRAM.eventBus.subscribe(":append-bookmark", function (bookmark) {});
 
 {
 	(function () {
@@ -398,5 +404,3 @@ ENGRAM.eventBus.subscribe(":append-bookmark", function (bookmark) {});
 }
 
 ENGRAM.syncBookmarks();
-
-// -- append relevant queries to the DOM.

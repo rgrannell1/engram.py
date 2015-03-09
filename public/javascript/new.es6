@@ -10,7 +10,7 @@ ENGRAM.loadedIndex = 0
 
 $(window).on('scroll', ( ) => {
 
-	$window = $(window)
+	var $window = $(window)
 
 	ENGRAM.eventBus.publish(':scroll', {
 		windowTop:      $window.scrollTop( ),
@@ -72,7 +72,8 @@ $(document).on('click', '.delete-bookmark', ( ) => {
 
 
 
-ENGRAM.eventBus.subscribe(':delete-bookmark', ({id}) => {
+
+var deleteBookmark = ({id}) => {
 
 	const $article = $(button).find(id).closest('article')
 
@@ -90,7 +91,13 @@ ENGRAM.eventBus.subscribe(':delete-bookmark', ({id}) => {
 		}
 	})
 
-})
+}
+
+
+
+
+
+ENGRAM.eventBus.subscribe(':delete-bookmark', deleteBookmark)
 
 
 
@@ -385,17 +392,16 @@ var scoreBookmarks = ({query}) => {
 
 var selectBookmarks = query => {
 
-	return Object.keys(ENGRAM.cache)
+	var cacheArray = Object.keys(ENGRAM.cache).map(key => ENGRAM.cache[key])
 
-		.map(
-			key => ENGRAM.cache[key])
-
-		.filter(
-			bookmark => bookmark.metadata.scores[query] > 0)
-
-		.sort((bookmark0, bookmark1) => {
-			bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query]
-		})
+	return query === ''
+		? cacheArray
+		: cacheArray
+			.filter(
+				bookmark => bookmark.metadata.scores[query] > 0)
+			.sort((bookmark0, bookmark1) => {
+				bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query]
+			})
 
 }
 
@@ -422,8 +428,10 @@ ENGRAM.eventBus.subscribe(':rescore', _ => {
 
 
 
-// -- todo fix loading.
-var renderBookmark = function ( ) { }
+
+
+// -- todo fix loading!!
+var renderBookmark = ( ) => {  }
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
@@ -435,9 +443,9 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 
+// -- todo only redraw when needed.
 
-ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
-
+var drawFocus = ({focus}) => {
 
 	$('#bookmark-container').html(
 		focus
@@ -448,9 +456,10 @@ ENGRAM.eventBus.subscribe(':change-focus', ({focus}) => {
 			(html0, html1) => html0 + html1, '')
 	)
 
+}
 
-})
 
+ENGRAM.eventBus.subscribe(':change-focus', drawFocus)
 
 
 
@@ -476,20 +485,7 @@ ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 		}
 	}
 
-})
-
-
-
-
-
-
-
-ENGRAM.eventBus.subscribe(':prepend-bookmark', bookmark => {
-	// -- append relevant queries to the DOM.
-
-})
-
-ENGRAM.eventBus.subscribe(':append-bookmark', bookmark => {
+	ENGRAM.eventBus.publish(':rescore')
 
 })
 
