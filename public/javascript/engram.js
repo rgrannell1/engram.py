@@ -22,3 +22,26 @@ ENGRAM.DELETEFADE   = 250
 // how many pixels do you have to be from the botton of the
 // page to load some more bookmarks?
 ENGRAM.LOADOFFSET   = 60
+
+
+
+
+
+
+ENGRAM.eventBus    = EventBus( )
+ENGRAM.cache       = { }
+ENGRAM.loadedIndex = 0
+
+ENGRAM.QUERY       = ''
+
+
+
+
+
+// -- a collection of data used to speed-up searches, as search is
+// -- slow and caching helps.
+
+var searchState = {
+	previous: '',
+	current:  ''
+}

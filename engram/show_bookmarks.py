@@ -24,21 +24,15 @@ dependencies = {
 
 		"engram",
 		"sync-bookmarks",
+		"address-bar",
+		"capture-keys",
 		"delete-bookmark",
-		"new",
+		"draw-bookmarks",
+		"load-scroll",
 		"update-time",
 		"search",
 		"main"
-#
-#		"cache",
-#		"modify-cache",
-#
-#		"update-times",
-#		"draw-bookmarks",
-#
-#		"keylog",
-#		"delete-bookmark",
-#		"search"
+
 	]),
 
 	'css': static.loadCSS([

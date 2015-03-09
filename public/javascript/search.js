@@ -1,13 +1,5 @@
 "use strict";
 
-/*
-	align
-
-	efficiently align two strings locally, and calculate the gaps required to make the match
-	fit.
-
-*/
-
 {
 	var align;
 
@@ -51,7 +43,7 @@
 }
 
 var alignQuality = function (alignment) {
-	return 1 - Math.pow(alignment.gaps / alignment.text.length, 1 / 5);
+	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.2);
 };
 
 var isSplitSubstring = function (pattern) {
