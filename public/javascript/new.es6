@@ -226,6 +226,9 @@ var loadSearchURL = ( ) => {
 
 	var align = (query, text) => {
 
+		var query = query.toLowerCase( )
+		var text  = text. toLowerCase( )
+
 		var alignResult = {
 			gaps: 0,
 			text,
@@ -302,23 +305,21 @@ var isSplitSubstring = pattern => {
 
 var scoreTextMatch = (query, pattern, text) => {
 
-	if (pattern(text)) {
-
-		var ratio       = query.length / text.length
-		var lengthScore = ratio
-		var alignScore  = alignQuality( align(query.toLowerCase(), text.toLowerCase()) )
-
-		return lengthScore * alignScore
-
-	} else {
-		return 0
-	}
+	return pattern(text)
+		? query.length / text.length * alignQuality(align(query, text))
+		: 0
 
 }
 
 
 
 
+
+/*
+	scoreBookmarks :: {string} -> undefined
+
+	add the scores for the current query to the bookmark cache.
+*/
 
 var scoreBookmarks = ({query}) => {
 
@@ -341,7 +342,7 @@ var scoreBookmarks = ({query}) => {
 
 
 var redrawBookmarks = ({query}) => {
-
+	console.log( ENGRAM.cache )
 }
 
 

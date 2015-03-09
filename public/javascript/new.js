@@ -168,6 +168,9 @@ var loadSearchURL = function () {
 
 		align = function (query, text) {
 
+			var query = query.toLowerCase();
+			var text = text.toLowerCase();
+
 			var alignResult = {
 				gaps: 0,
 				text: text,
@@ -229,19 +232,17 @@ var isSplitSubstring = function (pattern) {
 
 var scoreTextMatch = function (query, pattern, text) {
 
-	if (pattern(text)) {
-
-		var ratio = query.length / text.length;
-		var lengthScore = ratio;
-		var alignScore = alignQuality(align(query.toLowerCase(), text.toLowerCase()));
-
-		return lengthScore * alignScore;
-	} else {
-		return 0;
-	}
+	return pattern(text) ? query.length / text.length * alignQuality(align(query, text)) : 0;
 };
 
-var scoreBookmarks = function (query) {
+/*
+	scoreBookmarks :: {string} -> undefined
+
+	add the scores for the current query to the bookmark cache.
+*/
+
+var scoreBookmarks = function (_ref) {
+	var query = _ref.query;
 
 	var cacheRef = ENGRAM.cache;
 
@@ -255,6 +256,8 @@ var scoreBookmarks = function (query) {
 
 var redrawBookmarks = function (_ref) {
 	var query = _ref.query;
+
+	console.log(ENGRAM.cache);
 };
 
 ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
