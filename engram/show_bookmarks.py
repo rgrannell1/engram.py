@@ -20,11 +20,15 @@ dependencies = {
 		"mustache",
 		"is",
 		"require",
+		"pubsub",
 
 		"engram",
-		"pubsub",
+		"sync-bookmarks",
+		"delete-bookmark",
 		"new",
 		"update-time",
+		"search",
+		"main"
 #
 #		"cache",
 #		"modify-cache",
