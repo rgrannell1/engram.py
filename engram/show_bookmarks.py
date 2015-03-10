@@ -23,6 +23,7 @@ dependencies = {
 		"lib-pubsub",
 
 		"engram",
+		"cache",
 		"update-query",
 		"update-time",
 		"sync-bookmarks",
@@ -30,6 +31,7 @@ dependencies = {
 		"draw-bookmarks",
 		"load-scroll",
 		"search",
+		"cache",
 		"main"
 
 	]),

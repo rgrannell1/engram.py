@@ -1,3 +1,4 @@
+"use strict"
 
 {
 	let locate = (char, string, from) => {

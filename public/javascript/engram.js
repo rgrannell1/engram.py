@@ -1,11 +1,11 @@
 
 // add 'use strict'?
 
+ENGRAM = { }
 
 
 
 
-ENGRAM = {}
 // how many bookmarks to append on scroll?
 ENGRAM.PERSCROLL    = 10
 ENGRAM.BIGINT       = 1000000
@@ -29,7 +29,6 @@ ENGRAM.LOADOFFSET   = 60
 
 
 ENGRAM.eventBus    = EventBus( )
-ENGRAM.cache       = { }
 ENGRAM.loadedIndex = 0
 
 

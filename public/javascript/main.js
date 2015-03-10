@@ -61,12 +61,12 @@ ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 	is.always.object(bookmark);
 	is.always.number(bookmark.bookmark_id);
 
-	ENGRAM.cache[bookmark.bookmark_id] = {
+	ENGRAM.cache.set(bookmark.bookmark_id, {
 		bookmark: bookmark,
 		metadata: {
 			scores: query.length === 0 ? {} : _defineProperty({}, query, scoreTextMatch(query, isSplitSubstring(query), bookmark.title))
 		}
-	};
+	});
 
 	ENGRAM.eventBus.publish(":rescore");
 });

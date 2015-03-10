@@ -1,3 +1,4 @@
+"use strict"
 
 $(document).on('click', '.delete-bookmark', function ( ) {
 
@@ -37,7 +38,7 @@ ENGRAM.eventBus.subscribe(':delete-bookmark', ({id, $button}) => {
 
 
 ENGRAM.eventBus.subscribe(':successful-delete', ({id, _}) => {
-	console.log( id )
+	// -- delete from the cache.
 })
 
 ENGRAM.eventBus.subscribe(':successful-delete', ({_, $article}) => {
