@@ -1,7 +1,7 @@
 
-var deleteBookmark = ({id}) => {
+var deleteBookmark = ({id, $button}) => {
 
-	const $article = $(button).find(id).closest('article')
+	var $article = $button.find(id).closest('article')
 
 	$article.hide(ENGRAM.DELETEFADE)
 

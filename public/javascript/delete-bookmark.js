@@ -2,8 +2,9 @@
 
 var deleteBookmark = function (_ref) {
 	var id = _ref.id;
+	var $button = _ref.$button;
 
-	var $article = $(button).find(id).closest("article");
+	var $article = $button.find(id).closest("article");
 
 	$article.hide(ENGRAM.DELETEFADE);
 

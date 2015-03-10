@@ -37,12 +37,12 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 
 $(document).on("click", ".delete-bookmark", function () {
 
-	var $button = this;
+	var $button = $(this);
 
-	var $article = $(button).closest("article");
+	var $article = $button.closest("article");
 	var id = parseInt($article.attr("id"), 10);
 
-	ENGRAM.eventBus.publish(":delete-bookmark", { id: id });
+	ENGRAM.eventBus.publish(":delete-bookmark", { id: id, $button: $button });
 });
 
 ENGRAM.eventBus.subscribe(":update-query", function (_ref) {

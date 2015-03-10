@@ -47,12 +47,12 @@
 
 $(document).on('click', '.delete-bookmark', function ( ) {
 
-	var $button  = this
+	var $button  = $(this)
 
-	var $article = $(button).closest('article')
+	var $article = $button.closest('article')
 	var id       = parseInt($article.attr('id'), 10)
 
-	ENGRAM.eventBus.publish(':delete-bookmark', {id})
+	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
 
 })
 
