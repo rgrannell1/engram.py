@@ -45,16 +45,6 @@
 
 
 
-$(document).on('click', '.delete-bookmark', function ( ) {
-
-	var $button  = $(this)
-
-	var $article = $button.closest('article')
-	var id       = parseInt($article.attr('id'), 10)
-
-	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
-
-})
 
 
 
@@ -85,7 +75,6 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 
 
 
-ENGRAM.eventBus.subscribe(':delete-bookmark', deleteBookmark)
 ENGRAM.eventBus.subscribe(':update-query',    scoreBookmarks)
 
 
@@ -96,7 +85,7 @@ ENGRAM.eventBus.subscribe(':update-query',    scoreBookmarks)
 
 ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 
-	var query = ENGRAM.QUERY
+	var query = getQueryParam('q')
 
 	is.always.object(bookmark)
 	is.always.number(bookmark.bookmark_id)

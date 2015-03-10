@@ -23,10 +23,9 @@ dependencies = {
 		"lib-pubsub",
 
 		"engram",
+		"update-query",
 		"update-time",
 		"sync-bookmarks",
-		"address-bar",
-		"capture-keys",
 		"delete-bookmark",
 		"draw-bookmarks",
 		"load-scroll",

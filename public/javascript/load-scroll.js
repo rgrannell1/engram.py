@@ -3,10 +3,11 @@
 $(window).on("scroll", function () {
 
 	var $window = $(window);
+	var windowTop = $window.scrollTop();
 
 	ENGRAM.eventBus.publish(":scroll", {
 
-		windowTop: $window.scrollTop(),
+		windowTop: windowTop,
 		scrollHeight: $(document).height(),
 		scrollPosition: $window.height() + windowTop
 

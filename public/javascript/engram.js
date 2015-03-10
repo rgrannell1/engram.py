@@ -32,8 +32,6 @@ ENGRAM.eventBus    = EventBus( )
 ENGRAM.cache       = { }
 ENGRAM.loadedIndex = 0
 
-ENGRAM.QUERY       = ''
-
 
 
 

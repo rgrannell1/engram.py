@@ -35,16 +35,6 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 	})();
 }
 
-$(document).on("click", ".delete-bookmark", function () {
-
-	var $button = $(this);
-
-	var $article = $button.closest("article");
-	var id = parseInt($article.attr("id"), 10);
-
-	ENGRAM.eventBus.publish(":delete-bookmark", { id: id, $button: $button });
-});
-
 ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
 
@@ -60,14 +50,13 @@ ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 	searchState.current = query;
 });
 
-ENGRAM.eventBus.subscribe(":delete-bookmark", deleteBookmark);
 ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
 
 // -- populate the cache with all loaded bookmarks.
 
 ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 
-	var query = ENGRAM.QUERY;
+	var query = getQueryParam("q");
 
 	is.always.object(bookmark);
 	is.always.number(bookmark.bookmark_id);

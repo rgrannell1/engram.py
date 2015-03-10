@@ -15,12 +15,15 @@ var selectBookmarks = function (query) {
 
 ENGRAM.eventBus.subscribe(":rescore", function (_) {
 
-	ENGRAM.inFocus = selectBookmarks(ENGRAM.QUERY);
+	ENGRAM.inFocus = selectBookmarks(getQueryParam("q"));
 
 	ENGRAM.eventBus.publish(":change-focus", {
 		focus: ENGRAM.inFocus
 	});
 });
+
+// start of reference as a no-op.
+ENGRAM.drawFocus = function () {};
 
 $.get("/public/html/bookmark-template.html", function (template) {
 
@@ -28,7 +31,7 @@ $.get("/public/html/bookmark-template.html", function (template) {
 		return Mustache.render(template, bookmark);
 	};
 
-	var drawFocus = function (_ref) {
+	ENGRAM.drawFocus = function (_ref) {
 		var focus = _ref.focus;
 
 		$("#bookmark-container").html(focus.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL).map(function (_ref2) {
@@ -42,5 +45,5 @@ $.get("/public/html/bookmark-template.html", function (template) {
 		ENGRAM.updateTimes();
 	};
 
-	ENGRAM.eventBus.subscribe(":change-focus", drawFocus);
+	ENGRAM.eventBus.subscribe(":change-focus", ENGRAM.drawFocus);
 });

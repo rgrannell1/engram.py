@@ -21,7 +21,7 @@ var selectBookmarks = query => {
 
 ENGRAM.eventBus.subscribe(':rescore', _ => {
 
-	ENGRAM.inFocus = selectBookmarks(ENGRAM.QUERY)
+	ENGRAM.inFocus = selectBookmarks(getQueryParam('q'))
 
 	ENGRAM.eventBus.publish(':change-focus', {
 		focus: ENGRAM.inFocus
@@ -30,14 +30,14 @@ ENGRAM.eventBus.subscribe(':rescore', _ => {
 })
 
 
-
-
+// start of reference as a no-op.
+ENGRAM.drawFocus = function ( ) { }
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	var renderBookmark = bookmark => Mustache.render(template, bookmark)
 
-	var drawFocus = ({focus}) => {
+	ENGRAM.drawFocus = ({focus}) => {
 
 		$('#bookmark-container').html(
 			focus
@@ -56,6 +56,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 
-	ENGRAM.eventBus.subscribe(':change-focus', drawFocus)
+	ENGRAM.eventBus.subscribe(':change-focus', ENGRAM.drawFocus)
 
 })
