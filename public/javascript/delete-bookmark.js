@@ -18,16 +18,23 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 
 	$article.hide(ENGRAM.DELETEFADE);
 
+	var publishDeletion = function (topic) {
+		ENGRAM.eventBus.publish(topic, { id: id, $article: $article });
+	};
+
 	$.ajax({
 		url: "/bookmarks/" + id,
 		type: "DELETE",
-		success: function () {
-			ENGRAM.eventBus.publish(":successful-delete", { id: id, $article: $article });
-		},
-		failure: function () {
-			ENGRAM.eventBus.publish(":failed-delete", { id: id, $article: $article });
-		}
+		success: publishDeletion(":successful-delete"),
+		failure: publishDeletion(":failed-delete")
 	});
+});
+
+ENGRAM.eventBus.subscribe(":successful-delete", function (_ref) {
+	var id = _ref.id;
+	var _ = _ref._;
+
+	console.log(id);
 });
 
 ENGRAM.eventBus.subscribe(":successful-delete", function (_ref) {

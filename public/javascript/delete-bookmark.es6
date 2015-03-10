@@ -21,22 +21,24 @@ ENGRAM.eventBus.subscribe(':delete-bookmark', ({id, $button}) => {
 
 	$article.hide(ENGRAM.DELETEFADE)
 
+	var publishDeletion = topic => {
+		ENGRAM.eventBus.publish(topic, {id, $article})
+	}
+
 	$.ajax({
 		url: `/bookmarks/${id}`,
 		type: 'DELETE',
-		success: ( ) => {
-			ENGRAM.eventBus.publish(':successful-delete', {id, $article})
-		},
-		failure: ( ) => {
-			ENGRAM.eventBus.publish(':failed-delete', {id, $article})
-		}
+		success: publishDeletion(':successful-delete'),
+		failure: publishDeletion(':failed-delete')
 	})
 
 })
 
 
 
-
+ENGRAM.eventBus.subscribe(':successful-delete', ({id, _}) => {
+	console.log( id )
+})
 
 ENGRAM.eventBus.subscribe(':successful-delete', ({_, $article}) => {
 	$article.remove( )
