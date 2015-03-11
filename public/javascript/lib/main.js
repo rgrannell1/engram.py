@@ -75,43 +75,39 @@ ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
 	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
-	} else if (windowTop < 50) {
+		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+	} else if (windowTop < ENGRAM.LOADOFFSET) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
 	}
 });
+
+var isRoomLeft = function () {
+	return $("#bookmarks article").length < 5 * ENGRAM.PERSCROLL;
+};
 
 ENGRAM.eventBus.subscribe(":atTop", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
+
+	if (!isRoomLeft()) {}
+
+	console.log("getting top");
 }).subscribe(":atBottom", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
 
-	if ($("#bookmarks article").length > 5 * ENGRAM.PERSCROLL) {}
+	if (!isRoomLeft()) {}
 
-	console.log("getting next");
-});
-
-// -- update the search state.
-
-ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
+	console.log("getting end");
+}).subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
 
 	ENGRAM.searchState.setQuery(query);
-});
-
-// -- score each bookmark for the new query.
-
-ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
-
-// -- populate the cache with all loaded bookmarks.
-
-ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
+}).subscribe(":update-query", scoreBookmarks).subscribe(":load-bookmark", function (bookmark) {
 
 	var query = getQuery();
 

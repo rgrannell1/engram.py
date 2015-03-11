@@ -1,8 +1,7 @@
 "use strict";
 
-// add 'use strict'?
+window.ENGRAM = {};
 
-ENGRAM = {};
 // how many bookmarks to append on scroll?
 ENGRAM.PERSCROLL = 10;
 ENGRAM.BIGINT = 1000000;
@@ -19,3 +18,15 @@ ENGRAM.DELETEFADE = 250;
 // how many pixels do you have to be from the botton of the
 // page to load some more bookmarks?
 ENGRAM.LOADOFFSET = 60;
+ENGRAM.eventBus = EventBus();
+
+ENGRAM.searchState = {
+	previous: "",
+	current: "",
+	setQuery: function setQuery(query) {
+
+		this.previous = this.current;
+		this.current = query;
+	}
+
+};

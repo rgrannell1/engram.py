@@ -88,59 +88,54 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
 
-	} else if (windowTop < 50) {
+	} else if (windowTop < ENGRAM.LOADOFFSET) {
 		// what data should these publish ?
 
-		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
 
 	}
 
 })
 
+
+
+
+
+var isRoomLeft = ( ) => {
+	return $('#bookmarks article').length < 5 * ENGRAM.PERSCROLL
+}
 
 
 
 
 ENGRAM.eventBus
+
 .subscribe(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
+
+	if (!isRoomLeft( )) {
+
+	}
+
+	console.log('getting top')
 
 })
 .subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
-	if ($('#bookmarks article').length > 5 * ENGRAM.PERSCROLL) {
+	if (!isRoomLeft( )) {
 
 	}
 
-	console.log('getting next')
+	console.log('getting end')
 
 })
 
-
-
-
-// -- update the search state.
-
-ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
+.subscribe(':update-query', ({query}) => {
 	ENGRAM.searchState.setQuery(query)
 })
-
-
-
-
-
-// -- score each bookmark for the new query.
-
-ENGRAM.eventBus.subscribe(':update-query', scoreBookmarks)
-
-
-
-
-
-// -- populate the cache with all loaded bookmarks.
-
-ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
+.subscribe(':update-query', scoreBookmarks)
+.subscribe(':load-bookmark', bookmark => {
 
 	var query = getQuery( )
 

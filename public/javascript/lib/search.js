@@ -64,11 +64,15 @@ alignQuality.precond = function (gaps, text) {
 	is.always.string(text);
 };
 
+var escapeRegexChar = function (char) {
+	return ["]", "\\", "^", "-"].indexOf(char) === -1 ? "\\" + char : char;
+};
+
 var isSplitSubstring = function (pattern) {
 
 	isSplitSubstring.precond(pattern);
 
-	var regexp = new RegExp(pattern.split("").join(".*?"), "i");
+	var regexp = new RegExp(pattern.split("").map(escapeRegexChar).join(".*?"), "i");
 
 	return function (string) {
 		return regexp.test(string);
