@@ -112,22 +112,17 @@ var isRoomLeft = ( ) => {
 
 ENGRAM.eventBus
 
-.subscribe(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
-
-	if (!isRoomLeft( )) {
-
-	}
-
-	console.log('getting top')
-
-})
 .subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
-	if (!isRoomLeft( )) {
+	if (getQuery( ) === '') {
+
+		ENGRAM.eventBus.publish(':scrolldown-bookmarks', {
+			from:         $('#bookmarks article:last').attr('id') ,
+			isDecreasing: true
+		})
 
 	}
 
-	console.log('getting end')
 
 })
 
@@ -161,5 +156,59 @@ ENGRAM.eventBus
 
 
 
-ENGRAM.syncBookmarks( )
+var listBookmarks = (from, cache, isDecreasing) => {
 
+	listBookmarks.precond(from, cache, isDecreasing)
+
+	return Object.keys(cache)
+		.map(
+			key => parseInt(key, 10))
+		.filter(
+			key => isDecreasing ? key < from : key > from)
+		.sort(
+			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
+		.slice(
+			0, ENGRAM.PERSCROLL)
+		.map(
+			key => cache[key])
+
+}
+
+listBookmarks.precond = (from, cache, isDecreasing) => {
+
+	is.always.string(from)
+	is.always.object(cache)
+	is.always.boolean(isDecreasing)
+
+}
+
+
+
+
+// -- todo dont take  from (not good with query)
+ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', ({from,  isDecreasing})  => {
+
+	// -- set the current focus to the current [more-bookmarks] + focus,
+	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
+
+	var loaded = listBookmarks(from, ENGRAM.cache, isDecreasing)
+
+	ENGRAM.inFocus.setFocus(isDecreasing
+		? {
+			value:        ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
+			currentQuery: ''
+		}
+		: {
+			value:        loaded.concat(ENGRAM.inFocus.value).slice(0, -ENGRAM.MAXLOADED),
+			currentQuery: ''
+		}
+	)
+
+})
+
+
+
+
+
+
+ENGRAM.syncBookmarks( )

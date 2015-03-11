@@ -64,24 +64,32 @@ alignQuality.precond = function (gaps, text) {
 	is.always.string(text);
 };
 
-var escapeRegexChar = function (char) {
-	return ["]", "\\", "^", "-"].indexOf(char) === -1 ? "\\" + char : char;
-};
+{
+	var isSplitSubstring;
 
-var isSplitSubstring = function (pattern) {
+	(function () {
 
-	isSplitSubstring.precond(pattern);
+		var escapeRegexChar = function (char) {
 
-	var regexp = new RegExp(pattern.split("").map(escapeRegexChar).join(".*?"), "i");
+			return ["[", "]", "\\", "^", "-"].indexOf(char) === -1 ? char : "\\" + char;
+		};
 
-	return function (string) {
-		return regexp.test(string);
-	};
-};
+		isSplitSubstring = function (pattern) {
 
-isSplitSubstring.precond = function (pattern) {
-	is.always.string(pattern);
-};
+			isSplitSubstring.precond(pattern);
+
+			var regexp = new RegExp(pattern.split("").map(escapeRegexChar).join(".*?"), "i");
+
+			return function (string) {
+				return regexp.test(string);
+			};
+		};
+
+		isSplitSubstring.precond = function (pattern) {
+			is.always.string(pattern);
+		};
+	})();
+}
 
 var scoreTextMatch = function (query, matchesPattern, text) {
 

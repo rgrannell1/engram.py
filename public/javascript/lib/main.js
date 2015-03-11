@@ -87,22 +87,18 @@ var isRoomLeft = function () {
 	return $("#bookmarks article").length < 5 * ENGRAM.PERSCROLL;
 };
 
-ENGRAM.eventBus.subscribe(":atTop", function (_ref) {
+ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
 
-	if (!isRoomLeft()) {}
+	if (getQuery() === "") {
 
-	console.log("getting top");
-}).subscribe(":atBottom", function (_ref) {
-	var windowTop = _ref.windowTop;
-	var scrollHeight = _ref.scrollHeight;
-	var scrollPosition = _ref.scrollPosition;
-
-	if (!isRoomLeft()) {}
-
-	console.log("getting end");
+		ENGRAM.eventBus.publish(":scrolldown-bookmarks", {
+			from: $("#bookmarks article:last").attr("id"),
+			isDecreasing: true
+		});
+	}
 }).subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
 
@@ -122,6 +118,48 @@ ENGRAM.eventBus.subscribe(":atTop", function (_ref) {
 	});
 
 	ENGRAM.eventBus.publish(":rescore");
+});
+
+var listBookmarks = function (from, cache, isDecreasing) {
+
+	listBookmarks.precond(from, cache, isDecreasing);
+
+	return Object.keys(cache).map(function (key) {
+		return parseInt(key, 10);
+	}).filter(function (key) {
+		return isDecreasing ? key < from : key > from;
+	}).sort(function (num0, num1) {
+		return num1 - num0;
+	}) // -- this is slow if object imp. isn't ordered.
+	.slice(0, ENGRAM.PERSCROLL).map(function (key) {
+		return cache[key];
+	});
+};
+
+listBookmarks.precond = function (from, cache, isDecreasing) {
+
+	is.always.string(from);
+	is.always.object(cache);
+	is.always.boolean(isDecreasing);
+};
+
+// -- todo dont take  from (not good with query)
+ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", function (_ref) {
+	var from = _ref.from;
+	var isDecreasing = _ref.isDecreasing;
+
+	// -- set the current focus to the current [more-bookmarks] + focus,
+	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
+
+	var loaded = listBookmarks(from, ENGRAM.cache, isDecreasing);
+
+	ENGRAM.inFocus.setFocus(isDecreasing ? {
+		value: ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
+		currentQuery: ""
+	} : {
+		value: loaded.concat(ENGRAM.inFocus.value).slice(0, -ENGRAM.MAXLOADED),
+		currentQuery: ""
+	});
 });
 
 ENGRAM.syncBookmarks();

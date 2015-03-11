@@ -68,26 +68,33 @@ alignQuality.precond = (gaps, text) => {
 
 
 
-var escapeRegexChar = char => {
 
-	return [']', '\\', '^', '-'].indexOf(char) === -1
-		? '\\' + char
-		: char
+
+{
+
+	let escapeRegexChar = char => {
+
+		return ['[',']', '\\', '^', '-'].indexOf(char) === -1
+			? char
+			: '\\' + char
+
+	}
+
+	var isSplitSubstring = pattern => {
+
+		isSplitSubstring.precond(pattern)
+
+		var regexp = new RegExp(pattern.split('').map(escapeRegexChar).join('.*?'), 'i')
+
+		return string => regexp.test(string)
+	}
+
+	isSplitSubstring.precond = pattern => {
+		is.always.string(pattern)
+	}
 
 }
 
-var isSplitSubstring = pattern => {
-
-	isSplitSubstring.precond(pattern)
-
-	var regexp = new RegExp(pattern.split('').map(escapeRegexChar).join('.*?'), 'i')
-
-	return string => regexp.test(string)
-}
-
-isSplitSubstring.precond = pattern => {
-	is.always.string(pattern)
-}
 
 
 

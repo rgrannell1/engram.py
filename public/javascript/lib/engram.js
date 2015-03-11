@@ -4,6 +4,7 @@ window.ENGRAM = {};
 
 // how many bookmarks to append on scroll?
 ENGRAM.PERSCROLL = 10;
+ENGRAM.MAXLOADED = 50;
 ENGRAM.BIGINT = 1000000;
 
 // how many bookmarks to retrieve per request?
@@ -29,4 +30,18 @@ ENGRAM.searchState = {
 		this.current = query;
 	}
 
+};
+
+ENGRAM.inFocus = {
+	value: {},
+	currentQuery: "",
+	setFocus: function setFocus(_ref) {
+		var value = _ref.value;
+		var currentQuery = _ref.currentQuery;
+
+		this.value = value;
+		this.currentQuery = currentQuery;
+
+		ENGRAM.eventBus.publish(":update-focus", this);
+	}
 };

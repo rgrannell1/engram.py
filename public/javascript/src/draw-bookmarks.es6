@@ -27,26 +27,36 @@ selectBookmarks.precond = query => {
 
 ENGRAM.eventBus.subscribe(':rescore', _ => {
 
-	ENGRAM.inFocus = selectBookmarks(getQuery( ))
-
-	ENGRAM.eventBus.publish(':change-focus', {
-		focus: ENGRAM.inFocus
+	ENGRAM.inFocus.setFocus({
+		value:        selectBookmarks(getQuery( )),
+		currentQuery: getQuery( )
 	})
+
+	ENGRAM.eventBus.publish(':update-focus', ENGRAM.inFocus)
 
 })
 
 
-// start of reference as a no-op.
-ENGRAM.drawFocus = function ( ) { }
+
+
+
+// -- to break out of the callback.
+// -- this will be update to draw.
+
+ENGRAM.drawFocus = function ( ) {
+	setTimeout(ENGRAM.drawFocus, 50)
+}
 
 $.get('/public/html/bookmark-template.html', function (template) {
 
 	var renderBookmark = bookmark => Mustache.render(template, bookmark)
 
-	ENGRAM.drawFocus = ({focus}) => {
+	ENGRAM.drawFocus = focus => {
+
+		ENGRAM.drawFocus.precond(focus)
 
 		$('#bookmark-container').html(
-			focus
+			focus.value
 			.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL)
 			.map(
 				({bookmark, _}) => renderBookmark(bookmark))
@@ -54,7 +64,13 @@ $.get('/public/html/bookmark-template.html', function (template) {
 				(html0, html1) => html0 + html1, '')
 		)
 
-		ENGRAM.updateTimes( )
+	}
+
+	ENGRAM.drawFocus.precond = focus => {
+
+		is.always.object(focus)
+		is.always.array(focus.value)
+		is.always.string(focus.currentQuery)
 
 	}
 
@@ -62,6 +78,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 
-	ENGRAM.eventBus.subscribe(':change-focus', ENGRAM.drawFocus)
+	ENGRAM.eventBus.subscribe(':update-focus', ENGRAM.drawFocus)
 
 })
