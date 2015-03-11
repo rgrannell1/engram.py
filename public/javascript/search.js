@@ -111,5 +111,5 @@ var scoreBookmarks = function (_ref) {
 };
 
 scoreBookmarks.precond = function (pattern) {
-	is.always.string(query);
+	is.always.string(pattern);
 };

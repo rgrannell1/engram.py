@@ -129,5 +129,5 @@ var scoreBookmarks = ({query}) => {
 }
 
 scoreBookmarks.precond = pattern => {
-	is.always.string(query)
+	is.always.string(pattern)
 }
