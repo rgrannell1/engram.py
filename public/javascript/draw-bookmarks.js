@@ -2,6 +2,8 @@
 
 var selectBookmarks = function (query) {
 
+	selectBookmarks.precond(query);
+
 	var cacheArray = Object.keys(ENGRAM.cache).map(function (key) {
 		return ENGRAM.cache[key];
 	});
@@ -11,6 +13,10 @@ var selectBookmarks = function (query) {
 	}).sort(function (bookmark0, bookmark1) {
 		bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query];
 	});
+};
+
+selectBookmarks.precond = function (query) {
+	is.always.string(query);
 };
 
 ENGRAM.eventBus.subscribe(":rescore", function (_) {

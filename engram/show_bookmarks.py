@@ -29,7 +29,6 @@ dependencies = {
 		"sync-bookmarks",
 		"delete-bookmark",
 		"draw-bookmarks",
-		"load-scroll",
 		"search",
 		"main"
 

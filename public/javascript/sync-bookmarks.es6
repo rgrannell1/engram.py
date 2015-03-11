@@ -41,14 +41,23 @@
 
 
 
+
+
 	// -- sync bookmarks recurs when the data is loaded, fetching all bookmarks.
 
 	ENGRAM.syncBookmarks = requestBookmarks.bind({ }, ENGRAM.BIGINT, function recurSync ({data, next_id}) {
+
+		recurSync.precond(data, next_id)
 
 		next_id > 0 && data.length > 0
 			? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id, recurSync)
 			: console.log('loaded all bookmarks.')
 
 	})
+
+	recurSync.precond = (data, next_id) => {
+		is.always.array(data)
+		is.always.number(next_id)
+	}
 
 }

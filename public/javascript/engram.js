@@ -42,7 +42,10 @@ ENGRAM.searchState = {
 	previous: '',
 	current:  ''
 }
+
 ENGRAM.searchState.setQuery = query => {
+
 	this.previous = this.current
 	this.current  = query
+
 }

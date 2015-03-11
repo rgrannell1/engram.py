@@ -14,6 +14,8 @@
 
 	var align = (query, text) => {
 
+		align.precond(query, text)
+
 		var query = query.toLowerCase( )
 		var text  = text. toLowerCase( )
 
@@ -38,13 +40,30 @@
 		return alignResult
 
 	}
+
+	align.precond = (query, text) => {
+
+		is.always.string(query)
+		is.always.string(text)
+
+	}
+
 }
 
 
 
 
-var alignQuality = alignment => {
-	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.15)
+var alignQuality = ({gaps, text}) => {
+
+	alignQuality.precond(gaps, text)
+
+	return 1 - Math.pow(gaps / text.length, 0.15)
+
+}
+
+alignQuality.precond = (gaps, text) => {
+	is.always.number(gaps)
+	is.always.string(text)
 }
 
 
@@ -53,20 +72,35 @@ var alignQuality = alignment => {
 
 var isSplitSubstring = pattern => {
 
+	isSplitSubstring.precond(pattern)
+
 	var regexp = new RegExp(pattern.split('').join('.*?'), 'i')
 
 	return string => regexp.test(string)
 }
 
+isSplitSubstring.precond = pattern => {
+	is.always.string(pattern)
+}
 
 
 
 
 var scoreTextMatch = (query, matchesPattern, text) => {
 
+	scoreTextMatch.precond(query, matchesPattern, text)
+
 	return matchesPattern(text)
 		? query.length / text.length * alignQuality(align(query, text))
 		: 0
+
+}
+
+scoreTextMatch.precond = (query, matchesPattern, text) => {
+
+	is.always.string(query)
+	is.always.function(matchesPattern)
+	is.always.string(text)
 
 }
 
@@ -75,6 +109,8 @@ var scoreTextMatch = (query, matchesPattern, text) => {
 
 
 var scoreBookmarks = ({query}) => {
+
+	scoreBookmarks.precond(query)
 
 	var cacheRef = ENGRAM.cache
 
@@ -90,4 +126,8 @@ var scoreBookmarks = ({query}) => {
 
 	ENGRAM.eventBus.publish(':rescore', {})
 
+}
+
+scoreBookmarks.precond = pattern => {
+	is.always.string(query)
 }

@@ -17,6 +17,8 @@
 
 		align = function (query, text) {
 
+			align.precond(query, text);
+
 			var query = query.toLowerCase();
 			var text = text.toLowerCase();
 
@@ -39,14 +41,32 @@
 
 			return alignResult;
 		};
+
+		align.precond = function (query, text) {
+
+			is.always.string(query);
+			is.always.string(text);
+		};
 	})();
 }
 
-var alignQuality = function (alignment) {
-	return 1 - Math.pow(alignment.gaps / alignment.text.length, 0.15);
+var alignQuality = function (_ref) {
+	var gaps = _ref.gaps;
+	var text = _ref.text;
+
+	alignQuality.precond(gaps, text);
+
+	return 1 - Math.pow(gaps / text.length, 0.15);
+};
+
+alignQuality.precond = function (gaps, text) {
+	is.always.number(gaps);
+	is.always.string(text);
 };
 
 var isSplitSubstring = function (pattern) {
+
+	isSplitSubstring.precond(pattern);
 
 	var regexp = new RegExp(pattern.split("").join(".*?"), "i");
 
@@ -55,13 +75,28 @@ var isSplitSubstring = function (pattern) {
 	};
 };
 
+isSplitSubstring.precond = function (pattern) {
+	is.always.string(pattern);
+};
+
 var scoreTextMatch = function (query, matchesPattern, text) {
+
+	scoreTextMatch.precond(query, matchesPattern, text);
 
 	return matchesPattern(text) ? query.length / text.length * alignQuality(align(query, text)) : 0;
 };
 
+scoreTextMatch.precond = function (query, matchesPattern, text) {
+
+	is.always.string(query);
+	is.always["function"](matchesPattern);
+	is.always.string(text);
+};
+
 var scoreBookmarks = function (_ref) {
 	var query = _ref.query;
+
+	scoreBookmarks.precond(query);
 
 	var cacheRef = ENGRAM.cache;
 
@@ -73,4 +108,8 @@ var scoreBookmarks = function (_ref) {
 	});
 
 	ENGRAM.eventBus.publish(":rescore", {});
+};
+
+scoreBookmarks.precond = function (pattern) {
+	is.always.string(query);
 };

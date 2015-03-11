@@ -44,7 +44,14 @@
 			var data = _ref.data;
 			var next_id = _ref.next_id;
 
+			recurSync.precond(data, next_id);
+
 			next_id > 0 && data.length > 0 ? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id, recurSync) : console.log("loaded all bookmarks.");
 		});
+
+		recurSync.precond = function (data, next_id) {
+			is.always.array(data);
+			is.always.number(next_id);
+		};
 	})();
 }

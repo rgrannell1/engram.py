@@ -2,6 +2,8 @@
 
 var selectBookmarks = query => {
 
+	selectBookmarks.precond(query)
+
 	var cacheArray = Object.keys(ENGRAM.cache).map(key => ENGRAM.cache[key])
 
 	return query === ''
@@ -15,6 +17,9 @@ var selectBookmarks = query => {
 
 }
 
+selectBookmarks.precond = query => {
+	is.always.string(query)
+}
 
 
 
