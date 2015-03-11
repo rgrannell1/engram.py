@@ -2,43 +2,43 @@
 
 {
 
-	let eventCode = {
-		'escape':    27,
-		'backspace': 8
-	}
+let eventCode = {
+	'escape':    27,
+	'backspace': 8
+}
 
-	let isTypeable = event => {
-		return (
-			(event.keyCode >= 41 && event.keyCode < 122) ||
-			(event.keyCode == 32 || event.keyCode > 186)) &&
-			event.key.length === 1
-	}
-
-
+let isTypeable = event => {
+	return (
+		(event.keyCode >= 41 && event.keyCode < 122) ||
+		(event.keyCode == 32 || event.keyCode > 186)) &&
+		event.key.length === 1
+}
 
 
 
-	$(window).keydown(event => {
+// -- publish keystrokes.
 
-		var keyCode = event.keyCode
+$(window).keydown(event => {
 
-		if (event.keyCode === eventCode.escape) {
-			ENGRAM.eventBus.publish(':press-escape')
-		} else if (event.keyCode === eventCode.backspace) {
-			ENGRAM.eventBus.publish(':press-backspace')
-		} else {
+	var keyCode = event.keyCode
 
-			if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
+	if (event.keyCode === eventCode.escape) {
+		ENGRAM.eventBus.publish(':press-escape')
+	} else if (event.keyCode === eventCode.backspace) {
+		ENGRAM.eventBus.publish(':press-backspace')
+	} else {
 
-				ENGRAM.eventBus.publish(':press-typeable', {
-					key: event.key
-				})
+		if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
 
-			}
+			ENGRAM.eventBus.publish(':press-typeable', {
+				key: event.key
+			})
 
 		}
 
-	})
+	}
+
+})
 
 }
 
@@ -46,17 +46,16 @@
 
 
 
+// -- trigger a delete event on delete-button click.
 
+$(document).on('click', '.delete-bookmark', function ( ) {
 
+	var $button  = $(this)
 
+	var $article = $button.closest('article')
+	var id       = parseInt($article.attr('id'), 10)
 
-
-
-ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
-
-	query.length === 0
-		? history.pushState(null, '', '/bookmarks')
-		: history.pushState(null, '', `/bookmarks?q=${query}`)
+	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
 
 })
 
@@ -67,16 +66,13 @@ ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
 // -- update the search state.
 
 ENGRAM.eventBus.subscribe(':update-query', ({query}) => {
-
-	searchState.previous = searchState.current
-	searchState.current  = query
-
+	ENGRAM.searchState.setQuery(query)
 })
 
+// -- score each bookmark for the new query.
 
 
-
-ENGRAM.eventBus.subscribe(':update-query',    scoreBookmarks)
+ENGRAM.eventBus.subscribe(':update-query', scoreBookmarks)
 
 
 

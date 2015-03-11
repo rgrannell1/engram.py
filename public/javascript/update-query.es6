@@ -1,6 +1,26 @@
+
 "use strict"
 
+var getQuery  => {
+
+	var match  = RegExp('[?&]q=([^&]*)').exec(window.location.search)
+	var result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
+
+	return is.null(result) ? '' : result
+
+}
+
 var setQuery = query => {
+
+	query.length === 0
+		? history.pushState(null, '', '/bookmarks')
+		: history.pushState(null, '', `/bookmarks?q=${query}`)
+
+}
+
+var publishQuery = query => {
+
+	setQuery({query})
 
 	ENGRAM.eventBus.publish(':update-query', {
 		query: query
@@ -11,33 +31,22 @@ var setQuery = query => {
 
 
 
+
 ENGRAM.eventBus
 .subscribe(':press-typeable', ({key}) => {
-	setQuery(getQueryParam('q') + key)
+	publishQuery(getQuery() + key)
 })
 .subscribe(':press-backspace', ({key}) => {
-	setQuery(getQueryParam('q').slice(0, -1))
+	publishQuery(getQuery().slice(0, -1))
 })
 .subscribe(':press-escape', ({key}) => {
-	setQuery('')
+	publishQuery('')
 })
-
-
-
-
-var getQueryParam = param => {
-
-	var match  = RegExp('[?&]' + param + '=([^&]*)').exec(window.location.search)
-	var result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
-
-	return is.null(result) ? '' : result
-
-}
 
 
 
 
 
 $(( ) => {
-	setQuery(getQueryParam('q'))
+	publishQuery(getQuery())
 })

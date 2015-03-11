@@ -2,12 +2,14 @@
 
 {
 
-	let requestChunk = (maxID) => {
+	// -- request all bookmarks below a given id number.
 
-		requestChunk.precond(maxID)
+	let requestBookmarks = (maxID, call) => {
+
+		requestBookmarks.precond(maxID)
 
 		$.ajax({
-			url: `/api/bookmarks?max_id=${maxID}&amount=${ENGRAM.PERREQUEST}`,
+			url:      `/api/bookmarks?max_id=${maxID}&amount=${ENGRAM.PERREQUEST}`,
 			dataType: 'json',
 			success: ({data, next_id}) => {
 
@@ -15,9 +17,7 @@
 					ENGRAM.eventBus.publish(':load-bookmark', bookmark)
 				})
 
-				next_id >= 0
-					? console.log('loaded all bookmarks.')
-					: setTimeout(requestChunk, ENGRAM.loadInterval, next_id)
+				callback({data, next_id})
 
 			},
 			failure: res => {
@@ -28,10 +28,10 @@
 
 	}
 
-	requestChunk.precond = maxID => {
+	requestBookmarks.precond = maxID => {
 
 		is.always.number(maxID, maxID => {
-			`requestChunk: maxID was not a number (actual value: ${ JSON.stringify(maxID) })`
+			`requestBookmarks: maxID was not a number (actual value: ${ JSON.stringify(maxID) })`
 		})
 
 	}
@@ -40,8 +40,12 @@
 
 
 
-	ENGRAM.syncBookmarks = ( ) => {
-		requestChunk(ENGRAM.BIGINT)
-	}
+	ENGRAM.syncBookmarks = requestBookmarks.bind({ }, ENGRAM.BIGINT, ({data, next_id}) => {
+
+		next_id > 0
+			? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id)
+			: console.log('loaded all bookmarks.')
+
+	})
 
 }
