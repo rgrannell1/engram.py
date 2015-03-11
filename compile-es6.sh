@@ -1,11 +1,15 @@
 #!/usr/bin/env sh
 
-for file in public/javascript/*.es6
+for file in public/javascript/src/*.es6
 do
 
-	echo $file
+	filename="$(
+		echo $file |
+		sed "s/es6/js/" |
+		sed "s/javascript\/src/javascript\/lib/")
+	"
+	echo $file "->" $filename
 
-	filename="$(echo $file | sed "s/es6/js/")"
 	babel $file --out-file $filename
 
 done

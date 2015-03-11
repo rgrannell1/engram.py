@@ -109,6 +109,12 @@ ENGRAM.eventBus
 })
 .subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
+	if ($('#bookmarks article').length > 5 * ENGRAM.PERSCROLL) {
+
+	}
+
+	console.log('getting next')
+
 })
 
 

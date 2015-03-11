@@ -11,7 +11,7 @@ def loadStatic(fpath, extension, fnames):
 
 
 def loadJS(fnames):
-	return loadStatic('public/javascript', '.js', fnames)
+	return loadStatic('public/javascript/lib', '.js', fnames)
 
 def loadCSS(fnames):
 	return loadStatic('public/css', '.css', fnames)

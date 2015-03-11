@@ -91,6 +91,10 @@ ENGRAM.eventBus.subscribe(":atTop", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
+
+	if ($("#bookmarks article").length > 5 * ENGRAM.PERSCROLL) {}
+
+	console.log("getting next");
 });
 
 // -- update the search state.
