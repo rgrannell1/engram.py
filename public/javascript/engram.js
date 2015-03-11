@@ -38,7 +38,11 @@ ENGRAM.loadedIndex = 0
 // -- a collection of data used to speed-up searches, as search is
 // -- slow and caching helps.
 
-var searchState = {
+ENGRAM.searchState = {
 	previous: '',
 	current:  ''
+}
+ENGRAM.searchState.setQuery = query => {
+	this.previous = this.current
+	this.current  = query
 }

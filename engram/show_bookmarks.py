@@ -31,7 +31,6 @@ dependencies = {
 		"draw-bookmarks",
 		"load-scroll",
 		"search",
-		"cache",
 		"main"
 
 	]),

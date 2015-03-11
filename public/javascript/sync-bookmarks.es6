@@ -1,12 +1,13 @@
+
 "use strict"
 
 {
 
 	// -- request all bookmarks below a given id number.
 
-	let requestBookmarks = (maxID, call) => {
+	let requestBookmarks = (maxID, callback) => {
 
-		requestBookmarks.precond(maxID)
+		requestBookmarks.precond(maxID, callback)
 
 		$.ajax({
 			url:      `/api/bookmarks?max_id=${maxID}&amount=${ENGRAM.PERREQUEST}`,
@@ -28,22 +29,24 @@
 
 	}
 
-	requestBookmarks.precond = maxID => {
+	requestBookmarks.precond = (maxID, callback) => {
 
 		is.always.number(maxID, maxID => {
 			`requestBookmarks: maxID was not a number (actual value: ${ JSON.stringify(maxID) })`
 		})
 
+		is.always.function(callback)
+
 	}
 
 
 
+	// -- sync bookmarks recurs when the data is loaded, fetching all bookmarks.
 
+	ENGRAM.syncBookmarks = requestBookmarks.bind({ }, ENGRAM.BIGINT, function recurSync ({data, next_id}) {
 
-	ENGRAM.syncBookmarks = requestBookmarks.bind({ }, ENGRAM.BIGINT, ({data, next_id}) => {
-
-		next_id > 0
-			? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id)
+		next_id > 0 && data.length > 0
+			? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id, recurSync)
 			: console.log('loaded all bookmarks.')
 
 	})

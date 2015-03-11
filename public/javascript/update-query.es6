@@ -1,7 +1,11 @@
 
 "use strict"
 
-var getQuery  => {
+
+
+
+
+var getQuery = ( ) => {
 
 	var match  = RegExp('[?&]q=([^&]*)').exec(window.location.search)
 	var result = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
@@ -12,20 +16,37 @@ var getQuery  => {
 
 var setQuery = query => {
 
+	setQuery.precond(query)
+
 	query.length === 0
 		? history.pushState(null, '', '/bookmarks')
-		: history.pushState(null, '', `/bookmarks?q=${query}`)
+		: history.pushState(null, '', `/bookmarks?q=${encodeURIComponent(query)}`)
 
 }
 
+setQuery.precond = query => {
+	is.always.string(query)
+}
+
+
+
+
+
+
 var publishQuery = query => {
 
-	setQuery({query})
+	publishQuery.precond(query)
+
+	setQuery(query)
 
 	ENGRAM.eventBus.publish(':update-query', {
 		query: query
 	})
 
+}
+
+publishQuery.precond = query => {
+	is.always.string(query)
 }
 
 
@@ -34,10 +55,10 @@ var publishQuery = query => {
 
 ENGRAM.eventBus
 .subscribe(':press-typeable', ({key}) => {
-	publishQuery(getQuery() + key)
+	publishQuery(getQuery( ) + key)
 })
 .subscribe(':press-backspace', ({key}) => {
-	publishQuery(getQuery().slice(0, -1))
+	publishQuery(getQuery( ).slice(0, -1))
 })
 .subscribe(':press-escape', ({key}) => {
 	publishQuery('')
@@ -48,5 +69,5 @@ ENGRAM.eventBus
 
 
 $(( ) => {
-	publishQuery(getQuery())
+	publishQuery(getQuery( ))
 })

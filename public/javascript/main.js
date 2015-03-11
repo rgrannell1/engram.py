@@ -14,6 +14,8 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 			return (event.keyCode >= 41 && event.keyCode < 122 || (event.keyCode == 32 || event.keyCode > 186)) && event.key.length === 1;
 		};
 
+		// -- publish keystrokes.
+
 		$(window).keydown(function (event) {
 
 			var keyCode = event.keyCode;
@@ -35,10 +37,60 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 	})();
 }
 
-ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
-	var query = _ref.query;
+// -- trigger a delete event on delete-button click.
 
-	query.length === 0 ? history.pushState(null, "", "/bookmarks") : history.pushState(null, "", "/bookmarks?q=" + query);
+$(document).on("click", ".delete-bookmark", function () {
+
+	var $button = $(this);
+
+	var $article = $button.closest("article");
+	var id = parseInt($article.attr("id"), 10);
+
+	ENGRAM.eventBus.publish(":delete-bookmark", { id: id, $button: $button });
+});
+
+// -- publish data about scroll position.
+
+$(window).on("scroll", function () {
+
+	var $window = $(window);
+	var windowTop = $window.scrollTop();
+
+	ENGRAM.eventBus.publish(":scroll", {
+
+		windowTop: windowTop,
+		scrollHeight: $(document).height(),
+		scrollPosition: $window.height() + windowTop
+
+	});
+});
+
+// -- test if we are at the boundaries of the page.
+
+ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
+
+	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
+		// what data should these publish ?
+
+		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+	} else if (windowTop < 50) {
+		// what data should these publish ?
+
+		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+	}
+});
+
+ENGRAM.eventBus.subscribe(":atTop", function (_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
+}).subscribe(":atBottom", function (_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
 });
 
 // -- update the search state.
@@ -46,9 +98,10 @@ ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 ENGRAM.eventBus.subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
 
-	searchState.previous = searchState.current;
-	searchState.current = query;
+	ENGRAM.searchState.setQuery(query);
 });
+
+// -- score each bookmark for the new query.
 
 ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
 
@@ -56,7 +109,7 @@ ENGRAM.eventBus.subscribe(":update-query", scoreBookmarks);
 
 ENGRAM.eventBus.subscribe(":load-bookmark", function (bookmark) {
 
-	var query = getQueryParam("q");
+	var query = getQuery();
 
 	is.always.object(bookmark);
 	is.always.number(bookmark.bookmark_id);

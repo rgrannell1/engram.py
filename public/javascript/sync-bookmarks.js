@@ -3,9 +3,11 @@
 {
 	(function () {
 
-		var requestChunk = function (maxID) {
+		// -- request all bookmarks below a given id number.
 
-			requestChunk.precond(maxID);
+		var requestBookmarks = function (maxID, callback) {
+
+			requestBookmarks.precond(maxID, callback);
 
 			$.ajax({
 				url: "/api/bookmarks?max_id=" + maxID + "&amount=" + ENGRAM.PERREQUEST,
@@ -18,7 +20,7 @@
 						ENGRAM.eventBus.publish(":load-bookmark", bookmark);
 					});
 
-					next_id >= 0 ? console.log("loaded all bookmarks.") : setTimeout(requestChunk, ENGRAM.loadInterval, next_id);
+					callback({ data: data, next_id: next_id });
 				},
 				failure: function (res) {
 					console.log("internal failure: bookmark chunk failed to load.");
@@ -27,15 +29,22 @@
 			});
 		};
 
-		requestChunk.precond = function (maxID) {
+		requestBookmarks.precond = function (maxID, callback) {
 
 			is.always.number(maxID, function (maxID) {
-				"requestChunk: maxID was not a number (actual value: " + JSON.stringify(maxID) + ")";
+				"requestBookmarks: maxID was not a number (actual value: " + JSON.stringify(maxID) + ")";
 			});
+
+			is.always["function"](callback);
 		};
 
-		ENGRAM.syncBookmarks = function () {
-			requestChunk(ENGRAM.BIGINT);
-		};
+		// -- sync bookmarks recurs when the data is loaded, fetching all bookmarks.
+
+		ENGRAM.syncBookmarks = requestBookmarks.bind({}, ENGRAM.BIGINT, function recurSync(_ref) {
+			var data = _ref.data;
+			var next_id = _ref.next_id;
+
+			next_id > 0 && data.length > 0 ? setTimeout(requestBookmarks, ENGRAM.loadInterval, next_id, recurSync) : console.log("loaded all bookmarks.");
+		});
 	})();
 }
