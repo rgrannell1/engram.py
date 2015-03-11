@@ -82,7 +82,7 @@ ENGRAM.eventBus.subscribe(':update-query', scoreBookmarks)
 
 ENGRAM.eventBus.subscribe(':load-bookmark', bookmark => {
 
-	var query = getQueryParam('q')
+	var query = getQuery( )
 
 	is.always.object(bookmark)
 	is.always.number(bookmark.bookmark_id)

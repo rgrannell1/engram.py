@@ -22,7 +22,7 @@ var selectBookmarks = query => {
 
 ENGRAM.eventBus.subscribe(':rescore', _ => {
 
-	ENGRAM.inFocus = selectBookmarks(getQueryParam('q'))
+	ENGRAM.inFocus = selectBookmarks(getQuery( ))
 
 	ENGRAM.eventBus.publish(':change-focus', {
 		focus: ENGRAM.inFocus
