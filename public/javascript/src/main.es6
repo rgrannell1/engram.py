@@ -185,8 +185,8 @@ listBookmarks.precond = (from, cache, isDecreasing) => {
 
 
 
-// -- todo dont take  from (not good with query)
-ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', ({from,  isDecreasing})  => {
+
+var loadDownwards = ({from,  isDecreasing})  => {
 
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
@@ -199,10 +199,23 @@ ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', ({from,  isDecreasing})  => {
 			currentQuery: ''
 		}
 		: {
-			value:        loaded.concat(ENGRAM.inFocus.value).slice(0, -ENGRAM.MAXLOADED),
+			value:        loaded.concat(ENGRAM.inFocus.value).slice(-ENGRAM.MAXLOADED),
 			currentQuery: ''
 		}
 	)
+
+}
+
+
+
+
+
+$(( ) => {
+
+	loadDownwards({
+		from:         ENGRAM.BIGNUM + "",
+		isDecreasing: true
+	})
 
 })
 
@@ -210,5 +223,6 @@ ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', ({from,  isDecreasing})  => {
 
 
 
+ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadDownwards)
 
 ENGRAM.syncBookmarks( )

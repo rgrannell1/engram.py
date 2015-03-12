@@ -143,8 +143,7 @@ listBookmarks.precond = function (from, cache, isDecreasing) {
 	is.always.boolean(isDecreasing);
 };
 
-// -- todo dont take  from (not good with query)
-ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", function (_ref) {
+var loadDownwards = function (_ref) {
 	var from = _ref.from;
 	var isDecreasing = _ref.isDecreasing;
 
@@ -157,9 +156,19 @@ ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", function (_ref) {
 		value: ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
 		currentQuery: ""
 	} : {
-		value: loaded.concat(ENGRAM.inFocus.value).slice(0, -ENGRAM.MAXLOADED),
+		value: loaded.concat(ENGRAM.inFocus.value).slice(-ENGRAM.MAXLOADED),
 		currentQuery: ""
 	});
+};
+
+$(function () {
+
+	loadDownwards({
+		from: ENGRAM.BIGNUM + "",
+		isDecreasing: true
+	});
 });
+
+ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadDownwards);
 
 ENGRAM.syncBookmarks();

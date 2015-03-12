@@ -57,7 +57,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		$('#bookmark-container').html(
 			focus.value
-			.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL)
 			.map(
 				({bookmark, _}) => renderBookmark(bookmark))
 			.reduce(
@@ -74,10 +73,10 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 	}
 
-
-
-
-
-	ENGRAM.eventBus.subscribe(':update-focus', ENGRAM.drawFocus)
-
 })
+
+
+
+
+
+ENGRAM.eventBus.subscribe(":update-focus", ENGRAM.drawFocus)

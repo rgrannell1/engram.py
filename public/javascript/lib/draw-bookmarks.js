@@ -46,7 +46,7 @@ $.get("/public/html/bookmark-template.html", function (template) {
 
 		ENGRAM.drawFocus.precond(focus);
 
-		$("#bookmark-container").html(focus.value.slice(ENGRAM.loadedIndex, ENGRAM.PERSCROLL).map(function (_ref) {
+		$("#bookmark-container").html(focus.value.map(function (_ref) {
 			var bookmark = _ref.bookmark;
 			var _ = _ref._;
 			return renderBookmark(bookmark);
@@ -61,6 +61,6 @@ $.get("/public/html/bookmark-template.html", function (template) {
 		is.always.array(focus.value);
 		is.always.string(focus.currentQuery);
 	};
-
-	ENGRAM.eventBus.subscribe(":update-focus", ENGRAM.drawFocus);
 });
+
+ENGRAM.eventBus.subscribe(":update-focus", ENGRAM.drawFocus);

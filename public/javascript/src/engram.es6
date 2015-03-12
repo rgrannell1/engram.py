@@ -22,28 +22,67 @@ ENGRAM.DELETEFADE = 250;
 ENGRAM.LOADOFFSET = 60;
 ENGRAM.eventBus = EventBus( )
 
-ENGRAM.searchState = {
-	previous:   '',
-	current:    '',
-	setQuery: function (query) {
+
+
+
+
+{
+	let setQuery = function (query) {
+
+		setQuery.precond(query)
 
 		this.previous = this.current
 		this.current  = query
 
 	}
 
+	setQuery.precond = query => {
+		is.always.string(query)
+	}
+
+
+
+
+
+	var ENGRAM.searchState = {
+		previous:   '',
+		current:    '',
+		setQuery
+
+	}
+
 }
 
 
-ENGRAM.inFocus = {
-	value: {},
-	currentQuery: "",
-	setFocus: function setFocus({value, currentQuery}) {
+
+
+
+{
+	let setFocus = function ({value, currentQuery}) {
+
+		setFocus.precond({value, currentQuery})
 
 		this.value        = value
 		this.currentQuery = currentQuery
 
 		ENGRAM.eventBus.publish(':update-focus', this)
 
+	}
+
+	setFocus.precond = ({value, currentQuery}) => {
+
+		is.always.array(value)
+		is.always.strict(currentQuery)
+
+	}
+
+
+
+
+
+	var ENGRAM.inFocus = {
+		value:        { },
+		currentQuery: "",
+		setFocus
 	}
 }
