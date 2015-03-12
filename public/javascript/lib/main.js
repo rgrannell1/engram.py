@@ -221,6 +221,7 @@ var loader = function () {
 	}
 };
 
+setImmediateInterval(ENGRAM.updateTimes, 250);
 setImmediateInterval(loader, 250);
 
 ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadUpwards);

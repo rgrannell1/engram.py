@@ -59,7 +59,4 @@
 		})
 
 	}
-
-	setInterval(ENGRAM.updateTimes, 1000)
-
 }

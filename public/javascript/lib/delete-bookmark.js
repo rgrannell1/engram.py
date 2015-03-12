@@ -12,16 +12,10 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 		url: "/bookmarks/" + id,
 		type: "DELETE",
 		success: function (data) {
-
-			ENGRAM.eventBus.publish(":successful-delete", {
-				id: id, $article: $article
-			});
+			ENGRAM.eventBus.publish(":successful-delete", { id: id, $article: $article });
 		},
-		failure: function () {
-
-			ENGRAM.eventBus.publish(":failed-delete", {
-				id: id, $article: $article
-			});
+		error: function () {
+			ENGRAM.eventBus.publish(":failed-delete", { id: id, $article: $article });
 		}
 	});
 }).subscribe(":successful-delete", function (_ref) {

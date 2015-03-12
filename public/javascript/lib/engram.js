@@ -83,6 +83,6 @@ var setImmediateInterval = function setImmediateInterval(fn, timeout) {
 		args[_key - 2] = arguments[_key];
 	}
 
-	fn.apply(undefined, args);
+	setTimeout.apply(undefined, [fn, 0].concat(args));
 	setInterval.apply(undefined, [fn, timeout].concat(args));
 };

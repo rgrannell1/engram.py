@@ -97,7 +97,8 @@ ENGRAM.eventBus = EventBus( )
 
 var setImmediateInterval = function (fn, timeout, ...args) {
 
-	fn(...args)
+	setTimeout(fn, 0, ...args)
 	setInterval(fn, timeout, ...args)
 
 }
+

@@ -135,6 +135,3 @@ ENGRAM.updateTimes = ( ) => {
 	})
 
 }
-
-ENGRAM.updateTimes( )
-setInterval(ENGRAM.updateTimes, 1000)

@@ -276,6 +276,7 @@ var loader = ( ) => {
 
 }
 
+setImmediateInterval(ENGRAM.updateTimes, 250)
 setImmediateInterval(loader, 250)
 
 
