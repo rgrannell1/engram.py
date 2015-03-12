@@ -27,7 +27,7 @@ ENGRAM.eventBus = EventBus( )
 
 
 {
-	let setQuery = function (query) {
+	let setQuery = function setQuery (query) {
 
 		setQuery.precond(query)
 
@@ -58,7 +58,7 @@ ENGRAM.eventBus = EventBus( )
 
 
 {
-	let setFocus = function ({value, currentQuery}) {
+	let setFocus = function setFocus ({value, currentQuery}) {
 
 		setFocus.precond({value, currentQuery})
 
@@ -74,6 +74,10 @@ ENGRAM.eventBus = EventBus( )
 		is.always.array(value)
 		is.always.string(currentQuery)
 
+		if (value.length > ENGRAM.MAXLOADED) {
+			throw RangeError(`focus too long to draw (max ${ENGRAM.MAXLOADED}, actual ${value.length})`)
+		}
+
 	}
 
 
@@ -81,7 +85,7 @@ ENGRAM.eventBus = EventBus( )
 
 
 	ENGRAM.inFocus = {
-		value:        { },
+		value:        [ ],
 		currentQuery: "",
 		setFocus
 	}

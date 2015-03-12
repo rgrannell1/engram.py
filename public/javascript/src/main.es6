@@ -8,6 +8,7 @@
 	}
 
 	let isTypeable = event => {
+
 		return (
 			(event.keyCode >= 41 && event.keyCode < 122) ||
 			(event.keyCode == 32 || event.keyCode > 186)) &&
@@ -103,15 +104,7 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 
 
 
-var isRoomLeft = ( ) => {
-	return $('#bookmarks article').length < 5 * ENGRAM.PERSCROLL
-}
-
-
-
-
 ENGRAM.eventBus
-
 .subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
 	if (getQuery( ) === '') {
@@ -156,28 +149,27 @@ ENGRAM.eventBus
 
 
 
-var listBookmarks = (from, cache, isDecreasing) => {
+var listBookmarks = (from, isDecreasing) => {
 
-	listBookmarks.precond(from, cache, isDecreasing)
+	listBookmarks.precond(from, isDecreasing)
 
-	return Object.keys(cache)
+	return Object.keys(ENGRAM.cache)
 		.map(
 			key => parseInt(key, 10))
 		.filter(
-			key => isDecreasing ? key < from : key > from)
+			id  => isDecreasing ? key < from : key > from)
 		.sort(
 			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
 		.slice(
 			0, ENGRAM.PERSCROLL)
 		.map(
-			key => cache[key])
+			key => ENGRAM.cache[key])
 
 }
 
-listBookmarks.precond = (from, cache, isDecreasing) => {
+listBookmarks.precond = (from, isDecreasing) => {
 
-	is.always.string(from)
-	is.always.object(cache)
+	is.always.number(from)
 	is.always.boolean(isDecreasing)
 
 }
@@ -191,7 +183,7 @@ var loadDownwards = ({from,  isDecreasing})  => {
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = listBookmarks(from, ENGRAM.cache, isDecreasing)
+	var loaded = listBookmarks(from, isDecreasing)
 
 	ENGRAM.inFocus.setFocus(isDecreasing
 		? {
@@ -206,14 +198,16 @@ var loadDownwards = ({from,  isDecreasing})  => {
 
 }
 
+$(( ) => {
 
+	var loaded = listBookmarks(ENGRAM.BIGINT, true)
 
-
+})
 
 $(( ) => {
 
 	loadDownwards({
-		from:         ENGRAM.BIGNUM + "",
+		from:         ENGRAM.BIGINT,
 		isDecreasing: true
 	})
 

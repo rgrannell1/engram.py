@@ -1,39 +1,13 @@
 "use strict";
 
-var selectBookmarks = function (query) {
-
-	selectBookmarks.precond(query);
-
-	var cacheArray = Object.keys(ENGRAM.cache).map(function (key) {
-		return ENGRAM.cache[key];
-	});
-
-	return query === "" ? cacheArray : cacheArray.filter(function (bookmark) {
-		return bookmark.metadata.scores[query] > 0.05;
-	}).sort(function (bookmark0, bookmark1) {
-		bookmark0.metadata.scores[query] - bookmark1.metadata.scores[query];
-	});
-};
-
-selectBookmarks.precond = function (query) {
-	is.always.string(query);
-};
-
-ENGRAM.eventBus.subscribe(":rescore", function (_) {
-
-	ENGRAM.inFocus.setFocus({
-		value: selectBookmarks(getQuery()),
-		currentQuery: getQuery()
-	});
-
-	ENGRAM.eventBus.publish(":update-focus", ENGRAM.inFocus);
-});
-
-// -- to break out of the callback.
-// -- this will be update to draw.
+// -- remove this if I find an objective reason
+// -- this is bad.
 
 ENGRAM.drawFocus = function () {
-	setTimeout(ENGRAM.drawFocus, 50);
+
+	setTimeout(function () {
+		return ENGRAM.drawFocus(ENGRAM.inFocus);
+	}, 100);
 };
 
 $.get("/public/html/bookmark-template.html", function (template) {

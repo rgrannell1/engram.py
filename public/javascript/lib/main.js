@@ -11,6 +11,7 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 		};
 
 		var isTypeable = function (event) {
+
 			return (event.keyCode >= 41 && event.keyCode < 122 || (event.keyCode == 32 || event.keyCode > 186)) && event.key.length === 1;
 		};
 
@@ -83,10 +84,6 @@ ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
 	}
 });
 
-var isRoomLeft = function () {
-	return $("#bookmarks article").length < 5 * ENGRAM.PERSCROLL;
-};
-
 ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
@@ -120,26 +117,27 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	ENGRAM.eventBus.publish(":rescore");
 });
 
-var listBookmarks = function (from, cache, isDecreasing) {
+var listBookmarks = function (from, isDecreasing) {
 
-	listBookmarks.precond(from, cache, isDecreasing);
+	listBookmarks.precond(from, isDecreasing);
 
-	return Object.keys(cache).map(function (key) {
+	console.log(Object.keys(ENGRAM.cache));
+
+	return Object.keys(ENGRAM.cache).map(function (key) {
 		return parseInt(key, 10);
-	}).filter(function (key) {
+	}).filter(function (id) {
 		return isDecreasing ? key < from : key > from;
 	}).sort(function (num0, num1) {
 		return num1 - num0;
 	}) // -- this is slow if object imp. isn't ordered.
 	.slice(0, ENGRAM.PERSCROLL).map(function (key) {
-		return cache[key];
+		return ENGRAM.cache[key];
 	});
 };
 
-listBookmarks.precond = function (from, cache, isDecreasing) {
+listBookmarks.precond = function (from, isDecreasing) {
 
-	is.always.string(from);
-	is.always.object(cache);
+	is.always.number(from);
 	is.always.boolean(isDecreasing);
 };
 
@@ -150,7 +148,7 @@ var loadDownwards = function (_ref) {
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = listBookmarks(from, ENGRAM.cache, isDecreasing);
+	var loaded = listBookmarks(from, isDecreasing);
 
 	ENGRAM.inFocus.setFocus(isDecreasing ? {
 		value: ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
@@ -163,8 +161,13 @@ var loadDownwards = function (_ref) {
 
 $(function () {
 
+	var loaded = listBookmarks(ENGRAM.BIGINT, true);
+});
+
+$(function () {
+
 	loadDownwards({
-		from: ENGRAM.BIGNUM + "",
+		from: ENGRAM.BIGINT,
 		isDecreasing: true
 	});
 });

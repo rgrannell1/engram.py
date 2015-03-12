@@ -23,23 +23,13 @@ ENGRAM.eventBus = EventBus();
 
 {
 	(function () {
-		var setQuery = (function (_setQuery) {
-			var _setQueryWrapper = function setQuery(_x) {
-				return _setQuery.apply(this, arguments);
-			};
-
-			_setQueryWrapper.toString = function () {
-				return _setQuery.toString();
-			};
-
-			return _setQueryWrapper;
-		})(function (query) {
+		var setQuery = function setQuery(query) {
 
 			setQuery.precond(query);
 
 			this.previous = this.current;
 			this.current = query;
-		});
+		};
 
 		setQuery.precond = function (query) {
 			is.always.string(query);
@@ -56,17 +46,7 @@ ENGRAM.eventBus = EventBus();
 
 {
 	(function () {
-		var setFocus = (function (_setFocus) {
-			var _setFocusWrapper = function setFocus(_x) {
-				return _setFocus.apply(this, arguments);
-			};
-
-			_setFocusWrapper.toString = function () {
-				return _setFocus.toString();
-			};
-
-			return _setFocusWrapper;
-		})(function (_ref) {
+		var setFocus = function setFocus(_ref) {
 			var value = _ref.value;
 			var currentQuery = _ref.currentQuery;
 
@@ -76,7 +56,7 @@ ENGRAM.eventBus = EventBus();
 			this.currentQuery = currentQuery;
 
 			ENGRAM.eventBus.publish(":update-focus", this);
-		});
+		};
 
 		setFocus.precond = function (_ref) {
 			var value = _ref.value;
@@ -84,10 +64,14 @@ ENGRAM.eventBus = EventBus();
 
 			is.always.array(value);
 			is.always.string(currentQuery);
+
+			if (value.length > ENGRAM.MAXLOADED) {
+				throw RangeError("focus too long to draw (max " + ENGRAM.MAXLOADED + ", actual " + value.length + ")");
+			}
 		};
 
 		ENGRAM.inFocus = {
-			value: {},
+			value: [],
 			currentQuery: "",
 			setFocus: setFocus
 		};
