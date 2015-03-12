@@ -90,3 +90,14 @@ ENGRAM.eventBus = EventBus( )
 		setFocus
 	}
 }
+
+
+
+
+
+var setImmediateInterval = function (fn, timeout, ...args) {
+
+	fn(...args)
+	setInterval(fn, timeout, ...args)
+
+}

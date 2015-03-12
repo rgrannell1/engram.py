@@ -117,27 +117,26 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	ENGRAM.eventBus.publish(":rescore");
 });
 
-var listBookmarks = function (from, isDecreasing) {
+var listBookmarks = function (from, amount, isDecreasing) {
 
-	listBookmarks.precond(from, isDecreasing);
-
-	console.log(Object.keys(ENGRAM.cache));
+	listBookmarks.precond(from, amount, isDecreasing);
 
 	return Object.keys(ENGRAM.cache).map(function (key) {
 		return parseInt(key, 10);
 	}).filter(function (id) {
-		return isDecreasing ? key < from : key > from;
+		return isDecreasing ? id < from : key > from;
 	}).sort(function (num0, num1) {
 		return num1 - num0;
 	}) // -- this is slow if object imp. isn't ordered.
-	.slice(0, ENGRAM.PERSCROLL).map(function (key) {
+	.slice(0, amount).map(function (key) {
 		return ENGRAM.cache[key];
 	});
 };
 
-listBookmarks.precond = function (from, isDecreasing) {
+listBookmarks.precond = function (from, amount, isDecreasing) {
 
 	is.always.number(from);
+	is.always.number(amount);
 	is.always.boolean(isDecreasing);
 };
 
@@ -148,7 +147,7 @@ var loadDownwards = function (_ref) {
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = listBookmarks(from, isDecreasing);
+	var loaded = listBookmarks(from, ENGRAM.MAXLOADED, isDecreasing);
 
 	ENGRAM.inFocus.setFocus(isDecreasing ? {
 		value: ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
@@ -159,10 +158,28 @@ var loadDownwards = function (_ref) {
 	});
 };
 
-$(function () {
+var loader = function () {
 
-	var loaded = listBookmarks(ENGRAM.BIGINT, true);
-});
+	var stillUnloaded = getQuery() === "" && currentAmount !== ENGRAM.MAXLOADED;
+	var currentAmount = ENGRAM.inFocus.value.length;
+
+	if (stillUnloaded) {
+
+		var from = $("#bookmark-container article").length === 0 ? ENGRAM.BIGINT : parseInt($("#bookmark-container article:last").attr("id"), 10);
+
+		var loaded = listBookmarks(from, ENGRAM.MAXLOADED - currentAmount, true);
+
+		if (loaded.length > 0) {
+
+			ENGRAM.inFocus.setFocus({
+				value: ENGRAM.inFocus.value.concat(loaded),
+				currentQuery: ""
+			});
+		}
+	}
+};
+
+setImmediateInterval(loader, 250);
 
 $(function () {
 
