@@ -73,11 +73,11 @@ ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
 
-	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
+	if (scrollHeight - scrollPosition === 0) {
 		// what data should these publish ?
 
 		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
-	} else if (windowTop < ENGRAM.LOADOFFSET) {
+	} else if (windowTop === 0) {
 		// what data should these publish ?
 
 		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
@@ -92,7 +92,7 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	if (getQuery() === "") {
 
 		ENGRAM.eventBus.publish(":scrolldown-bookmarks", {
-			from: $("#bookmarks article:last").attr("id"),
+			from: parseInt($("#bookmarks article:last").attr("id"), 10) - 1,
 			isDecreasing: true
 		});
 	}
@@ -150,18 +150,18 @@ var loadDownwards = function (_ref) {
 	var loaded = listBookmarks(from, ENGRAM.MAXLOADED, isDecreasing);
 
 	ENGRAM.inFocus.setFocus(isDecreasing ? {
-		value: ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
+		value: ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
 		currentQuery: ""
 	} : {
-		value: loaded.concat(ENGRAM.inFocus.value).slice(-ENGRAM.MAXLOADED),
+		value: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
 		currentQuery: ""
 	});
 };
 
 var loader = function () {
 
-	var stillUnloaded = getQuery() === "" && currentAmount !== ENGRAM.MAXLOADED;
 	var currentAmount = ENGRAM.inFocus.value.length;
+	var stillUnloaded = getQuery() === "" && currentAmount !== ENGRAM.MAXLOADED;
 
 	if (stillUnloaded) {
 
@@ -181,14 +181,5 @@ var loader = function () {
 
 setImmediateInterval(loader, 250);
 
-$(function () {
-
-	loadDownwards({
-		from: ENGRAM.BIGINT,
-		isDecreasing: true
-	});
-});
-
 ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadDownwards);
-
 ENGRAM.syncBookmarks();

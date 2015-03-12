@@ -86,12 +86,12 @@ $(window).on('scroll', ( ) => {
 
 ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
-	if (scrollHeight - scrollPosition < ENGRAM.LOADOFFSET) {
+	if (scrollHeight - scrollPosition === 0) {
 		// what data should these publish ?
 
 		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
 
-	} else if (windowTop < ENGRAM.LOADOFFSET) {
+	} else if (windowTop === 0) {
 		// what data should these publish ?
 
 		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
@@ -110,12 +110,11 @@ ENGRAM.eventBus
 	if (getQuery( ) === '') {
 
 		ENGRAM.eventBus.publish(':scrolldown-bookmarks', {
-			from:         $('#bookmarks article:last').attr('id') ,
+			from:         parseInt($('#bookmarks article:last').attr('id'), 10) - 1,
 			isDecreasing: true
 		})
 
 	}
-
 
 })
 
@@ -188,11 +187,11 @@ var loadDownwards = ({from,  isDecreasing})  => {
 
 	ENGRAM.inFocus.setFocus(isDecreasing
 		? {
-			value:        ENGRAM.inFocus.value.concat(loaded).slice(0, +ENGRAM.MAXLOADED),
+			value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
 			currentQuery: ''
 		}
 		: {
-			value:        loaded.concat(ENGRAM.inFocus.value).slice(-ENGRAM.MAXLOADED),
+			value:        loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
 			currentQuery: ''
 		}
 	)
@@ -235,19 +234,5 @@ setImmediateInterval(loader, 250)
 
 
 
-$(( ) => {
-
-	loadDownwards({
-		from:         ENGRAM.BIGINT,
-		isDecreasing: true
-	})
-
-})
-
-
-
-
-
 ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadDownwards)
-
 ENGRAM.syncBookmarks( )
