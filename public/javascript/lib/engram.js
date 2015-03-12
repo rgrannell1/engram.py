@@ -21,27 +21,75 @@ ENGRAM.DELETEFADE = 250;
 ENGRAM.LOADOFFSET = 60;
 ENGRAM.eventBus = EventBus();
 
-ENGRAM.searchState = {
-	previous: "",
-	current: "",
-	setQuery: function setQuery(query) {
+{
+	(function () {
+		var setQuery = (function (_setQuery) {
+			var _setQueryWrapper = function setQuery(_x) {
+				return _setQuery.apply(this, arguments);
+			};
 
-		this.previous = this.current;
-		this.current = query;
-	}
+			_setQueryWrapper.toString = function () {
+				return _setQuery.toString();
+			};
 
-};
+			return _setQueryWrapper;
+		})(function (query) {
 
-ENGRAM.inFocus = {
-	value: {},
-	currentQuery: "",
-	setFocus: function setFocus(_ref) {
-		var value = _ref.value;
-		var currentQuery = _ref.currentQuery;
+			setQuery.precond(query);
 
-		this.value = value;
-		this.currentQuery = currentQuery;
+			this.previous = this.current;
+			this.current = query;
+		});
 
-		ENGRAM.eventBus.publish(":update-focus", this);
-	}
-};
+		setQuery.precond = function (query) {
+			is.always.string(query);
+		};
+
+		ENGRAM.searchState = {
+			previous: "",
+			current: "",
+			setQuery: setQuery
+
+		};
+	})();
+}
+
+{
+	(function () {
+		var setFocus = (function (_setFocus) {
+			var _setFocusWrapper = function setFocus(_x) {
+				return _setFocus.apply(this, arguments);
+			};
+
+			_setFocusWrapper.toString = function () {
+				return _setFocus.toString();
+			};
+
+			return _setFocusWrapper;
+		})(function (_ref) {
+			var value = _ref.value;
+			var currentQuery = _ref.currentQuery;
+
+			setFocus.precond({ value: value, currentQuery: currentQuery });
+
+			this.value = value;
+			this.currentQuery = currentQuery;
+
+			ENGRAM.eventBus.publish(":update-focus", this);
+		});
+
+		setFocus.precond = function (_ref) {
+			var value = _ref.value;
+			var currentQuery = _ref.currentQuery;
+
+			is.always.array(value);
+			is.always.string(currentQuery);
+		};
+
+		ENGRAM.inFocus = {
+			value: {},
+			currentQuery: "",
+			setFocus: setFocus
+		};
+	})();
+}

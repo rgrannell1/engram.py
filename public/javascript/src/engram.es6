@@ -44,7 +44,7 @@ ENGRAM.eventBus = EventBus( )
 
 
 
-	var ENGRAM.searchState = {
+	ENGRAM.searchState = {
 		previous:   '',
 		current:    '',
 		setQuery
@@ -72,7 +72,7 @@ ENGRAM.eventBus = EventBus( )
 	setFocus.precond = ({value, currentQuery}) => {
 
 		is.always.array(value)
-		is.always.strict(currentQuery)
+		is.always.string(currentQuery)
 
 	}
 
@@ -80,7 +80,7 @@ ENGRAM.eventBus = EventBus( )
 
 
 
-	var ENGRAM.inFocus = {
+	ENGRAM.inFocus = {
 		value:        { },
 		currentQuery: "",
 		setFocus
