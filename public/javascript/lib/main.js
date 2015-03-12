@@ -96,6 +96,18 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 			isDecreasing: true
 		});
 	}
+}).subscribe(":atTop", function (_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
+
+	if (getQuery() === "") {
+
+		ENGRAM.eventBus.publish(":scrollup-bookmarks", {
+			from: parseInt($("#bookmarks article:first").attr("id"), 10) + 1,
+			isDecreasing: false
+		});
+	}
 }).subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
 
@@ -124,9 +136,9 @@ var listBookmarks = function (from, amount, isDecreasing) {
 	return Object.keys(ENGRAM.cache).map(function (key) {
 		return parseInt(key, 10);
 	}).filter(function (id) {
-		return isDecreasing ? id < from : key > from;
+		return isDecreasing ? id < from : id > from;
 	}).sort(function (num0, num1) {
-		return num1 - num0;
+		return isDecreasing ? num1 - num0 : num0 - num1;
 	}) // -- this is slow if object imp. isn't ordered.
 	.slice(0, amount).map(function (key) {
 		return ENGRAM.cache[key];
@@ -158,6 +170,21 @@ var loadDownwards = function (_ref) {
 	});
 };
 
+var loadUpwards = function (_ref) {
+	var from = _ref.from;
+	var isDecreasing = _ref.isDecreasing;
+
+	var loaded = listBookmarks(from, ENGRAM.MAXLOADED, isDecreasing);
+
+	ENGRAM.inFocus.setFocus(isDecreasing ? {
+		value: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+		currentQuery: ""
+	} : {
+		value: ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
+		currentQuery: ""
+	});
+};
+
 var loader = function () {
 
 	var currentAmount = ENGRAM.inFocus.value.length;
@@ -181,5 +208,6 @@ var loader = function () {
 
 setImmediateInterval(loader, 250);
 
+ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadUpwards);
 ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadDownwards);
 ENGRAM.syncBookmarks();
