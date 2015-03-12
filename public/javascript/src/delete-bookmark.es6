@@ -7,15 +7,15 @@ ENGRAM.eventBus
 
 	$article.hide(ENGRAM.DELETEFADE)
 
-	var publishDeletion = topic => {
-		ENGRAM.eventBus.publish(topic, {id, $article})
-	}
-
 	$.ajax({
 		url: `/bookmarks/${id}`,
 		type: 'DELETE',
-		success: publishDeletion(':successful-delete'),
-		failure: publishDeletion(':failed-delete')
+		success: data => {
+			ENGRAM.eventBus.publish(':successful-delete', {id, $article})
+		},
+		error: () => {
+			ENGRAM.eventBus.publish(':failed-delete', {id, $article})
+		}
 	})
 
 })

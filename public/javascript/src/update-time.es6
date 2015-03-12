@@ -22,7 +22,7 @@
 		var ctime = new Date(new Date - (1000 * seconds))
 
 		if (seconds < oneMinute) {
-			return `{seconds}s`
+			return `${seconds}s`
 		} else if (seconds < oneHour) {
 			return `${Math.round(seconds / oneMinute)}m`
 		} else if (seconds < oneDay) {

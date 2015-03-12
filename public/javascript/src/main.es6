@@ -123,7 +123,7 @@ ENGRAM.eventBus
 
 		ENGRAM.eventBus.publish(':scrollup-bookmarks', {
 			from:         parseInt($('#bookmarks article:first').attr('id'), 10) + 1,
-			isDecreasing: false
+			isDecreasing: true
 		})
 
 	}
@@ -160,17 +160,17 @@ ENGRAM.eventBus
 
 
 
-var listBookmarks = (from, amount, isDecreasing) => {
+var loadDown = (from, amount) => {
 
-	listBookmarks.precond(from, amount, isDecreasing)
+	loadDown.precond(from, amount)
 
 	return Object.keys(ENGRAM.cache)
 		.map(
 			key => parseInt(key, 10))
 		.filter(
-			id  => isDecreasing ? id < from : id > from)
+			id  => id < from)
 		.sort(
-			(num0, num1) => isDecreasing ? num1 - num0 : num0 - num1) // -- this is slow if object imp. isn't ordered.
+			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
 		.slice(
 			0, amount)
 		.map(
@@ -178,11 +178,39 @@ var listBookmarks = (from, amount, isDecreasing) => {
 
 }
 
-listBookmarks.precond = (from, amount, isDecreasing) => {
+loadDown.precond = (from, amount) => {
 
 	is.always.number(from)
 	is.always.number(amount)
-	is.always.boolean(isDecreasing)
+
+}
+
+
+
+
+
+var loadUp = (from, amount) => {
+
+	loadUp.precond(from, amount)
+
+	return Object.keys(ENGRAM.cache)
+		.map(
+			key => parseInt(key, 10))
+		.filter(
+			id  => id > from)
+		.sort(
+			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
+		.slice(
+			-amount)
+		.map(
+			key => ENGRAM.cache[key])
+
+}
+
+loadUp.precond = (from, amount) => {
+
+	is.always.number(from)
+	is.always.number(amount)
 
 }
 
@@ -195,18 +223,12 @@ var loadDownwards = ({from,  isDecreasing})  => {
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = listBookmarks(from, ENGRAM.MAXLOADED, isDecreasing)
+	var loaded = loadDown(from, ENGRAM.MAXLOADED)
 
-	ENGRAM.inFocus.setFocus(isDecreasing
-		? {
-			value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
-			currentQuery: ''
-		}
-		: {
-			value:        loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
-			currentQuery: ''
-		}
-	)
+	ENGRAM.inFocus.setFocus({
+		value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
+		currentQuery: ''
+	})
 
 }
 
@@ -216,18 +238,12 @@ var loadDownwards = ({from,  isDecreasing})  => {
 
 var loadUpwards = ({from, isDecreasing}) => {
 
-	var loaded = listBookmarks(from, ENGRAM.MAXLOADED, isDecreasing)
+	var loaded = loadUp(from, ENGRAM.MAXLOADED)
 
-	ENGRAM.inFocus.setFocus(isDecreasing
-		? {
-			value:        loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
-			currentQuery: ''
-		}
-		: {
-			value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
-			currentQuery: ''
-		}
-	)
+	ENGRAM.inFocus.setFocus({
+		value:        loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+		currentQuery: ''
+	})
 
 }
 
@@ -245,7 +261,7 @@ var loader = ( ) => {
 			? ENGRAM.BIGINT
 			: parseInt($('#bookmark-container article:last').attr('id'), 10)
 
-		var loaded = listBookmarks(from, ENGRAM.MAXLOADED - currentAmount, true)
+		var loaded = loadDown(from, ENGRAM.MAXLOADED - currentAmount)
 
 		if (loaded.length > 0) {
 

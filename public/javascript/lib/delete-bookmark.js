@@ -8,15 +8,21 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 
 	$article.hide(ENGRAM.DELETEFADE);
 
-	var publishDeletion = function (topic) {
-		ENGRAM.eventBus.publish(topic, { id: id, $article: $article });
-	};
-
 	$.ajax({
 		url: "/bookmarks/" + id,
 		type: "DELETE",
-		success: publishDeletion(":successful-delete"),
-		failure: publishDeletion(":failed-delete")
+		success: function (data) {
+
+			ENGRAM.eventBus.publish(":successful-delete", {
+				id: id, $article: $article
+			});
+		},
+		failure: function () {
+
+			ENGRAM.eventBus.publish(":failed-delete", {
+				id: id, $article: $article
+			});
+		}
 	});
 }).subscribe(":successful-delete", function (_ref) {
 	var id = _ref.id;
