@@ -193,6 +193,13 @@ var listUp   = listNext.bind({ }, false)
 
 
 
+var getOffsetBottom = $article => {
+	return $article.offset( ).top + $article.height( )
+}
+
+
+
+
 var loadListDown = from  => {
 
 	// -- set the current focus to the current [more-bookmarks] + focus,
@@ -204,6 +211,13 @@ var loadListDown = from  => {
 		value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
 		currentQuery: ''
 	})
+
+
+
+
+
+	// var bottom = getOffsetBottom($('#bookmark-container article'))
+	// $(html).scrollTop(bottom + $(window).height( ))
 
 }
 
@@ -231,21 +245,21 @@ var loader = ( ) => {
 	var stillUnloaded = getQuery( ) === '' && currentAmount !== ENGRAM.MAXLOADED
 
 	if (stillUnloaded) {
+		return
+	}
 
- 		var from   = $('#bookmark-container article').length === 0
-			? ENGRAM.BIGINT
-			: parseInt($('#bookmark-container article:last').attr('id'), 10)
+	var from   = $('#bookmark-container article').length === 0
+		? ENGRAM.BIGINT
+		: parseInt($('#bookmark-container article:last').attr('id'), 10)
 
-		var loaded = listDown(from, ENGRAM.MAXLOADED - currentAmount)
+	var loaded = listDown(from, ENGRAM.MAXLOADED - currentAmount)
 
-		if (loaded.length > 0) {
+	if (loaded.length > 0) {
 
-			ENGRAM.inFocus.setFocus({
-				value:        ENGRAM.inFocus.value.concat(loaded),
-				currentQuery: ''
-			})
-
-		}
+		ENGRAM.inFocus.setFocus({
+			value:        ENGRAM.inFocus.value.concat(loaded),
+			currentQuery: ''
+		})
 
 	}
 
