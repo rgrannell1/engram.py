@@ -19,7 +19,8 @@
 
 	var formatInterval = seconds => {
 
-		var ctime = new Date(new Date - (1000 * seconds))
+		var now   = new Date( )
+		var ctime = new Date(now - (1000 * seconds))
 
 		if (seconds < oneMinute) {
 			return `${seconds}s`
@@ -28,7 +29,12 @@
 		} else if (seconds < oneDay) {
 			return `${Math.round(seconds / oneHour)}h`
 		} else {
-			return `${ months[ctime.getMonth( )] } ${ctime.getDate( )}`
+
+			var year = ctime.getFullYear( ) === now.getFullYear( )
+				? ''
+				: ctime.getFullYear( )
+
+			return `${ months[ctime.getMonth( )] } ${ctime.getDate( )} ${year}`
 		}
 
 	}

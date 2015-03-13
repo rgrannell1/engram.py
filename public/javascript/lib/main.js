@@ -91,10 +91,7 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 
 	if (getQuery() === "") {
 
-		ENGRAM.eventBus.publish(":scrolldown-bookmarks", {
-			from: parseInt($("#bookmarks article:last").attr("id"), 10) - 1,
-			isDecreasing: true
-		});
+		ENGRAM.eventBus.publish(":scrolldown-bookmarks", parseInt($("#bookmarks article:last").attr("id"), 10) - 1);
 	}
 }).subscribe(":atTop", function (_ref) {
 	var windowTop = _ref.windowTop;
@@ -103,10 +100,7 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 
 	if (getQuery() === "") {
 
-		ENGRAM.eventBus.publish(":scrollup-bookmarks", {
-			from: parseInt($("#bookmarks article:first").attr("id"), 10) + 1,
-			isDecreasing: true
-		});
+		ENGRAM.eventBus.publish(":scrollup-bookmarks", parseInt($("#bookmarks article:first").attr("id"), 10) + 1);
 	}
 }).subscribe(":update-query", function (_ref) {
 	var query = _ref.query;
@@ -129,14 +123,14 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	ENGRAM.eventBus.publish(":rescore");
 });
 
-var loadDown = function (from, amount) {
+var listNext = function (downwards, from, amount) {
 
-	loadDown.precond(from, amount);
+	listNext.precond(downwards, from, amount);
 
 	return Object.keys(ENGRAM.cache).map(function (key) {
 		return parseInt(key, 10);
 	}).filter(function (id) {
-		return id < from;
+		return downwards ? id < from : id > from;
 	}).sort(function (num0, num1) {
 		return num1 - num0;
 	}) // -- this is slow if object imp. isn't ordered.
@@ -145,42 +139,22 @@ var loadDown = function (from, amount) {
 	});
 };
 
-loadDown.precond = function (from, amount) {
+listNext.precond = function (downwards, from, amount) {
 
+	is.always.boolean(downwards);
 	is.always.number(from);
 	is.always.number(amount);
 };
 
-var loadUp = function (from, amount) {
+var listDown = listNext.bind({}, true);
+var listUp = listNext.bind({}, false);
 
-	loadUp.precond(from, amount);
-
-	return Object.keys(ENGRAM.cache).map(function (key) {
-		return parseInt(key, 10);
-	}).filter(function (id) {
-		return id > from;
-	}).sort(function (num0, num1) {
-		return num1 - num0;
-	}) // -- this is slow if object imp. isn't ordered.
-	.slice(-amount).map(function (key) {
-		return ENGRAM.cache[key];
-	});
-};
-
-loadUp.precond = function (from, amount) {
-
-	is.always.number(from);
-	is.always.number(amount);
-};
-
-var loadDownwards = function (_ref) {
-	var from = _ref.from;
-	var isDecreasing = _ref.isDecreasing;
+var loadListDown = function (from) {
 
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = loadDown(from, ENGRAM.MAXLOADED);
+	var loaded = listDown(from, ENGRAM.MAXLOADED);
 
 	ENGRAM.inFocus.setFocus({
 		value: ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
@@ -188,11 +162,9 @@ var loadDownwards = function (_ref) {
 	});
 };
 
-var loadUpwards = function (_ref) {
-	var from = _ref.from;
-	var isDecreasing = _ref.isDecreasing;
+var loadListUp = function (from) {
 
-	var loaded = loadUp(from, ENGRAM.MAXLOADED);
+	var loaded = listUp(from, ENGRAM.MAXLOADED);
 
 	ENGRAM.inFocus.setFocus({
 		value: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
@@ -209,7 +181,7 @@ var loader = function () {
 
 		var from = $("#bookmark-container article").length === 0 ? ENGRAM.BIGINT : parseInt($("#bookmark-container article:last").attr("id"), 10);
 
-		var loaded = loadDown(from, ENGRAM.MAXLOADED - currentAmount);
+		var loaded = listDown(from, ENGRAM.MAXLOADED - currentAmount);
 
 		if (loaded.length > 0) {
 
@@ -224,6 +196,7 @@ var loader = function () {
 setImmediateInterval(ENGRAM.updateTimes, 250);
 setImmediateInterval(loader, 250);
 
-ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadUpwards);
-ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadDownwards);
+ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadListUp);
+ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadListDown);
+
 ENGRAM.syncBookmarks();
