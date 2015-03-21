@@ -34,10 +34,10 @@ def serve_archive(db, id):
 
 	if fetch_result.is_failure( ):
 
-		return display_result({
-			message: 'failed to load resource: %s' % ( str(fetch_result.from_failure( )) ),
-			code:    '500'
-		})
+		return display_result( Failure({
+			'message': 'failed to load resource: %s' % ( str(fetch_result.from_failure( )) ),
+			'code':    '500'
+		}) )
 
 	else:
 		return render_response(*fetch_result.from_success( ))
