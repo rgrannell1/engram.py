@@ -60,7 +60,7 @@ def save_content(db, id, row, response):
 		if mimetype.is_pdf(mime):
 			# -- pdf's can be saved directly to the database.
 
-			sql.insert_archive(db, id, response.content, utils.now( ))
+			sql.insert_archive(db, id, response.content, response.headers['content-type'], utils.now( ))
 
 		elif mimetype.is_html(mime):
 			# -- html is harder to save.

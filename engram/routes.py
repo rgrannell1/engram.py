@@ -24,6 +24,9 @@ from fetch_bookmarks   import fetch_bookmarks
 from export_bookmarks  import export_bookmarks
 from restore_bookmarks import restore_bookmarks
 
+from serve_archive     import serve_archive
+
+
 
 
 
@@ -139,7 +142,7 @@ def restore(app, db):
 
 
 
-def archives(app):
+def archives(app, db):
 	"""
 	GET /archives/<int:id>
 
@@ -148,7 +151,7 @@ def archives(app):
 
 	@app.route("/archives/<int:id>")
 	def archives_route(id):
-		return "this is a stand-in for a pdf " + str(id)
+		return serve_archive(db, id)
 
 
 

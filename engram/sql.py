@@ -19,6 +19,7 @@ def create_tables(db):
 		archive_id    integer     PRIMARY KEY    AUTOINCREMENT,
 
 		content       blob        NOT NULL,
+		mimetype      text        NOT NULL,
 		ctime         integer     NOT NULL
 
 	);
@@ -92,13 +93,13 @@ def insert_bookmark(db, url, title, ctime):
 
 
 
-def insert_archive(db, id, content, ctime):
+def insert_archive(db, id, content, mimetype, ctime):
 
 	insert_archives = """
 	INSERT INTO archives VALUES (NULL, ?, ?);
 	"""
 
-	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?);"
+	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?, ?);"
 
 	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, ?);"
 	select_max_archive_id   = "SELECT MAX(archive_id) FROM archives;"
@@ -115,7 +116,7 @@ def insert_archive(db, id, content, ctime):
 
 	add_archive_result = (
 		Success(db)
-		.tap( lambda db: db.commit(insert_archive, (content, ctime)) )
+		.tap( lambda db: db.commit(insert_archive, (content, mimetype, ctime)) )
 	)
 
 	max_id_result = (
@@ -171,28 +172,28 @@ def select_bookmarks(db):
 		.then( lambda cursor: cursor.fetchall())
 	)
 
+def select_archive(db, bookmark_id):
 
+	# -- lookup junction table.
+	# -- get archive id for bookmark id.
+	# -- lookup archive.
 
-
-def lookup_bookmark(db, id):
+	assert isinstance(bookmark_id, int), "bookmark_id must be an integer."
+	assert bookmark_id >= 0,             "bookmark_id must be nonnegative."
 
 	sql = """
-	SELECT *
-	FROM bookmarks
-	WHERE bookmark_id = ?;
+	SELECT * FROM archives
+	WHERE archive_id == (
+		SELECT archive_id
+		FROM bookmark_archives
+		WHERE bookmark_id == ?);
 	"""
-
-	assert isinstance(id, int), "id must be an integer."
-	assert id >= 0,             "id must be nonnegative."
 
 	return (
 		Success(db)
-		.then( lambda db: db.execute(sql, (id, )) )
-		.then( lambda cursor: cursor.fetchall())
+		.then( lambda db: db.execute(sql, (bookmark_id,)) )
+		.then( lambda cursor: cursor.fetchall( )[0])
 	)
-
-
-
 
 
 def select_unarchived_bookmarks(db):
