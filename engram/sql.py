@@ -98,18 +98,16 @@ def insert_archive(db, id, content, ctime):
 	INSERT INTO archives VALUES (NULL, ?, ?);
 	"""
 
-	insert_archive          = "INSERT INTO archives (NULL, ?, ?)"
+	insert_archive          = "INSERT INTO archives (NULL, ?, ?);"
 
 	insert_bookmark_archive = "INSERT INTO bookmark_archives (NULL, ?, ?);"
-	select_max_archive_id   = "SELECT MAX(archive_id) AS max_id FROM archives;"
+	select_max_archive_id   = "SELECT MAX(archive_id) FROM archives;"
 
 
 
-
-	assert isinstance(archive,   str),      "archive was not a string."
 
 	assert isinstance(ctime, int),          "ctime was not a number."
-	assert ctime      > 0,                  "ctime was a nonpositive value."
+	assert ctime > 0,                       "ctime was a nonpositive value."
 
 
 
@@ -127,7 +125,7 @@ def insert_archive(db, id, content, ctime):
 
 	add_bookmark_archive_result = (
 		max_id_result
-		.then( lambda max_id: db.commit(insert_bookmark_archive, id, max_id) )
+		.then( lambda max_id: db.commit(insert_bookmark_archive,( id, max_id)) )
 	)
 
 	return add_archive_result
