@@ -121,11 +121,12 @@ def insert_archive(db, id, content, ctime):
 	max_id_result = (
 		Success(db)
 		.then( lambda db: db.execute(select_max_archive_id) )
+		.then( lambda cursor: cursor.fetchall())
 	)
 
 	add_bookmark_archive_result = (
 		max_id_result
-		.then( lambda max_id: db.commit(insert_bookmark_archive,( id, max_id)) )
+		.then( lambda max_id: db.commit( insert_bookmark_archive,( id, max_id[0][0]) ))
 	)
 
 	return add_archive_result
