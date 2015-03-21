@@ -172,6 +172,10 @@ def select_bookmarks(db):
 		.then( lambda cursor: cursor.fetchall())
 	)
 
+
+
+
+
 def select_archive(db, bookmark_id):
 
 	# -- lookup junction table.
@@ -192,8 +196,11 @@ def select_archive(db, bookmark_id):
 	return (
 		Success(db)
 		.then( lambda db: db.execute(sql, (bookmark_id,)) )
-		.then( lambda cursor: cursor.fetchall( )[0])
+		.then( lambda cursor: cursor.fetchall( ))
 	)
+
+
+
 
 
 def select_unarchived_bookmarks(db):
