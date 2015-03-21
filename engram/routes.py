@@ -35,7 +35,7 @@ def index(app):
 	"""
 
 	@app.route("/")
-	def index_page():
+	def index_page( ):
 
 		print('/')
 		return redirect('/bookmarks', 302)
@@ -53,7 +53,7 @@ def bookmarks_api_route(app, db):
 	"""
 
 	@app.route("/api/bookmarks")
-	def bookmarks_api():
+	def bookmarks_api( ):
 
 		print('/api/bookmarks')
 		return fetch_bookmarks(db, request)
@@ -104,11 +104,11 @@ def bookmarks(app):
 	"""
 
 	@app.route("/bookmarks")
-	def bookmark_page():
+	def bookmark_page( ):
 
 		print('/bookmarks')
 
-		return show_bookmarks()
+		return show_bookmarks( )
 
 
 
@@ -117,7 +117,7 @@ def bookmarks(app):
 def export(app, db):
 
 	@app.route("/export")
-	def export_route():
+	def export_route( ):
 
 		print('/export')
 		return export_bookmarks(db)
@@ -129,7 +129,7 @@ def export(app, db):
 def restore(app, db):
 
 	@app.route("/restore")
-	def restore_route():
+	def restore_route( ):
 
 		print('/restore/')
 
@@ -162,7 +162,7 @@ def favicon(app, db):
 	"""
 
 	@app.route("/favicon.ico")
-	def favicon():
+	def favicon( ):
 
 		print('/favicon.ico')
 		return "no available favicon.", 404
@@ -181,7 +181,7 @@ def resave(app, db):
 
 		print('/api/resave/' + uri)
 
-		return resave_bookmark(db, uri, request.get_json())
+		return resave_bookmark(db, uri, request.get_json( ))
 
 
 
@@ -199,4 +199,4 @@ def default(app, db):
 
 		print('/' + full_path)
 
-		return save_bookmark(db, full_path, utils.now())
+		return save_bookmark(db, full_path, utils.now( ))

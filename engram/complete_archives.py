@@ -9,6 +9,8 @@ from archive_webpage import archive_webpage
 import mimetype
 from request_url     import request_url
 
+from bookmark        import bookmark, getID
+
 import logging
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,7 +45,7 @@ def archive_webpage(url):
 
 
 
-def save_content(db, id, response):
+def save_content(db, id, row, response):
 	"""save the content to the database"""
 
 	content_type_result = mimetype.parse(response.headers['content-type'])
@@ -58,12 +60,10 @@ def save_content(db, id, response):
 		if mimetype.is_pdf(mime):
 			# -- pdf's can be saved directly to the database.
 
-			print(id)
-			print(response.content)
+			sql.insert_archive(db, id, response.content, utils.now( ))
 
 		elif mimetype.is_html(mime):
 			# -- html is harder to save.
-
 			pass
 		else:
 			pass
@@ -79,12 +79,15 @@ def archive_bookmark(db, id):
 	# ---- otherwise DL the page
 	# ----
 
-	(
+	archive_result = (
 		Success(db)
-		.then(lambda db: sql.select_bookmark(db, id, 'url'))
-		.then(lambda row: row[0][0])
-		.then(request_url)
-		.then(lambda response: save_content(db, id, response))
+		.then(lambda db: sql.select_bookmark(db, id))
+		.then(lambda row: bookmark(row[0]))
+		.then( lambda row: [
+			row,
+			request_url(row['url'])
+		] )
+		.then(lambda tuple: save_content(db, id, *tuple))
 	)
 
 	return Success(None)

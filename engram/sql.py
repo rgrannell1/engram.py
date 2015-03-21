@@ -47,22 +47,12 @@ def create_tables(db):
 	);
 	"""
 
-	create_table_failed_archive_jobs = """
-	CREATE TABLE IF NOT EXISTS failed_archive_jobs (
-
-		failed_archive_job_id    integer    PRIMARY KEY    AUTOINCREMENT,
-		bookmark_id              REFERENCES bookmarks(bookmark_id)
-
-	);
-	"""
-
 	return (
 
 		Success(db)
 		.tap(lambda db: db.commit(create_table_archives))
 		.tap(lambda db: db.commit(create_table_bookmarks))
 		.tap(lambda db: db.commit(create_table_bookmark_archives))
-		.tap(lambda db: db.commit(create_table_failed_archive_jobs))
 
 	)
 
@@ -102,14 +92,19 @@ def insert_bookmark(db, url, title, ctime):
 
 
 
-def insert_archive(db, url, content, ctime):
+def insert_archive(db, id, content, ctime):
 
-	sql = """
+	insert_archives = """
 	INSERT INTO archives VALUES (NULL, ?, ?);
 	"""
 
-	assert isinstance(url,   str),          "url was not a string."
-	assert normalise_uri(url).is_success(), "inserting invalid bookmark uri."
+	insert_archive          = "INSERT INTO archives (NULL, ?, ?)"
+
+	insert_bookmark_archive = "INSERT INTO bookmark_archives (NULL, ?, ?);"
+	select_max_archive_id   = "SELECT MAX(archive_id) AS max_id FROM archives;"
+
+
+
 
 	assert isinstance(archive,   str),      "archive was not a string."
 
@@ -120,29 +115,35 @@ def insert_archive(db, url, content, ctime):
 
 
 
-
-	return (
+	add_archive_result = (
 		Success(db)
-		.tap( lambda db: db.commit(sql, (content, ctime)) )
+		.tap( lambda db: db.commit(insert_archive, (content, ctime)) )
 	)
 
+	max_id_result = (
+		Success(db)
+		.then( lambda db: db.execute(select_max_archive_id) )
+	)
+
+	add_bookmark_archive_result = (
+		max_id_result
+		.then( lambda max_id: db.commit(insert_bookmark_archive, id, max_id) )
+	)
+
+	return add_archive_result
 
 
 
 
-def select_bookmark(db, id, column = 'url'):
 
-	valid_columns = {'bookmark_id', 'url', 'title', 'ctime'}
-
-	if column not in valid_columns:
-		return Failure('%s is not a valid column name.')
+def select_bookmark(db, id):
 
 
 	sql = """
-	SELECT %s
+	SELECT *
 	FROM bookmarks
 	WHERE bookmark_id = ?;
-	""" % (column, )
+	"""
 
 	assert isinstance(id, int), "id must be an integer."
 	assert id >= 0,             "id must be nonnegative."
