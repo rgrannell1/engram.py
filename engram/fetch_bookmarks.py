@@ -82,7 +82,7 @@ def fetch_bookmarks(db, request):
 			get_arg(request, 'max_id').then(process_max_id),
 			get_arg(request, 'amount').then(process_amount)
 		))
-		.productOf()
+		.product_of()
 	)
 
 	route_result = (

@@ -37,9 +37,6 @@ def revalidate_bookmark(row):
 
 def bookmark(row):
 
-	# -- todo fix load order.
-
-
 	return (
 		Success(row)
 		.tap(revalidate_bookmark)

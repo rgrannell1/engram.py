@@ -16,6 +16,8 @@ import threading
 
 from complete_archives import complete_archives
 
+from request_url       import request_url
+
 import logging
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)

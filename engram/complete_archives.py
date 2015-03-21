@@ -6,6 +6,9 @@ import utils
 from result          import Success, Failure
 from archive_webpage import archive_webpage
 
+import mimetype
+from request_url     import request_url
+
 import logging
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)
@@ -40,6 +43,34 @@ def archive_webpage(url):
 
 
 
+def save_content(db, id, response):
+	"""save the content to the database"""
+
+	content_type_result = mimetype.parse(response.headers['content-type'])
+
+	if content_type_result.is_failure( ):
+		return content_type_result
+	else:
+
+		content_type = content_type_result.from_success( )
+		mime         = content_type['type'] + '/' + content_type['subtype']
+
+		if mimetype.is_pdf(mime):
+			# -- pdf's can be saved directly to the database.
+
+			print(id)
+			print(response.content)
+
+		elif mimetype.is_html(mime):
+			# -- html is harder to save.
+
+			pass
+		else:
+			pass
+
+
+
+
 def archive_bookmark(db, id):
 	"""  attempt to archive the contents of a particular website """
 
@@ -50,8 +81,10 @@ def archive_bookmark(db, id):
 
 	(
 		Success(db)
-		.then(lambda db: sql.select_bookmark(db, id, 'title'))
+		.then(lambda db: sql.select_bookmark(db, id, 'url'))
 		.then(lambda row: row[0][0])
+		.then(request_url)
+		.then(lambda response: save_content(db, id, response))
 	)
 
 	return Success(None)
@@ -67,7 +100,7 @@ def archive_bookmarks(db, ids):
 		.cross([archive_bookmark(db, id) for id in ids])
 	)
 
-	if archive_result.is_success():
+	if archive_result.is_success( ):
 		return Success(None)
 	else:
 		return archive_result

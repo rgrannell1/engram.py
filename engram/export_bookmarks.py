@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_bookmarks(rows):
-	return Success([bookmark(row) for row in rows]).productOf()
+	return Success([bookmark(row) for row in rows]).product_of()
 
 
 

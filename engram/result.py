@@ -102,7 +102,7 @@ class Failure(Result):
 	def tap(self, fn):
 		return self
 
-	def productOf(self):
+	def product_of(self):
 		return self
 
 
@@ -188,7 +188,7 @@ class Success(Result):
 
 
 
-	def productOf(self):
+	def product_of(self):
 
 		values = []
 

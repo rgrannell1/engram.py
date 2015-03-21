@@ -21,21 +21,11 @@ from pdfminer import pdfparser
 
 import io
 
+import logging
+logging.basicConfig(level =  logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-
-def is_html(type):
-	""""determine whether a mimetype says a resource is a html
-	file.
-	"""
-
-	return type in set(['text/html', 'application/xhtml+xml'])
-
-
-
-
-def is_pdf(type):
-	return type in set(['application/pdf', 'application/x-pdf'])
 
 
 
@@ -156,6 +146,8 @@ def extract_pdf_title(content_type, uri, response):
 		# -- in the extraordinarily unlikely case the solid code above doesn't work \s,
 		# -- fall back to extracting the resource name.
 
+		logger.warning('pdf title extraction failed; falling back to URI: %s', str(err))
+
 		return extract_resource_name(uri)
 
 
@@ -173,11 +165,6 @@ def extract_title(uri, response):
 
 	content_type_result = mimetype.parse(response.headers['content-type'])
 
-
-
-
-
-
 	if content_type_result.is_failure( ):
 
 		return content_type_result
@@ -187,11 +174,11 @@ def extract_title(uri, response):
 		content_type = content_type_result.from_success( )
 		mime         = content_type['type'] + '/' + content_type['subtype']
 
-		if is_html(mime):
+		if mimetype.is_html(mime):
 
 			return extract_html_title(content_type_result.from_success( ), uri, response)
 
-		elif is_pdf(mime):
+		elif mimetype.is_pdf(mime):
 
 			return extract_pdf_title(content_type_result.from_success( ), uri, response)
 

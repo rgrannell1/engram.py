@@ -178,3 +178,20 @@ def parse(content_type):
 		.then(label)
 		.then(parse_lexeme)
 	)
+
+
+
+
+
+def is_html(type):
+	""""determine whether a mimetype says a resource is a html
+	file.
+	"""
+
+	return type in set(['text/html', 'application/xhtml+xml'])
+
+
+
+
+def is_pdf(type):
+	return type in set(['application/pdf', 'application/x-pdf'])
