@@ -160,6 +160,9 @@ var loadListDown = function (from) {
 
 	var loaded = listDown(from, ENGRAM.MAXLOADED);
 
+	var elemBounds = $("article:last")[0].getBoundingClientRect();
+	var elemTop = $("article:last").offset().top;
+
 	ENGRAM.inFocus.setFocus({
 		value: ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
 		currentQuery: ""
@@ -181,7 +184,7 @@ var loader = function () {
 	var currentAmount = ENGRAM.inFocus.value.length;
 	var stillUnloaded = getQuery() === "" && currentAmount !== ENGRAM.MAXLOADED;
 
-	if (stillUnloaded) {
+	if (!stillUnloaded) {
 		return;
 	}
 
@@ -205,5 +208,3 @@ ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadListUp);
 ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadListDown);
 
 ENGRAM.syncBookmarks();
-// var bottom = getOffsetBottom($('#bookmark-container article'))
-// $(html).scrollTop(bottom + $(window).height( ))

@@ -205,19 +205,15 @@ var loadListDown = from  => {
 	// -- set the current focus to the current [more-bookmarks] + focus,
 	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
 
-	var loaded = listDown(from, ENGRAM.MAXLOADED)
+	var loaded     = listDown(from, ENGRAM.MAXLOADED)
+
+	var elemBounds = $("article:last")[0].getBoundingClientRect( )
+	var elemTop    = $('article:last').offset( ).top
 
 	ENGRAM.inFocus.setFocus({
 		value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
 		currentQuery: ''
 	})
-
-
-
-
-
-	// var bottom = getOffsetBottom($('#bookmark-container article'))
-	// $(html).scrollTop(bottom + $(window).height( ))
 
 }
 
@@ -244,7 +240,7 @@ var loader = ( ) => {
 	var currentAmount = ENGRAM.inFocus.value.length
 	var stillUnloaded = getQuery( ) === '' && currentAmount !== ENGRAM.MAXLOADED
 
-	if (stillUnloaded) {
+	if (!stillUnloaded) {
 		return
 	}
 
@@ -270,7 +266,7 @@ var loader = ( ) => {
 
 
 setImmediateInterval(ENGRAM.updateTimes, 250)
-setImmediateInterval(loader, 250)
+setImmediateInterval(loader,             250)
 
 
 
