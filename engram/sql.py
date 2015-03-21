@@ -98,9 +98,9 @@ def insert_archive(db, id, content, ctime):
 	INSERT INTO archives VALUES (NULL, ?, ?);
 	"""
 
-	insert_archive          = "INSERT INTO archives (NULL, ?, ?);"
+	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?);"
 
-	insert_bookmark_archive = "INSERT INTO bookmark_archives (NULL, ?, ?);"
+	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, ?);"
 	select_max_archive_id   = "SELECT MAX(archive_id) FROM archives;"
 
 
