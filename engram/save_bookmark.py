@@ -6,7 +6,7 @@ import utils
 from result           import Success, Failure
 from extract_metadata import extract_metadata
 
-from normalise_uri    import normalise_uri
+import normalise_uri
 
 import urllib
 from bookmark         import bookmark, getID
@@ -28,13 +28,13 @@ def save_bookmark(db, url, time):
 
 	title_result  = (
 		Success(url)
-		.then(normalise_uri)
+		.then(normalise_uri.normalise_uri)
 		.then(extract_metadata)
 	)
 
 	insert_result = (
 		title_result
-		.then( lambda title: (db, url, title, time) )
+		.then( lambda title: (db, normalise_uri.add_default_scheme(url), title, time) )
 		.tap(  lambda data:  sql.insert_bookmark(*data) )
 		.then( lambda data: {
 			'message': '',

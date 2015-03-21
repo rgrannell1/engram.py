@@ -18,7 +18,7 @@ def create_tables(db):
 
 		archive_id    integer     PRIMARY KEY    AUTOINCREMENT,
 
-		content       text        NOT NULL,
+		content       blob        NOT NULL,
 		ctime         integer     NOT NULL
 
 	);
@@ -200,10 +200,7 @@ def select_unarchived_bookmarks(db):
 	SELECT bookmark_id
 	FROM bookmarks
 	WHERE bookmark_id NOT IN
-	    (SELECT bookmark_id FROM bookmark_archives)
-
-	AND bookmark_id NOT IN
-		(SELECT bookmark_id FROM failed_archive_jobs);
+	    (SELECT bookmark_id FROM bookmark_archives);
 	"""
 
 	return (

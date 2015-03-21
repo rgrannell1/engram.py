@@ -140,7 +140,25 @@ def extract_pdf_title(content_type, uri, response):
 
 		doc.initialize( )
 
-		return Success(doc.info[0]['Title'])
+		info = doc.info[0]
+
+		if not 'Title' in info:
+
+			return extract_resource_name(uri)
+
+		else:
+
+			title = doc.info[0]['Title']
+
+			if title == "" or not isinstance(title, str):
+				return extract_resource_name(uri)
+			else:
+				return title
+
+
+
+
+
 
 	except Exception as err:
 		# -- in the extraordinarily unlikely case the solid code above doesn't work \s,
@@ -163,7 +181,14 @@ def extract_title(uri, response):
 	just use the resource basename.
 	"""
 
-	content_type_result = mimetype.parse(response.headers['content-type'])
+	if 'content-type' in response.headers:
+		content_type_result = mimetype.parse(response.headers['content-type'])
+	else:
+		content_type_result = Failure("content type not declared.")
+
+
+
+
 
 	if content_type_result.is_failure( ):
 
@@ -204,3 +229,4 @@ def extract_metadata(uri):
 		response_result
 		.then(lambda response: extract_title(uri, response))
 	)
+
