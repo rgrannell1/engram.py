@@ -57,8 +57,8 @@ def save_content(db, id, row, response):
 		content_type = content_type_result.from_success( )
 		mime         = content_type['type'] + '/' + content_type['subtype']
 
-		if mimetype.is_html(mime):
-			# -- pdf's can be saved directly to the databaseself.
+		if mimetype.is_html(mime) and False:
+			# -- need to render to a saveable format.
 			pass
 		else:
 			# -- assume all non-html content will be reloaded properly.
