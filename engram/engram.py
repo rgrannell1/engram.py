@@ -4,19 +4,19 @@ import os
 import time
 import sys
 
-from result     import Success, Failure
-from flask      import Flask, redirect, url_for, request
 
-from database   import Database
 
-import routes
 import sql
+import routes
 import signal
 import threading
 
 from complete_archives import complete_archives
-
 from request_url       import request_url
+
+from database import Database
+from result   import Success, Failure
+from flask    import Flask, redirect, url_for, request
 
 import logging
 logging.basicConfig(level =  logging.INFO)
@@ -84,6 +84,7 @@ def create_archiver(fpath, test = None):
 
 	while True:
 
+		# -- TODO note the archive result.
 		(
 			Success('data/engram')
 			.then(Database)
@@ -91,6 +92,8 @@ def create_archiver(fpath, test = None):
 			.then(lambda db: complete_archives(db))
 		)
 
+		# -- when all bookmarks are archived this prevents
+		# -- pointless CPU shredding.
 		time.sleep(10)
 
 
