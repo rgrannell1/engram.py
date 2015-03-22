@@ -8,10 +8,13 @@ from archive_webpage import archive_webpage
 
 import mimetype
 from request_url     import request_url
+from request_head    import request_head
 
 from bookmark        import bookmark, getID
 
 import logging
+import pdfkit
+
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -45,6 +48,10 @@ def archive_webpage(url):
 
 
 
+
+
+
+
 def save_content(db, id, row, response):
 	"""save the content to the database"""
 
@@ -57,12 +64,19 @@ def save_content(db, id, row, response):
 		content_type = content_type_result.from_success( )
 		mime         = content_type['type'] + '/' + content_type['subtype']
 
-		if mimetype.is_html(mime) and False:
-			# -- need to render to a saveable format.
-			pass
+		if mimetype.is_html(mime):
+			# -- render to pdf.
+
+			content = pdfkit.from_url(row['url'], False)
+
+			sql.insert_archive(db, id, content, 'application/pdf', utils.now( ))
+
 		else:
+
+			content = request_url(row['url'])
+
 			# -- assume all non-html content will be reloaded properly.
-			sql.insert_archive(db, id, response.content, response.headers['content-type'], utils.now( ))
+			sql.insert_archive(db, id, content, response.headers['content-type'], utils.now( ))
 
 
 
@@ -83,12 +97,13 @@ def archive_bookmark(db, id):
 		.then(lambda row: bookmark(row[0]))
 		.then( lambda row: [
 			row,
-			request_url(row['url'])
+			request_head(row['url'])
 		] )
 		.then(lambda tuple: save_content(db, id, *tuple))
 	)
 
 	return Success(None)
+
 
 
 
@@ -120,7 +135,3 @@ def complete_archives(db):
 		.then(select_unarchived_bookmarks)
 		.then(lambda ids: archive_bookmarks(db, ids))
 	)
-
-
-
-	# for each, try to archive the bookmarked content.

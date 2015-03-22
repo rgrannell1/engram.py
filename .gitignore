@@ -1,3 +1,7 @@
+
+data/
+dist/
+
 /data
 /dist
 *.pyc
