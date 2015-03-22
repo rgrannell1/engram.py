@@ -82,15 +82,16 @@ def create_archiver(fpath, test = None):
 
 	logger.info('connecting to database for archiving.')
 
-	create_result = (
-		Success('data/engram')
-		.then(Database)
-		.tap(sql.create_tables)
-		.then(lambda db: complete_archives(db))
-	)
+	while True:
 
-	print(create_result)
+		(
+			Success('data/engram')
+			.then(Database)
+			.tap(sql.create_tables)
+			.then(lambda db: complete_archives(db))
+		)
 
+		time.sleep(10)
 
 
 

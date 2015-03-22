@@ -51,6 +51,23 @@ class Database:
 
 		return commit_result
 
+	def commitMany(self, strs, args = [ ]):
+		"""
+		transactionally execute many commands.
+		"""
+		assert len(strs) == len(args)
+
+		cursor_result = self.conn.then( lambda conn: conn.cursor( ) )
+
+		for str, arg in zip(strs, args):
+			cursor_result = cursor_result.then( lambda cursor: cursor.execute(str, arg) )
+
+		return (
+			cursor_result
+			.then( lambda _: self.conn.then(lambda conn: conn.commit( )) )
+		)
+
+
 
 
 

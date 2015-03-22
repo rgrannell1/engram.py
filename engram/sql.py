@@ -63,9 +63,7 @@ def create_tables(db):
 
 def insert_bookmark(db, url, title, ctime):
 
-	sql = """
-	INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);
-	"""
+	sql = "INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);"
 
 	assert isinstance(title, str),          "title was not a string."
 	assert isinstance(url,   str),          "url was not a string."
@@ -95,30 +93,22 @@ def insert_bookmark(db, url, title, ctime):
 
 def insert_archive(db, id, content, mimetype, ctime):
 
-	insert_archives = """
-	INSERT INTO archives VALUES (NULL, ?, ?);
-	"""
-
-	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?, ?);"
-	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, (SELECT MAX(archive_id) FROM archives));"
-
+	insert_archives = "INSERT INTO archives VALUES (NULL, ?, ?);"
 
 	assert isinstance(ctime, int),          "ctime was not a number."
 	assert ctime > 0,                       "ctime was a nonpositive value."
 
-
-
-
+	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?, ?);"
+	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, (SELECT MAX(archive_id) FROM archives));"
 
 	add_archive_result = (
 		Success(db)
-		.tap( lambda db: db.commit(insert_archive, (content, mimetype, ctime)) )
-	)
+		.tap( lambda db: db.commitMany(
 
-	add_bookmark_archive_result = (
-		max_id_result
-		.then( lambda max_id: db.commit( insert_bookmark_archive, (id, ) ))
-	)
+			[insert_archive, insert_bookmark_archive],
+			[(content, mimetype, ctime), (id, )]
+
+	)) )
 
 	return add_archive_result
 

@@ -1,4 +1,8 @@
 
+/*
+	TODO this is insane; just send the list to the server and let it save the bookmarks itself.
+*/
+
 var readDataURL = function (reader, callback) {
 
 	var dataURL      = reader.result
@@ -44,14 +48,14 @@ var uploadFile = function (retries, callback) {
 
 	if ( is.undefined(files[0]) ) {
 
-		setTimeout(uploadFile.bind({}, retries - 1, callback), 100)
+		setTimeout(uploadFile.bind({ }, retries - 1, callback), 100)
 
 	} else if (retries === 0) {
 		throw Error('expired.')
 	} else {
 
-		var reader  = new FileReader()
-		reader.onload = readDataURL.bind({}, reader, callback)
+		var reader  = new FileReader( )
+		reader.onload = readDataURL.bind({ }, reader, callback)
 		reader.readAsDataURL(files[0])
 
 	}
@@ -94,11 +98,11 @@ var sendBookmarks = function (bookmarks) {
 				'Content-Type': 'application/json'
 			}
 		})
-		.done(function () {
-			setTimeout(function () { sendBookmarks(bookmarks.slice(1)) }, 50)
+		.done(function ( ) {
+			setTimeout(function ( ) { sendBookmarks(bookmarks.slice(1)) }, 50)
 		})
-		.fail(function () {
-			setTimeout(function () { sendBookmarks(bookmarks.slice(1)) }, 50)
+		.fail(function ( ) {
+			setTimeout(function ( ) { sendBookmarks(bookmarks.slice(1)) }, 50)
 		})
 
 	}
@@ -108,8 +112,8 @@ var sendBookmarks = function (bookmarks) {
 
 
 
-$(function () {
+$(function ( ) {
 
-	$('#uploader').on('click', uploadFile.bind({}, 1000, sendBookmarks))
+	$('#uploader').on('click', uploadFile.bind({ }, 1000, sendBookmarks))
 
 })

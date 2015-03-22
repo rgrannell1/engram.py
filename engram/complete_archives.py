@@ -4,11 +4,10 @@ import sql
 import utils
 
 from result          import Success, Failure
-from archive_webpage import archive_webpage
 
 import mimetype
 from request_url     import request_url
-from request_head    import request_head
+from request_headers    import request_headers
 
 from bookmark        import bookmark, getID
 
@@ -33,20 +32,6 @@ def select_unarchived_bookmarks(db):
 		.then(sql.select_unarchived_bookmarks)
 		.then(lambda ids: (id[0] for id in ids))
 	)
-
-
-
-
-
-def archive_webpage(url):
-	""" save the contents of an arbitrary resource to a string giving a valid
-	tar-gz file.  """
-
-	logger.info('downloading %s' % (url, ))
-
-
-
-
 
 
 
@@ -86,7 +71,6 @@ def save_content(db, id, row, response):
 
 
 
-
 def archive_bookmark(db, id):
 	"""  attempt to archive the contents of a particular website """
 
@@ -101,7 +85,7 @@ def archive_bookmark(db, id):
 		.then(lambda row: bookmark(row[0]))
 		.then( lambda row: [
 			row,
-			request_head(row['url'])
+			request_headers(row['url'])
 		] )
 		.then(lambda tuple: save_content(db, id, *tuple))
 	)
