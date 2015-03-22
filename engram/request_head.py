@@ -18,7 +18,7 @@ def request_head(url):
 
 		user_agent = 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
 
-		response = requests.head(url, headers = {
+		response = requests.get(url, headers = {
 			'User-agent': user_agent,
 			'Connection': 'close'
 		}, timeout = 30)

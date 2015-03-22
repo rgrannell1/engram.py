@@ -100,11 +100,7 @@ def insert_archive(db, id, content, mimetype, ctime):
 	"""
 
 	insert_archive          = "INSERT INTO archives VALUES (NULL, ?, ?, ?);"
-
-	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, ?);"
-	select_max_archive_id   = "SELECT MAX(archive_id) FROM archives;"
-
-
+	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, (SELECT MAX(archive_id) FROM archives));"
 
 
 	assert isinstance(ctime, int),          "ctime was not a number."
@@ -119,15 +115,9 @@ def insert_archive(db, id, content, mimetype, ctime):
 		.tap( lambda db: db.commit(insert_archive, (content, mimetype, ctime)) )
 	)
 
-	max_id_result = (
-		Success(db)
-		.then( lambda db: db.execute(select_max_archive_id) )
-		.then( lambda cursor: cursor.fetchall())
-	)
-
 	add_bookmark_archive_result = (
 		max_id_result
-		.then( lambda max_id: db.commit( insert_bookmark_archive,( id, max_id[0][0]) ))
+		.then( lambda max_id: db.commit( insert_bookmark_archive, (id, ) ))
 	)
 
 	return add_archive_result

@@ -23,7 +23,7 @@ def request_url(url):
 			'Connection': 'close'
 		}, timeout = 30)
 
-		return response
+		return Success(response)
 
 	except http.client.BadStatusLine as err:
 

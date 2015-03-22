@@ -55,7 +55,10 @@ def archive_webpage(url):
 def save_content(db, id, row, response):
 	"""save the content to the database"""
 
-	content_type_result = mimetype.parse(response.headers['content-type'])
+	logger.info('dowloading ' + row['url'])
+
+	raw_content_type    = response.headers['content-type']
+	content_type_result = mimetype.parse(raw_content_type)
 
 	if content_type_result.is_failure( ):
 		return content_type_result
@@ -73,10 +76,11 @@ def save_content(db, id, row, response):
 
 		else:
 
-			content = request_url(row['url'])
-
-			# -- assume all non-html content will be reloaded properly.
-			sql.insert_archive(db, id, content, response.headers['content-type'], utils.now( ))
+			(
+				Success(row['url'])
+				.then(request_url)
+				.then(lambda content: sql.insert_archive(db, id, content, raw_content_type, utils.now( )))
+			)
 
 
 
