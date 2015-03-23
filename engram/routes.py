@@ -14,7 +14,7 @@ import utils
 
 from show_bookmarks    import show_bookmarks
 from save_bookmark     import save_bookmark
-from resave_bookmark   import resave_bookmark
+from resave_bookmarks  import resave_bookmarks
 
 from delete_bookmark   import delete_bookmark
 from fetch_chunk       import fetch_chunk
@@ -184,7 +184,7 @@ def resave(app, db):
 
 		print('/api/resave')
 
-		return resave_bookmark(db, request.get_json( ))
+		return resave_bookmarks(db, request.get_json( ))
 
 
 

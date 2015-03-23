@@ -93,9 +93,6 @@ def insert_bookmark(db, url, title, ctime):
 
 def insert_archive(db, id, content, mimetype, ctime):
 
-	print(type(content))
-
-
 	insert_archives = "INSERT INTO archives VALUES (NULL, ?, ?);"
 
 	assert isinstance(ctime, int),          "ctime was not a number."
