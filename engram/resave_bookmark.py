@@ -13,57 +13,29 @@ from bookmark         import bookmark, getID
 from display_result   import display_result
 
 from flask            import jsonify
+from save_bookmark    import save_bookmark
+
+import urllib.parse
 
 
 
-
-
-def process_ctime(ctime):
-
-	try:
-		ctime = int(ctime)
-	except Exception as err:
-		return Failure(err)
-	else:
-		if ctime < 0:
-			return Failure({
-				'message': 'ctime must be larger than zero.',
-				'code':    422
-			})
-		elif ctime > 2147483647:
-			return Failure({
-				'message': 'ctime must be less than the largest UNIX date.',
-				'code':    422
-			})
-		else:
-			return ctime
-
-
-
-def resave_bookmark(db, url, entity_body):
+def resave_bookmark(db, entity_body):
 	"""save a bookmark to a database.
 	"""
 
-	ctime_result  = (
+	# -- TODO fix this; refactor to use Result types.
+
+	bookmarks_result = (
 		Success(entity_body)
-		.then(lambda body: body['ctime'])
-		.then(process_ctime)
+		.then(lambda body: body['data'].values( ))
 	)
 
-	title_result  = (
-		Success(url)
-		.then(normalise_uri)
-		.then(extract_metadata)
-	)
+	for bookmark in entity_body['data'].values( ):
 
-	insert_result = (
-		title_result
-		.then( lambda title: (db, url, title, ctime_result.from_success()) )
-		.tap(  lambda data:  sql.insert_bookmark(*data) )
-		.then( lambda data: {
-			'message': jsonify(''), # -- todo return entity.
-			'code':    201
-		})
-	)
+		url   = bookmark['url']
+		ctime = bookmark['ctime']
 
-	return display_result(insert_result, )
+		url   = urllib.parse.unquote(url)
+		ctime = int(ctime)
+
+		save_bookmark(db, url, ctime)

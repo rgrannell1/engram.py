@@ -53,6 +53,7 @@ def save_bookmark(db, url, time):
 		})
 	)
 
+	# -- TODO account for failed archiving.
 	archive_result = (
 		content_result
 		.cross([url_result])

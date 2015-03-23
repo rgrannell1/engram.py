@@ -179,12 +179,12 @@ def resave(app, db):
 	POST /resave/*
 	"""
 
-	@app.route("/api/resave/<path:uri>", methods = ["POST"])
-	def resave_route(uri):
+	@app.route("/api/resave", methods = ["POST"])
+	def resave_route( ):
 
-		print('/api/resave/' + uri)
+		print('/api/resave')
 
-		return resave_bookmark(db, uri, request.get_json( ))
+		return resave_bookmark(db, request.get_json( ))
 
 
 
