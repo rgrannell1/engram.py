@@ -93,6 +93,9 @@ def insert_bookmark(db, url, title, ctime):
 
 def insert_archive(db, id, content, mimetype, ctime):
 
+	print(type(content))
+
+
 	insert_archives = "INSERT INTO archives VALUES (NULL, ?, ?);"
 
 	assert isinstance(ctime, int),          "ctime was not a number."
@@ -150,6 +153,23 @@ def select_bookmarks(db):
 		Success(db)
 		.then( lambda db: db.execute(sql) )
 		.then( lambda cursor: cursor.fetchall())
+	)
+
+
+
+
+
+def select_max_bookmark(db):
+
+	sql = """
+	SELECT MAX(bookmark_id)
+	FROM bookmarks;
+	"""
+
+	return (
+		Success(db)
+		.then(lambda db: db.execute(sql))
+		.then(lambda cursor: cursor.fetchall( ))
 	)
 
 

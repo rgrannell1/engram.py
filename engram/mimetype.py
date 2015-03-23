@@ -188,10 +188,10 @@ def is_html(type):
 	file.
 	"""
 
-	return type in set(['text/html', 'application/xhtml+xml'])
+	return type in {'text/html', 'application/xhtml+xml'}
 
 
 
 
 def is_pdf(type):
-	return type in set(['application/pdf', 'application/x-pdf'])
+	return type in {'application/pdf', 'application/x-pdf'}

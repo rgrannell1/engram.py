@@ -11,6 +11,11 @@ import normalise_uri
 import urllib
 from bookmark         import bookmark, getID
 from display_result   import display_result
+from request_url      import request_url
+
+from archive_content  import archive_content
+
+
 
 
 
@@ -26,10 +31,16 @@ def save_bookmark(db, url, time):
 	failure, and then you get the result right it doesn't update.
 	"""
 
-	title_result  = (
+	url_result = (
 		Success(url)
 		.then(normalise_uri.normalise_uri)
-		.then(extract_metadata)
+	)
+
+	content_result = url_result.then(request_url)
+	title_result   = (
+		url_result
+		.cross([content_result])
+		.then(lambda pair: extract_metadata(*pair))
 	)
 
 	insert_result = (
@@ -40,6 +51,12 @@ def save_bookmark(db, url, time):
 			'message': '',
 			'code':    204
 		})
+	)
+
+	archive_result = (
+		content_result
+		.cross([url_result])
+		.tap( lambda pair: archive_content(db, pair[0], pair[1]) )
 	)
 
 	return display_result(insert_result)

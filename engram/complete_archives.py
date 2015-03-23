@@ -55,9 +55,10 @@ def save_content(db, id, row, response):
 		if mimetype.is_html(mime):
 			# -- render to pdf.
 
-			content = pdfkit.from_url(row['url'], False)
+			#content = pdfkit.from_url(row['url'], False)
 
-			sql.insert_archive(db, id, content, 'application/pdf', utils.now( ))
+			#sql.insert_archive(db, id, content, 'application/pdf', utils.now( ))
+			pass
 
 		else:
 

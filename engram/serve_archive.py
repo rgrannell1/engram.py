@@ -25,6 +25,9 @@ def render_response(archive_id, content, mimetype, ctime):
 
 
 def serve_archive(db, id):
+	"""
+	given a bookmark id, return an archived copy of the URI's resource.
+	"""
 
 	fetch_result = (
 		Success(db)

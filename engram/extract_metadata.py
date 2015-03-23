@@ -15,8 +15,6 @@ from normalise_uri import normalise_uri
 from result import Success, Failure
 
 import mimetype
-
-from request_url import request_url
 from pdfminer import pdfparser
 
 import io
@@ -173,7 +171,7 @@ def extract_pdf_title(content_type, uri, response):
 
 
 
-def extract_title(uri, response):
+def extract_title(response, uri):
 	"""given a uri, response obtained from looking up that uri, pick a title for
 	the bookmark uri.
 
@@ -214,19 +212,13 @@ def extract_title(uri, response):
 
 
 
-def extract_metadata(uri):
+def extract_metadata(content_response, uri):
 	"""
 	extract additional data about a uri from the resource itself.
 	"""
 
-	response_result = (
-		Success(uri)
-		.then(normalise_uri)
-		.then(request_url)
-	)
-
 	return (
-		response_result
+		Success(content_response)
 		.then(lambda response: extract_title(uri, response))
 	)
 

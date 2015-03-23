@@ -29,27 +29,37 @@ class Database:
 
 
 
-	def execute(self, str, args = ()):
+	def execute(self, str, args = ( )):
 
 		return (
 			self.conn
-			.then(lambda conn:   conn.cursor())
+			.then(lambda conn:   conn.cursor( ))
 			.then(lambda cursor: cursor.execute(str, args))
 		)
 
-	def commit(self, str, args = ()):
+
+
+
+
+	def commit(self, str, args = ( )):
 		"""
 		Database.commit(str, args)
+
+		commit a sinle
 		"""
 
 		commit_result = (
 			self.conn
-			.then( lambda conn:   conn.cursor() )
+			.then( lambda conn: conn.cursor( ) )
 			.then( lambda cursor: cursor.execute(str, args) )
-			.then( lambda _: self.conn.then(lambda conn: conn.commit()) )
+			.then( lambda _: self.conn.then(lambda conn: conn.commit( )) )
 		)
 
 		return commit_result
+
+
+
+
 
 	def commitMany(self, strs, args = [ ]):
 		"""
@@ -72,4 +82,4 @@ class Database:
 
 
 	def close(self):
-		self.then(lambda conn: conn.close())
+		self.then(lambda conn: conn.close( ))

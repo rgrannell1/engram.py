@@ -56,21 +56,12 @@ def create_server(fpath, test = None):
 		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
 	)
 
-	main_result = (
-
-		db_result
-		.tap(lambda _: app.run())
-
-	)
-
-	overall_result = (
-		db_result
-		.cross([route_result, main_result])
-	)
+	main_result    = db_result.tap(lambda _: app.run( ))
+	overall_result = db_result.cross([route_result, main_result])
 
 
-	if overall_result.is_failure():
-		print(overall_result.from_failure())
+	if overall_result.is_failure( ):
+		print(overall_result.from_failure( ))
 
 	return app
 
@@ -82,7 +73,7 @@ def create_archiver(fpath, test = None):
 
 	logger.info('connecting to database for archiving.')
 
-	while True:
+	while False:
 
 		# -- TODO note the archive result.
 		(
@@ -106,7 +97,7 @@ def create(fpath, test = None):
 
 		logger.info('shutting down.')
 
-		request.environ.get('werkzeug.server.shutdown')()
+		request.environ.get('werkzeug.server.shutdown')( )
 		sys.exit(0)
 
 	signal.signal(signal.SIGTERM, sigterm_handler)
@@ -118,13 +109,13 @@ def create(fpath, test = None):
 	archiver_result = (
 		Success(lambda:      create_archiver(fpath, test))
 		.then(lambda task:   threading.Thread(target = task))
-		.then(lambda thread: thread.start())
+		.then(lambda thread: thread.start( ))
 	)
 
 	create_server(fpath, test = None)
 
-	if archiver_result.is_failure():
-		print(archiver_result.from_failure())
+	if archiver_result.is_failure( ):
+		print(archiver_result.from_failure( ))
 
 
 
