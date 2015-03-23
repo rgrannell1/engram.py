@@ -11,7 +11,6 @@ import routes
 import signal
 import threading
 
-from complete_archives import complete_archives
 from request_url       import request_url
 
 from database import Database
@@ -33,7 +32,7 @@ def create_server(fpath, test = None):
 	if test:
 		app.config['TESTING'] = True
 
-	db_result = Success(fpath).then(Database)
+	db_result = Success(fpath).then(Database).tap(sql.create_tables)
 
 	route_result = (
 
@@ -69,27 +68,6 @@ def create_server(fpath, test = None):
 
 
 
-def create_archiver(fpath, test = None):
-
-	logger.info('connecting to database for archiving.')
-
-	while False:
-
-		# -- TODO note the archive result.
-		(
-			Success('data/engram')
-			.then(Database)
-			.tap(sql.create_tables)
-			.then(lambda db: complete_archives(db))
-		)
-
-		# -- when all bookmarks are archived this prevents
-		# -- pointless CPU shredding.
-		time.sleep(10)
-
-
-
-
 def create(fpath, test = None):
 
 	def sigterm_handler(signal, stack_frame):
@@ -106,16 +84,9 @@ def create(fpath, test = None):
 
 
 
-	archiver_result = (
-		Success(lambda:      create_archiver(fpath, test))
-		.then(lambda task:   threading.Thread(target = task))
-		.then(lambda thread: thread.start( ))
-	)
 
 	create_server(fpath, test = None)
 
-	if archiver_result.is_failure( ):
-		print(archiver_result.from_failure( ))
 
 
 
