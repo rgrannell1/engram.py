@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 
 import re
@@ -18,6 +19,7 @@ import mimetype
 from pdfminer import pdfparser
 
 import io
+import signal
 
 import logging
 logging.basicConfig(level =  logging.INFO)
@@ -90,7 +92,7 @@ def extract_utf8_title(uri, response):
 
 		else:
 			# -- the content-type header most likely lied.
-			# -- Damned content-type header.
+			# -- Damned content-type header!
 
 			return Success(get_netloc(uri))
 
@@ -114,7 +116,7 @@ def extract_html_title(content_type, url, response):
 
 
 
-def extract_pdf_title(content_type, uri, response):
+def extract_pdf_title(content_type, url, response):
 	"""
 	extract a title from a pdf file.
 	"""
@@ -123,8 +125,7 @@ def extract_pdf_title(content_type, uri, response):
 
 		stream = io.BytesIO(response.content)
 
-		# -- such a beautiful api; wtf is this crap even doing? do not trust this
-		# -- stuff.
+		# -- such a beautiful api; wtf is this crap even doing? do not trust this stuff for a second.
 
 		parser = pdfparser.PDFParser(stream)
 
@@ -137,22 +138,15 @@ def extract_pdf_title(content_type, uri, response):
 		info = doc.info[0]
 
 		if not 'Title' in info:
-
-			return extract_resource_name(uri)
-
+			return extract_resource_name(url)
 		else:
 
 			title = doc.info[0]['Title']
 
 			if title == "" or not isinstance(title, str):
-				return extract_resource_name(uri)
+				return extract_resource_name(url)
 			else:
 				return title
-
-
-
-
-
 
 	except Exception as err:
 		# -- in the extraordinarily unlikely case the solid code above doesn't work \s,
