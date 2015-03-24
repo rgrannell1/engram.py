@@ -2,7 +2,7 @@
 
 import http
 import requests
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 

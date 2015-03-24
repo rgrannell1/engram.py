@@ -58,6 +58,8 @@ var sendBookmarks = function sendBookmarks(bookmarks) {
 			url: encodeURIComponent(bookmark.url),
 			ctime: bookmark.ctime
 		};
+	}).sort(function (bookmark0, bookmark1) {
+		return bookmark0.ctime - bookmark1.ctime;
 	});
 
 	$.ajax({

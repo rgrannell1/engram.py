@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from utils    import ensure
-from result   import Success, Failure
+from result   import Success, Failure, Result
 import urllib
 import httplib2
 

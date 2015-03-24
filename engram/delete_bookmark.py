@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sql
-from result         import Success, Failure
+from result         import Success, Failure, Result
 from display_result import display_result
 
 
@@ -16,9 +16,8 @@ def delete_bookmark(db, id):
 	"""
 
 	delete_result = (
-		Success(id)
-		.tap( lambda id: sql.delete_bookmark(db, id))
-		.then(lambda __: {
+		Result.of(lambda: sql.delete_bookmark(db, id))
+		.then(lambda _: {
 			'message': '',
 			'code':    204
 		})

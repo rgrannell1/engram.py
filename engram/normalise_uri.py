@@ -4,7 +4,7 @@ import urllib
 import httplib2
 import utils
 
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 
@@ -15,8 +15,7 @@ def add_default_scheme(uri, default = 'http://'):
 def normalise_uri(uri):
 
 	return (
-		Success(uri)
-		.then(add_default_scheme)
+		Result.of(lambda: add_default_scheme(uri))
 		.then(httplib2.iri2uri)
 		.tap(urllib.parse.urlparse)
 	)

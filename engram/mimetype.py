@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import re
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 

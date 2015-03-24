@@ -9,10 +9,18 @@ logger = logging.getLogger(__name__)
 
 
 
+
 class Result(object):
 
 	def __init__(self, value):
 		self.value = value.value if isinstance(value, Result) else value
+
+	@staticmethod
+	def of(fn):
+		"""Create a Result from the return result of a normal function.
+		"""
+		return Success(None).then(lambda _: fn( ))
+
 
 
 
@@ -86,7 +94,6 @@ class Failure(Result):
 
 		self.value = value.value if isinstance(value, Result) else value
 		logging.error(self.value)
-
 
 		#traceback.print_exc()
 

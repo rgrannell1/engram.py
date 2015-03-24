@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result         import Success, Failure
+from result         import Success, Failure, Result
 from fetch_chunk    import fetch_chunk
 from display_result import display_result
 

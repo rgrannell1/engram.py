@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from result         import Success, Failure
+from result         import Success, Failure, Result
 from display_result import display_result
 
 

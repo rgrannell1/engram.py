@@ -14,7 +14,7 @@ import threading
 from request_url       import request_url
 
 from database import Database
-from result   import Success, Failure
+from result   import Success, Failure, Result
 from flask    import Flask, redirect, url_for, request
 
 import logging

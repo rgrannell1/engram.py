@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result          import Success, Failure
+from result          import Success, Failure, Result
 import mimetype
 
 from display_result   import display_result
@@ -30,8 +30,7 @@ def serve_archive(db, id):
 	"""
 
 	fetch_result = (
-		Success(db)
-		.then(lambda db:   sql.select_archive(db, id))
+		Result.of(lambda: sql.select_archive(db, id))
 		.then(lambda rows: rows[0])
 	)
 

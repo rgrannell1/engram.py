@@ -12,7 +12,7 @@ import subprocess
 
 
 from normalise_uri import normalise_uri
-from result import Success, Failure
+from result import Success, Failure, Result
 
 import mimetype
 from pdfminer import pdfparser
@@ -33,8 +33,7 @@ def extract_resource_name(uri):
 	"""
 
 	return (
-		Success(uri)
-		.then(normalise_uri)
+		Result.of(lambda: normalise_uri(uri))
 		.then(urllib.parse.urlparse)
 		.then(lambda parts: parts[2].rpartition('/')[2])
 	)
@@ -47,8 +46,7 @@ def get_netloc(uri):
 	"""get_netloc
 	"""
 	return (
-		Success(uri)
-		.then(urllib.parse.urlparse)
+		Result.of(lambda: urllib.parse.urlparse(uri))
 		.then(lambda parts: parts.netloc)
 	)
 
@@ -73,10 +71,7 @@ def extract_utf8_title(uri, response):
 		# -- most likely caused by lxml's problems with UTF;
 		# -- use a regular expression fallback.
 
-		content_result = (
-			Success(response.content)
-			.then(lambda content: content.decode('utf-8'))
-		)
+		content_result = Result.of(lambda: response.content.decode('utf-8'))
 
 		if content_result.is_success( ):
 			# -- decoding as utf-8 worked.
@@ -103,17 +98,17 @@ def extract_utf8_title(uri, response):
 
 
 
-def extract_html_title(content_type, uri, response):
+def extract_html_title(content_type, url, response):
 	# -- extract the title tag.
 	# -- default to utf-8, a superset of iso-8859 encoding.
 
 	charset = content_type['params'].get('charset', 'utf-8').lower( )
 
 	if charset in {'iso-8859-1', 'utf-8', 'utf8'}:
-		return(extract_utf8_title(uri, response))
+		return extract_utf8_title(url, response)
 	else:
 		# -- add iso8859-1 support
-		return(get_netloc(uri))
+		return get_netloc(url)
 
 
 
@@ -128,7 +123,8 @@ def extract_pdf_title(content_type, uri, response):
 
 		stream = io.BytesIO(response.content)
 
-		# -- such a beautiful api; wtf is this crap even doing?
+		# -- such a beautiful api; wtf is this crap even doing? do not trust this
+		# -- stuff.
 
 		parser = pdfparser.PDFParser(stream)
 
@@ -182,7 +178,7 @@ def extract_title(response, uri):
 	if 'content-type' in response.headers:
 		content_type_result = mimetype.parse(response.headers['content-type'])
 	else:
-		content_type_result = Failure("content type not declared.")
+		content_type_result = Failure("%s content type not declared." % (uri, ))
 
 
 
@@ -217,8 +213,4 @@ def extract_metadata(content_response, uri):
 	extract additional data about a uri from the resource itself.
 	"""
 
-	return (
-		Success(content_response)
-		.then(lambda response: extract_title(uri, response))
-	)
-
+	return Result.of(lambda: extract_title(uri, content_response))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure
+from result import Success, Failure, Result
 import sqlite3 as lite
 
 

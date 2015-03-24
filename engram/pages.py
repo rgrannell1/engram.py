@@ -3,7 +3,7 @@
 import os
 import pystache
 
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 

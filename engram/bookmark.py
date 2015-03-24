@@ -3,7 +3,7 @@
 import urllib
 from normalise_uri import normalise_uri
 
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 

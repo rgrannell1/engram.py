@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result           import Success, Failure
+from result           import Success, Failure, Result
 from extract_metadata import extract_metadata
 
 import normalise_uri
@@ -31,10 +31,7 @@ def save_bookmark(db, url, time):
 	failure, and then you get the result right it doesn't update.
 	"""
 
-	url_result = (
-		Success(url)
-		.then(normalise_uri.normalise_uri)
-	)
+	url_result     = Result.of(lambda: normalise_uri.normalise_uri(url))
 
 	content_result = url_result.then(request_url)
 	title_result   = (

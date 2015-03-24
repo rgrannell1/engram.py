@@ -10,7 +10,7 @@ import os
 
 sys.path.append(os.path.abspath('engram'))
 
-from result import Success, Failure
+from result import Success, Failure, Result
 
 
 

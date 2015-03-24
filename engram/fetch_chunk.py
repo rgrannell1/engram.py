@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure
+from result import Success, Failure, Result
 from flask  import Flask, redirect, url_for, request, jsonify
 
 from bookmark import bookmark, getID
@@ -39,8 +39,7 @@ def fetch_chunk(db, max_id, amount):
 	logging.info('fetch_chunk: %d %d' % (max_id, amount))
 
 	return (
-		Success(db)
-		.then(lambda db:   sql.fetch_chunk(db, max_id, amount))
+		Result.of(lambda: sql.fetch_chunk(db, max_id, amount))
 		.then(parse_bookmarks)
 		.then(lambda data: {
 			'data':    data,
