@@ -154,6 +154,10 @@ var listNext = (downwards, from, amount) => {
 
 	listNext.precond(downwards, from, amount)
 
+
+
+
+
 	var filtered = Object.keys(ENGRAM.cache)
 		.map(
 			key => parseInt(key, 10))
@@ -161,10 +165,6 @@ var listNext = (downwards, from, amount) => {
 			id  => downwards ? id < from : id > from)
 		.sort(
 			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
-
-
-
-
 
 	var sliced = downwards ? filtered.slice(0, amount) : filtered.slice(-amount)
 
@@ -216,7 +216,7 @@ var loadList = (downwards, from) => {
 	var direction = downwards ? 'down' : 'up'
 	var now       = new Date( )
 
-	if (now - loadState[direction] < 250) {
+	if (now - loadState[direction] < 150) {
 		return
 	} else {
 		loadState[direction] = now

@@ -164,7 +164,7 @@ var loadList = function (downwards, from) {
 	var direction = downwards ? "down" : "up";
 	var now = new Date();
 
-	if (now - loadState[direction] < 250) {
+	if (now - loadState[direction] < 150) {
 		return;
 	} else {
 		loadState[direction] = now;
