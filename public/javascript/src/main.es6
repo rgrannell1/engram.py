@@ -24,14 +24,14 @@
 		var keyCode = event.keyCode
 
 		if (event.keyCode === eventCode.escape) {
-			ENGRAM.eventBus.publish(':press-escape')
+			ENGRAM.eventBus.publish('press-escape')
 		} else if (event.keyCode === eventCode.backspace) {
-			ENGRAM.eventBus.publish(':press-backspace')
+			ENGRAM.eventBus.publish('press-backspace')
 		} else {
 
 			if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
 
-				ENGRAM.eventBus.publish(':press-typeable', {
+				ENGRAM.eventBus.publish('press-typeable', {
 					key: event.key
 				})
 
@@ -56,7 +56,7 @@ $(document).on('click', '.delete-bookmark', function ( ) {
 	var $article = $button.closest('article')
 	var id       = parseInt($article.attr('id'), 10)
 
-	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
+	ENGRAM.eventBus.publish('delete-bookmark', {id, $button})
 
 })
 
@@ -70,7 +70,7 @@ $(window).on('scroll', ( ) => {
 	var $window   = $(window)
 	var windowTop = $window.scrollTop( )
 
-	ENGRAM.eventBus.publish(':scroll', {
+	ENGRAM.eventBus.publish('scroll', {
 
 		windowTop:      windowTop,
 		scrollHeight:   $(document).height( ),
@@ -87,9 +87,9 @@ $(window).on('scroll', ( ) => {
 ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
 	if (scrollHeight - scrollPosition === 0) {
-		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish('atBottom', {windowTop, scrollHeight, scrollPosition})
 	} else if (windowTop === 0) {
-		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish('atTop', {windowTop, scrollHeight, scrollPosition})
 	}
 
 })
@@ -102,9 +102,13 @@ ENGRAM.eventBus
 .subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
 	if (getQuery( ) === '') {
+		// -- load by ID.
 
-		ENGRAM.eventBus.publish(':scrolldown-bookmarks',
+		ENGRAM.eventBus.publish('scrolldown-bookmarks',
 			parseInt($('#bookmarks article:last').attr('id'), 10) - 1)
+
+	} else {
+		// -- load by query.
 
 	}
 
@@ -112,9 +116,13 @@ ENGRAM.eventBus
 .subscribe(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
 
 	if (getQuery( ) === '') {
+		// -- load by ID.
 
-		ENGRAM.eventBus.publish(':scrollup-bookmarks',
+		ENGRAM.eventBus.publish('scrollup-bookmarks',
 			parseInt($('#bookmarks article:first').attr('id'), 10) + 1)
+
+	} else {
+		// -- load by query.
 
 	}
 
@@ -142,7 +150,7 @@ ENGRAM.eventBus
 		}
 	})
 
-	ENGRAM.eventBus.publish(':rescore')
+	ENGRAM.eventBus.publish('rescore')
 
 })
 
@@ -199,65 +207,61 @@ var getOffsetBottom = $article => {
 
 
 
-// quick hack.
-//
-var loadState = {
-	down: new Date(0),
-	up:   new Date(0)
-}
+{
+
+	var loadState = [new Date(0), new Date(0)]
+
+	let loadList = (downwards, from) => {
+
+		var lastLoadIth = downwards ? 0 : 1
+
+		var now = new Date( )
+
+		if (now - loadState[lastLoadIth] < 150) {
+			return
+		} else {
+			loadState[lastLoadIth] = now
+		}
+
+		var loaded = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL)
+
+		ENGRAM.inFocus.setFocus({
+
+			value: downwards
+				? ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED)
+				: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+
+			currentQuery: ''
+		})
 
 
 
 
 
+		var bookmark = downwards
+			? $('#bookmarks article').slice(-1)[0]
+			: $('#bookmarks article').slice(0, 1)[0]
 
-var loadList = (downwards, from) => {
+		var originalOffset = bookmark.getBoundingClientRect( ).top
+		var id             = $(bookmark).attr('id')
 
-	var direction = downwards ? 'down' : 'up'
-	var now       = new Date( )
 
-	if (now - loadState[direction] < 150) {
-		return
-	} else {
-		loadState[direction] = now
+
+
+
+		ENGRAM.eventBus.publish('loaded-bookmarks', {originalOffset, id})
+
 	}
 
-	var loaded = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL)
-
-	ENGRAM.inFocus.setFocus({
-
-		value: downwards
-			? ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED)
-			: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
-
-		currentQuery: ''
-	})
 
 
 
 
-
-	var bookmark = downwards
-		? $('#bookmarks article').slice(-1)[0]
-		: $('#bookmarks article').slice(0, 1)[0]
-
-	var originalOffset = bookmark.getBoundingClientRect( ).top
-	var id             = $(bookmark).attr('id')
-
-
-
-
-
-	ENGRAM.eventBus.publish(':loaded-bookmarks', {originalOffset, id})
+	var loadListDown = loadList.bind({ }, true)
+	var loadListUp   = loadList.bind({ }, false)
 
 }
 
-
-
-
-
-var loadListDown = loadList.bind({ }, true)
-var loadListUp   = loadList.bind({ }, false)
 
 
 
@@ -294,6 +298,11 @@ var loader = ( ) => {
 
 setImmediateInterval(ENGRAM.updateTimes, 250)
 setImmediateInterval(loader,             250)
+
+
+
+
+
 
 
 

@@ -1,5 +1,10 @@
 "use strict"
 
+
+
+
+
+
 var subscribe = function (topic, listener) {
 
 	subscribe.precond(topic, listener)
@@ -44,6 +49,49 @@ var publish = function (topic, data) {
 publish.precond = (topic, data) => {
 
 	is.always.string  (topic, 'topic must be a string.')
+
+}
+
+
+
+
+var await = function (topic, listener) {
+
+	await.precond(topic, listener)
+
+	if (is.undefined(this.topics[topic])) {
+		this.topics[topic] = [ ]
+	}
+
+
+
+
+
+	var decorated = (...) => {
+
+		if (decorated.active) {
+
+			decorated.active = false
+			listener(...)
+		}
+
+	}
+
+	// -- could also use decorated.call(decorated, )
+	var decorated.active = true
+
+
+
+
+
+	this.topics[topic].push(decorated)
+
+	return this
+
+
+}
+
+await.precond = (topic, listener) => {
 
 }
 

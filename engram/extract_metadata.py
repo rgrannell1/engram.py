@@ -100,6 +100,11 @@ def extract_utf8_title(uri, response):
 
 
 
+
+
+
+
+
 def extract_html_title(content_type, url, response):
 	# -- extract the title tag.
 	# -- default to utf-8, a superset of iso-8859 encoding.
@@ -134,11 +139,6 @@ def extract_pdf_title(content_type, url, response):
 		doc.set_parser(parser)
 
 		doc.initialize( )
-
-		print('++ ++ ++ ++ ++ ++ ++ ++')
-		print(dir(doc))
-		print(doc.get_outlines( ))
-		print('++ ++ ++ ++ ++ ++ ++ ++')
 
 		info = doc.info[0]
 
