@@ -178,12 +178,10 @@ var loadList = function (downwards, from) {
 		currentQuery: ""
 	});
 
-	var bookmark = $("#bookmark-container article").slice(-1)[0];
+	var bookmark = downwards ? $("#bookmark-container article").slice(-1)[0] : $("#bookmark-container article").slice(0, 1)[0];
 
 	var originalOffset = bookmark.getBoundingClientRect().top;
 	var id = $(bookmark).attr("id");
-
-	console.log(bookmark.getBoundingClientRect());
 
 	ENGRAM.eventBus.publish(":loaded-bookmarks", { originalOffset: originalOffset, id: id });
 };
