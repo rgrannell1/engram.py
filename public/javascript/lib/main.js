@@ -123,14 +123,17 @@ var listNext = function (downwards, from, amount) {
 
 	listNext.precond(downwards, from, amount);
 
-	return Object.keys(ENGRAM.cache).map(function (key) {
+	var filtered = Object.keys(ENGRAM.cache).map(function (key) {
 		return parseInt(key, 10);
 	}).filter(function (id) {
 		return downwards ? id < from : id > from;
 	}).sort(function (num0, num1) {
 		return num1 - num0;
-	}) // -- this is slow if object imp. isn't ordered.
-	.slice(0, amount).map(function (key) {
+	}); // -- this is slow if object imp. isn't ordered.
+
+	var sliced = downwards ? filtered.slice(0, amount) : filtered.slice(-amount);
+
+	return sliced.map(function (key) {
 		return ENGRAM.cache[key];
 	});
 };
@@ -152,10 +155,8 @@ var getOffsetBottom = function ($article) {
 // quick hack.
 //
 var loadState = {
-	loadList: {
-		down: new Date(0),
-		up: new Date(0)
-	}
+	down: new Date(0),
+	up: new Date(0)
 };
 
 var loadList = function (downwards, from) {
@@ -163,10 +164,10 @@ var loadList = function (downwards, from) {
 	var direction = downwards ? "down" : "up";
 	var now = new Date();
 
-	if (now - loadState.loadList[direction] < 400) {
+	if (now - loadState[direction] < 250) {
 		return;
 	} else {
-		loadState.loadList[direction] = now;
+		loadState[direction] = now;
 	}
 
 	var loaded = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL);
@@ -178,7 +179,7 @@ var loadList = function (downwards, from) {
 		currentQuery: ""
 	});
 
-	var bookmark = downwards ? $("#bookmark-container article").slice(-1)[0] : $("#bookmark-container article").slice(0, 1)[0];
+	var bookmark = downwards ? $("#bookmarks article").slice(-1)[0] : $("#bookmarks article").slice(0, 1)[0];
 
 	var originalOffset = bookmark.getBoundingClientRect().top;
 	var id = $(bookmark).attr("id");
@@ -222,6 +223,7 @@ ENGRAM.eventBus.subscribe(":loaded-bookmarks", function (_ref) {
 	var originalOffset = _ref.originalOffset;
 	var id = _ref.id;
 
+	// -- set timeout
 	setTimeout(function () {
 
 		$(window).scrollTop($("#" + id).offset().top - originalOffset);

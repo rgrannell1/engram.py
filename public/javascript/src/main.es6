@@ -154,17 +154,21 @@ var listNext = (downwards, from, amount) => {
 
 	listNext.precond(downwards, from, amount)
 
-	return Object.keys(ENGRAM.cache)
+	var filtered = Object.keys(ENGRAM.cache)
 		.map(
 			key => parseInt(key, 10))
 		.filter(
 			id  => downwards ? id < from : id > from)
 		.sort(
 			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
-		.slice(
-			0, amount)
-		.map(
-			key => ENGRAM.cache[key])
+
+
+
+
+
+	var sliced = downwards ? filtered.slice(0, amount) : filtered.slice(-amount)
+
+	return sliced.map(key => ENGRAM.cache[key])
 
 }
 
@@ -198,10 +202,8 @@ var getOffsetBottom = $article => {
 // quick hack.
 //
 var loadState = {
-	loadList: {
-		down: new Date(0),
-		up:   new Date(0)
-	}
+	down: new Date(0),
+	up:   new Date(0)
 }
 
 
@@ -214,13 +216,13 @@ var loadList = (downwards, from) => {
 	var direction = downwards ? 'down' : 'up'
 	var now       = new Date( )
 
-	if (now - loadState.loadList[direction] < 400) {
+	if (now - loadState[direction] < 250) {
 		return
 	} else {
-		loadState.loadList[direction] = now
+		loadState[direction] = now
 	}
 
-	var loaded      = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL)
+	var loaded = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL)
 
 	ENGRAM.inFocus.setFocus({
 
@@ -236,8 +238,8 @@ var loadList = (downwards, from) => {
 
 
 	var bookmark = downwards
-		? $('#bookmark-container article').slice(-1)[0]
-		: $('#bookmark-container article').slice(0, 1)[0]
+		? $('#bookmarks article').slice(-1)[0]
+		: $('#bookmarks article').slice(0, 1)[0]
 
 	var originalOffset = bookmark.getBoundingClientRect( ).top
 	var id             = $(bookmark).attr('id')
@@ -306,6 +308,7 @@ ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadListDown)
 // -- since bookmarks are being unloaded, need to scroll further back.
 ENGRAM.eventBus.subscribe(':loaded-bookmarks', ({originalOffset, id}) => {
 
+	// -- set timeout
 	setTimeout( ( ) => {
 
 		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
