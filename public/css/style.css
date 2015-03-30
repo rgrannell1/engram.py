@@ -5,6 +5,7 @@ html {
 	color:       #3d464d;
 	font-size: 16px;
 
+	-webkit-overflow-scrolling: none;
 }
 
 body {
@@ -66,3 +67,4 @@ header ul li {
 	width:   32%;
 	text-align: center;
 }
+

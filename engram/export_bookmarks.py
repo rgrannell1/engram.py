@@ -35,9 +35,7 @@ def export_bookmarks(db):
 
 	page_result = (
 		bookmark_result
-		.then(lambda bookmark: pages.export({
-			'bookmark': bookmark
-		}))
+		.then( lambda bookmark: pages.export({'bookmark': bookmark}) )
 		.then(lambda html: {
 			'message': html,
 			'code':    200

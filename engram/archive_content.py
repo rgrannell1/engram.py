@@ -21,11 +21,14 @@ logger = logging.getLogger(__name__)
 
 
 
-def timeout_handler(time):
-	raise TimeoutError('page timed out.')
+def download_website(url):
 
-def download_pdf(url):
-	return pdfkit.from_url(url, False)
+	# -- this isn't working amazingly well; very slow, additional requests.
+	# -- seems to cause memory leaks, code is nastly.
+	# -- doesn't time out for bad resources.
+	# pdfkit.from_url(url, False)
+
+	return ""
 
 
 
@@ -53,22 +56,7 @@ def archive_content(db, response, url):
 
 		if mimetype.is_html(mime):
 
-			# -- this isn't working amazingly well; very slow, additional requests.
-			# -- seems to cause memory leaks, code is nastly.
-			# -- doesn't time out for bad resources.
-
-			signal.signal(signal.SIGALRM, timeout_handler)
-			signal.alarm(30)
-
-			try:
-				content = download_pdf(url)
-			except TimeoutError as err:
-				content = ""
-
-
-
-
-
+			content = download_website(url)
 
 			return (
 				id_result

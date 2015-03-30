@@ -14,5 +14,5 @@ setup(
 	author           = 'Ryan Grannell',
 	url              = 'https://github.com/rgrannell1/engram.py',
 	packages         = ['engram'],
-	install_requires = []
+	install_requires = [ ]
 )

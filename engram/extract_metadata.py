@@ -135,6 +135,11 @@ def extract_pdf_title(content_type, url, response):
 
 		doc.initialize( )
 
+		print('++ ++ ++ ++ ++ ++ ++ ++')
+		print(dir(doc))
+		print(doc.get_outlines( ))
+		print('++ ++ ++ ++ ++ ++ ++ ++')
+
 		info = doc.info[0]
 
 		if not 'Title' in info:

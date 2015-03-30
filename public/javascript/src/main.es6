@@ -87,15 +87,9 @@ $(window).on('scroll', ( ) => {
 ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
 	if (scrollHeight - scrollPosition === 0) {
-		// what data should these publish ?
-
 		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
-
 	} else if (windowTop === 0) {
-		// what data should these publish ?
-
 		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
-
 	}
 
 })
@@ -200,20 +194,57 @@ var getOffsetBottom = $article => {
 
 
 
-var loadListDown = from  => {
 
-	// -- set the current focus to the current [more-bookmarks] + focus,
-	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
+// quick hack.
+//
+var loadState = {
+	loadList: {
+		down: new Date(0),
+		up:   new Date(0)
+	}
+}
 
-	var loaded     = listDown(from, ENGRAM.MAXLOADED)
 
-	var elemBounds = $("article:last")[0].getBoundingClientRect( )
-	var elemTop    = $('article:last').offset( ).top
+
+
+
+
+var loadList = (downwards, from) => {
+
+	var direction = downwards ? 'down' : 'up'
+	var now       = new Date( )
+
+	if (now - loadState.loadList[direction] < 400) {
+		return
+	} else {
+		loadState.loadList[direction] = now
+	}
+
+	var loaded      = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL)
 
 	ENGRAM.inFocus.setFocus({
-		value:        ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
+
+		value: downwards
+			? ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED)
+			: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+
 		currentQuery: ''
 	})
+
+
+
+
+
+	var bookmark       = $('#bookmark-container article').slice(-1)[0]
+
+	var originalOffset = bookmark.getBoundingClientRect( ).top
+	var id             = $(bookmark).attr('id')
+
+
+
+
+
+	ENGRAM.eventBus.publish(':loaded-bookmarks', {originalOffset, id})
 
 }
 
@@ -221,16 +252,8 @@ var loadListDown = from  => {
 
 
 
-var loadListUp = from => {
-
-	var loaded = listUp(from, ENGRAM.MAXLOADED)
-
-	ENGRAM.inFocus.setFocus({
-		value:        loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
-		currentQuery: ''
-	})
-
-}
+var loadListDown = loadList.bind({ }, true)
+var loadListUp   = loadList.bind({ }, false)
 
 
 
@@ -274,5 +297,23 @@ setImmediateInterval(loader,             250)
 
 ENGRAM.eventBus.subscribe(':scrollup-bookmarks',   loadListUp)
 ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadListDown)
+
+
+
+
+// -- since bookmarks are being unloaded, need to scroll further back.
+ENGRAM.eventBus.subscribe(':loaded-bookmarks', ({originalOffset, id}) => {
+
+	setTimeout( ( ) => {
+
+		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
+
+	}, 100)
+
+})
+
+
+
+
 
 ENGRAM.syncBookmarks( )

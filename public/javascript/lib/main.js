@@ -74,12 +74,8 @@ ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
 	var scrollPosition = _ref.scrollPosition;
 
 	if (scrollHeight - scrollPosition === 0) {
-		// what data should these publish ?
-
 		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
 	} else if (windowTop === 0) {
-		// what data should these publish ?
-
 		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
 	}
 });
@@ -153,31 +149,47 @@ var getOffsetBottom = function ($article) {
 	return $article.offset().top + $article.height();
 };
 
-var loadListDown = function (from) {
-
-	// -- set the current focus to the current [more-bookmarks] + focus,
-	// -- or focus + [more-bookmarks]. Then truncate, and redraw.
-
-	var loaded = listDown(from, ENGRAM.MAXLOADED);
-
-	var elemBounds = $("article:last")[0].getBoundingClientRect();
-	var elemTop = $("article:last").offset().top;
-
-	ENGRAM.inFocus.setFocus({
-		value: ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED),
-		currentQuery: ""
-	});
+// quick hack.
+//
+var loadState = {
+	loadList: {
+		down: new Date(0),
+		up: new Date(0)
+	}
 };
 
-var loadListUp = function (from) {
+var loadList = function (downwards, from) {
 
-	var loaded = listUp(from, ENGRAM.MAXLOADED);
+	var direction = downwards ? "down" : "up";
+	var now = new Date();
+
+	if (now - loadState.loadList[direction] < 400) {
+		return;
+	} else {
+		loadState.loadList[direction] = now;
+	}
+
+	var loaded = (downwards ? listDown : listUp)(from, ENGRAM.PERSCROLL);
 
 	ENGRAM.inFocus.setFocus({
-		value: loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+
+		value: downwards ? ENGRAM.inFocus.value.concat(loaded).slice(-ENGRAM.MAXLOADED) : loaded.concat(ENGRAM.inFocus.value).slice(0, +ENGRAM.MAXLOADED),
+
 		currentQuery: ""
 	});
+
+	var bookmark = $("#bookmark-container article").slice(-1)[0];
+
+	var originalOffset = bookmark.getBoundingClientRect().top;
+	var id = $(bookmark).attr("id");
+
+	console.log(bookmark.getBoundingClientRect());
+
+	ENGRAM.eventBus.publish(":loaded-bookmarks", { originalOffset: originalOffset, id: id });
 };
+
+var loadListDown = loadList.bind({}, true);
+var loadListUp = loadList.bind({}, false);
 
 var loader = function () {
 
@@ -206,5 +218,16 @@ setImmediateInterval(loader, 250);
 
 ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadListUp);
 ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadListDown);
+
+// -- since bookmarks are being unloaded, need to scroll further back.
+ENGRAM.eventBus.subscribe(":loaded-bookmarks", function (_ref) {
+	var originalOffset = _ref.originalOffset;
+	var id = _ref.id;
+
+	setTimeout(function () {
+
+		$(window).scrollTop($("#" + id).offset().top - originalOffset);
+	}, 100);
+});
 
 ENGRAM.syncBookmarks();

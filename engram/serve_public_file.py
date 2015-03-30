@@ -9,7 +9,7 @@ from display_result import display_result
 
 def serve_public_file(resource_type, resource):
 
-	return (
+	load_result = (
 		Result.of(lambda: os.path.join('public', resource_type, resource))
 		.then(lambda fpath: open(fpath, 'r').read())
 		.then(lambda data: {
