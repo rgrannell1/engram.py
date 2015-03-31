@@ -24,14 +24,14 @@
 		var keyCode = event.keyCode
 
 		if (event.keyCode === eventCode.escape) {
-			ENGRAM.eventBus.publish('press-escape')
+			ENGRAM.eventBus.publish(':press-escape')
 		} else if (event.keyCode === eventCode.backspace) {
-			ENGRAM.eventBus.publish('press-backspace')
+			ENGRAM.eventBus.publish(':press-backspace')
 		} else {
 
 			if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
 
-				ENGRAM.eventBus.publish('press-typeable', {
+				ENGRAM.eventBus.publish(':press-typeable', {
 					key: event.key
 				})
 
@@ -56,7 +56,7 @@ $(document).on('click', '.delete-bookmark', function ( ) {
 	var $article = $button.closest('article')
 	var id       = parseInt($article.attr('id'), 10)
 
-	ENGRAM.eventBus.publish('delete-bookmark', {id, $button})
+	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
 
 })
 
@@ -70,7 +70,7 @@ $(window).on('scroll', ( ) => {
 	var $window   = $(window)
 	var windowTop = $window.scrollTop( )
 
-	ENGRAM.eventBus.publish('scroll', {
+	ENGRAM.eventBus.publish(':scroll', {
 
 		windowTop:      windowTop,
 		scrollHeight:   $(document).height( ),
@@ -87,9 +87,9 @@ $(window).on('scroll', ( ) => {
 ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
 	if (scrollHeight - scrollPosition === 0) {
-		ENGRAM.eventBus.publish('atBottom', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
 	} else if (windowTop === 0) {
-		ENGRAM.eventBus.publish('atTop', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
 	}
 
 })
@@ -104,7 +104,7 @@ ENGRAM.eventBus
 	if (getQuery( ) === '') {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish('scrolldown-bookmarks',
+		ENGRAM.eventBus.publish(':scrolldown-bookmarks',
 			parseInt($('#bookmarks article:last').attr('id'), 10) - 1)
 
 	} else {
@@ -118,7 +118,7 @@ ENGRAM.eventBus
 	if (getQuery( ) === '') {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish('scrollup-bookmarks',
+		ENGRAM.eventBus.publish(':scrollup-bookmarks',
 			parseInt($('#bookmarks article:first').attr('id'), 10) + 1)
 
 	} else {
@@ -150,7 +150,7 @@ ENGRAM.eventBus
 		}
 	})
 
-	ENGRAM.eventBus.publish('rescore')
+	ENGRAM.eventBus.publish(':rescore')
 
 })
 
@@ -249,7 +249,7 @@ var getOffsetBottom = $article => {
 
 
 
-		ENGRAM.eventBus.publish('loaded-bookmarks', {originalOffset, id})
+		ENGRAM.eventBus.publish(':loaded-bookmarks', {originalOffset, id})
 
 	}
 
@@ -317,12 +317,10 @@ ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadListDown)
 // -- since bookmarks are being unloaded, need to scroll further back.
 ENGRAM.eventBus.subscribe(':loaded-bookmarks', ({originalOffset, id}) => {
 
-	// -- set timeout
-	setTimeout( ( ) => {
-
+	ENGRAM.eventBus.await(':redraw', ( ) => {
 		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
+	})
 
-	}, 100)
 
 })
 

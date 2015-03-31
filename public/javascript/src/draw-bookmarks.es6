@@ -1,4 +1,4 @@
-"use strict"
+":use strict"
 
 
 
@@ -26,6 +26,8 @@ $.get('/public/html/bookmark-template.html', function (template) {
 			.reduce(
 				(html0, html1) => html0 + html1, '')
 		)
+
+		ENGRAM.eventBus.publish(':redraw', { })
 
 	}
 

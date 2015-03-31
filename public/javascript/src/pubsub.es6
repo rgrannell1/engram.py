@@ -63,22 +63,20 @@ var await = function (topic, listener) {
 		this.topics[topic] = [ ]
 	}
 
-	console.log(topic)
 
 
-
-	var decorated = (...) => {
+	var decorated = (...args) => {
 
 		if (decorated.active) {
 
 			decorated.active = false
-			listener(...)
+			listener(...args)
 		}
 
 	}
 
 	// -- could also use decorated.call(decorated, )
-	var decorated.active = true
+	decorated.active = true
 
 
 

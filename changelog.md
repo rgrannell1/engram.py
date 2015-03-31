@@ -1,7 +1,12 @@
 
+2015-3-31
+Engram v0.1.0
+-------------------------------------------------
 
+This is as good a time as ever as to start versioning. As of v0.1.0 Engram has 
+html/pdf title extraction and generic URI title extraction. It has Twitter sharing, basic importing from Pocket, solid mimetype parsing, and bookmark deletion. On the client-side it live character capture/echoing to the address-bar to be used in search, some bad search code, and working infinite scroll.
 
-
+There is a lot of work needed.
 
 
 

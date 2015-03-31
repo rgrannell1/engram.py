@@ -20,8 +20,8 @@ dependencies = {
 		"lib-mustache",
 		"lib-is",
 		"lib-require",
-		"lib-pubsub",
 
+		"pubsub",
 		"engram",
 		"cache",
 		"update-query",

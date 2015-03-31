@@ -3,8 +3,8 @@
 window.ENGRAM = {};
 
 // how many bookmarks to append on scroll?
-ENGRAM.PERSCROLL = 20;
-ENGRAM.MAXLOADED = 40;
+ENGRAM.PERSCROLL = 50;
+ENGRAM.MAXLOADED = 75;
 ENGRAM.BIGINT = 1000000;
 
 // how many bookmarks to retrieve per request?
