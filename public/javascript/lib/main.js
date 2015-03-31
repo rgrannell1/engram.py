@@ -150,10 +150,6 @@ listNext.precond = function (downwards, from, amount) {
 var listDown = listNext.bind({}, true);
 var listUp = listNext.bind({}, false);
 
-var getOffsetBottom = function ($article) {
-	return $article.offset().top + $article.height();
-};
-
 {
 
 	var loadState = [new Date(0), new Date(0)];
@@ -225,6 +221,15 @@ ENGRAM.eventBus.subscribe(":loaded-bookmarks", function (_ref) {
 	var id = _ref.id;
 
 	ENGRAM.eventBus.await(":redraw", function () {
+
+		console.log("____________________________");
+
+		console.log($("#" + id).offset().top - originalOffset);
+		console.log($("#" + id)[0].getBoundingClientRect().top);
+		console.log(originalOffset);
+
+		console.log("____________________________");
+
 		$(window).scrollTop($("#" + id).offset().top - originalOffset);
 	});
 });

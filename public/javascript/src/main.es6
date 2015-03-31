@@ -199,14 +199,6 @@ var listUp   = listNext.bind({ }, false)
 
 
 
-var getOffsetBottom = $article => {
-	return $article.offset( ).top + $article.height( )
-}
-
-
-
-
-
 {
 
 	var loadState = [new Date(0), new Date(0)]
@@ -318,7 +310,9 @@ ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadListDown)
 ENGRAM.eventBus.subscribe(':loaded-bookmarks', ({originalOffset, id}) => {
 
 	ENGRAM.eventBus.await(':redraw', ( ) => {
+
 		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
+
 	})
 
 

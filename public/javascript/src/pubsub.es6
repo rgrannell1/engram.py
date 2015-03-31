@@ -29,7 +29,7 @@ subscribe.precond = (topic, listener) => {
 
 
 
-
+// declaration this way is faster when compiled.
 function publish (topic, data) {
 
 	publish.precond(topic, data)
@@ -38,9 +38,11 @@ function publish (topic, data) {
 
 		var data = data || { }
 
-		this.topics[topic].forEach(listener => {
-			listener(data)
-		})
+		var topicListeners = this.topics[topic]
+
+		for (let ith = 0; ith < topicListeners.length; ++ith) {
+			topicListeners[ith](data)
+		}
 
 	}
 

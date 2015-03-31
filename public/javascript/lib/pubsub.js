@@ -29,6 +29,7 @@ subscribe.precond = function (topic, listener) {
 	is.always["function"](listener, "listener must be a function.");
 };
 
+// declaration this way is faster when compiled.
 function publish(topic, data) {
 
 	publish.precond(topic, data);
@@ -37,9 +38,11 @@ function publish(topic, data) {
 
 		var data = data || {};
 
-		this.topics[topic].forEach(function (listener) {
-			listener(data);
-		});
+		var topicListeners = this.topics[topic];
+
+		for (var ith = 0; ith < topicListeners.length; ++ith) {
+			topicListeners[ith](data);
+		}
 	}
 
 	return this;
