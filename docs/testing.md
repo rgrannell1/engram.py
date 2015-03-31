@@ -8,8 +8,6 @@
 
 
 
-
-
 ### Saving
 
 Establish that saving via the URIs `domain/<path>` works correctly.
@@ -42,3 +40,23 @@ Verify saved bookmarks are actually retrievable.
 - Each bookmark has a non-empty title.
 
 - Failed bookmarks are not saved.
+
+
+
+
+### Deleting
+
+Verify that each bookmark can be deleted.
+
+
+
+### Importing
+
+
+
+
+### Archiving
+
+
+
+
