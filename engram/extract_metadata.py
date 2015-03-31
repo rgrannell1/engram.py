@@ -177,7 +177,10 @@ def extract_title(response, uri):
 	if 'content-type' in response.headers:
 		content_type_result = mimetype.parse(response.headers['content-type'])
 	else:
-		content_type_result = Failure("%s content type not declared." % (uri, ))
+		content_type_result = Failure({
+			'message': "%s content type not declared." % (uri, ),
+			'code':    '404'
+		})
 
 
 

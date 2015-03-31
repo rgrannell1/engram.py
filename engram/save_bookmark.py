@@ -34,6 +34,7 @@ def save_bookmark(db, url, time):
 	url_result     = Result.of(lambda: normalise_uri.normalise_uri(url))
 
 	content_result = url_result.then(request_url)
+
 	title_result   = (
 		url_result
 		.cross([content_result])
