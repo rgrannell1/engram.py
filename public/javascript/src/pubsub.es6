@@ -30,16 +30,18 @@ subscribe.precond = (topic, listener) => {
 
 
 
-var publish = function (topic, data) {
+function publish (topic, data) {
 
 	publish.precond(topic, data)
 
-	if ( topic.length === 0 || is.undefined(this.topics[topic]) ) {
-		return
-	} else {
+	if ( topic.length > 0 && !is.undefined(this.topics[topic]) ) {
+
+		var data = data || { }
+
 		this.topics[topic].forEach(listener => {
-			listener(data || { })
+			listener(data)
 		})
+
 	}
 
 	return this
@@ -48,7 +50,7 @@ var publish = function (topic, data) {
 
 publish.precond = (topic, data) => {
 
-	is.always.string  (topic, 'topic must be a string.')
+	is.always.string(topic, 'topic must be a string.')
 
 }
 

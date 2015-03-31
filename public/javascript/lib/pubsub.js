@@ -29,30 +29,21 @@ subscribe.precond = function (topic, listener) {
 	is.always["function"](listener, "listener must be a function.");
 };
 
-var publish = (function (_publish) {
-	var _publishWrapper = function publish(_x, _x2) {
-		return _publish.apply(this, arguments);
-	};
-
-	_publishWrapper.toString = function () {
-		return _publish.toString();
-	};
-
-	return _publishWrapper;
-})(function (topic, data) {
+function publish(topic, data) {
 
 	publish.precond(topic, data);
 
-	if (topic.length === 0 || is.undefined(this.topics[topic])) {
-		return;
-	} else {
+	if (topic.length > 0 && !is.undefined(this.topics[topic])) {
+
+		var data = data || {};
+
 		this.topics[topic].forEach(function (listener) {
-			listener(data || {});
+			listener(data);
 		});
 	}
 
 	return this;
-});
+}
 
 publish.precond = function (topic, data) {
 

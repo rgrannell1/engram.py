@@ -24,7 +24,7 @@ ENGRAM.eventBus
 
 })
 .subscribe(':successful-delete', ({id, _}) => {
-	// -- delete from the cache.
+	cache.remove(id)
 })
 .subscribe(':successful-delete', ({_, $article}) => {
 	$article.remove( )

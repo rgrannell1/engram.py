@@ -21,6 +21,8 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 }).subscribe(":successful-delete", function (_ref) {
 	var id = _ref.id;
 	var _ = _ref._;
+
+	cache.remove(id);
 }).subscribe(":successful-delete", function (_ref) {
 	var _ = _ref._;
 	var $article = _ref.$article;
@@ -33,5 +35,3 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 	alert("failed to remove bookmark #" + id);
 	$article.show();
 });
-
-// -- delete from the cache.
