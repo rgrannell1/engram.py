@@ -87,7 +87,7 @@ class TestSave(utils_test.EngramTestCase):
 			"https://www.youtube.com/results?search_query=rachmaninoff+opera"
 		]
 
-		uris = ["facebook.com/","twitter.com/","google.com/","youtube.com/","wordpress.org/","adobe.com/","blogspot.com/","wikipedia.org/","linkedin.com/","wordpress.com/","yahoo.com/","amazon.com/","flickr.com/","pinterest.com/","tumblr.com/","w3.org/","apple.com/","myspace.com/","vimeo.com/","microsoft.com/","youtu.be/","qq.com/","digg.com/", "stumbleupon.com/","addthis.com/","statcounter.com/","feedburner.com/","miibeian.gov.cn/","delicious.com/","nytimes.com/","reddit.com/","weebly.com/","bbc.co.uk/","blogger.com/","msn.com/","macromedia.com/","goo.gl/","instagram.com/"]
+		uris = ["facebook.com/","twitter.com/","google.com/","youtube.com/","wordpress.org/","adobe.com/","blogspot.com/","wikipedia.org/","linkedin.com/","wordpress.com/","yahoo.com/","amazon.com/"]
 
 
 

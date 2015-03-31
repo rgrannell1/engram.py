@@ -3,6 +3,11 @@
 
 ## Unit Tests
 
+
+
+
+
+
 ## System Tests
 
 
@@ -50,6 +55,7 @@ Verify that each bookmark can be deleted via `DELETE bookmarks/<id>`.
 
 - Successfully deleted bookmarks don't re-appear on reload.
 
+- Deleting a non-existing resource should return a 404.
 
 
 
