@@ -46,7 +46,12 @@ Verify saved bookmarks are actually retrievable.
 
 ### Deleting
 
-Verify that each bookmark can be deleted.
+Verify that each bookmark can be deleted via `DELETE bookmarks/<id>`.
+
+- Successfully deleted bookmarks don't re-appear on reload.
+
+
+
 
 
 
