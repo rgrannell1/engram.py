@@ -22,14 +22,14 @@ var _defineProperty = function (obj, key, value) { return Object.defineProperty(
 			var keyCode = event.keyCode;
 
 			if (event.keyCode === eventCode.escape) {
-				ENGRAM.eventBus.publish(":press-escape");
+				ENGRAM.eventBus.fire(":press-escape");
 			} else if (event.keyCode === eventCode.backspace) {
-				ENGRAM.eventBus.publish(":press-backspace");
+				ENGRAM.eventBus.fire(":press-backspace");
 			} else {
 
 				if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
 
-					ENGRAM.eventBus.publish(":press-typeable", {
+					ENGRAM.eventBus.fire(":press-typeable", {
 						key: event.key
 					});
 				}
@@ -47,7 +47,7 @@ $(document).on("click", ".delete-bookmark", function () {
 	var $article = $button.closest("article");
 	var id = parseInt($article.attr("id"), 10);
 
-	ENGRAM.eventBus.publish(":delete-bookmark", { id: id, $button: $button });
+	ENGRAM.eventBus.fire(":delete-bookmark", { id: id, $button: $button });
 });
 
 // -- publish data about scroll position.
@@ -57,7 +57,7 @@ $(window).on("scroll", function () {
 	var $window = $(window);
 	var windowTop = $window.scrollTop();
 
-	ENGRAM.eventBus.publish(":scroll", {
+	ENGRAM.eventBus.fire(":scroll", {
 
 		windowTop: windowTop,
 		scrollHeight: $(document).height(),
@@ -68,19 +68,19 @@ $(window).on("scroll", function () {
 
 // -- test if we are at the boundaries of the page.
 
-ENGRAM.eventBus.subscribe(":scroll", function detectEdge(_ref) {
+ENGRAM.eventBus.on(":scroll", function detectEdge(_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
 
 	if (scrollHeight - scrollPosition === 0) {
-		ENGRAM.eventBus.publish(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+		ENGRAM.eventBus.fire(":atBottom", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
 	} else if (windowTop === 0) {
-		ENGRAM.eventBus.publish(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
+		ENGRAM.eventBus.fire(":atTop", { windowTop: windowTop, scrollHeight: scrollHeight, scrollPosition: scrollPosition });
 	}
 });
 
-ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
+ENGRAM.eventBus.on(":atBottom", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
@@ -88,9 +88,9 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	if (getQuery() === "") {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish(":scrolldown-bookmarks", parseInt($("#bookmarks article:last").attr("id"), 10) - 1);
+		ENGRAM.eventBus.fire(":scrolldown-bookmarks", parseInt($("#bookmarks article:last").attr("id"), 10) - 1);
 	} else {}
-}).subscribe(":atTop", function (_ref) {
+}).on(":atTop", function (_ref) {
 	var windowTop = _ref.windowTop;
 	var scrollHeight = _ref.scrollHeight;
 	var scrollPosition = _ref.scrollPosition;
@@ -98,13 +98,13 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 	if (getQuery() === "") {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish(":scrollup-bookmarks", parseInt($("#bookmarks article:first").attr("id"), 10) + 1);
+		ENGRAM.eventBus.fire(":scrollup-bookmarks", parseInt($("#bookmarks article:first").attr("id"), 10) + 1);
 	} else {}
-}).subscribe(":update-query", function (_ref) {
+}).on(":update-query", function (_ref) {
 	var query = _ref.query;
 
 	ENGRAM.searchState.setQuery(query);
-}).subscribe(":update-query", scoreBookmarks).subscribe(":load-bookmark", function (bookmark) {
+}).on(":update-query", scoreBookmarks).on(":load-bookmark", function (bookmark) {
 
 	var query = getQuery();
 
@@ -118,7 +118,7 @@ ENGRAM.eventBus.subscribe(":atBottom", function (_ref) {
 		}
 	});
 
-	ENGRAM.eventBus.publish(":rescore");
+	ENGRAM.eventBus.fire(":rescore");
 });
 
 var listNext = function (downwards, from, amount) {
@@ -180,7 +180,7 @@ var listUp = listNext.bind({}, false);
 		var originalOffset = bookmark.getBoundingClientRect().top;
 		var id = $(bookmark).attr("id");
 
-		ENGRAM.eventBus.publish(":loaded-bookmarks", { originalOffset: originalOffset, id: id });
+		ENGRAM.eventBus.fire(":loaded-bookmarks", { originalOffset: originalOffset, id: id });
 	};
 
 	var loadListDown = loadList.bind({}, true);
@@ -212,23 +212,15 @@ var loader = function () {
 setImmediateInterval(ENGRAM.updateTimes, 250);
 setImmediateInterval(loader, 250);
 
-ENGRAM.eventBus.subscribe(":scrollup-bookmarks", loadListUp);
-ENGRAM.eventBus.subscribe(":scrolldown-bookmarks", loadListDown);
+ENGRAM.eventBus.on(":scrollup-bookmarks", loadListUp);
+ENGRAM.eventBus.on(":scrolldown-bookmarks", loadListDown);
 
 // -- since bookmarks are being unloaded, need to scroll further back.
-ENGRAM.eventBus.subscribe(":loaded-bookmarks", function (_ref) {
+ENGRAM.eventBus.on(":loaded-bookmarks", function (_ref) {
 	var originalOffset = _ref.originalOffset;
 	var id = _ref.id;
 
 	ENGRAM.eventBus.await(":redraw", function () {
-
-		console.log("____________________________");
-
-		console.log($("#" + id).offset().top - originalOffset);
-		console.log($("#" + id)[0].getBoundingClientRect().top);
-		console.log(originalOffset);
-
-		console.log("____________________________");
 
 		$(window).scrollTop($("#" + id).offset().top - originalOffset);
 	});

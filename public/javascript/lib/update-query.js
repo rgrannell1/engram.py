@@ -25,7 +25,7 @@ var publishQuery = function (query) {
 
 	setQuery(query);
 
-	ENGRAM.eventBus.publish(":update-query", {
+	ENGRAM.eventBus.fire(":update-query", {
 		query: query
 	});
 };
@@ -34,15 +34,15 @@ publishQuery.precond = function (query) {
 	is.always.string(query);
 };
 
-ENGRAM.eventBus.subscribe(":press-typeable", function (_ref) {
+ENGRAM.eventBus.on(":press-typeable", function (_ref) {
 	var key = _ref.key;
 
 	publishQuery(getQuery() + key);
-}).subscribe(":press-backspace", function (_ref) {
+}).on(":press-backspace", function (_ref) {
 	var key = _ref.key;
 
 	publishQuery(getQuery().slice(0, -1));
-}).subscribe(":press-escape", function (_ref) {
+}).on(":press-escape", function (_ref) {
 	var key = _ref.key;
 
 	publishQuery("");

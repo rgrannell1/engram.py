@@ -27,7 +27,7 @@ $.get('/public/html/bookmark-template.html', function (template) {
 				(html0, html1) => html0 + html1, '')
 		)
 
-		ENGRAM.eventBus.publish(':redraw', { })
+		ENGRAM.eventBus.fire(':redraw', { })
 
 	}
 
@@ -45,4 +45,4 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 
 
-ENGRAM.eventBus.subscribe(":update-focus", ENGRAM.drawFocus)
+ENGRAM.eventBus.on(":update-focus", ENGRAM.drawFocus)

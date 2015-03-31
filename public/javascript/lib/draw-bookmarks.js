@@ -30,7 +30,7 @@ $.get("/public/html/bookmark-template.html", function (template) {
 			return html0 + html1;
 		}, ""));
 
-		ENGRAM.eventBus.publish(":redraw", {});
+		ENGRAM.eventBus.fire(":redraw", {});
 	};
 
 	ENGRAM.drawFocus.precond = function (focus) {
@@ -41,4 +41,4 @@ $.get("/public/html/bookmark-template.html", function (template) {
 	};
 });
 
-ENGRAM.eventBus.subscribe(":update-focus", ENGRAM.drawFocus);
+ENGRAM.eventBus.on(":update-focus", ENGRAM.drawFocus);

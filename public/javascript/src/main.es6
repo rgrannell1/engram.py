@@ -24,14 +24,14 @@
 		var keyCode = event.keyCode
 
 		if (event.keyCode === eventCode.escape) {
-			ENGRAM.eventBus.publish(':press-escape')
+			ENGRAM.eventBus.fire(':press-escape')
 		} else if (event.keyCode === eventCode.backspace) {
-			ENGRAM.eventBus.publish(':press-backspace')
+			ENGRAM.eventBus.fire(':press-backspace')
 		} else {
 
 			if (isTypeable(event) && !event.ctrlKey && !event.altKey) {
 
-				ENGRAM.eventBus.publish(':press-typeable', {
+				ENGRAM.eventBus.fire(':press-typeable', {
 					key: event.key
 				})
 
@@ -56,7 +56,7 @@ $(document).on('click', '.delete-bookmark', function ( ) {
 	var $article = $button.closest('article')
 	var id       = parseInt($article.attr('id'), 10)
 
-	ENGRAM.eventBus.publish(':delete-bookmark', {id, $button})
+	ENGRAM.eventBus.fire(':delete-bookmark', {id, $button})
 
 })
 
@@ -70,7 +70,7 @@ $(window).on('scroll', ( ) => {
 	var $window   = $(window)
 	var windowTop = $window.scrollTop( )
 
-	ENGRAM.eventBus.publish(':scroll', {
+	ENGRAM.eventBus.fire(':scroll', {
 
 		windowTop:      windowTop,
 		scrollHeight:   $(document).height( ),
@@ -84,12 +84,12 @@ $(window).on('scroll', ( ) => {
 
 // -- test if we are at the boundaries of the page.
 
-ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
+ENGRAM.eventBus.on(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
 	if (scrollHeight - scrollPosition === 0) {
-		ENGRAM.eventBus.publish(':atBottom', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.fire(':atBottom', {windowTop, scrollHeight, scrollPosition})
 	} else if (windowTop === 0) {
-		ENGRAM.eventBus.publish(':atTop', {windowTop, scrollHeight, scrollPosition})
+		ENGRAM.eventBus.fire(':atTop', {windowTop, scrollHeight, scrollPosition})
 	}
 
 })
@@ -99,12 +99,12 @@ ENGRAM.eventBus.subscribe(':scroll', function detectEdge ({windowTop, scrollHeig
 
 
 ENGRAM.eventBus
-.subscribe(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
+.on(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
 
 	if (getQuery( ) === '') {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish(':scrolldown-bookmarks',
+		ENGRAM.eventBus.fire(':scrolldown-bookmarks',
 			parseInt($('#bookmarks article:last').attr('id'), 10) - 1)
 
 	} else {
@@ -113,12 +113,12 @@ ENGRAM.eventBus
 	}
 
 })
-.subscribe(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
+.on(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
 
 	if (getQuery( ) === '') {
 		// -- load by ID.
 
-		ENGRAM.eventBus.publish(':scrollup-bookmarks',
+		ENGRAM.eventBus.fire(':scrollup-bookmarks',
 			parseInt($('#bookmarks article:first').attr('id'), 10) + 1)
 
 	} else {
@@ -128,11 +128,11 @@ ENGRAM.eventBus
 
 })
 
-.subscribe(':update-query', ({query}) => {
+.on(':update-query', ({query}) => {
 	ENGRAM.searchState.setQuery(query)
 })
-.subscribe(':update-query', scoreBookmarks)
-.subscribe(':load-bookmark', bookmark => {
+.on(':update-query', scoreBookmarks)
+.on(':load-bookmark', bookmark => {
 
 	var query = getQuery( )
 
@@ -150,7 +150,7 @@ ENGRAM.eventBus
 		}
 	})
 
-	ENGRAM.eventBus.publish(':rescore')
+	ENGRAM.eventBus.fire(':rescore')
 
 })
 
@@ -241,7 +241,7 @@ var listUp   = listNext.bind({ }, false)
 
 
 
-		ENGRAM.eventBus.publish(':loaded-bookmarks', {originalOffset, id})
+		ENGRAM.eventBus.fire(':loaded-bookmarks', {originalOffset, id})
 
 	}
 
@@ -300,14 +300,14 @@ setImmediateInterval(loader,             250)
 
 
 
-ENGRAM.eventBus.subscribe(':scrollup-bookmarks',   loadListUp)
-ENGRAM.eventBus.subscribe(':scrolldown-bookmarks', loadListDown)
+ENGRAM.eventBus.on(':scrollup-bookmarks',   loadListUp)
+ENGRAM.eventBus.on(':scrolldown-bookmarks', loadListDown)
 
 
 
 
 // -- since bookmarks are being unloaded, need to scroll further back.
-ENGRAM.eventBus.subscribe(':loaded-bookmarks', ({originalOffset, id}) => {
+ENGRAM.eventBus.on(':loaded-bookmarks', ({originalOffset, id}) => {
 
 	ENGRAM.eventBus.await(':redraw', ( ) => {
 

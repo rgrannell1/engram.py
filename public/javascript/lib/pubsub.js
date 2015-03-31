@@ -1,18 +1,18 @@
 "use strict";
 
-var subscribe = (function (_subscribe) {
-	var _subscribeWrapper = function subscribe(_x, _x2) {
-		return _subscribe.apply(this, arguments);
+var on = (function (_on) {
+	var _onWrapper = function on(_x, _x2) {
+		return _on.apply(this, arguments);
 	};
 
-	_subscribeWrapper.toString = function () {
-		return _subscribe.toString();
+	_onWrapper.toString = function () {
+		return _on.toString();
 	};
 
-	return _subscribeWrapper;
+	return _onWrapper;
 })(function (topic, listener) {
 
-	subscribe.precond(topic, listener);
+	on.precond(topic, listener);
 
 	if (is.undefined(this.topics[topic])) {
 		this.topics[topic] = [];
@@ -23,16 +23,16 @@ var subscribe = (function (_subscribe) {
 	return this;
 });
 
-subscribe.precond = function (topic, listener) {
+on.precond = function (topic, listener) {
 
 	is.always.string(topic, "topic must be a string.");
 	is.always["function"](listener, "listener must be a function.");
 };
 
 // declaration this way is faster when compiled.
-function publish(topic, data) {
+function fire(topic, data) {
 
-	publish.precond(topic, data);
+	fire.precond(topic, data);
 
 	if (topic.length > 0 && !is.undefined(this.topics[topic])) {
 
@@ -48,7 +48,7 @@ function publish(topic, data) {
 	return this;
 }
 
-publish.precond = function (topic, data) {
+fire.precond = function (topic, data) {
 
 	is.always.string(topic, "topic must be a string.");
 };
@@ -112,7 +112,7 @@ var EventBus = (function (_EventBus) {
 	return {
 		topics: {},
 		await: await,
-		publish: publish,
-		subscribe: subscribe
+		fire: fire,
+		on: on
 	};
 });

@@ -5,7 +5,7 @@
 
 
 ENGRAM.eventBus
-.subscribe(':delete-bookmark', ({id, $button}) => {
+.on(':delete-bookmark', ({id, $button}) => {
 
 	var $article = $button.closest('article')
 
@@ -15,21 +15,21 @@ ENGRAM.eventBus
 		url: `/bookmarks/${id}`,
 		type: 'DELETE',
 		success: data => {
-			ENGRAM.eventBus.publish(':successful-delete', {id, $article})
+			ENGRAM.eventBus.fire(':successful-delete', {id, $article})
 		},
 		error: () => {
-			ENGRAM.eventBus.publish(':failed-delete', {id, $article})
+			ENGRAM.eventBus.fire(':failed-delete', {id, $article})
 		}
 	})
 
 })
-.subscribe(':successful-delete', ({id, _}) => {
+.on(':successful-delete', ({id, _}) => {
 	cache.remove(id)
 })
-.subscribe(':successful-delete', ({_, $article}) => {
+.on(':successful-delete', ({_, $article}) => {
 	$article.remove( )
 })
-.subscribe(':failed-delete', ({id, $article}) => {
+.on(':failed-delete', ({id, $article}) => {
 
 	alert(`failed to remove bookmark #${id}`)
 	$article.show( )

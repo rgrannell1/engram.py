@@ -15,7 +15,7 @@
 			success: ({data, next_id}) => {
 
 				data.forEach(bookmark => {
-					ENGRAM.eventBus.publish(':load-bookmark', bookmark)
+					ENGRAM.eventBus.fire(':load-bookmark', bookmark)
 				})
 
 				callback({data, next_id})

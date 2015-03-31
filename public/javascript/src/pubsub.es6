@@ -5,9 +5,9 @@
 
 
 
-var subscribe = function (topic, listener) {
+var on = function (topic, listener) {
 
-	subscribe.precond(topic, listener)
+	on.precond(topic, listener)
 
 	if (is.undefined(this.topics[topic])) {
 		this.topics[topic] = [ ]
@@ -19,7 +19,7 @@ var subscribe = function (topic, listener) {
 
 }
 
-subscribe.precond = (topic, listener) => {
+on.precond = (topic, listener) => {
 
 	is.always.string  (topic,    'topic must be a string.')
 	is.always.function(listener, 'listener must be a function.')
@@ -30,9 +30,9 @@ subscribe.precond = (topic, listener) => {
 
 
 // declaration this way is faster when compiled.
-function publish (topic, data) {
+function fire (topic, data) {
 
-	publish.precond(topic, data)
+	fire.precond(topic, data)
 
 	if ( topic.length > 0 && !is.undefined(this.topics[topic]) ) {
 
@@ -50,7 +50,7 @@ function publish (topic, data) {
 
 }
 
-publish.precond = (topic, data) => {
+fire.precond = (topic, data) => {
 
 	is.always.string(topic, 'topic must be a string.')
 
@@ -108,8 +108,8 @@ var EventBus = function ( ) {
 	return {
 		topics: { },
 		await,
-		publish,
-		subscribe
+		fire,
+		on
 	}
 
 }

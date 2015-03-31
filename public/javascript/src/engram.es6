@@ -65,7 +65,7 @@ ENGRAM.eventBus = EventBus( )
 		this.value        = value
 		this.currentQuery = currentQuery
 
-		ENGRAM.eventBus.publish(':update-focus', this)
+		ENGRAM.eventBus.fire(':update-focus', this)
 
 	}
 

@@ -1,6 +1,6 @@
 "use strict";
 
-ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
+ENGRAM.eventBus.on(":delete-bookmark", function (_ref) {
 	var id = _ref.id;
 	var $button = _ref.$button;
 
@@ -12,23 +12,23 @@ ENGRAM.eventBus.subscribe(":delete-bookmark", function (_ref) {
 		url: "/bookmarks/" + id,
 		type: "DELETE",
 		success: function (data) {
-			ENGRAM.eventBus.publish(":successful-delete", { id: id, $article: $article });
+			ENGRAM.eventBus.fire(":successful-delete", { id: id, $article: $article });
 		},
 		error: function () {
-			ENGRAM.eventBus.publish(":failed-delete", { id: id, $article: $article });
+			ENGRAM.eventBus.fire(":failed-delete", { id: id, $article: $article });
 		}
 	});
-}).subscribe(":successful-delete", function (_ref) {
+}).on(":successful-delete", function (_ref) {
 	var id = _ref.id;
 	var _ = _ref._;
 
 	cache.remove(id);
-}).subscribe(":successful-delete", function (_ref) {
+}).on(":successful-delete", function (_ref) {
 	var _ = _ref._;
 	var $article = _ref.$article;
 
 	$article.remove();
-}).subscribe(":failed-delete", function (_ref) {
+}).on(":failed-delete", function (_ref) {
 	var id = _ref.id;
 	var $article = _ref.$article;
 

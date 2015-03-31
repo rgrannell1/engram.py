@@ -39,7 +39,7 @@ var publishQuery = query => {
 
 	setQuery(query)
 
-	ENGRAM.eventBus.publish(':update-query', {
+	ENGRAM.eventBus.fire(':update-query', {
 		query: query
 	})
 
@@ -54,13 +54,13 @@ publishQuery.precond = query => {
 
 
 ENGRAM.eventBus
-.subscribe(':press-typeable', ({key}) => {
+.on(':press-typeable', ({key}) => {
 	publishQuery(getQuery( ) + key)
 })
-.subscribe(':press-backspace', ({key}) => {
+.on(':press-backspace', ({key}) => {
 	publishQuery(getQuery( ).slice(0, -1))
 })
-.subscribe(':press-escape', ({key}) => {
+.on(':press-escape', ({key}) => {
 	publishQuery('')
 })
 
