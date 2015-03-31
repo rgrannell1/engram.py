@@ -225,7 +225,6 @@ ENGRAM.eventBus.subscribe(":loaded-bookmarks", function (_ref) {
 	var id = _ref.id;
 
 	ENGRAM.eventBus.await(":redraw", function () {
-
 		$(window).scrollTop($("#" + id).offset().top - originalOffset);
 	});
 });
