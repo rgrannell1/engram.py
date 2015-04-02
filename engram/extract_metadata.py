@@ -1,11 +1,13 @@
 
 #!/usr/bin/env python3
 
+import os
 import re
 import utils
 
 import urllib
 
+import json
 import lxml
 import lxml.html as lh
 
@@ -20,11 +22,11 @@ from pdfminer import pdfparser
 
 import io
 import signal
+import subprocess
 
 import logging
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 
 
@@ -78,6 +80,7 @@ def extract_utf8_tag(tag, uri, response):
 
 			content      = content_result.from_success( )
 
+			# -- not good enough! fails for inner hags like <h1><i></i></h1>
 			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % (tag, tag))
 			title_match  = title_regexp.search(content)
 
@@ -100,15 +103,13 @@ def extract_utf8_tag(tag, uri, response):
 
 
 def choose_best_title(url, *args):
-	"""given several title results, ordered by their likelyhood
+	"""given several title results, ordered by their likelihood
 	to be good titles, select the best working title.
 
 	"""
 
 	default   = ( Success(get_netloc(url)), )
 	successes = [result for result in args + default if result and result.is_success( )]
-
-	print([s.from_success( ) for s in successes])
 
 	return successes[0]
 
@@ -121,19 +122,25 @@ def extract_html_title(content_type, url, response):
 	# -- extract the title tag.
 	# -- default to utf-8, a superset of iso-8859 encoding.
 
-	charset = content_type['params'].get('charset', 'utf-8').lower( )
 
-	if charset in {'iso-8859-1', 'utf-8', 'utf8'}:
 
-		title = extract_utf8_tag('title', url, response)
-		h1    = extract_utf8_tag('h1',    url, response)
 
-		# -- h1 tags are meant for human-consumption.
-		return choose_best_title(url, h1, title)
+	output   = subprocess.check_output(['node', '%s/engram/extract_title.js' % (os.getcwd( ), ), url])
+	metadata = json.loads(output.decode('utf8'))
+
+	if not metadata['status']['errored']:
+
+		return choose_best_title(
+			url,
+			Success(metadata['data']['h1']),
+			Success(metadata['data']['title'])
+		)
 
 	else:
-		# -- add iso8859-1 support
-		return get_netloc(url)
+
+		return Failure({
+
+		})
 
 
 

@@ -1,4 +1,14 @@
 
+Engram v0.2.0
+-------------------------------------------------
+
+ENHANCEMENTS:
+
+* Added absolute date on hover over relative date.
+
+
+
+
 2015-3-31
 Engram v0.1.0
 -------------------------------------------------

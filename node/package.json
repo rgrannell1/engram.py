@@ -1,0 +1,10 @@
+{
+	"name": "engram",
+	"dependencies": {
+
+		"request": "*",
+		"cheerio": "*",
+		"jquery":  "*"
+
+	}
+}

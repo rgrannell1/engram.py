@@ -12,9 +12,22 @@ ENGRAM.drawFocus = function () {
 	}, 100);
 };
 
+var prettifyDate = function (date) {
+
+	var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+	var timeString = date.getHours() + ":" + date.getMinutes();
+
+	return dateString + " " + timeString;
+};
+
 $.get("/public/html/bookmark-template.html", function (template) {
 
 	var renderBookmark = function (bookmark) {
+
+		bookmark.date = prettifyDate(new Date(1000 * bookmark.ctime));
+
+		console.log(bookmark);
+
 		return Mustache.render(template, bookmark);
 	};
 
