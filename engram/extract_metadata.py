@@ -111,7 +111,9 @@ def choose_best_title(url, *args):
 	default   = ( Success(get_netloc(url)), )
 	successes = [result for result in args + default if result and result.is_success( )]
 
-	return successes[0]
+	non_empty = [result for result in successes if len(result.from_success( )) > 0]
+
+	return non_empty[0]
 
 
 
