@@ -41,8 +41,8 @@ request(args['<uri>'], function (err, res, body) {
 
 		$body     = $(body)
 
-		var h1    = $body.find('h1').text( )
-		var title = $body.find('title').text( )
+		var h1    = $body.find('h1')
+		var title = $body.find('title')
 
 
 
@@ -50,8 +50,13 @@ request(args['<uri>'], function (err, res, body) {
 		process.stdout.write( JSON.stringify({
 
 			data: {
-				h1:    h1,
-				title: title
+				h1: h1.length    > 0
+					? h1.first( ).text( )
+					: '',
+
+				title: title.length > 0
+					? title.first( ).text( )
+					: ''
 			},
 
 			status: {
