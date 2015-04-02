@@ -3,5 +3,5 @@ python:
   - "3.4"
 install:
 	- python setup.py install
-	- cd ./engram && npm install
+	- bash npm-install.sh
 script:  "./test.sh"
