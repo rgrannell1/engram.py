@@ -237,9 +237,9 @@ def extract_title(response, uri):
 
 
 
-def extract_metadata(content_response, uri):
+def extract_metadata(uri, content_response):
 	"""
 	extract additional data about a uri from the resource itself.
 	"""
 
-	return Result.of(lambda: extract_title(uri, content_response))
+	return Result.of( lambda: extract_title(content_response, urllib.parse.unquote(uri)) )

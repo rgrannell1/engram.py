@@ -18,11 +18,18 @@ var docs = [
 
 
 var args = docopt(docs)
+var opts = {
+	url:     args['<uri>'],
+	headers: {
+		'Use-Agent': 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
+	}
+}
 
 
 
 
-request(args['<uri>'], function (err, res, body) {
+
+request(opts, function (err, res, body) {
 
 	if (err || res.statuscode) {
 

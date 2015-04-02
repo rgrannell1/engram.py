@@ -17,5 +17,6 @@ def normalise_uri(uri):
 	return (
 		Result.of(lambda: add_default_scheme(uri))
 		.then(httplib2.iri2uri)
+		.then(urllib.parse.quote)
 		.tap(urllib.parse.urlparse)
 	)

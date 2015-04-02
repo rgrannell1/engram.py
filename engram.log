@@ -894,3 +894,12 @@ INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /bookmarks HTTP/1.1" 200
 INFO:root:fetch_chunk: 1000000 1000
 INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /api/bookmarks?max_id=1000000&amount=1000 HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [18/Feb/2015 13:17:50] "GET /public/html/bookmark-template.html HTTP/1.1" 200 -
+/restore/
+/api/resave
+----------------------------------------
+Exception happened during processing of request from ('127.0.0.1', 47656)
+----------------------------------------
+/api/resave
+----------------------------------------
+Exception happened during processing of request from ('127.0.0.1', 47712)
+----------------------------------------

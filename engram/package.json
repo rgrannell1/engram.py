@@ -1,0 +1,8 @@
+{
+	"name": "engram",
+	"dependencies": {
+		"request":  "*",
+		"cheerio":  "*",
+		"docopt":   "*"
+	}
+}
