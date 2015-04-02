@@ -31,7 +31,7 @@ var opts = {
 
 request(opts, function (err, res, body) {
 
-	if (err || res.statuscode) {
+	if (err || res.statusCode) {
 
 		process.stdout.write( JSON.stringify({
 
@@ -39,17 +39,26 @@ request(opts, function (err, res, body) {
 
 			status: {
 				errored: true,
-				code:    res.statuscode
+				code:    res.statusCode
 			}
 
 		}) )
 
 	} else {
 
-		$body     = $(body)
+		$body      = $(body)
 
-		var h1    = $body.find('h1')
-		var title = $body.find('title')
+		var h1     = $body.find('h1')
+		var title  = $body.find('title')
+
+		var h1Text = h1.length > 0
+			? h1.first( ).text( )
+			: ''
+
+		var titleText = title.length > 0
+			? title.first( ).text( )
+			: ''
+
 
 
 
@@ -57,13 +66,8 @@ request(opts, function (err, res, body) {
 		process.stdout.write( JSON.stringify({
 
 			data: {
-				h1: h1.length    > 0
-					? h1.first( ).text( )
-					: '',
-
-				title: title.length > 0
-					? title.first( ).text( )
-					: ''
+				h1:    h1Text,
+				title: titleText
 			},
 
 			status: {
