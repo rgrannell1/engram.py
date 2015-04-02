@@ -140,8 +140,11 @@ def extract_html_title(content_type, url, response):
 
 	else:
 
-		return Failure({
+		print(metadata)
 
+		return Failure({
+			"message": "errner",
+			"code":    "404"
 		})
 
 

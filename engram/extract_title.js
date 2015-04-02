@@ -31,7 +31,7 @@ var opts = {
 
 request(opts, function (err, res, body) {
 
-	if (err || res.statusCode) {
+	if (err || res.statusCode >= 400) {
 
 		process.stdout.write( JSON.stringify({
 
@@ -51,13 +51,13 @@ request(opts, function (err, res, body) {
 		var h1     = $body.find('h1')
 		var title  = $body.find('title')
 
-		var h1Text = h1.length > 0
-			? h1.first( ).text( )
-			: ''
+		var h1Text = h1.length === 0
+			? ''
+			: h1.first( ).text( )
 
-		var titleText = title.length > 0
-			? title.first( ).text( )
-			: ''
+		var titleText = title.length === 0
+			? ''
+			: title.first( ).text( )
 
 
 
