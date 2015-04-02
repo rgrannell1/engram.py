@@ -2,6 +2,6 @@ language: python
 python:
   - "3.4"
 install:
-	- python setup.py install
-	- bash npm-install.sh
+  - python setup.py install
+  - bash npm-install.sh
 script:  "./test.sh"
