@@ -101,4 +101,22 @@ class TestSave(utils_test.EngramTestCase):
 
 
 
+	def test_failed_links(self):
+		"""
+		Story: Saving dodgey links
+
+		Scenario: saving URIs
+		Given a running engram server
+		And a broken link
+		When the client submits the URI as a path
+		Then the server should return a 400-series error.
+		"""
+
+
+
+
+
+
+
+
 unittest.main()

@@ -56,16 +56,12 @@ def get_netloc(uri):
 
 
 
-
-
-
-
-def extract_utf8_title(uri, response):
+def extract_utf8_tag(tag, uri, response):
 	"""extract a page title from a utf-8 html page.
 	"""
 
 	parsed = lh.fromstring(response.content)
-	title  = parsed.find('.//title')
+	title  = parsed.find('.//' + tag)
 
 	if not (title is None) and not (title.text is None):
 		return Success(title.text)
@@ -80,7 +76,7 @@ def extract_utf8_title(uri, response):
 
 			content      = content_result.from_success( )
 
-			title_regexp = re.compile('<title[^>]*>([^<]+)</title>')
+			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % tag)
 			title_match  = title_regexp.search(content)
 
 			if title_match:
@@ -88,17 +84,24 @@ def extract_utf8_title(uri, response):
 				return Success(title_match.group( ))
 			else:
 				# -- no title; just use network location.
-				return Success(get_netloc(uri))
+				return Failure('empty title.')
 
 		else:
-			# -- the content-type header most likely lied.
-			# -- Damned content-type header!
 
-			return Success(get_netloc(uri))
+			return Failure('unable to decode title')
 
 
 
 
+
+def choose_best_title(url, *args):
+
+	# -- select the best matches.
+
+	default   = ( Success(get_netloc(url)), )
+	successes = [result for result in args + default if result.is_success( )]
+
+	return successes[0]
 
 
 
@@ -112,7 +115,12 @@ def extract_html_title(content_type, url, response):
 	charset = content_type['params'].get('charset', 'utf-8').lower( )
 
 	if charset in {'iso-8859-1', 'utf-8', 'utf8'}:
-		return extract_utf8_title(url, response)
+
+		title = extract_utf8_tag('title', url, response)
+		h1    = extract_utf8_tag('h1',    url, response)
+
+		return choose_best_title(url, h1, title)
+
 	else:
 		# -- add iso8859-1 support
 		return get_netloc(url)
