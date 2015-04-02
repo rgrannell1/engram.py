@@ -63,8 +63,10 @@ def extract_utf8_tag(tag, uri, response):
 	parsed = lh.fromstring(response.content)
 	title  = parsed.find('.//' + tag)
 
-	if not (title is None) and not (title.text is None):
-		return Success(title.text)
+	if not (title is None) and title.text and title.text.strip( ):
+
+		return Success(title.text.strip( ))
+
 	else:
 		# -- most likely caused by lxml's problems with UTF;
 		# -- use a regular expression fallback.
@@ -76,15 +78,17 @@ def extract_utf8_tag(tag, uri, response):
 
 			content      = content_result.from_success( )
 
-			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % tag)
+			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % (tag, tag))
 			title_match  = title_regexp.search(content)
 
-			if title_match and title_match.group( ):
-				# -- the title exists; extract it.
-				return Success(title_match.group( ))
-			else:
-				# -- no title; just use network location.
-				return Failure('empty title.')
+			if title_match:
+
+				group = title_match.group( )
+
+				if group and group.strip( ):
+					return Success(group.strip( ))
+
+			return Failure('empty %s tag.' % tag)
 
 		else:
 
@@ -94,12 +98,17 @@ def extract_utf8_tag(tag, uri, response):
 
 
 
-def choose_best_title(url, *args):
 
-	# -- select the best matches.
+def choose_best_title(url, *args):
+	"""given several title results, ordered by their likelyhood
+	to be good titles, select the best working title.
+
+	"""
 
 	default   = ( Success(get_netloc(url)), )
-	successes = [result for result in args + default if result.is_success( )]
+	successes = [result for result in args + default if result and result.is_success( )]
+
+	print([s.from_success( ) for s in successes])
 
 	return successes[0]
 
@@ -119,6 +128,7 @@ def extract_html_title(content_type, url, response):
 		title = extract_utf8_tag('title', url, response)
 		h1    = extract_utf8_tag('h1',    url, response)
 
+		# -- h1 tags are meant for human-consumption.
 		return choose_best_title(url, h1, title)
 
 	else:
