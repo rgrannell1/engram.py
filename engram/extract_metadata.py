@@ -79,7 +79,7 @@ def extract_utf8_tag(tag, uri, response):
 			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % tag)
 			title_match  = title_regexp.search(content)
 
-			if title_match:
+			if title_match and title_match.group( ):
 				# -- the title exists; extract it.
 				return Success(title_match.group( ))
 			else:
