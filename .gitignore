@@ -6,3 +6,5 @@ dist/
 /dist
 *.pyc
 :memory
+engram.log
+npm-debug.log

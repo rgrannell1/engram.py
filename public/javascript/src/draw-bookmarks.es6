@@ -34,8 +34,6 @@ $.get('/public/html/bookmark-template.html', function (template) {
 
 		bookmark.date = prettifyDate(new Date(1000 * bookmark.ctime))
 
-		console.log(bookmark)
-
 		return Mustache.render(template, bookmark)
 
 	}

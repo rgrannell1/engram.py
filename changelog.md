@@ -4,6 +4,12 @@ Engram v0.2.0
 
 ENHANCEMENTS:
 
+* Rewrote metadata extraction in node, making the process more reliable for non-unicode pages.
+
+* Added h1 tags as a fallback, if the title was empty.
+
+* Added heuristic for removing titles of the form 'MyTitle | MySite', keeping 'MyTitle' instead.
+
 * Added absolute date on hover over relative date.
 
 

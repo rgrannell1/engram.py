@@ -84,80 +84,6 @@ $(window).on('scroll', ( ) => {
 
 // -- test if we are at the boundaries of the page.
 
-ENGRAM.eventBus.on(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
-
-	if (scrollHeight - scrollPosition === 0) {
-		ENGRAM.eventBus.fire(':atBottom', {windowTop, scrollHeight, scrollPosition})
-	} else if (windowTop === 0) {
-		ENGRAM.eventBus.fire(':atTop', {windowTop, scrollHeight, scrollPosition})
-	}
-
-})
-
-
-
-
-
-ENGRAM.eventBus
-.on(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
-
-	if (getQuery( ) === '') {
-		// -- load by ID.
-
-		ENGRAM.eventBus.fire(':scrolldown-bookmarks',
-			parseInt($('#bookmarks article:last').attr('id'), 10) - 1)
-
-	} else {
-		// -- load by query.
-
-	}
-
-})
-.on(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
-
-	if (getQuery( ) === '') {
-		// -- load by ID.
-
-		ENGRAM.eventBus.fire(':scrollup-bookmarks',
-			parseInt($('#bookmarks article:first').attr('id'), 10) + 1)
-
-	} else {
-		// -- load by query.
-
-	}
-
-})
-
-.on(':update-query', ({query}) => {
-	ENGRAM.searchState.setQuery(query)
-})
-.on(':update-query', scoreBookmarks)
-.on(':load-bookmark', bookmark => {
-
-	var query = getQuery( )
-
-	is.always.object(bookmark)
-	is.always.number(bookmark.bookmark_id)
-
-	ENGRAM.cache.set(bookmark.bookmark_id, {
-		bookmark,
-		metadata: {
-			scores: query.length === 0
-				? { }
-				: {
-					[query]: scoreTextMatch(query, isSplitSubstring(query), bookmark.title)
-				}
-		}
-	})
-
-	ENGRAM.eventBus.fire(':rescore')
-
-})
-
-
-
-
-
 var listNext = (downwards, from, amount) => {
 
 	listNext.precond(downwards, from, amount)
@@ -173,6 +99,10 @@ var listNext = (downwards, from, amount) => {
 			id  => downwards ? id < from : id > from)
 		.sort(
 			(num0, num1) => num1 - num0) // -- this is slow if object imp. isn't ordered.
+
+
+
+
 
 	var sliced = downwards ? filtered.slice(0, amount) : filtered.slice(-amount)
 
@@ -258,7 +188,7 @@ var listUp   = listNext.bind({ }, false)
 
 
 
-var loader = ( ) => {
+var fillBookmarks = ( ) => {
 
 	var currentAmount = ENGRAM.inFocus.value.length
 	var stillUnloaded = getQuery( ) === '' && currentAmount !== ENGRAM.MAXLOADED
@@ -289,32 +219,98 @@ var loader = ( ) => {
 
 
 setImmediateInterval(ENGRAM.updateTimes, 250)
-setImmediateInterval(loader,             250)
+setImmediateInterval(fillBookmarks,      250)
 
 
 
 
 
 
+var triggerLoad = (downwards) => {
+
+	var nextId =
+		parseInt(
+			$('#bookmarks article')
+			[downwards ? 'last': 'first']( )
+			.attr('id')) + (downwards ? -1 : +1)
 
 
 
 
-ENGRAM.eventBus.on(':scrollup-bookmarks',   loadListUp)
-ENGRAM.eventBus.on(':scrolldown-bookmarks', loadListDown)
+
+	if (getQuery( ) === '') {
+		// -- load linearly by id up or down.
+
+		var topic = ':scroll' + (downwards ? 'down' : 'up')  + '-bookmarks'
+
+		ENGRAM.eventBus.fire(topic, nextId)
+
+	} else {
+		// -- load upwards or downwards by search score.
+
+
+	}
+
+
+}
 
 
 
 
-// -- since bookmarks are being unloaded, need to scroll further back.
-ENGRAM.eventBus.on(':loaded-bookmarks', ({originalOffset, id}) => {
 
-	ENGRAM.eventBus.await(':redraw', ( ) => {
+ENGRAM.eventBus
+.on(':scroll', function detectEdge ({windowTop, scrollHeight, scrollPosition}) {
 
-		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
+	if (scrollHeight - scrollPosition === 0) {
+		ENGRAM.eventBus.fire(':atBottom', {windowTop, scrollHeight, scrollPosition})
+	} else if (windowTop === 0) {
+		ENGRAM.eventBus.fire(':atTop', {windowTop, scrollHeight, scrollPosition})
+	}
 
+})
+
+.on(':atBottom', ({windowTop, scrollHeight, scrollPosition}) => {
+	triggerLoad(true)
+})
+.on(':atTop', ({windowTop, scrollHeight, scrollPosition}) => {
+	triggerLoad(false)
+
+})
+
+.on(':update-query', ({query}) => {
+	ENGRAM.searchState.setQuery(query)
+})
+.on(':update-query', scoreBookmarks)
+.on(':load-bookmark', bookmark => {
+
+	var query = getQuery( )
+
+	is.always.object(bookmark)
+	is.always.number(bookmark.bookmark_id)
+
+	ENGRAM.cache.set(bookmark.bookmark_id, {
+		bookmark,
+		metadata: {
+			scores: query.length === 0
+				? { }
+				: {
+					[query]: scoreTextMatch(query, isSplitSubstring(query), bookmark.title)
+				}
+		}
 	})
 
+	ENGRAM.eventBus.fire(':rescore')
+
+})
+
+.on(':scrollup-bookmarks',   loadListUp)
+.on(':scrolldown-bookmarks', loadListDown)
+
+.on(':loaded-bookmarks', ({originalOffset, id}) => {
+
+	ENGRAM.eventBus.await(':redraw', ( ) => {
+		$(window).scrollTop($('#' + id).offset( ).top - originalOffset)
+	})
 
 })
 

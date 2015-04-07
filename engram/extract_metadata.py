@@ -58,50 +58,6 @@ def get_netloc(uri):
 
 
 
-def extract_utf8_tag(tag, uri, response):
-	"""extract a page title from a utf-8 html page.
-	"""
-
-	parsed = lh.fromstring(response.content)
-	title  = parsed.find('.//' + tag)
-
-	if not (title is None) and title.text and title.text.strip( ):
-
-		return Success(title.text.strip( ))
-
-	else:
-		# -- most likely caused by lxml's problems with UTF;
-		# -- use a regular expression fallback.
-
-		content_result = Result.of(lambda: response.content.decode('utf-8'))
-
-		if content_result.is_success( ):
-			# -- decoding as utf-8 worked.
-
-			content      = content_result.from_success( )
-
-			# -- not good enough! fails for inner hags like <h1><i></i></h1>
-			title_regexp = re.compile('<%s[^>]*>([^<]+)</%s>' % (tag, tag))
-			title_match  = title_regexp.search(content)
-
-			if title_match:
-
-				group = title_match.group( )
-
-				if group and group.strip( ):
-					return Success(group.strip( ))
-
-			return Failure('empty %s tag.' % tag)
-
-		else:
-
-			return Failure('unable to decode title')
-
-
-
-
-
-
 def choose_best_title(url, *args):
 	"""given several title results, ordered by their likelihood
 	to be good titles, select the best working title.
@@ -109,12 +65,11 @@ def choose_best_title(url, *args):
 	"""
 
 	default   = ( Success(get_netloc(url)), )
-	successes = [result for result in args + default if result and result.is_success( )]
+	successes = [result.from_success( ) for result in args + default if result and result.is_success( )]
 
-	non_empty = [result for result in successes if len(result.from_success( )) > 0]
+	non_empty = [title for title in successes if len(title) > 0]
 
 	return non_empty[0]
-
 
 
 
@@ -130,21 +85,20 @@ def extract_html_title(content_type, url, response):
 	output   = subprocess.check_output(['node', '%s/engram/extract_title.js' % (os.getcwd( ), ), url])
 	metadata = json.loads(output.decode('utf8'))
 
+	# -- TODO this is re-inventing UNIX. Maybe just use stderr instead of status codes?
 	if not metadata['status']['errored']:
 
 		return choose_best_title(
 			url,
-			Success(metadata['data']['h1']),
-			Success(metadata['data']['title'])
+			Success(metadata['data']['title']),
+			Success(metadata['data']['h1'])
 		)
 
 	else:
 
-		print(metadata)
-
 		return Failure({
-			"message": "errner",
-			"code":    "404"
+			"message": "page lookup failed",
+			"code":    metadata['status']['code']
 		})
 
 

@@ -47,17 +47,16 @@ request(opts, function (err, res, body) {
 	} else {
 
 		$body      = $(body)
-
 		var h1     = $body.find('h1')
 		var title  = $body.find('title')
 
 		var h1Text = h1.length === 0
 			? ''
-			: h1.first( ).text( )
+			:  h1.first( ).text( ).trim( )
 
 		var titleText = title.length === 0
 			? ''
-			: title.first( ).text( )
+			: title.first( ).text( ).trim( )
 
 
 

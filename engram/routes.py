@@ -34,7 +34,8 @@ def index(app):
 	"""
 	GET /
 
-	redirects to /bookmarks
+	redirects to /bookmarks.
+
 	"""
 
 	@app.route("/")

@@ -80,47 +80,6 @@ ENGRAM.eventBus.on(":scroll", function detectEdge(_ref) {
 	}
 });
 
-ENGRAM.eventBus.on(":atBottom", function (_ref) {
-	var windowTop = _ref.windowTop;
-	var scrollHeight = _ref.scrollHeight;
-	var scrollPosition = _ref.scrollPosition;
-
-	if (getQuery() === "") {
-		// -- load by ID.
-
-		ENGRAM.eventBus.fire(":scrolldown-bookmarks", parseInt($("#bookmarks article:last").attr("id"), 10) - 1);
-	} else {}
-}).on(":atTop", function (_ref) {
-	var windowTop = _ref.windowTop;
-	var scrollHeight = _ref.scrollHeight;
-	var scrollPosition = _ref.scrollPosition;
-
-	if (getQuery() === "") {
-		// -- load by ID.
-
-		ENGRAM.eventBus.fire(":scrollup-bookmarks", parseInt($("#bookmarks article:first").attr("id"), 10) + 1);
-	} else {}
-}).on(":update-query", function (_ref) {
-	var query = _ref.query;
-
-	ENGRAM.searchState.setQuery(query);
-}).on(":update-query", scoreBookmarks).on(":load-bookmark", function (bookmark) {
-
-	var query = getQuery();
-
-	is.always.object(bookmark);
-	is.always.number(bookmark.bookmark_id);
-
-	ENGRAM.cache.set(bookmark.bookmark_id, {
-		bookmark: bookmark,
-		metadata: {
-			scores: query.length === 0 ? {} : _defineProperty({}, query, scoreTextMatch(query, isSplitSubstring(query), bookmark.title))
-		}
-	});
-
-	ENGRAM.eventBus.fire(":rescore");
-});
-
 var listNext = function (downwards, from, amount) {
 
 	listNext.precond(downwards, from, amount);
@@ -187,7 +146,7 @@ var listUp = listNext.bind({}, false);
 	var loadListUp = loadList.bind({}, false);
 }
 
-var loader = function () {
+var fillBookmarks = function () {
 
 	var currentAmount = ENGRAM.inFocus.value.length;
 	var stillUnloaded = getQuery() === "" && currentAmount !== ENGRAM.MAXLOADED;
@@ -210,24 +169,58 @@ var loader = function () {
 };
 
 setImmediateInterval(ENGRAM.updateTimes, 250);
-setImmediateInterval(loader, 250);
+setImmediateInterval(fillBookmarks, 250);
 
-ENGRAM.eventBus.on(":scrollup-bookmarks", loadListUp);
-ENGRAM.eventBus.on(":scrolldown-bookmarks", loadListDown);
+var triggerLoad = function (downwards) {
 
-// -- since bookmarks are being unloaded, need to scroll further back.
-ENGRAM.eventBus.on(":loaded-bookmarks", function (_ref) {
+	var nextId = parseInt($("#bookmarks article")[downwards ? "last" : "first"]().attr("id")) + (downwards ? -1 : +1);
+
+	if (getQuery() === "") {
+
+		var topic = ":scroll" + (downwards ? "down" : "up") + "-bookmarks";
+
+		ENGRAM.eventBus.fire(topic, nextId);
+	} else {}
+};
+
+ENGRAM.eventBus.on(":atBottom", function (_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
+
+	triggerLoad(true);
+}).on(":atTop", function (_ref) {
+	var windowTop = _ref.windowTop;
+	var scrollHeight = _ref.scrollHeight;
+	var scrollPosition = _ref.scrollPosition;
+
+	triggerLoad(false);
+}).on(":update-query", function (_ref) {
+	var query = _ref.query;
+
+	ENGRAM.searchState.setQuery(query);
+}).on(":update-query", scoreBookmarks).on(":load-bookmark", function (bookmark) {
+
+	var query = getQuery();
+
+	is.always.object(bookmark);
+	is.always.number(bookmark.bookmark_id);
+
+	ENGRAM.cache.set(bookmark.bookmark_id, {
+		bookmark: bookmark,
+		metadata: {
+			scores: query.length === 0 ? {} : _defineProperty({}, query, scoreTextMatch(query, isSplitSubstring(query), bookmark.title))
+		}
+	});
+
+	ENGRAM.eventBus.fire(":rescore");
+}).on(":scrollup-bookmarks", loadListUp).on(":scrolldown-bookmarks", loadListDown).on(":loaded-bookmarks", function (_ref) {
 	var originalOffset = _ref.originalOffset;
 	var id = _ref.id;
 
 	ENGRAM.eventBus.await(":redraw", function () {
-
 		$(window).scrollTop($("#" + id).offset().top - originalOffset);
 	});
 });
 
 ENGRAM.syncBookmarks();
-
-// -- load by query.
-
-// -- load by query.
