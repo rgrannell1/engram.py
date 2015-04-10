@@ -218,13 +218,6 @@ var fillBookmarks = ( ) => {
 
 
 
-setImmediateInterval(ENGRAM.updateTimes, 250)
-setImmediateInterval(fillBookmarks,      250)
-
-
-
-
-
 
 var triggerLoad = (downwards) => {
 
@@ -253,6 +246,19 @@ var triggerLoad = (downwards) => {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+setImmediateInterval(ENGRAM.updateTimes, 250)
+setImmediateInterval(fillBookmarks,      250)
+
 
 
 

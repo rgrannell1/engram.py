@@ -35,7 +35,7 @@ request(opts, function (err, res, body) {
 
 		process.stdout.write( JSON.stringify({
 
-			data: { },
+			data: [ ],
 
 			status: {
 				errored: true,
@@ -46,28 +46,27 @@ request(opts, function (err, res, body) {
 
 	} else {
 
-		$body      = $(body)
-		var h1     = $body.find('h1')
-		var title  = $body.find('title')
+		var extractTitles = function (tag) {
 
-		var h1Text = h1.length === 0
-			? ''
-			:  h1.first( ).text( ).trim( )
+			var $tag = $(body).find(tag)
 
-		var titleText = title.length === 0
-			? ''
-			: title.first( ).text( ).trim( )
+			if ($tag.length === 0) {
+				return [ ]
+			} else if ($tag.length === 1) {
+				return [$tag.text( ).trim( )]
+			} else {
 
+				return $tag.map(function (ith, elem) {
+					return $(elem).text( ).trim( )
+				}).get( )
 
+			}
 
-
+		}
 
 		process.stdout.write( JSON.stringify({
 
-			data: {
-				h1:    h1Text,
-				title: titleText
-			},
+			data: Array.prototype.concat.apply([ ], ['title', 'h1'].map(extractTitles)),
 
 			status: {
 				errored: false,

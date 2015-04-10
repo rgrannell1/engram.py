@@ -58,16 +58,14 @@ def get_netloc(uri):
 
 
 
-def choose_best_title(url, *args):
+def choose_best_title(url, titles):
 	"""given several title results, ordered by their likelihood
 	to be good titles, select the best working title.
 
 	"""
 
-	default   = ( Success(get_netloc(url)), )
-	successes = [result.from_success( ) for result in args + default if result and result.is_success( )]
-
-	non_empty = [title for title in successes if len(title) > 0]
+	default   = Success(get_netloc(url)),
+	non_empty = [title for title in titles + [default] if len(title) > 0]
 
 	return non_empty[0]
 
@@ -88,11 +86,7 @@ def extract_html_title(content_type, url, response):
 	# -- TODO this is re-inventing UNIX. Maybe just use stderr instead of status codes?
 	if not metadata['status']['errored']:
 
-		return choose_best_title(
-			url,
-			Success(metadata['data']['title']),
-			Success(metadata['data']['h1'])
-		)
+		return choose_best_title(url, metadata['data'])
 
 	else:
 
