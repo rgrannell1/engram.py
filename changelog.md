@@ -8,6 +8,8 @@ ENHANCEMENTS:
 
 * Added h1 tags as a fallback, if the title was empty.
 
+* Added support for multiple title and h1 tags.
+
 * Added heuristic for removing titles of the form 'MyTitle | MySite', keeping 'MyTitle' instead.
 
 * Added absolute date on hover over relative date.
