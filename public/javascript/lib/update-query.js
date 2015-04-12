@@ -25,9 +25,7 @@ var publishQuery = function (query) {
 
 	setQuery(query);
 
-	ENGRAM.eventBus.fire(":update-query", {
-		query: query
-	});
+	ENGRAM.eventBus.fire(":update-query", { query: query });
 };
 
 publishQuery.precond = function (query) {
@@ -49,5 +47,5 @@ ENGRAM.eventBus.on(":press-typeable", function (_ref) {
 });
 
 $(function () {
-	publishQuery(getQuery());
+	return publishQuery(getQuery());
 });

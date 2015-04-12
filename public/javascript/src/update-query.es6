@@ -39,9 +39,7 @@ var publishQuery = query => {
 
 	setQuery(query)
 
-	ENGRAM.eventBus.fire(':update-query', {
-		query: query
-	})
+	ENGRAM.eventBus.fire(':update-query', {query: query})
 
 }
 
@@ -68,6 +66,4 @@ ENGRAM.eventBus
 
 
 
-$(( ) => {
-	publishQuery(getQuery( ))
-})
+$( ( ) => publishQuery(getQuery( )) )

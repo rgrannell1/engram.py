@@ -24,6 +24,7 @@ dependencies = {
 		"pubsub",
 		"engram",
 		"cache",
+		"listeners",
 		"update-query",
 		"update-time",
 		"sync-bookmarks",

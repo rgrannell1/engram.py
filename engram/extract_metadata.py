@@ -49,6 +49,7 @@ def extract_resource_name(uri):
 def get_netloc(uri):
 	"""get_netloc
 	"""
+
 	return (
 		Result.of(lambda: urllib.parse.urlparse(uri))
 		.then(lambda parts: parts.netloc)
@@ -64,10 +65,14 @@ def choose_best_title(url, titles):
 
 	"""
 
-	default   = Success(get_netloc(url)),
-	non_empty = [title for title in titles + [default] if len(title) > 0]
+	default   = {
+		'text':      get_netloc(url).from_success( ),
+		'font-size': -1
+	}
 
-	return non_empty[0]
+	non_empty = [title for title in titles + [default] if len(title['text']) > 0]
+
+	return non_empty[0]['text']
 
 
 
