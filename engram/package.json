@@ -3,6 +3,7 @@
 	"dependencies": {
 		"request":  "*",
 		"cheerio":  "*",
-		"docopt":   "*"
+		"docopt":   "*",
+		"juice":    "*"
 	}
 }
