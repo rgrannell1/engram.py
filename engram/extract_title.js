@@ -245,8 +245,15 @@ request(addHeaders(args['<uri>']), function (err, res, body) {
 
 			extractCSS($(body), function (errors, html) {
 
-				if (errors) {
-					process.stderr.write('errors occurred.')
+				if (errors.length > 0) {
+
+					var messages = errors.map(function (err) {
+						return err.message
+					})
+					.join('\n') + '\n'
+
+					process.stderr.write( errors.length + ' errors occurred: ' + messages)
+
 				}
 
 				extractTitleTags(html)
