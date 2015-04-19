@@ -49,7 +49,7 @@ class Database:
 				.then(lambda _:      self.conn.commit( ))
 			)
 
-		self.output_queue.data[id(job)] = result
+		self.output_queue[id(job)] = result
 		self.input_queue.task_done( )
 
 

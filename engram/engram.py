@@ -13,9 +13,11 @@ import threading
 
 from request_url       import request_url
 
-from db       import Database, WriteJob, ReadJob
-from result   import Ok, Err, Result
-from flask    import Flask, redirect, url_for, request
+from db         import Database, WriteJob, ReadJob
+from result     import Ok, Err, Result
+from flask      import Flask, redirect, url_for, request
+
+from shareddict import SharedDict
 
 import threading
 import logging
@@ -126,29 +128,6 @@ def create(fpath, database_in, database_out, test = None):
 
 
 	create_server(fpath, database_in, database_out, test = None)
-
-
-
-
-
-class SharedDict:
-	def __init__(self, data = { }):
-
-		self.data = data
-
-	def __getitem__(self, id):
-
-		seconds_sleep = 1 / 12
-		retries       = 60 * 2
-
-		for ith in range(retries):
-
-			if id in self.data:
-				return self.data[id]
-			else:
-				time.sleep(seconds_sleep)
-
-		raise LookupError('timed out')
 
 
 
