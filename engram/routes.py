@@ -49,7 +49,7 @@ def index(app):
 
 
 
-def bookmarks_api_route(app, db):
+def bookmarks_api_route(app, database_in, database_out):
 	"""
 	GET /api/bookmarks
 
@@ -60,13 +60,13 @@ def bookmarks_api_route(app, db):
 	def bookmarks_api( ):
 
 		print('/api/bookmarks')
-		return fetch_bookmarks(db, request)
+		return fetch_bookmarks(database_in, database_out, request)
 
 
 
 
 
-def delete(app, db):
+def delete(app, database_in, database_out):
 	"""
 	DELETE /bookmarks/:id
 	"""
@@ -76,7 +76,7 @@ def delete(app, db):
 
 		print('DELETE /bookmarks/' + str(id))
 
-		return delete_bookmark(db, id)
+		return delete_bookmark(database_in, database_out, id)
 
 
 
@@ -118,32 +118,32 @@ def bookmarks(app):
 
 
 
-def export(app, db):
+def export(app, database_in, database_out):
 
 	@app.route("/export")
 	def export_route( ):
 
 		print('/export')
-		return export_bookmarks(db)
+		return export_bookmarks(database_in, database_out)
 
 
 
 
 
-def restore(app, db):
+def restore(app, database_in, database_out):
 
 	@app.route("/restore")
 	def restore_route( ):
 
 		print('/restore/')
 
-		return restore_bookmarks(db)
+		return restore_bookmarks(database_in, database_out)
 
 
 
 
 
-def archives(app, db):
+def archives(app, database_in, database_out):
 	"""
 	GET /archives/<int:id>
 
@@ -152,13 +152,13 @@ def archives(app, db):
 
 	@app.route("/archives/<int:id>")
 	def archives_route(id):
-		return serve_archive(db, id)
+		return serve_archive(database_in, database_out, id)
 
 
 
 
 
-def favicon(app, db):
+def favicon(app, database_in, database_out):
 	"""
 	GET /favicon.ico
 
@@ -175,7 +175,7 @@ def favicon(app, db):
 
 
 
-def resave(app, db):
+def resave(app, database_in, database_out):
 	"""
 	POST /resave/*
 	"""
@@ -185,13 +185,13 @@ def resave(app, db):
 
 		print('/api/resave')
 
-		return resave_bookmarks(db, request.get_json( ))
+		return resave_bookmarks(database_in, database_out, request.get_json( ))
 
 
 
 
 
-def default(app, db):
+def default(app, database_in, database_out):
 	"""
 	/<path>
 
@@ -205,4 +205,4 @@ def default(app, db):
 
 		print('/' + full_path)
 
-		return save_bookmark(db, full_path, utils.now( ))
+		return save_bookmark(database_in, database_out, full_path, utils.now( ))

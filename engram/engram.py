@@ -13,7 +13,7 @@ import threading
 
 from request_url       import request_url
 
-from database import Database
+from db       import Database, WriteJob, ReadJob
 from result   import Ok, Err, Result
 from flask    import Flask, redirect, url_for, request
 
@@ -26,42 +26,81 @@ logger = logging.getLogger(__name__)
 
 
 
-def create_server(fpath, test = None):
+def create_tables(database_in):
+
+	database_in.put( WriteJob("""
+	CREATE TABLE IF NOT EXISTS archives (
+
+		archive_id    integer     PRIMARY KEY    AUTOINCREMENT,
+
+		content       blob        NOT NULL,
+		mimetype      text        NOT NULL,
+		ctime         integer     NOT NULL
+
+	);
+	""", ( )) )
+
+	database_in.put( WriteJob("""
+	CREATE TABLE IF NOT EXISTS bookmarks (
+
+		bookmark_id    integer    PRIMARY KEY    AUTOINCREMENT,
+
+		url            text       NOT NULL,
+		title          text       NOT NULL,
+		ctime          integer    NOT NULL
+
+	);
+	""", ( )) )
+
+	database_in.put( WriteJob("""
+	CREATE TABLE IF NOT EXISTS bookmark_archives (
+
+		bookmark_archive_id    integer    PRIMARY KEY    AUTOINCREMENT,
+
+		bookmark_id            REFERENCES bookmarks(bookmark_id),
+		archive_id             REFERENCES archives(archive_id)
+
+	);
+	""", ( )) )
+
+
+
+
+
+
+
+
+
+
+def create_server(fpath, database_in, database_out, test = None):
 
 	app = Flask(__name__)
 
 	if test:
 		app.config['TESTING'] = True
 
-	db_result = Ok(fpath).then(Database).tap(sql.create_tables)
+	create_result = create_tables(database_in)
 
-	route_result = (
+	route_result  = (
+		Ok(None)
 
-		Ok(app).cross( [db_result] )
+		.tap(lambda _: routes.index              (app))
+		.tap(lambda _: routes.bookmarks          (app))
+		.tap(lambda _: routes.public             (app))
+		.tap(lambda _: routes.delete             (app, database_in, database_out))
+		.tap(lambda _: routes.export             (app, database_in, database_out))
+		.tap(lambda _: routes.restore            (app, database_in, database_out))
+		.tap(lambda _: routes.archives           (app, database_in, database_out))
+		.tap(lambda _: routes.favicon            (app, database_in, database_out))
+		.tap(lambda _: routes.resave             (app, database_in, database_out))
+		.tap(lambda _: routes.default            (app, database_in, database_out))
+		.tap(lambda _: routes.bookmarks_api_route(app, database_in, database_out))
 
-		.tap( lambda pair: routes.delete             (pair[0], pair[1]) )
-		.tap( lambda pair: routes.index              (pair[0]) )
-		.tap( lambda pair: routes.bookmarks          (pair[0]) )
-
-		.tap( lambda pair: routes.export             (pair[0], pair[1]) )
-		.tap( lambda pair: routes.restore            (pair[0], pair[1]) )
-
-		.tap( lambda pair: routes.archives           (pair[0], pair[1]) )
-		.tap( lambda pair: routes.favicon            (pair[0], pair[1]) )
-		.tap( lambda pair: routes.public             (pair[0]) )
-
-		.tap( lambda pair: routes.resave             (pair[0], pair[1]) )
-		.tap( lambda pair: routes.default            (pair[0], pair[1]) )
-
-		.tap( lambda pair: routes.bookmarks_api_route(pair[0], pair[1]) )
 	)
 
-	main_result    = db_result.tap(lambda _: app.run( ))
-	overall_result = db_result.cross([route_result, main_result])
 
 
-	if overall_result.is_err( ):
-		print(overall_result.from_err( ))
+	app.run(threaded = True)
 
 	return app
 
@@ -69,7 +108,7 @@ def create_server(fpath, test = None):
 
 
 
-def create(fpath, database, test = None):
+def create(fpath, database_in, database_out, test = None):
 
 	def sigterm_handler(signal, stack_frame):
 		"""	cleanly shut down when the SIGTERM signal is sent. """
@@ -86,19 +125,30 @@ def create(fpath, database, test = None):
 
 
 
-	create_server(fpath, test = None)
+	create_server(fpath, database_in, database_out, test = None)
 
 
 
 
 
+class SharedDict:
+	def __init__(self, data = { }):
 
+		self.data = data
 
+	def __getitem__(self, id):
 
+		seconds_sleep = 1 / 12
+		retries       = 60 * 2
 
+		for ith in range(retries):
 
+			if id in self.data:
+				return self.data[id]
+			else:
+				time.sleep(seconds_sleep)
 
-
+		raise LookupError('timed out')
 
 
 
@@ -107,22 +157,24 @@ def create(fpath, database, test = None):
 if __name__ == "__main__":
 
 
-	database_queue = queue.Queue( )
+	database_in  = queue.Queue( )
+	database_out = SharedDict( )
+
+
+
 
 
 	def consume_database_jobs( ):
 
+		database = Database('data/engram', database_in, database_out)
+
 		while True:
-
-			job = database_queue.get( )
-
-			Database.perform(job)
-
-			database_queue.job_done( )
+			database.perform( )
 
 
 
 
 	database_thread = threading.Thread(target = consume_database_jobs)
+	database_thread.start( )
 
-	create('data/engram', database_queue)
+	create('data/engram', database_in, database_out)

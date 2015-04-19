@@ -74,7 +74,7 @@ def process_amount(amount):
 
 
 
-def fetch_bookmarks(db, request):
+def fetch_bookmarks(database_in, database_out, request):
 
 	args_result = (
 
@@ -87,7 +87,7 @@ def fetch_bookmarks(db, request):
 
 	route_result = (
 		args_result
-		.then( lambda args: fetch_chunk(db, *args) )
+		.then( lambda args: fetch_chunk(database_in, database_out, *args) )
 		.then( lambda response: {
 			'message': response,
 			'code':    200

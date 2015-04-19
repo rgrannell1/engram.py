@@ -34,7 +34,7 @@ def download_website(url):
 
 
 
-def archive_content(db, response, url):
+def archive_content(database_in, database_, response, url):
 	"""save a copy of a resource to the database, given a url and a response
 	containing the resource that url points to.
 	"""

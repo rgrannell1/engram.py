@@ -14,13 +14,14 @@ from display_result   import display_result
 from request_url      import request_url
 
 from archive_content  import archive_content
+from db               import Database, WriteJob, ReadJob
 
 
 
 
 
 
-def save_bookmark(db, url, time):
+def save_bookmark(database_in, database_out, url, time):
 	"""save a bookmark to a database.
 
 	this is triggered by a GET request, so it has perverse
@@ -32,7 +33,6 @@ def save_bookmark(db, url, time):
 	"""
 
 	url_result     = Result.of(lambda: normalise_uri.normalise_uri(url))
-
 	content_result = url_result.then(request_url)
 
 	title_result   = (
@@ -41,21 +41,33 @@ def save_bookmark(db, url, time):
 		.then(lambda pair: extract_metadata(*pair))
 	)
 
-	insert_result = (
-		title_result
-		.then( lambda title: (db, normalise_uri.add_default_scheme(url), title, time) )
-		.tap(  lambda data:  sql.insert_bookmark(*data) )
-		.then( lambda data: {
-			'message': '',
-			'code':    204
-		})
-	)
+	if title_result.is_ok( ):
+
+		job = WriteJob(
+			"INSERT INTO bookmarks VALUES (NULL, ?, ?, ?);",
+			(normalise_uri.add_default_scheme(url), title_result.from_ok( ), time)
+		)
+
+		database_in.put(job)
+
+		insert_result = (
+
+			Result.of( lambda: database_out[id(job)] )
+			.then( lambda _: {
+				'message': '',
+				'code':    204
+			})
+
+		)
+
+	else:
+		insert_result = title_result
 
 	# -- TODO account for failed archiving.
-	archive_result = (
-		content_result
-		.cross([url_result])
-		.tap( lambda pair: archive_content(db, pair[0], pair[1]) )
-	)
+	#archive_result = (
+	#	content_result
+	#	.cross([url_result])
+	#	.tap( lambda pair: archive_content(db, pair[0], pair[1]) )
+	#)
 
 	return display_result(insert_result)

@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result          import Ok, Err, Result
+from result           import Ok, Err, Result
 import mimetype
 
 from display_result   import display_result
@@ -27,13 +27,28 @@ def render_response(archive_id, content, mimetype, ctime):
 
 
 
-def serve_archive(db, id):
+def serve_archive(database_in, database_out, id):
 	"""
 	given a bookmark id, return an archived copy of the URI's resource.
 	"""
 
+	job = ReadJob("""
+		SELECT * FROM archives
+		WHERE archive_id == (
+			SELECT archive_id
+			FROM bookmark_archives
+			WHERE bookmark_id == ?);
+		""",
+		(id, )
+	)
+
+	database_in.put(job)
+
+
+
+
 	fetch_result = (
-		Result.of(lambda: sql.select_archive(db, id))
+		Result.of( lambda: database_out[id(job)] )
 		.then(lambda rows: rows[0])
 	)
 
