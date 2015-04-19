@@ -4,8 +4,6 @@ from result            import Ok, Err, Result
 from flask             import redirect, request
 import urllib
 
-from database          import Database
-
 import routes
 import sql
 import pages
