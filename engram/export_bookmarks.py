@@ -2,7 +2,7 @@
 
 import pages
 
-from result         import Success, Failure, Result
+from result         import Ok, Err, Result
 from display_result import display_result
 from fetch_chunk    import fetch_chunk
 

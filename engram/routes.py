@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result            import Success, Failure, Result
+from result            import Ok, Err, Result
 from flask             import redirect, request
 import urllib
 

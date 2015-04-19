@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result           import Success, Failure, Result
+from result           import Ok, Err, Result
 from extract_metadata import extract_metadata
 
 import normalise_uri

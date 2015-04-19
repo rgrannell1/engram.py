@@ -115,9 +115,9 @@ class TestMimetype(unittest.TestCase):
 
 			parsed = mimetype.parse(before)
 
-			assert parsed.is_success()
+			assert parsed.is_ok()
 
-			assert parsed.from_success() == after, str(parsed.from_success()) + " wasn't " + str(after)
+			assert parsed.from_ok() == after, str(parsed.from_ok()) + " wasn't " + str(after)
 
 
 

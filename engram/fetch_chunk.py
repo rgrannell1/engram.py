@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 from flask  import Flask, redirect, url_for, request, jsonify
 
 from bookmark import bookmark, getID
@@ -20,13 +20,13 @@ def parse_bookmarks(rows):
 
 	bookmark_results = [bookmark(row) for row in rows]
 
-	fails     = [bookmark for bookmark in bookmark_results if bookmark.is_failure( )]
-	successes = [bookmark for bookmark in bookmark_results if bookmark.is_success( )]
+	fails     = [bookmark for bookmark in bookmark_results if bookmark.is_err( )]
+	successes = [bookmark for bookmark in bookmark_results if bookmark.is_ok( )]
 
 	if len(fails) > 0:
 		logger.warning('failed to reparse %d bookmarks', len(fails))
 
-	return Success(successes).product_of( )
+	return Ok(successes).product_of( )
 
 
 

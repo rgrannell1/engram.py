@@ -3,7 +3,7 @@
 import urllib
 from normalise_uri import normalise_uri
 
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 
 
 
@@ -11,25 +11,25 @@ from result import Success, Failure, Result
 def revalidate_bookmark(row):
 
 	if not isinstance(row[0], int):
-		return Failure('non-integer bookmark id %d' % (row[0], ) )
+		return Err('non-integer bookmark id %d' % (row[0], ) )
 	elif row[0] < 0:
-		return Failure('negative bookmark id %d' % (row[0], ))
+		return Err('negative bookmark id %d' % (row[0], ))
 
 	if not isinstance(row[3], int):
-		return Failure('non-integer timestamp %d' % (row[3], ) )
+		return Err('non-integer timestamp %d' % (row[3], ) )
 	elif row[3] < 0:
-		return Failure('negative timestamp %d' % (row[3], ))
+		return Err('negative timestamp %d' % (row[3], ))
 
 	if not isinstance(row[1], str):
-		return Failure('non-string url %d' % (row[2], ))
+		return Err('non-string url %d' % (row[2], ))
 
 	if not isinstance(row[2], str):
-		return Failure('non-string title %d' % (row[2], ))
+		return Err('non-string title %d' % (row[2], ))
 
 	parsed = urllib.parse.urlparse(row[1])
 
 	if not parsed.scheme and not parsed.netloc:
-		return Failure('url field appeared to contain invalid url %s' % (row[1],))
+		return Err('url field appeared to contain invalid url %s' % (row[1],))
 
 
 
@@ -38,7 +38,7 @@ def revalidate_bookmark(row):
 def bookmark(row):
 
 	return (
-		Success(row)
+		Ok(row)
 		.tap(revalidate_bookmark)
 		.then( lambda row: urllib.parse.urlparse(row[1]) )
 		.then(lambda parse_data: {

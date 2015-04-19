@@ -3,7 +3,7 @@
 import os
 import pystache
 
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 
 
 
@@ -22,20 +22,20 @@ pages = {
 def index(context):
 
 	return (
-		Success(pages['index'])
+		Ok(pages['index'])
 		.then(lambda html: pystache.render(html, context))
 	)
 
 def export(context):
 
 	return (
-		Success(pages['export'])
+		Ok(pages['export'])
 		.then(lambda html: pystache.render(html, context))
 	)
 
 def restore(context):
 
 	return (
-		Success(pages['import'])
+		Ok(pages['import'])
 		.then(lambda html: pystache.render(html, context))
 	)

@@ -4,7 +4,7 @@ import urllib
 import httplib2
 import utils
 
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 
 
 

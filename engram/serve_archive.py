@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result          import Success, Failure, Result
+from result          import Ok, Err, Result
 import mimetype
 
 from display_result   import display_result
@@ -37,9 +37,9 @@ def serve_archive(db, id):
 		.then(lambda rows: rows[0])
 	)
 
-	if fetch_result.is_failure( ):
+	if fetch_result.is_err( ):
 
-		failure = fetch_result.from_failure( )
+		failure = fetch_result.from_err( )
 
 		try:
 
@@ -47,7 +47,7 @@ def serve_archive(db, id):
 
 		except IndexError as err:
 
-			return display_result( Success({
+			return display_result( Ok({
 				'message': 'nothing to see here yet.',
 				'code':    '404'
 
@@ -55,10 +55,10 @@ def serve_archive(db, id):
 
 		except Exception as err:
 
-			return display_result( Failure({
+			return display_result( Err({
 				'message': 'failed to load resource: %s' % ( str(failure) ),
 				'code':    '500'
 			}) )
 
 	else:
-		return render_response(*fetch_result.from_success( ))
+		return render_response(*fetch_result.from_ok( ))

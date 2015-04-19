@@ -2,7 +2,7 @@
 
 import pages
 
-from result         import Success, Failure, Result
+from result         import Ok, Err, Result
 import static
 from display_result import display_result
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from utils    import ensure
-from result   import Success, Failure, Result
+from result   import Ok, Err, Result
 import urllib
 import httplib2
 
@@ -50,7 +50,7 @@ def create_tables(db):
 
 	return (
 
-		Success(db)
+		Ok(db)
 		.tap(lambda db: db.commit(create_table_archives))
 		.tap(lambda db: db.commit(create_table_bookmarks))
 		.tap(lambda db: db.commit(create_table_bookmark_archives))
@@ -68,7 +68,7 @@ def insert_bookmark(db, url, title, ctime):
 	assert isinstance(title, str),          "title was not a string."
 	assert isinstance(url,   str),          "url was not a string."
 
-	assert normalise_uri(url).is_success(), "inserting invalid bookmark uri."
+	assert normalise_uri(url).is_ok(), "inserting invalid bookmark uri."
 
 	assert isinstance(ctime, int),          "ctime was not a number."
 	assert ctime      > 0,                  "ctime was a nonpositive value."
@@ -80,7 +80,7 @@ def insert_bookmark(db, url, title, ctime):
 
 
 	return (
-		Success(db)
+		Ok(db)
 		.tap(lambda _:   normalise_uri(url))
 		.tap( lambda db: db.commit(sql, (url, title, ctime)) )
 	)
@@ -102,7 +102,7 @@ def insert_archive(db, id, content, mimetype, ctime):
 	insert_bookmark_archive = "INSERT INTO bookmark_archives VALUES (NULL, ?, (SELECT MAX(archive_id) FROM archives));"
 
 	add_archive_result = (
-		Success(db)
+		Ok(db)
 		.tap( lambda db: db.commitMany(
 
 			[insert_archive, insert_bookmark_archive],
@@ -129,7 +129,7 @@ def select_bookmark(db, id):
 	assert id >= 0,             "id must be nonnegative."
 
 	return (
-		Success(db)
+		Ok(db)
 		.then( lambda db: db.execute(sql, (id, )) )
 		.then( lambda cursor: cursor.fetchall())
 	)
@@ -147,7 +147,7 @@ def select_bookmarks(db):
 	"""
 
 	return (
-		Success(db)
+		Ok(db)
 		.then( lambda db: db.execute(sql) )
 		.then( lambda cursor: cursor.fetchall())
 	)
@@ -164,7 +164,7 @@ def select_max_bookmark(db):
 	"""
 
 	return (
-		Success(db)
+		Ok(db)
 		.then(lambda db: db.execute(sql))
 		.then(lambda cursor: cursor.fetchall( ))
 	)
@@ -191,7 +191,7 @@ def select_archive(db, bookmark_id):
 	"""
 
 	return (
-		Success(db)
+		Ok(db)
 		.then( lambda db: db.execute(sql, (bookmark_id,)) )
 		.then( lambda cursor: cursor.fetchall( ))
 	)
@@ -210,7 +210,7 @@ def select_unarchived_bookmarks(db):
 	"""
 
 	return (
-		Success(db)
+		Ok(db)
 		.then( lambda db: db.execute(sql) )
 		.then( lambda cursor: cursor.fetchall())
 	)
@@ -233,7 +233,7 @@ def fetch_chunk(db, max_id, amount):
 	assert max_id >= 0,             "max_id must be nonnegative."
 
 	return (
-		Success(db)
+		Ok(db)
 		.then(lambda db: db.execute(sql, (max_id, amount)))
 		.then( lambda cursor: cursor.fetchall())
 	)
@@ -254,6 +254,6 @@ def delete_bookmark(db, id):
 	assert id >= 0,             "id must be nonnegative."
 
 	return (
-		Success(db)
+		Ok(db)
 		.tap( lambda db: db.commit(sql, (id, )) )
 	)

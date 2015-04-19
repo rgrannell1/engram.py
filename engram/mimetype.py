@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import re
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 
 
 
@@ -103,9 +103,9 @@ def lex(content_type):
 		if char in grammar[state]:
 			transitions.append( (char, grammar[state][char]) )
 		else:
-			return Failure('"%s" not allowed in content-type header (%s)' % (char, state))
+			return Err('"%s" not allowed in content-type header (%s)' % (char, state))
 
-	return Success( [trans for trans in transitions if not trans[1].startswith('_')] )
+	return Ok( [trans for trans in transitions if not trans[1].startswith('_')] )
 
 
 
@@ -148,18 +148,18 @@ def parse_lexeme(lexeme):
 	types  = {'application', 'audio', 'example', 'image', 'message', 'model', 'multipart', 'text', 'video'}
 
 	if not labels[0][0].lower() in types:
-		return Failure('invalid content type "%s"' % labels[0][0].lower())
+		return Err('invalid content type "%s"' % labels[0][0].lower())
 
 	params  = {}
 	options = labels[2:]
 
 	if not len(options) % 2 == 0:
-		return Failure('no argument value supplied to final parametre.')
+		return Err('no argument value supplied to final parametre.')
 
 	for ith in range(0, len(options), 2):
 		params[options[ith][0]] = options[ith + 1][0]
 
-	return Success({
+	return Ok({
 		'type':    labels[0][0].lower(),
 		'subtype': labels[1][0].lower(),
 		'params':  params
@@ -173,7 +173,7 @@ def parse(content_type):
 	"""parse the Content-Type header.
 	"""
 	return (
-		Success(content_type)
+		Ok(content_type)
 		.then(lex)
 		.then(label)
 		.then(parse_lexeme)

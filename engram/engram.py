@@ -14,7 +14,7 @@ import threading
 from request_url       import request_url
 
 from database import Database
-from result   import Success, Failure, Result
+from result   import Ok, Err, Result
 from flask    import Flask, redirect, url_for, request
 
 import logging
@@ -32,11 +32,11 @@ def create_server(fpath, test = None):
 	if test:
 		app.config['TESTING'] = True
 
-	db_result = Success(fpath).then(Database).tap(sql.create_tables)
+	db_result = Ok(fpath).then(Database).tap(sql.create_tables)
 
 	route_result = (
 
-		Success(app).cross( [db_result] )
+		Ok(app).cross( [db_result] )
 
 		.tap( lambda pair: routes.delete             (pair[0], pair[1]) )
 		.tap( lambda pair: routes.index              (pair[0]) )
@@ -59,8 +59,8 @@ def create_server(fpath, test = None):
 	overall_result = db_result.cross([route_result, main_result])
 
 
-	if overall_result.is_failure( ):
-		print(overall_result.from_failure( ))
+	if overall_result.is_err( ):
+		print(overall_result.from_err( ))
 
 	return app
 

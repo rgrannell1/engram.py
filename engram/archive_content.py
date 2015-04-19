@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result          import Success, Failure, Result
+from result          import Ok, Err, Result
 
 import mimetype
 from request_url     import request_url
@@ -42,7 +42,7 @@ def archive_content(db, response, url):
 	raw_content_type    = response.headers['content-type']
 	content_type_result = mimetype.parse(raw_content_type)
 
-	if content_type_result.is_failure( ):
+	if content_type_result.is_err( ):
 		return content_type_result
 	else:
 
@@ -51,7 +51,7 @@ def archive_content(db, response, url):
 			.then(lambda rows: rows[0][0])
 		)
 
-		content_type = content_type_result.from_success( )
+		content_type = content_type_result.from_ok( )
 		mime         = content_type['type'] + '/' + content_type['subtype']
 
 		if mimetype.is_html(mime):

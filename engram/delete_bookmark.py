@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sql
-from result         import Success, Failure, Result
+from result         import Ok, Err, Result
 from display_result import display_result
 
 

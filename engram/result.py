@@ -19,65 +19,65 @@ class Result(object):
 	def of(fn):
 		"""Create a Result from the return result of a normal function.
 		"""
-		return Success(None).then(lambda _: fn( ))
+		return Ok(None).then(lambda _: fn( ))
 
 
 
 
 
-	def from_success(self):
-		"""Extract the contents of a Success object
+	def from_ok(self):
+		"""Extract the contents of a Ok object
 
 		Throws a TypeError when called on a non-success object.
 
-		>> Failure('contents').from_success()
+		>> Err('contents').from_ok()
 		'contents'
 
-		>> Success('contents').from_success()
-		TypeError('attempted to call from_success on a Failure object.')
+		>> Ok('contents').from_ok()
+		TypeError('attempted to call from_ok on a Err object.')
 
 		"""
 
-		if isinstance(self, Success):
+		if isinstance(self, Ok):
 			return self.value
-		elif isinstance(self, Failure):
-			raise TypeError("attempted to call from_success on a Failure object.")
+		elif isinstance(self, Err):
+			raise TypeError("attempted to call from_ok on a Err object.")
 
 
 
 
 
-	def from_failure(self):
-		"""Extract the contents of a Failure object
+	def from_err(self):
+		"""Extract the contents of a Err object
 
 		Throws a TypeError when called on a non-failure object.
 
-		>> Failure('contents').from_failure()
+		>> Err('contents').from_err()
 		'contents'
 
-		>> Success('contents').from_failure()
-		TypeError('attempted to call from_failure on a Success object.')
+		>> Ok('contents').from_err()
+		TypeError('attempted to call from_err on a Ok object.')
 
 		"""
 
-		if isinstance(self, Failure):
+		if isinstance(self, Err):
 			return self.value
 		elif isinstance(self, Self):
-			raise TypeError("attempted to call from_failure on a Success object.")
+			raise TypeError("attempted to call from_err on a Ok object.")
 
 
 
 
 
-	def is_success(self):
-		"""Is this Result a Success instance?
+	def is_ok(self):
+		"""Is this Result a Ok instance?
 		"""
-		return isinstance(self, Success)
+		return isinstance(self, Ok)
 
-	def is_failure(self):
-		"""Is this Result a Failure instance?
+	def is_err(self):
+		"""Is this Result a Err instance?
 		"""
-		return isinstance(self, Failure)
+		return isinstance(self, Err)
 
 
 
@@ -88,7 +88,7 @@ class Result(object):
 
 
 
-class Failure(Result):
+class Err(Result):
 
 	def __init__(self, value):
 
@@ -99,7 +99,7 @@ class Failure(Result):
 
 
 	def __str__(self):
-		return "Failure(%s)" % (str(self.value))
+		return "Err(%s)" % (str(self.value))
 
 
 
@@ -123,17 +123,17 @@ class Failure(Result):
 
 
 
-class Success(Result):
+class Ok(Result):
 
 	def __init__(self, value):
-		super(Success, self).__init__(value)
+		super(Ok, self).__init__(value)
 
 
 
 
 
 	def __str__(self):
-		return "Success(%s)" % (str(self.value))
+		return "Ok(%s)" % (str(self.value))
 
 
 
@@ -144,13 +144,13 @@ class Success(Result):
 		try:
 			result = fn(self.value)
 
-			if isinstance(result, Failure):
+			if isinstance(result, Err):
 				return result
 			else:
-				return Success(result)
+				return Ok(result)
 
 		except Exception as err:
-			return Failure(err)
+			return Err(err)
 
 		return result
 
@@ -164,7 +164,7 @@ class Success(Result):
 
 		result = self.then(fn)
 
-		if isinstance(result, Failure):
+		if isinstance(result, Err):
 			return result
 		else:
 			return self
@@ -176,8 +176,8 @@ class Success(Result):
 	def cross(self, results):
 		"""get the product of two Result object.
 
-		>> Success('a').cross(Success(['b']))
-		Success(['a', 'b'])
+		>> Ok('a').cross(Ok(['b']))
+		Ok(['a', 'b'])
 		"""
 
 		values = [self.value]
@@ -186,12 +186,12 @@ class Success(Result):
 			if not isinstance(result, Result):
 				raise Exception("result wasn't a Result instance.")
 
-			if isinstance(result, Success):
+			if isinstance(result, Ok):
 				values.append(result.value)
 			else:
 				return result
 
-		return Success(values)
+		return Ok(values)
 
 
 
@@ -206,9 +206,9 @@ class Success(Result):
 			if not isinstance(result, Result):
 				raise Exception("result wasn't a Result instance.")
 
-			if isinstance(result, Success):
+			if isinstance(result, Ok):
 				values.append(result.value)
 			else:
 				return result
 
-		return Success(values)
+		return Ok(values)

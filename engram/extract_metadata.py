@@ -15,7 +15,7 @@ import subprocess
 
 
 from normalise_uri import normalise_uri
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 
 import mimetype
 from pdfminer import pdfparser
@@ -66,7 +66,7 @@ def choose_best_title(url, titles):
 	"""
 
 	default   = {
-		'text':      get_netloc(url).from_success( ),
+		'text':      get_netloc(url).from_ok( ),
 		'font-size': -1
 	}
 
@@ -95,7 +95,7 @@ def extract_html_title(content_type, url, response):
 
 	else:
 
-		return Failure({
+		return Err({
 			"message": "page lookup failed",
 			"code":    metadata['status']['code']
 		})
@@ -160,7 +160,7 @@ def extract_title(response, uri):
 	if 'content-type' in response.headers:
 		content_type_result = mimetype.parse(response.headers['content-type'])
 	else:
-		content_type_result = Failure({
+		content_type_result = Err({
 			'message': "%s content type not declared." % (uri, ),
 			'code':    '404'
 		})
@@ -169,22 +169,22 @@ def extract_title(response, uri):
 
 
 
-	if content_type_result.is_failure( ):
+	if content_type_result.is_err( ):
 
 		return content_type_result
 
 	else:
 
-		content_type = content_type_result.from_success( )
+		content_type = content_type_result.from_ok( )
 		mime         = content_type['type'] + '/' + content_type['subtype']
 
 		if mimetype.is_html(mime):
 
-			return extract_html_title(content_type_result.from_success( ), uri, response)
+			return extract_html_title(content_type_result.from_ok( ), uri, response)
 
 		elif mimetype.is_pdf(mime):
 
-			return extract_pdf_title(content_type_result.from_success( ), uri, response)
+			return extract_pdf_title(content_type_result.from_ok( ), uri, response)
 
 		else:
 			return extract_resource_name(uri)

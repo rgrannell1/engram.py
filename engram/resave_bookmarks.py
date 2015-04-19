@@ -3,7 +3,7 @@
 import sql
 import utils
 
-from result           import Success, Failure, Result
+from result           import Ok, Err, Result
 from extract_metadata import extract_metadata
 
 from normalise_uri    import normalise_uri
@@ -56,7 +56,7 @@ def resave_bookmarks(db, body):
 		.then(lambda bookmarks: [book for book in bookmarks if 'ctime' in book and 'url' in book])
 	)
 
-	imports = importable_result.from_success( )
+	imports = importable_result.from_ok( )
 	imports.sort(key = fn)
 
 	for bookmark in imports:

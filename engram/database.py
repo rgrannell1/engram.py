@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from result import Success, Failure, Result
+from result import Ok, Err, Result
 import sqlite3 as lite
 
 
@@ -11,7 +11,7 @@ class Database:
 
 	def __init__(self, fpath):
 		self.name = fpath
-		self.conn = Success(fpath).then(lite.connect)
+		self.conn = Ok(fpath).then(lite.connect)
 
 	def __str__(self):
 		return "Database(" + self.name + ")"

@@ -30,6 +30,16 @@ var opts = {
 
 
 
+var addHeaders = function (url) {
+
+	return {
+		url: url,
+		headers: {
+			'Use-Agent': 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31'
+		}
+	}
+
+}
 
 
 
@@ -126,11 +136,93 @@ var mimetype = ( function ( ) {
 
 
 
+var collect = function (jobs, callback) {
+
+	var errors  = [ ]
+	var results = [ ]
+
+	jobs.forEach(function (fn) {
+
+		fn(function (err, data) {
+			err ? errors.push(err) : results.push(data)
+		})
+
+	})
 
 
 
 
-request(opts, function (err, res, body) {
+
+	var pid = setInterval(function ( ) {
+
+		if (errors.length + results.length === jobs.length) {
+			clearInterval(pid)
+			callback(errors, results)
+		}
+
+	}, 250)
+
+}
+
+
+
+
+var extractCSS = function ($html, callback) {
+
+	var urls =
+		$html
+		.find('link')
+		.filter(function (ith, elem) {
+			return $(elem).attr('rel') === 'stylesheet'
+		})
+		.map(function (ith, elem) {
+			return $(elem).attr('href')
+		})
+		.get( )
+
+
+
+
+
+	var urlJobs = urls.map(function (url) {
+
+		return function (callback) {
+			request(addHeaders(url), function (err, res, body) {
+
+				callback(err, {res: res, body: body})
+
+			})
+		}
+
+	})
+
+
+
+
+
+	collect(urlJobs, function (errors, results) {
+
+		callback(errors, results.reduce(function (html, result) {
+
+			try {
+				return juice.inlineContent(html, result.body)
+			} catch (err) {
+				process.stderr.write('error!\n')
+				return html
+			}
+
+
+		}, $html))
+
+	})
+
+}
+
+
+
+
+
+request(addHeaders(args['<uri>']), function (err, res, body) {
 
 	if (err || res.statusCode >= 400) {
 
@@ -150,7 +242,16 @@ request(opts, function (err, res, body) {
 		var contentType = res.headers['content-type']
 
 		if (mimetype.isHTML(contentType)) {
-			extractTitleTags(body)
+
+			extractCSS($(body), function (errors, html) {
+
+				if (errors) {
+					process.stderr.write('errors occurred.')
+				}
+
+				extractTitleTags(html)
+			})
+
 		}
 
 		if (mimetype.isPDF(contentType)) {
