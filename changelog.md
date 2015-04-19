@@ -14,6 +14,9 @@ ENHANCEMENTS:
 
 * Added absolute date on hover over relative date.
 
+* Renamed `Result( )` subtypes; `Failure` -> `Err`, `Success` -> `Ok`
+
+
 
 
 

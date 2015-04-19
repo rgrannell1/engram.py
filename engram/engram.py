@@ -5,8 +5,8 @@ import time
 import sys
 
 
-
 import sql
+import queue
 import routes
 import signal
 import threading
@@ -17,6 +17,7 @@ from database import Database
 from result   import Ok, Err, Result
 from flask    import Flask, redirect, url_for, request
 
+import threading
 import logging
 logging.basicConfig(level =  logging.INFO)
 logger = logging.getLogger(__name__)
@@ -68,7 +69,7 @@ def create_server(fpath, test = None):
 
 
 
-def create(fpath, test = None):
+def create(fpath, database, test = None):
 
 	def sigterm_handler(signal, stack_frame):
 		"""	cleanly shut down when the SIGTERM signal is sent. """
@@ -92,6 +93,36 @@ def create(fpath, test = None):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
 
-	create('data/engram')
+
+	database_queue = queue.Queue( )
+
+
+	def consume_database_jobs( ):
+
+		while True:
+
+			job = database_queue.get( )
+
+			Database.perform(job)
+
+			database_queue.job_done( )
+
+
+
+
+	database_thread = threading.Thread(target = consume_database_jobs)
+
+	create('data/engram', database_queue)
