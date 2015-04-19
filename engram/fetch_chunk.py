@@ -49,7 +49,6 @@ def fetch_chunk(database_in, database_out, max_id, amount):
 
 	database_in.put(job)
 
-
 	return (
 		Result.of( lambda: database_out[id(job)] )
 		.then(parse_bookmarks)
