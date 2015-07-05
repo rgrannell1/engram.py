@@ -1,6 +1,8 @@
 
 # engr.am v0.2.0 [![Build Status](https://travis-ci.org/rgrannell1/engram.py.svg)](https://travis-ci.org/rgrannell1/engram.py)
 
+NOTE: This project was rewritten in Node, as it was a pain to get Python to import hundreds of bookmarks quickly, and Python's lack of good lambdas made the Result monad difficult to use. 
+
 <img src="example.gif"></img>
 
 ## Licence
